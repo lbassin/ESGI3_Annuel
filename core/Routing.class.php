@@ -2,12 +2,17 @@
 
 class Routing
 {
+    /** @var array uriExploded */
     private $uriExploded;
 
+    /** @var string controllerArea */
     private $controllerArea;
+    /** @var string controllerName */
     private $controllerName;
+    /** @var string actionName */
     private $actionName;
 
+    /** @var array params */
     private $params;
 
     public function __construct()
@@ -33,6 +38,9 @@ class Routing
         $this->runRoute();
     }
 
+    /**
+     * @return bool
+     */
     public function checkAdmin()
     {
         if (!isset($this->uriExploded[0])) {
@@ -86,6 +94,9 @@ class Routing
         $this->params = array_merge(array_values($this->uriExploded), $_POST);
     }
 
+    /**
+     * @return bool
+     */
     public function checkRoute()
     {
         $controllerPath = "controllers/" . $this->controllerArea . '/' . $this->controllerName . ".class.php";
