@@ -29,8 +29,6 @@ class Routing
             $this->handleFront();
         }
 
-        Helpers::debug($this->uriExploded);
-
         $this->setController();
         $this->setAction();
         $this->setParams();
