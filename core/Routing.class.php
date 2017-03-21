@@ -2,13 +2,10 @@
 
 class Routing
 {
-
     private $uriExploded;
 
-    private $controller;
+    private $controllerArea;
     private $controllerName;
-
-    private $action;
     private $actionName;
 
     private $params;
@@ -21,6 +18,14 @@ class Routing
 
         $this->uriExploded = explode("/", $uri);
 
+        if ($this->checkAdmin()) {
+            $this->handleAdmin();
+        } else {
+            $this->handleFront();
+        }
+
+        Helpers::debug($this->uriExploded);
+
         $this->setController();
         $this->setAction();
         $this->setParams();
@@ -28,12 +33,38 @@ class Routing
         $this->runRoute();
     }
 
+    public function checkAdmin()
+    {
+        if (!isset($this->uriExploded[0])) {
+            return false;
+        }
+
+        return ($this->uriExploded[0] === ADMIN_PATH);
+    }
+
+    public function handleAdmin()
+    {
+        // TODO : check if connected
+
+        $this->controllerArea = 'admin';
+
+        unset($this->uriExploded[0]);
+        $this->uriExploded = array_values($this->uriExploded);
+    }
+
+    public function handleFront()
+    {
+        $this->controllerArea = 'front';
+    }
+
     public function setController()
     {
-        $requested = $this->uriExploded[0];
+        if (isset($this->uriExploded[0])) {
+            $requested = $this->uriExploded[0];
+        }
 
-        $this->controller = (empty($requested)) ? "Index" : ucfirst($requested);
-        $this->controllerName = $this->controller . "Controller";
+        $controller = (empty($requested)) ? "Index" : ucfirst($requested);
+        $this->controllerName = $controller . "Controller" . ucfirst($this->controllerArea);
 
         unset($this->uriExploded[0]);
     }
@@ -44,8 +75,8 @@ class Routing
             $requested = $this->uriExploded[1];
         }
 
-        $this->action = (empty($requested)) ? "index" : $requested;
-        $this->actionName = $this->action . "Action";
+        $action = (empty($requested)) ? "index" : $requested;
+        $this->actionName = $action . "Action";
 
         unset($this->uriExploded[1]);
     }
@@ -57,7 +88,7 @@ class Routing
 
     public function checkRoute()
     {
-        $controllerPath = "controllers/" . $this->controllerName . ".class.php";
+        $controllerPath = "controllers/" . $this->controllerArea . '/' . $this->controllerName . ".class.php";
         if (!file_exists($controllerPath)) {
             return false;
         }
