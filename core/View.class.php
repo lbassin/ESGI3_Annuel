@@ -16,7 +16,7 @@ class View
 
     public function setView($view)
     {
-        $path = 'views/' . $view . '.view.php';
+        $path = 'views/partials/' . $view . '.view.php';
         if (!file_exists($path)) {
             die('View not found');
         }
@@ -26,7 +26,7 @@ class View
 
     public function setTemplate($template)
     {
-        $path = 'views/' . $template . '.temp.php';
+        $path = 'views/layouts/' . $template . '.temp.php';
         if (!file_exists($path)) {
             die('Template not found');
         }
@@ -43,7 +43,7 @@ class View
     { // = renderer
         extract($this->data);
 
-        include 'views/' . $this->template;
+        include 'views/layouts/' . $this->template;
     }
 
 }
