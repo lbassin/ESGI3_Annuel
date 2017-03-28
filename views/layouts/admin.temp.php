@@ -37,6 +37,6 @@
 
 </div>
 
-<script type="text/javascript" src="assets/js/admin/app.js"></script>
+<script type="text/javascript" src="assets/js/admin.js"></script>
 </body>
 </html>
