@@ -20,6 +20,8 @@ class BaseSql
 
     public function save()
     {
+        $pdo = Db::getInstance();
+
         if ($this->id == -1) {
             $data = [];
             unset($this->columns['id']);
@@ -34,8 +36,6 @@ class BaseSql
             $sqlCol = ltrim($sqlCol, ',');
             $sqlKey = ltrim($sqlKey, ',');
 
-
-            $pdo = new Db();
             $query = $pdo->prepare(
                 "INSERT INTO " . $this->table .
                 " (" . $sqlCol . ")" .
@@ -52,7 +52,6 @@ class BaseSql
                 $sqlSet[] = $column . '=:' . $column;
             }
 
-            $pdo = new Db();
             $query = $pdo->prepare(
                 "UPDATE " . $this->table . ' SET date_updated = sysdate(), ' . implode(',',
                     $sqlSet) . ' WHERE id = :id;'

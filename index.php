@@ -12,5 +12,4 @@ spl_autoload_register(function ($class) {
     }
 });
 
-$db = new Db();
 $route = new Routing();
