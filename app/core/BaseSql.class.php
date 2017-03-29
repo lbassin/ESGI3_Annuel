@@ -10,12 +10,6 @@ class BaseSql
 
     public function __construct()
     {
-        try {
-            $this->db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';port=' . DB_PORT, DB_USER, DB_PWD);
-        } catch (Exception $ex) {
-            die('Erreur SQL : ' . $ex->getMessage());
-        }
-
         $this->table = strtolower(get_called_class());
 
         $objectVars = get_class_vars($this->table);
@@ -26,9 +20,6 @@ class BaseSql
 
     public function save()
     {
-        $this->id = 1;
-        $this->lastname = 'test';
-
         if ($this->id == -1) {
             $data = [];
             unset($this->columns['id']);
@@ -43,13 +34,14 @@ class BaseSql
             $sqlCol = ltrim($sqlCol, ',');
             $sqlKey = ltrim($sqlKey, ',');
 
-            $query = $this->db->prepare(
+
+            $pdo = new Db();
+            $query = $pdo->prepare(
                 "INSERT INTO " . $this->table .
                 " (" . $sqlCol . ")" .
                 " VALUES " .
                 "(" . $sqlKey . ");"
             );
-
             $query->execute($data);
         } else {
 
@@ -60,7 +52,8 @@ class BaseSql
                 $sqlSet[] = $column . '=:' . $column;
             }
 
-            $query = $this->db->prepare(
+            $pdo = new Db();
+            $query = $pdo->prepare(
                 "UPDATE " . $this->table . ' SET date_updated = sysdate(), ' . implode(',',
                     $sqlSet) . ' WHERE id = :id;'
             );
