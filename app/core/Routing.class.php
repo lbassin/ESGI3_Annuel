@@ -23,7 +23,7 @@ class Routing
 
         $this->uriExploded = explode("/", $uri);
 
-        if ($this->checkAdmin()) {
+        if ($this->checkBackOffice()) {
             $this->handleAdmin();
         } else {
             $this->handleFront();
@@ -39,7 +39,7 @@ class Routing
     /**
      * @return bool
      */
-    public function checkAdmin()
+    public function checkBackOffice()
     {
         if (!isset($this->uriExploded[0])) {
             return false;
@@ -97,7 +97,7 @@ class Routing
      */
     public function checkRoute()
     {
-        $controllerPath = "controllers/" . $this->controllerArea . '/' . $this->controllerName . ".class.php";
+        $controllerPath = "app/controllers/" . $this->controllerArea . '/' . $this->controllerName . ".class.php";
         if (!file_exists($controllerPath)) {
             return false;
         }
