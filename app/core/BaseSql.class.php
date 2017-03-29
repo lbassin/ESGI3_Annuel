@@ -60,22 +60,31 @@ class BaseSql
         }
     }
 
-    // $condition = [ "id" => 3 ]
-    // La fonction va alimenter l'objet suite a une requete sql
-    // Attention la requete ne doit retourner qu'une seule valeur /!\
-    // Si plusieurs valeurs => Die ou laisse l'objet vide
     public function populate($condition)
     {
-        echo '<pre>';
-        print_r($condition);
+        $conditionQuery = '';
+        foreach ($condition as $field => $value) {
+            $conditionQuery .= $field . ' = :' . $field . ' AND ';
+        }
+        $conditionQuery = trim($conditionQuery, ' AND ');
 
-        echo implode(' AND ', $condition);
-
-        $query = $this->db->prepare(
-            'SELECT * FROM ' . $this->table . ' WHERE '
+        $query = Db::getInstance()->prepare(
+            'SELECT * FROM ' . $this->table . ' WHERE ' . $conditionQuery
         );
+        $query->execute($condition);
 
+        if ($query->rowCount() > 1) {
+            die('Trop de resultat');
+        }
 
+        $data = $query->fetch(PDO::FETCH_ASSOC);
+        if (empty($data)) {
+            return false;
+        }
+
+        foreach ($data as $name => $value) {
+            $this->$name = $value;
+        }
     }
 
 }
