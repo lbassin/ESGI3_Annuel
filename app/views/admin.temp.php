@@ -27,7 +27,7 @@
                 </div>
 
                 <a class="nav-link">Mon compte</a>
-                <a class="nav-link">Acceès front</a>
+                <a class="nav-link">Accès front</a>
 
                 <a href="#" class="logout">Logout</a>
             </div>
