@@ -68,7 +68,7 @@ class BaseSql
         }
         $conditionQuery = trim($conditionQuery, ' AND ');
 
-        $query = $this->db->prepare(
+        $query = Db::getInstance()->prepare(
             'SELECT * FROM ' . $this->table . ' WHERE ' . $conditionQuery
         );
         $query->execute($condition);
