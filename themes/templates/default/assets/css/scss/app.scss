@@ -4,7 +4,8 @@
   box-sizing: border-box;
 }
 
-body {
+img {
+  max-width: 100%;
 }
 
 nav {
@@ -139,6 +140,22 @@ nav {
     &.small{
       width: 40%;
       padding: 5%;
+    }
+  }
+}
+
+@media(max-width: 850px){
+  .two-col-picture{
+    width: 100%;
+
+    .col{
+      &.large{
+        width: 100%;
+      }
+
+      &.small{
+        width: 100%;
+      }
     }
   }
 }
