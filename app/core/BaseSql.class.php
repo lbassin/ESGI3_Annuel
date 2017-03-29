@@ -10,12 +10,6 @@ class BaseSql
 
     public function __construct()
     {
-        try {
-            $this->db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';port=' . DB_PORT, DB_USER, DB_PWD);
-        } catch (Exception $ex) {
-            die('Erreur SQL : ' . $ex->getMessage());
-        }
-
         $this->table = strtolower(get_called_class());
 
         $objectVars = get_class_vars($this->table);
@@ -26,8 +20,7 @@ class BaseSql
 
     public function save()
     {
-        $this->id = 1;
-        $this->lastname = 'test';
+        $pdo = Db::getInstance();
 
         if ($this->id == -1) {
             $data = [];
@@ -43,13 +36,12 @@ class BaseSql
             $sqlCol = ltrim($sqlCol, ',');
             $sqlKey = ltrim($sqlKey, ',');
 
-            $query = $this->db->prepare(
+            $query = $pdo->prepare(
                 "INSERT INTO " . $this->table .
                 " (" . $sqlCol . ")" .
                 " VALUES " .
                 "(" . $sqlKey . ");"
             );
-
             $query->execute($data);
         } else {
 
@@ -60,7 +52,7 @@ class BaseSql
                 $sqlSet[] = $column . '=:' . $column;
             }
 
-            $query = $this->db->prepare(
+            $query = $pdo->prepare(
                 "UPDATE " . $this->table . ' SET date_updated = sysdate(), ' . implode(',',
                     $sqlSet) . ' WHERE id = :id;'
             );
@@ -68,22 +60,31 @@ class BaseSql
         }
     }
 
-    // $condition = [ "id" => 3 ]
-    // La fonction va alimenter l'objet suite a une requete sql
-    // Attention la requete ne doit retourner qu'une seule valeur /!\
-    // Si plusieurs valeurs => Die ou laisse l'objet vide
     public function populate($condition)
     {
-        echo '<pre>';
-        print_r($condition);
+        $conditionQuery = '';
+        foreach ($condition as $field => $value) {
+            $conditionQuery .= $field . ' = :' . $field . ' AND ';
+        }
+        $conditionQuery = trim($conditionQuery, ' AND ');
 
-        echo implode(' AND ', $condition);
-
-        $query = $this->db->prepare(
-            'SELECT * FROM ' . $this->table . ' WHERE '
+        $query = Db::getInstance()->prepare(
+            'SELECT * FROM ' . $this->table . ' WHERE ' . $conditionQuery
         );
+        $query->execute($condition);
 
+        if ($query->rowCount() > 1) {
+            die('Trop de resultat');
+        }
 
+        $data = $query->fetch(PDO::FETCH_ASSOC);
+        if (empty($data)) {
+            return false;
+        }
+
+        foreach ($data as $name => $value) {
+            $this->$name = $value;
+        }
     }
 
 }
