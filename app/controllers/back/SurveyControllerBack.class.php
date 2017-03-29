@@ -1,6 +1,6 @@
 <?php
 
-class ArticleControllerAdmin
+class SurveyControllerBack
 {
 
     public function indexAction($params)

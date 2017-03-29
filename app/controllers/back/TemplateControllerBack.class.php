@@ -1,6 +1,6 @@
 <?php
 
-class UserControllerAdmin
+class TemplateControllerBack
 {
 
     public function indexAction($params)

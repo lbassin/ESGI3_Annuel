@@ -1,6 +1,6 @@
 <?php
 
-class PageControllerAdmin
+class ArticleControllerBack
 {
 
     public function indexAction($params)

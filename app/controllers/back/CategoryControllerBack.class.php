@@ -1,6 +1,6 @@
 <?php
 
-class CategoryControllerAdmin
+class CategoryControllerBack
 {
 
     public function indexAction($params)
