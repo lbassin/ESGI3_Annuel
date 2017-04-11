@@ -4,36 +4,37 @@ class User extends BaseSql
 {
 
     protected $id;
-    protected $email;
-    protected $lastname;
+    protected $pseudo;
     protected $firstname;
-    protected $pwd;
+    protected $lastname;
+    protected $email;
+    protected $password;
+    protected $avatar;
     protected $status;
-    protected $permission;
+    protected $role;
 
     public function __construct(
         $id = -1,
-        $email = null,
-        $lastname = null,
+        $pseudo = null,
         $firstname = null,
-        $pwd = null,
+        $lastname = null,
+        $email = null,
+        $password = null,
+        $avatar = null,
         $status = 0,
-        $permission = 0
+        $role = 0
     ) {
         $this->setId($id);
-        $this->setEmail($email);
-        $this->setLastname($lastname);
+        $this->setPseudo($pseudo);
         $this->setFirstname($firstname);
-        $this->setPwd($pwd);
+        $this->setLastname($lastname);
+        $this->setEmail($email);
+        $this->setPassword($password);
+        $this->setAvatar($status);
         $this->setStatus($status);
-        $this->setPermission($permission);
+        $this->setRole($role);
 
         parent::__construct();
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
     }
 
     public function getId()
@@ -41,32 +42,78 @@ class User extends BaseSql
         return $this->id;
     }
 
-    public function setEmail($email)
+    public function setId($id)
     {
-        $email = trim($email);
-
-        $this->email = $email;
+        $this->id = $id;
     }
 
-    public function setLastname($lastname)
+    public function getPseudo()
     {
-        $lastname = trim($lastname);
+        return $this->pseudo;
+    }
 
-        $this->lastname = $lastname;
+    public function setPseudo($pseudo)
+    {
+        $this->pseudo = $pseudo;
+    }
+
+    public function getFirstname()
+    {
+        return $this->firstname;
     }
 
     public function setFirstname($firstname)
     {
         $firstname = trim($firstname);
-
         $this->firstname = $firstname;
     }
 
-    public function setPwd($pwd)
+    public function getLastname()
     {
-        $pwd = password_hash($pwd, PASSWORD_DEFAULT);
+        return $this->lastname;
+    }
 
-        $this->pwd = $pwd;
+    public function setLastname($lastname)
+    {
+        $lastname = trim($lastname);
+        $this->lastname = $lastname;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function setEmail($email)
+    {
+        $email = trim($email);
+        $this->email = $email;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function setPassword($password)
+    {
+        $password = password_hash($password, PASSWORD_DEFAULT);
+        $this->password = $password;
+    }
+
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar($avatar)
+    {
+        $this->avatar = $avatar;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
     }
 
     public function setStatus($status)
@@ -74,9 +121,14 @@ class User extends BaseSql
         $this->status = $status;
     }
 
-    public function setPermission($permission)
+    public function getRole()
     {
-        $this->permission = $permission;
+        return $this->role;
+    }
+
+    public function setRole($role)
+    {
+        $this->role = $role;
     }
 
 }
