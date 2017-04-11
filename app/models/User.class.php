@@ -131,4 +131,55 @@ class User extends BaseSql
         $this->role = $role;
     }
 
+
+    public function getForm()
+    {
+        return [
+            'struct' => [
+                'method' => 'post',
+                'action' => 'user/add',
+                'class' => 'form-group',
+                'submit' => 'Texte',
+                'file' => 1
+            ],
+            'data' => [
+                'pseudo' => [
+                    'type' => 'text',
+                    'placeholder' => 'Pseudo',
+                    'label' => 'Pseudo',
+                    'required' => 1
+                ],
+                'firstname' => [
+                    'type' => 'text',
+                    'placeholder' => 'Prenom',
+                    'label' => 'Votre prénom',
+                    'required' => 1
+                ],
+                'lastname' => [
+                    'type' => 'test',
+                    'placeholder' => 'Nom',
+                    'label' => 'Votre Nom',
+                    'required' => 1
+                ],
+                'email' => [
+                    'type' => 'email',
+                    'placeholder' => 'Email',
+                    'label' => 'Votre Email',
+                    'required' => 1
+                ],
+                'password' => [
+                    'type' => 'password',
+                    'placeholder' => 'Password',
+                    'label' => 'Votre Password',
+                    'required' => 1
+                ],
+                'avatar' => [
+                    'type' => 'file',
+                    'label' => 'Votre Avatar',
+                    'accept' => 'image/*,.gif',
+                    'required' => 1
+                ]
+            ]
+        ];
+    }
 }

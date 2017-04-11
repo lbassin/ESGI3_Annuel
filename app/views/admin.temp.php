@@ -51,7 +51,7 @@
         </div>
 
         <div class="container">
-            <span>test</span>
+            <?php include $this->view; ?>
         </div>
 
         <script type="text/javascript" src="<?php echo Helpers::getAsset('js/admin.js'); ?>"></script>
