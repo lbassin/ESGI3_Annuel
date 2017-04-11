@@ -16,7 +16,7 @@
                    placeholder="<?php echo $attributs['placeholder']; ?>"
             <?php echo(isset($attributs['required']) ? 'required="required"' : ''); ?>
             <?php echo(isset($attributs['disabled']) ? 'disabled="disabled"' : ''); ?>
-            ">
+            >
             <br>
         <?php endif; ?>
 
@@ -30,6 +30,12 @@
             <br>
         <?php endif; ?>
 
+        <?php if ($attributs['type'] == 'hidden'): ?>
+            <input  type="<?php echo $attributs['type']; ?>"
+                    name="<?php echo $name; ?>"
+                    value="<?php echo $attributs['value']; ?>"
+            >
+        <?php endif;?>
     <?php endforeach; ?>
 
     <input type="submit" value="<?php echo $config['struct']['submit']; ?>">
@@ -37,11 +43,8 @@
 
 
 <!--
-    text, email, password
     checkbox
     date
-    file
-    hidden
     image
     number
     radio

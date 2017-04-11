@@ -176,8 +176,11 @@ class User extends BaseSql
                 'avatar' => [
                     'type' => 'file',
                     'label' => 'Votre Avatar',
-                    'accept' => 'image/*,.gif',
-                    'required' => 1
+                    'accept' => 'image/*,.gif'
+                ],
+                'status' => [
+                    'type' => 'hidden',
+                    'value' => 'test'
                 ]
             ]
         ];
