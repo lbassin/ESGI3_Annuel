@@ -7,6 +7,7 @@ class Article extends BaseSql
     protected $content;
     protected $slug;
     protected $visibility;
+    protected $publish;
     protected $id_user;
 
     public function __construct(
@@ -15,6 +16,7 @@ class Article extends BaseSql
         $content = null,
         $slug = null,
         $visibility = 0,
+        $publish = 0,
         $id_user = null
     )
     {
@@ -23,6 +25,7 @@ class Article extends BaseSql
         $this->setContent($content);
         $this->setSlug($slug);
         $this->setVisibility($visibility);
+        $this->setPublish($publish);
         $this->setIdUser($id_user);
 
         parent::__construct();
@@ -76,6 +79,16 @@ class Article extends BaseSql
     public function setVisibility($visibility)
     {
         $this->visibility = $visibility;
+    }
+
+    public function getPublish()
+    {
+        return $this->publish;
+    }
+
+    public function setPublish($publish)
+    {
+        $this->publish = $publish;
     }
 
     public function getIdUser()
