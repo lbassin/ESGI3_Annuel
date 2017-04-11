@@ -52,7 +52,7 @@ class Routing
     {
         // TODO : check if connected
 
-        $this->controllerArea = 'admin';
+        $this->controllerArea = 'back';
 
         unset($this->uriExploded[0]);
         $this->uriExploded = array_values($this->uriExploded);

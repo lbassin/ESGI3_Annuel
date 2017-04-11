@@ -8,4 +8,8 @@ class Helpers
         print_r($data);
         echo '</pre>';
     }
+
+    public static function getAsset($path) {
+        return BASE_PATH . 'app/assets/' . $path;
+    }
 }
