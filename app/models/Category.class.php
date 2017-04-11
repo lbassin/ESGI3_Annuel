@@ -14,6 +14,8 @@ class Category extends BaseSql
         $this->setId($id);
         $this->setTitle($title);
         $this->setDescription($description);
+
+        parent::__construct();
     }
 
     public function getId()

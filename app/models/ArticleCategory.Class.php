@@ -1,6 +1,6 @@
 <?php
 
-class ArticleCategory
+class ArticleCategory extends BaseSql
 {
     protected $id;
     protected $id_article;
@@ -15,6 +15,8 @@ class ArticleCategory
         $this->setId($id);
         $this->setIdArticle($id_article);
         $this->setIdCategory($id_category);
+
+        parent::__construct();
     }
 
     public function getId()
@@ -46,6 +48,4 @@ class ArticleCategory
     {
         $this->id_category = $id_category;
     }
-
-
 }
