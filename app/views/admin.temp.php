@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Backoffice</title>
-        <link rel="stylesheet" type="text/css" href="app/assets/css/admin.css">
+        <link rel="stylesheet" type="text/css" href="<?php echo Helpers::getAsset('css/admin.css'); ?>">
         <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     </head>
     <body>
@@ -54,6 +54,6 @@
             <span>test</span>
         </div>
 
-        <script type="text/javascript" src="app/assets/js/admin.js"></script>
+        <script type="text/javascript" src="<?php echo Helpers::getAsset('js/admin.js'); ?>"></script>
     </body>
 </html>
