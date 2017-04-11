@@ -156,7 +156,7 @@ class User extends BaseSql
                     'required' => 1
                 ],
                 'lastname' => [
-                    'type' => 'test',
+                    'type' => 'text',
                     'placeholder' => 'Nom',
                     'label' => 'Votre Nom',
                     'required' => 1
@@ -181,6 +181,34 @@ class User extends BaseSql
                 'status' => [
                     'type' => 'hidden',
                     'value' => 'test'
+                ],
+                'date' => [
+                    'type' => 'date'
+                ],
+                'longtext' => [
+                    'type' => 'textarea',
+                    'placeholder' => 'ok',
+                    'required' => 1
+                ],
+                'newsletter' => [
+                    'type' => 'checkbox',
+                    'label' => 'Newsletter ?'
+                ],
+                'role' => [
+                    'type' => 'radio',
+                    'value' => [
+                        'Admin' => 1,
+                        'Moderateur' => 2,
+                        'Utilisateur' => 3
+                    ]
+                ],
+                'country' => [
+                    'type' => 'select',
+                    'value' => [
+                        'France' => 'fr',
+                        'USA' => 'us',
+                        'Italie' => 'it'
+                    ]
                 ]
             ]
         ];
