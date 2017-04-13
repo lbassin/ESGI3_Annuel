@@ -183,7 +183,8 @@ class User extends BaseSql
                     'value' => 'test'
                 ],
                 'date' => [
-                    'type' => 'date'
+                    'type' => 'date',
+                    'label' => 'Date de naissance'
                 ],
                 'longtext' => [
                     'type' => 'textarea',
@@ -213,4 +214,5 @@ class User extends BaseSql
             ]
         ];
     }
+
 }

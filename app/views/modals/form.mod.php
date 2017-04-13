@@ -6,12 +6,11 @@
 
 
     <?php foreach ($config['data'] as $name => $attributs): ?>
-        <?php echo $name; ?>
         <?php if ($attributs['type'] == 'email'
             || $attributs['type'] == 'text'
             || $attributs['type'] == 'password'
         ): ?>
-            <label>
+            <label><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?>
                 <input type="<?php echo $attributs['type']; ?>"
                        name="<?php echo $name; ?>"
                        placeholder="<?php echo $attributs['placeholder']; ?>"
@@ -22,12 +21,14 @@
         <?php endif; ?>
 
         <?php if ($attributs['type'] == 'file'): ?>
+            <label><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?>
             <input type="<?php echo $attributs['type']; ?>"
                    name="<?php echo $name; ?>"
                    accept="<?php echo $attributs['accept']; ?>"
                 <?php echo(isset($attributs['required']) ? 'required="required"' : ''); ?>
                 <?php echo(isset($attributs['disabled']) ? 'disabled="disabled"' : ''); ?>
             >
+            </label>
         <?php endif; ?>
 
         <?php if ($attributs['type'] == 'hidden'): ?>
@@ -38,10 +39,12 @@
         <?php endif; ?>
 
         <?php if ($attributs['type'] == 'date'): ?>
+            <label><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?>
             <input type="<?php echo $attributs['type']; ?>"
                    name="<?php echo $name; ?>"
                    placeholder="JJ/MM/YYYY"
             >
+            </label>
         <?php endif; ?>
 
         <?php if ($attributs['type'] == 'textarea'): ?>
