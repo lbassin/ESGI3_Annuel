@@ -138,77 +138,75 @@ class User extends BaseSql
             'struct' => [
                 'method' => 'post',
                 'action' => 'user/add',
-                'class' => 'form-group',
-                'submit' => 'Texte',
+                'class' => '',
+                'submit' => 'Sauvegarder',
                 'file' => 1
             ],
-            'data' => [
-                'pseudo' => [
-                    'type' => 'text',
-                    'placeholder' => 'Pseudo',
-                    'label' => 'Pseudo',
-                    'required' => 1
-                ],
-                'firstname' => [
-                    'type' => 'text',
-                    'placeholder' => 'Prenom',
-                    'label' => 'Votre prénom',
-                    'required' => 1
-                ],
-                'lastname' => [
-                    'type' => 'text',
-                    'placeholder' => 'Nom',
-                    'label' => 'Votre Nom',
-                    'required' => 1
-                ],
-                'email' => [
-                    'type' => 'email',
-                    'placeholder' => 'Email',
-                    'label' => 'Votre Email',
-                    'required' => 1
-                ],
-                'password' => [
-                    'type' => 'password',
-                    'placeholder' => 'Password',
-                    'label' => 'Votre Password',
-                    'required' => 1
-                ],
-                'avatar' => [
-                    'type' => 'file',
-                    'label' => 'Votre Avatar',
-                    'accept' => 'image/*,.gif'
-                ],
-                'status' => [
-                    'type' => 'hidden',
-                    'value' => 'test'
-                ],
-                'date' => [
-                    'type' => 'date',
-                    'label' => 'Date de naissance'
-                ],
-                'longtext' => [
-                    'type' => 'textarea',
-                    'placeholder' => 'ok',
-                    'required' => 1
-                ],
-                'newsletter' => [
-                    'type' => 'checkbox',
-                    'label' => 'Newsletter ?'
-                ],
-                'role' => [
-                    'type' => 'radio',
-                    'value' => [
-                        'Admin' => 1,
-                        'Moderateur' => 2,
-                        'Utilisateur' => 3
+            'groups' => [
+                [
+                    'label' => 'Utilisateur',
+                    'fields' => [
+                        'pseudo' => [
+                            'type' => 'text',
+                            'label' => 'Pseudo :',
+                            'class' => 'two-col',
+                            'value' => $this->getPseudo()
+                        ],
+                        'email' => [
+                            'type' => 'email',
+                            'label' => 'Email :',
+                            'class' => 'one-col',
+                            'value' => $this->getEmail()
+                        ],
+                        'password' => [
+                            'type' => 'password',
+                            'label' => 'Password :',
+                            'class' => 'one-col'
+                        ]
                     ]
                 ],
-                'country' => [
-                    'type' => 'select',
-                    'value' => [
-                        'France' => 'fr',
-                        'USA' => 'us',
-                        'Italie' => 'it'
+                [
+                    'label' => 'Profil',
+                    'fields' => [
+                        'lastname' => [
+                            'type' => 'text',
+                            'label' => 'Nom :',
+                            'class' => 'one-col',
+                            'value' => $this->getLastname()
+                        ],
+                        'firstname' => [
+                            'type' => 'text',
+                            'label' => 'Prénom :',
+                            'class' => 'one-col',
+                            'value' => $this->getFirstname()
+                        ],
+                        'avatar' => [
+                            'type' => 'file',
+                            'label' => 'Avatar :',
+                            'accept' => 'image/*'
+                        ]
+                    ]
+                ],
+                [
+                    'label' => 'Permissions',
+                    'fields' => [
+                        'status' => [
+                            'type' => 'checkbox',
+                            'label' => 'Actif :',
+                            'class' => 'one-col',
+                            'value' => $this->getStatus()
+                        ],
+                        'role' => [
+                            'type' => 'select',
+                            'label' => 'Role :',
+                            'class' => 'one-col',
+                            'options' => [ // Todo : Change to getRole()->getList();
+                                'Administrateur' => 0,
+                                'Moderateur' => 1,
+                                'Utilisateur' => 2
+                            ],
+                            'value' => $this->getRole() // Todo : Change to getRole()->getId();
+                        ]
                     ]
                 ]
             ]

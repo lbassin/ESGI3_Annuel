@@ -50,7 +50,7 @@
             </header>
         </div>
 
-        <div class="container">
+        <div id="back-office" class="container">
             <?php include $this->view; ?>
         </div>
 
