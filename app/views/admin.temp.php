@@ -50,8 +50,8 @@
             </header>
         </div>
 
-        <div class="container">
-            <span>test</span>
+        <div id="back-office" class="container">
+            <?php include $this->view; ?>
         </div>
 
         <script type="text/javascript" src="<?php echo Helpers::getAsset('js/admin.js'); ?>"></script>

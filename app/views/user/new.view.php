@@ -1,0 +1,1 @@
+<?php $this->includeModal('form', $user->getForm());

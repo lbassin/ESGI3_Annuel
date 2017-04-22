@@ -13,7 +13,10 @@ class UserControllerBack
     }
 
     public function newAction(){
+        $view = new View('back', 'user/new', 'admin');
 
+        $user = new User();
+        $view->assign('user', $user);
     }
 
     public function editAction(){

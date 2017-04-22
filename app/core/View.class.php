@@ -48,6 +48,15 @@ class View
         $this->data[$key] = $value;
     }
 
+    public function includeModal($modal, $config)
+    {
+        $filename = 'app/views/modals/' . $modal . '.mod.php';
+        if (!file_exists($filename)) {
+            die("Le modal n'existe pas");
+        }
+        include $filename;
+    }
+
     public function __destruct()
     { // = renderer
         extract($this->data);

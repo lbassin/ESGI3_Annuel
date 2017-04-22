@@ -131,4 +131,86 @@ class User extends BaseSql
         $this->role = $role;
     }
 
+
+    public function getForm()
+    {
+        return [
+            'struct' => [
+                'method' => 'post',
+                'action' => 'user/add',
+                'class' => '',
+                'submit' => 'Sauvegarder',
+                'file' => 1
+            ],
+            'groups' => [
+                [
+                    'label' => 'Utilisateur',
+                    'fields' => [
+                        'pseudo' => [
+                            'type' => 'text',
+                            'label' => 'Pseudo :',
+                            'class' => 'two-col',
+                            'value' => $this->getPseudo()
+                        ],
+                        'email' => [
+                            'type' => 'email',
+                            'label' => 'Email :',
+                            'class' => 'one-col',
+                            'value' => $this->getEmail()
+                        ],
+                        'password' => [
+                            'type' => 'password',
+                            'label' => 'Password :',
+                            'class' => 'one-col'
+                        ]
+                    ]
+                ],
+                [
+                    'label' => 'Profil',
+                    'fields' => [
+                        'lastname' => [
+                            'type' => 'text',
+                            'label' => 'Nom :',
+                            'class' => 'one-col',
+                            'value' => $this->getLastname()
+                        ],
+                        'firstname' => [
+                            'type' => 'text',
+                            'label' => 'Prénom :',
+                            'class' => 'one-col',
+                            'value' => $this->getFirstname()
+                        ],
+                        'avatar' => [
+                            'type' => 'file',
+                            'label' => 'Avatar :',
+                            'accept' => 'image/*'
+                        ]
+                    ]
+                ],
+                [
+                    'label' => 'Permissions',
+                    'fields' => [
+                        'status' => [
+                            'type' => 'checkbox',
+                            'label' => 'Actif :',
+                            'class' => 'one-col',
+                            'value' => $this->getStatus()
+                        ],
+                        'role' => [
+                            'type' => 'select',
+                            'label' => 'Role :',
+                            'class' => 'one-col',
+                            'options' => [ // Todo : Change to getRole()->getList();
+                                'Administrateur' => 0,
+                                'Moderateur' => 1,
+                                'Utilisateur' => 2
+                            ],
+                            'value' => $this->getRole() // Todo : Change to getRole()->getId();
+                        ]
+                    ]
+                ]
+            ]
+        ];
+    }
+
 }

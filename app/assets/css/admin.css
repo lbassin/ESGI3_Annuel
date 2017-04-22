@@ -462,3 +462,22 @@ input:-webkit-autofill {
     color: #fff;
     transition: all 0.3s ease-in-out;
 }
+
+
+/* --------------------- */
+
+#back-office.container form{
+    width: 80%;
+}
+
+#back-office.container form p{
+    margin-right: 2%;
+}
+
+#back-office.container form .one-col{
+    display: inline-block;
+}
+
+#back-office.container form input[type="file"]{
+    display: block;
+}
