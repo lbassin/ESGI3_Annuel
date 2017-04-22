@@ -2,18 +2,15 @@
 class Survey extends BaseSql
 {
     protected $id;
-    protected $ask;
-    protected $id_article;
+    protected $question;
 
     public function __construct(
         $id = -1,
-        $ask = null,
-        $id_article = null
+        $question = null
     )
     {
         $this->setId($id);
-        $this->setAsk($ask);
-        $this->setIdArticle($id_article);
+        $this->setQuestion($question);
 
         parent::__construct();
     }
@@ -28,25 +25,14 @@ class Survey extends BaseSql
         $this->id = $id;
     }
 
-    public function getAsk()
+    public function getQuestion()
     {
-        return $this->ask;
+        return $this->question;
     }
 
-    public function setAsk($ask)
+    public function setQuestion($question)
     {
-        $this->ask = $ask;
+        $this->question = $question;
     }
-
-    public function getIdArticle()
-    {
-        return $this->id_article;
-    }
-
-    public function setIdArticle($id_article)
-    {
-        $this->id_article = $id_article;
-    }
-
 
 }

@@ -1,8 +1,8 @@
 <?php
-class Vote extends BaseSql
+class Survey_Answer_User extends BaseSql
 {
     protected $id;
-    protected $id_choice;
+    protected $id_answer;
     protected $id_user;
 
     public function __construct(
@@ -12,7 +12,7 @@ class Vote extends BaseSql
     )
     {
         $this->setId($id);
-        $this->setIdChoice($id_choice);
+        $this->setIdAnswer($id_choice);
         $this->setIdUser($id_user);
 
         parent::__construct();
@@ -28,14 +28,14 @@ class Vote extends BaseSql
         $this->id = $id;
     }
 
-    public function getIdChoice()
+    public function getIdAnswer()
     {
-        return $this->id_choice;
+        return $this->id_answer;
     }
 
-    public function setIdChoice($id_choice)
+    public function setIdAnswer($id_answer)
     {
-        $this->id_choice = $id_choice;
+        $this->id_answer = $id_answer;
     }
 
     public function getIdUser()

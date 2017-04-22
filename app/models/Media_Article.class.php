@@ -1,19 +1,19 @@
 <?php
-class MediaPage extends BaseSql
+class Media_Article extends BaseSql
 {
     protected $id;
     protected $id_media;
-    protected $id_page;
+    protected $id_article;
 
     public function __construct(
         $id = -1,
         $id_media = null,
-        $id_page = null
+        $id_article = null
     )
     {
         $this->setId($id);
         $this->setIdMedia($id_media);
-        $this->setIdPage($id_page);
+        $this->setIdArticle($id_article);
 
         parent::__construct();
     }
@@ -38,14 +38,14 @@ class MediaPage extends BaseSql
         $this->id_media = $id_media;
     }
 
-    public function getIdPage()
+    public function getIdArticle()
     {
-        return $this->id_page;
+        return $this->id_article;
     }
 
-    public function setIdPage($id_page)
+    public function setIdArticle($id_article)
     {
-        $this->id_page = $id_page;
+        $this->id_article = $id_article;
     }
 
 

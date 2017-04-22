@@ -1,6 +1,6 @@
 <?php
 
-class ArticleCategory extends BaseSql
+class Article_Category extends BaseSql
 {
     protected $id;
     protected $id_article;
