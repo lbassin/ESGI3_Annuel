@@ -1,6 +1,11 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+CREATE TABLE `role` (
+  `id`   INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255)        NOT NULL
+);
+
 CREATE TABLE `user` (
   `id`         INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `pseudo`     VARCHAR(255)        NOT NULL,
@@ -10,9 +15,10 @@ CREATE TABLE `user` (
   `password`   CHAR(60)            NOT NULL,
   `avatar`     VARCHAR(255)        NOT NULL,
   `status`     INT(11)             NOT NULL,
-  `role`       INT(11)             NOT NULL,
+  `id_role`    INT(11)             NOT NULL,
   `created_at` DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` DATETIME            NOT NULL
+  `updated_at` DATETIME            NOT NULL,
+  CONSTRAINT FK_USER_ROLE FOREIGN KEY (id_role) REFERENCES role (id)
 );
 
 CREATE TABLE `survey` (
