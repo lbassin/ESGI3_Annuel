@@ -60,6 +60,16 @@ class BaseSql
         }
     }
 
+    public function delete()
+    {
+        $pdo = Db::getInstance();
+        $query = $pdo->prepare(
+            "DELETE FROM " . $this->table . ' WHERE id = :id;'
+        );
+        $data = ['id' => $this->id];
+        $query->execute($data);
+    }
+
     public function populate($condition)
     {
         $conditionQuery = '';
