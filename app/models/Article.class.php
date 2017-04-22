@@ -5,16 +5,17 @@ class Article extends BaseSql
     protected $id;
     protected $title;
     protected $content;
-    protected $slug;
-    protected $visibility;
+    protected $url;
     protected $publish;
+    protected $visibility;
     protected $id_user;
+    protected $id_survey;
 
     public function __construct(
         $id = -1,
         $title = null,
         $content = null,
-        $slug = null,
+        $url = null,
         $visibility = 0,
         $publish = 0,
         $id_user = null
@@ -23,7 +24,7 @@ class Article extends BaseSql
         $this->setId($id);
         $this->setTitle($title);
         $this->setContent($content);
-        $this->setSlug($slug);
+        $this->setUrl($url);
         $this->setVisibility($visibility);
         $this->setPublish($publish);
         $this->setIdUser($id_user);
@@ -61,24 +62,14 @@ class Article extends BaseSql
         $this->content = $content;
     }
 
-    public function getSlug()
+    public function getUrl()
     {
-        return $this->slug;
+        return $this->url;
     }
 
-    public function setSlug($slug)
+    public function setUrl($url)
     {
-        $this->slug = $slug;
-    }
-
-    public function getVisibility()
-    {
-        return $this->visibility;
-    }
-
-    public function setVisibility($visibility)
-    {
-        $this->visibility = $visibility;
+        $this->url = $url;
     }
 
     public function getPublish()
@@ -91,12 +82,32 @@ class Article extends BaseSql
         $this->publish = $publish;
     }
 
+    public function getVisibility()
+    {
+        return $this->visibility;
+    }
+
+    public function setVisibility($visibility)
+    {
+        $this->visibility = $visibility;
+    }
+
     public function getIdUser()
     {
         return $this->id_user;
     }
 
     public function setIdUser($id_user)
+    {
+        $this->id_user = $id_user;
+    }
+
+    public function getIdSurvey()
+    {
+        return $this->id_user;
+    }
+
+    public function setIdSurvey($id_user)
     {
         $this->id_user = $id_user;
     }

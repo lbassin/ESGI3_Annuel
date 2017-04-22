@@ -2,36 +2,21 @@
 class Config extends BaseSql
 {
     protected $id;
-    protected $title;
-    protected $ico;
-    protected $logo;
-    protected $url;
-    protected $email;
-    protected $language;
-    protected $date;
-    protected $registration;
+    protected $name;
+    protected $value;
+    protected $old_value;
 
     public function __construct(
         $id = -1,
-        $title = null,
-        $ico = null,
-        $logo = null,
-        $url = null,
-        $email = null,
-        $language = null,
-        $date = null,
-        $registration = null
+        $name = null,
+        $value = null,
+        $old_value = null
     )
     {
-        $this->id($id);
-        $this->setTitle($title);
-        $this->setIco($ico);
-        $this->setLogo($logo);
-        $this->setUrl($url);
-        $this->setEmail($email);
-        $this->setLanguage($language);
-        $this->setDate($date);
-        $this->setRegistration($registration);
+        $this->setId($id);
+        $this->setName($name);
+        $this->setValue($value);
+        $this->setOldValue($old_value);
 
         parent::__construct();
     }
@@ -46,85 +31,34 @@ class Config extends BaseSql
         $this->id = $id;
     }
 
-    public function getTitle()
+    public function getName()
     {
-        return $this->title;
+        return $this->name;
     }
 
-    public function setTitle($title)
+    public function setName($name)
     {
-        $this->title = $title;
+        $this->name = $name;
     }
 
-    public function getIco()
+    public function getValue()
     {
-        return $this->ico;
+        return $this->value;
     }
 
-    public function setIco($ico)
+    public function setValue($value)
     {
-        $this->ico = $ico;
+        $this->value = $value;
     }
 
-    public function getLogo()
+    public function getOldValue()
     {
-        return $this->logo;
+        return $this->old_value;
     }
 
-    public function setLogo($logo)
+    public function setOldValue($old_value)
     {
-        $this->logo = $logo;
+        $this->old_value = $old_value;
     }
-
-    public function getUrl()
-    {
-        return $this->url;
-    }
-
-    public function setUrl($url)
-    {
-        $this->url = $url;
-    }
-
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    public function setEmail($email)
-    {
-        $this->email = $email;
-    }
-
-    public function getLanguage()
-    {
-        return $this->language;
-    }
-
-    public function setLanguage($language)
-    {
-        $this->language = $language;
-    }
-
-    public function getDate()
-    {
-        return $this->date;
-    }
-
-    public function setDate($date)
-    {
-        $this->date = $date;
-    }
-
-    public function getRegistration()
-    {
-        return $this->registration;
-    }
-
-    public function setRegistration($registration)
-    {
-        $this->registration = $registration;
-    }
-
 
 }

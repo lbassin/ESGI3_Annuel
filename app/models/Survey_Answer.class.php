@@ -1,9 +1,10 @@
 <?php
-class Choice extends BaseSql
+class Survey_Answer extends BaseSql
 {
     protected $id;
     protected $answer;
     protected $id_survey;
+
 
     public function __construct(
         $id = -1,

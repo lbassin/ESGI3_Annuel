@@ -2,21 +2,21 @@
 class Menu extends BaseSql
 {
     protected $id;
-    protected $name;
-    protected $is_selected;
-    protected $links;
+    protected $label;
+    protected $url;
+    protected $parent_id;
 
     public function __construct(
         $id = -1,
-        $name = null,
-        $is_selected = false,
-        $links = null
+        $label = null,
+        $url = false,
+        $parent_id = null
     )
     {
         $this->setId($id);
-        $this->setName($name);
-        $this->setIsSelected($is_selected);
-        $this->setLinks($links);
+        $this->setLabel($label);
+        $this->setUrl($url);
+        $this->setParentId($parent_id);
 
         parent::__construct();
     }
@@ -31,35 +31,34 @@ class Menu extends BaseSql
         $this->id = $id;
     }
 
-    public function getName()
+    public function getLabel()
     {
-        return $this->name;
+        return $this->label;
     }
 
-    public function setName($name)
+    public function setLabel($label)
     {
-        $this->name = $name;
+        $this->label = $label;
     }
 
-    public function getIsSelected()
+    public function getUrl()
     {
-        return $this->is_selected;
+        return $this->url;
     }
 
-    public function setIsSelected($is_selected)
+    public function setUrl($url)
     {
-        $this->is_selected = $is_selected;
+        $this->url = $url;
     }
 
-    public function getLinks()
+    public function getParentId()
     {
-        return $this->links;
+        return $this->parent_id;
     }
 
-    public function setLinks($links)
+    public function setParentId($parent_id)
     {
-        $this->links = $links;
+        $this->parent_id = $parent_id;
     }
-
 
 }

@@ -33,11 +33,11 @@ CREATE TABLE `survey_answer` (
 
 CREATE TABLE `survey_answer_user` (
   `id`         INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `id_choice`  INT(11)             NOT NULL,
+  `id_answer`  INT(11)             NOT NULL,
   `id_user`    INT(11)             NOT NULL,
   `created_at` DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME            NOT NULL,
-  CONSTRAINT FK_SURVEY_ANSWER_USER_SURVEY_ANSWER FOREIGN KEY (id_choice) REFERENCES survey_answer (id),
+  CONSTRAINT FK_SURVEY_ANSWER_USER_SURVEY_ANSWER FOREIGN KEY (id_answer) REFERENCES survey_answer (id),
   CONSTRAINT FK_SURVEY_ANSWER_USER_USER FOREIGN KEY (id_user) REFERENCES user (id)
 );
 
@@ -141,7 +141,7 @@ CREATE TABLE `media_page` (
 CREATE TABLE `menu` (
   `id`         INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `label`      VARCHAR(255)        NOT NULL,
-  `url`       VARCHAR(255)        NOT NULL,
+  `url`        VARCHAR(255)        NOT NULL,
   `parent_id`  INT(11),
   `created_at` DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME            NOT NULL,

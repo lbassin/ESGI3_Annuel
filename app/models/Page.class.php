@@ -5,10 +5,11 @@ class Page extends BaseSql
     protected $name;
     protected $content;
     protected $description;
-    protected $slug;
+    protected $url;
     protected $visibility;
     protected $publish;
-    protected $id_user;
+    protected $meta_title;
+    protected $meta_description;
 
     public function __construct(
         $id = -1,
@@ -18,17 +19,19 @@ class Page extends BaseSql
         $slug = null,
         $visibility = 0,
         $publish = 0,
-        $id_user = null
+        $meta_title = null,
+        $meta_description = null
     )
     {
         $this->setId($id);
         $this->setName($name);
         $this->setContent($content);
         $this->setDescription($description);
-        $this->setSlug($slug);
+        $this->setUrl($slug);
         $this->setVisibility($visibility);
         $this->setPublish($publish);
-        $this->setIdUser($id_user);
+        $this->setMetaTitle($meta_title);
+        $this->setMetaDescription($meta_description);
 
         parent::__construct();
     }
@@ -73,14 +76,14 @@ class Page extends BaseSql
         $this->description = $description;
     }
 
-    public function getSlug()
+    public function getUrl()
     {
-        return $this->slug;
+        return $this->url;
     }
 
-    public function setSlug($slug)
+    public function setUrl($url)
     {
-        $this->slug = $slug;
+        $this->url = $url;
     }
 
     public function getVisibility()
@@ -103,13 +106,23 @@ class Page extends BaseSql
         $this->publish = $publish;
     }
 
-    public function getIdUser()
+    public function getMetaTitle()
     {
-        return $this->id_user;
+        return $this->meta_title;
     }
 
-    public function setIdUser($id_user)
+    public function setMetaTitle($meta_title)
     {
-        $this->id_user = $id_user;
+        $this->meta_title = $meta_title;
+    }
+
+    public function getMetaDescription()
+    {
+        return $this->meta_description;
+    }
+
+    public function setMetaDescription($meta_description)
+    {
+        $this->meta_description = $meta_description;
     }
 }
