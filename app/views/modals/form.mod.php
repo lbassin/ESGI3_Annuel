@@ -1,3 +1,6 @@
+<h1>Nouvel utilisateur</h1>
+<small><a href="<?php echo Helpers::getAdminRoute('user'); ?>">Back</a></small>
+
 <form method="<?php echo $config['struct']['method']; ?>"
       action="<?php echo $config['struct']['action']; ?>"
       class="<?php echo $config['struct']['class']; ?>"
@@ -13,10 +16,10 @@
                 <?php if ($attributs['type'] == 'email' || $attributs['type'] == 'text' || $attributs['type'] == 'password'): ?>
                     <label><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?><br>
                         <input
-                            type="<?php echo $attributs['type']; ?>"
-                            name="<?php echo $name; ?>"
-                            value="<?php echo isset($attributs['value']) ? $attributs['value'] : ''; ?>"
-                            placeholder="<?php echo isset($attributs['placeholder']) ? $attributs['placeholder'] : ''; ?>"
+                                type="<?php echo $attributs['type']; ?>"
+                                name="<?php echo $name; ?>"
+                                value="<?php echo isset($attributs['value']) ? $attributs['value'] : ''; ?>"
+                                placeholder="<?php echo isset($attributs['placeholder']) ? $attributs['placeholder'] : ''; ?>"
                             <?php echo(isset($attributs['required']) ? 'required="required"' : ''); ?>
                             <?php echo(isset($attributs['disabled']) ? 'disabled="disabled"' : ''); ?>
                         >
@@ -48,7 +51,7 @@
                         <select name="<?php echo $name; ?>">
                             <?php foreach ($attributs['options'] as $selectLabel => $selectValue): ?>
                                 <option
-                                    value="<?php echo $selectValue; ?>"
+                                        value="<?php echo $selectValue; ?>"
                                     <?php echo (isset($attributs['value']) && $attributs['value'] == $selectValue) ?
                                         'selected="selected"' : ''; ?>
                                 >
@@ -69,8 +72,8 @@
                 <?php if ($attributs['type'] == 'textarea'): ?>
                     <label><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?>
                         <textarea
-                            name="<?php echo $name; ?>"
-                            placeholder="<?php echo isset($attributs['placeholder']) ? $attributs['placeholder'] : ''; ?>"
+                                name="<?php echo $name; ?>"
+                                placeholder="<?php echo isset($attributs['placeholder']) ? $attributs['placeholder'] : ''; ?>"
                             <?php echo(isset($attributs['required']) ? 'required="required"' : ''); ?>
                             <?php echo(isset($attributs['disabled']) ? 'disabled="disabled"' : ''); ?>
                         ><?php echo(isset($attributs['value']) ? $attributs['value'] : ''); ?></textarea>
@@ -83,7 +86,7 @@
                             <input type="<?php echo $attributs['type']; ?>"
                                    name="<?php echo $name; ?>"
                                    value="<?php echo $radioValue; ?>"
-                                    <?php echo (isset($attributs['value']) && $attributs['value'] == $radioValue) ?
+                                <?php echo (isset($attributs['value']) && $attributs['value'] == $radioValue) ?
                                     'checked="checked"' : ''; ?>
                             >
                         </label>

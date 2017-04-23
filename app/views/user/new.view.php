@@ -1,1 +1,5 @@
-<?php $this->includeModal('form', $user->getForm());
+<?php
+
+if (isset($user)) {
+    $this->includeModal('form', $user->getFormConfig());
+}
