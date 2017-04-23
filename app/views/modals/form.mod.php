@@ -1,6 +1,3 @@
-<h1>Nouvel utilisateur</h1>
-<small><a href="<?php echo Helpers::getAdminRoute('user'); ?>">Back</a></small>
-
 <form method="<?php echo $config['struct']['method']; ?>"
       action="<?php echo $config['struct']['action']; ?>"
       class="<?php echo $config['struct']['class']; ?>"
