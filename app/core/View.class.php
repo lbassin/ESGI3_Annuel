@@ -7,6 +7,7 @@ class View
     protected $view;
     protected $template;
     protected $data = [];
+    protected $notifications = [];
 
     public function __construct($type, $view = 'index', $template = 'frontend')
     {
@@ -57,10 +58,37 @@ class View
         include $filename;
     }
 
+    public function addSuccess($message)
+    {
+        $this->notifications['success'][] = $message;
+    }
+
+    public function getSuccess()
+    {
+        if (!isset($this->notifications['success'])) {
+            $this->notifications['success'] = [];
+        }
+
+        return $this->notifications['success'];
+    }
+
+    public function addError($message)
+    {
+        $this->notifications['error'][] = $message;
+    }
+
+    public function getErrors()
+    {
+        if (!isset($this->notifications['error'])) {
+            $this->notifications['error'] = [];
+        }
+
+        return $this->notifications['error'];
+    }
+
     public function __destruct()
     { // = renderer
         extract($this->data);
-
 
         include $this->template;
     }

@@ -51,6 +51,21 @@
         </div>
 
         <div id="back-office" class="container">
+            <div style="background: red;">
+                <ul>
+                    <?php foreach ($this->getErrors() as $message): ?>
+                        <li><?php echo $message; ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+            <div style="background: green;">
+                <ul>
+                    <?php foreach ($this->getSuccess() as $message): ?>
+                        <li><?php echo $message; ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+
             <?php include $this->view; ?>
         </div>
 
