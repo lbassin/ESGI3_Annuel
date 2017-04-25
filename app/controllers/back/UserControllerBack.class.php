@@ -22,6 +22,24 @@ class UserControllerBack
         $view->assign('user', $user);
     }
 
+    public function addAction($params)
+    {
+        Helpers::debug($params);
+
+        $user = new User();
+        $errors = $user->validate($params);
+
+        if (count($errors) > 0) {
+            // Add errors to view
+            // Redirect back
+            die('error');
+        }
+
+        $user->fill($params);
+        $user->save();
+        // Redirect to edit with id = $user->getId();
+    }
+
     public function editAction($params)
     {
         if (!isset($params[0])) {

@@ -21,8 +21,8 @@ class User extends BaseSql
         $email = null,
         $password = null,
         $avatar = null,
-        $status = 0,
-        $role = 0
+        $role = null,
+        $status = 0
     ) {
         $this->setId($id);
         $this->setPseudo($pseudo);
@@ -33,6 +33,8 @@ class User extends BaseSql
         $this->setAvatar($status);
         $this->setStatus($status);
         $this->setRole($role);
+
+        $this->foreignValues = ['role' => 0];
 
         parent::__construct();
     }
@@ -68,12 +70,19 @@ class User extends BaseSql
         $this->avatar = $avatar;
     }
 
+    public function validate(array $data)
+    {
+        // TODO
+
+        return [];
+    }
+
     public function getFormConfig()
     {
         return [
             'struct' => [
                 'method' => 'post',
-                'action' => 'user/add',
+                'action' => Helpers::getAdminRoute('user/add'),
                 'class' => '',
                 'submit' => 'Sauvegarder',
                 'file' => 1
@@ -156,6 +165,7 @@ class User extends BaseSql
 
     public function setPseudo($pseudo)
     {
+        $pseudo = trim($pseudo);
         $this->pseudo = $pseudo;
     }
 
@@ -209,6 +219,11 @@ class User extends BaseSql
 
     public function setRole($role)
     {
+        if (empty($role)) {
+            $role = new Role();
+            $role->populate(['id' => 2]);
+        }
+
         $this->role = $role;
     }
 

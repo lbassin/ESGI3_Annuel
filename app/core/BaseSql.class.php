@@ -3,8 +3,8 @@
 class BaseSql
 {
 
+    protected $foreignValues = [];
     private $db;
-
     private $table;
     private $columns;
 
@@ -29,7 +29,15 @@ class BaseSql
             $sqlCol = null;
             $sqlKey = null;
             foreach ($this->columns as $column => $value) {
-                $data[$column] = $this->$column;
+
+                if (in_array($column, $this->foreignValues)) {
+                    $id = $this->$column->getId();
+                    $column = 'id_' . $column;
+                    $data[$column] = $id;
+                } else {
+                    $data[$column] = $this->$column;
+                }
+
                 $sqlCol .= ',' . $column;
                 $sqlKey .= ',:' . $column;
             }
@@ -42,6 +50,7 @@ class BaseSql
                 " VALUES " .
                 "(" . $sqlKey . ");"
             );
+
             $query->execute($data);
         } else {
 
@@ -53,7 +62,7 @@ class BaseSql
             }
 
             $query = $pdo->prepare(
-                "UPDATE " . $this->table . ' SET date_updated = sysdate(), ' . implode(',',
+                "UPDATE " . $this->table . ' SET updated_at = sysdate(), ' . implode(',',
                     $sqlSet) . ' WHERE id = :id;'
             );
             $query->execute($data);
@@ -84,6 +93,23 @@ class BaseSql
 
         foreach ($data as $name => $value) {
             $this->$name = $value;
+        }
+    }
+
+    public function fill(array $data)
+    {
+        foreach ($data as $field => $value) {
+            $functionName = 'set' . ucfirst($field);
+
+            if (!method_exists($this, $functionName)) {
+                continue;
+            }
+
+            if (in_array($field, $this->foreignValues)) {
+                continue;
+            }
+
+            $this->{$functionName}($value);
         }
     }
 
