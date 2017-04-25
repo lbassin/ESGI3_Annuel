@@ -47,49 +47,6 @@ class User extends BaseSql
         $this->id = $id;
     }
 
-    public function getPseudo()
-    {
-        return $this->pseudo;
-    }
-
-    public function setPseudo($pseudo)
-    {
-        $this->pseudo = $pseudo;
-    }
-
-    public function getFirstname()
-    {
-        return $this->firstname;
-    }
-
-    public function setFirstname($firstname)
-    {
-        $firstname = trim($firstname);
-        $this->firstname = $firstname;
-    }
-
-    public function getLastname()
-    {
-        return $this->lastname;
-    }
-
-    public function setLastname($lastname)
-    {
-        $lastname = trim($lastname);
-        $this->lastname = $lastname;
-    }
-
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    public function setEmail($email)
-    {
-        $email = trim($email);
-        $this->email = $email;
-    }
-
     public function getPassword()
     {
         return $this->password;
@@ -111,28 +68,7 @@ class User extends BaseSql
         $this->avatar = $avatar;
     }
 
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    public function setStatus($status)
-    {
-        $this->status = $status;
-    }
-
-    public function getRole()
-    {
-        return $this->role;
-    }
-
-    public function setRole($role)
-    {
-        $this->role = $role;
-    }
-
-
-    public function getForm()
+    public function getFormConfig()
     {
         return [
             'struct' => [
@@ -207,6 +143,141 @@ class User extends BaseSql
                             ],
                             'value' => $this->getRole() // Todo : Change to getRole()->getId();
                         ]
+                    ]
+                ]
+            ]
+        ];
+    }
+
+    public function getPseudo()
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo($pseudo)
+    {
+        $this->pseudo = $pseudo;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function setEmail($email)
+    {
+        $email = trim($email);
+        $this->email = $email;
+    }
+
+    public function getLastname()
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname($lastname)
+    {
+        $lastname = trim($lastname);
+        $this->lastname = $lastname;
+    }
+
+    public function getFirstname()
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname($firstname)
+    {
+        $firstname = trim($firstname);
+        $this->firstname = $firstname;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    public function setRole($role)
+    {
+        $this->role = $role;
+    }
+
+    public function getListConfig()
+    {
+        return [
+            'struct' => [
+                'title' => 'Utilisateurs',
+                'newLink' => Helpers::getAdminRoute('user/new'),
+                'header' => [
+                    '',
+                    'ID',
+                    'Firstname',
+                    'Lastname',
+                    'Email',
+                    'Action'
+                ]
+            ],
+            'rows' => [
+                [
+                    [
+                        'type' => 'checkbox',
+                        'value' => ''
+                    ],
+                    [
+                        'type' => 'text',
+                        'value' => '1'
+                    ],
+                    [
+                        'type' => 'text',
+                        'value' => 'Laurent'
+                    ],
+                    [
+                        'type' => 'text',
+                        'value' => 'Bassin'
+                    ],
+                    [
+                        'type' => 'text',
+                        'value' => 'laurent@bassin.info'
+                    ],
+                    [
+                        'type' => 'action',
+                        'id' => 1
+                    ]
+                ],
+                [
+                    [
+                        'type' => 'checkbox',
+                        'value' => ''
+                    ],
+                    [
+                        'type' => 'text',
+                        'value' => '2'
+                    ],
+                    [
+                        'type' => 'text',
+                        'value' => 'Laurent'
+                    ],
+                    [
+                        'type' => 'text',
+                        'value' => 'Bassin'
+                    ],
+                    [
+                        'type' => 'text',
+                        'value' => 'laurent@bassin.info'
+                    ],
+                    [
+                        'type' => 'action',
+                        'id' => 2
                     ]
                 ]
             ]

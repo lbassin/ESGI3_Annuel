@@ -17,7 +17,7 @@
                 <a class="nav-link">Comments</a>
                 <a class="nav-link">Médias</a>
                 <a class="nav-link">Styles</a>
-                <a class="nav-link">Users</a>
+                <a class="nav-link" href="<?php echo Helpers::getAdminRoute('user'); ?>">Users</a>
                 <a class="nav-link">Plugins</a>
             </nav>
 

@@ -3,9 +3,12 @@
 class UserControllerBack
 {
 
-    public function indexAction($params)
+    public function indexAction()
     {
-        Helpers::debug([__DIR__, __CLASS__, __FUNCTION__, $params]);
+        $view = new View('back', 'user/index', 'admin');
+
+        $user = new User();
+        $view->assign('user', $user);
     }
 
     public function viewAction(){
@@ -19,8 +22,23 @@ class UserControllerBack
         $view->assign('user', $user);
     }
 
-    public function editAction(){
+    public function editAction($params)
+    {
+        if (!isset($params[0])) {
+            die('Missing id');
+        }
+        $userId = $params[0];
 
+        $view = new View('back', 'user/edit', 'admin');
+
+        $user = new User();
+        $user->populate(['id' => $userId]);
+
+        if ($user->getId() < 0) {
+            die('User not found');
+        }
+
+        $view->assign('user', $user);
     }
 
     public function deleteAction(){
