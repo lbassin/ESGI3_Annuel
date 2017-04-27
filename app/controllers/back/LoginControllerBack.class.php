@@ -35,4 +35,13 @@ class LoginControllerBack
         session_destroy();
         $view = new View('back', 'index', 'login');
     }
+
+    public function unsubscribeAction()
+    {
+        $user = new User($_SESSION['id']);
+        // Status 0 means that the user is no longer active
+        $user->status = 0;
+        $user->update();
+        $view = new View('back', 'index', 'admin');
+    }
 }
