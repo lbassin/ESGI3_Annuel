@@ -58,32 +58,20 @@ class View
         include $filename;
     }
 
-    public function addSuccess($message)
-    {
-        $this->notifications['success'][] = $message;
-    }
-
     public function getSuccess()
     {
-        if (!isset($this->notifications['success'])) {
-            $this->notifications['success'] = [];
-        }
+        $errors = Session::getErrors();
+        Session::resetErrors();
 
-        return $this->notifications['success'];
-    }
-
-    public function addError($message)
-    {
-        $this->notifications['error'][] = $message;
+        return $errors;
     }
 
     public function getErrors()
     {
-        if (!isset($this->notifications['error'])) {
-            $this->notifications['error'] = [];
-        }
+        $success = Session::getSuccess();
+        Session::resetSuccess();
 
-        return $this->notifications['error'];
+        return $success;
     }
 
     public function __destruct()
