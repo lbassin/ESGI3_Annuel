@@ -24,8 +24,6 @@ class UserControllerBack
 
     public function addAction($params)
     {
-        Helpers::debug($params);
-
         $user = new User();
         $errors = $user->validate($params);
 
@@ -36,8 +34,17 @@ class UserControllerBack
         }
 
         $user->fill($params);
-        $user->save();
-        // Redirect to edit with id = $user->getId();
+        $user->setRole($params['role']);
+
+        try {
+            $user->save();
+        } catch (Exception $ex) {
+            // TODO Add error message (flash)
+            die($ex->getMessage());
+        }
+
+        // TODO Add success message (flash)
+        Helpers::redirect(Helpers::getAdminRoute('user'));
     }
 
     public function editAction($params)

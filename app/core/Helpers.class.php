@@ -18,4 +18,10 @@ class Helpers
         $path = rtrim($path, '/');
         return '/' . ADMIN_PATH . '/' . $path . '/';
     }
+
+    public static function redirect($path)
+    {
+        header('Location: ' . $path);
+        exit();
+    }
 }

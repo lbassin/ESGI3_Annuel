@@ -34,7 +34,7 @@ class User extends BaseSql
         $this->setStatus($status);
         $this->setRole($role);
 
-        $this->foreignValues = ['role' => 0];
+        $this->foreignValues = ['role'];
 
         parent::__construct();
     }
@@ -150,7 +150,7 @@ class User extends BaseSql
                                 'Moderateur' => 1,
                                 'Utilisateur' => 2
                             ],
-                            'value' => $this->getRole() // Todo : Change to getRole()->getId();
+                            'value' => $this->getRole()->getId()
                         ]
                     ]
                 ]
@@ -214,17 +214,21 @@ class User extends BaseSql
 
     public function getRole()
     {
+        if (!isset($this->role)) {
+            return new Role;
+        }
         return $this->role;
     }
 
     public function setRole($role)
     {
-        if (empty($role)) {
-            $role = new Role();
-            $role->populate(['id' => 2]);
+        if ($role instanceof Role) {
+            $this->role = $role;
+        } else {
+            $newRole = new Role();
+            $newRole->populate(['id' => $role]);
+            $this->role = $newRole;
         }
-
-        $this->role = $role;
     }
 
     public function getListConfig()
