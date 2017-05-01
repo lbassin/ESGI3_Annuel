@@ -5,13 +5,8 @@ class Role extends BaseSql
     protected $id;
     protected $name;
 
-    public function __construct(
-        $id = -1,
-        $name = null
-    ) {
-        $this->setId($id);
-        $this->setName($name);
-
+    public function __construct()
+    {
         parent::__construct();
     }
 
@@ -33,6 +28,20 @@ class Role extends BaseSql
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    public function getAllAsOptions()
+    {
+        $roles = $this->getAll();
+
+        $data = [];
+        foreach ($roles as $role) {
+            if (!empty($role->getName())) {
+                $data[$role->getName()] = $role->getId();
+            }
+        }
+
+        return $data;
     }
 
 }

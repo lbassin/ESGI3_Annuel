@@ -37,7 +37,8 @@
                 <?php if ($attributs['type'] == 'checkbox'): ?>
                     <label><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?>
                         <input type="<?php echo $attributs['type']; ?>"
-                               name="<?php echo $attributs['name']; ?>"
+                               name="<?php echo $name; ?>"
+                               value="1"
                             <?php echo ($attributs['value'] == true) ? 'checked="checked"' : ''; ?>
                         >
                     </label>

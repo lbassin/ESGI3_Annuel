@@ -58,7 +58,7 @@ class View
         include $filename;
     }
 
-    public function getSuccess()
+    public function getErrors()
     {
         $errors = Session::getErrors();
         Session::resetErrors();
@@ -66,7 +66,7 @@ class View
         return $errors;
     }
 
-    public function getErrors()
+    public function getSuccess()
     {
         $success = Session::getSuccess();
         Session::resetSuccess();

@@ -13,38 +13,11 @@ class User extends BaseSql
     protected $status;
     protected $role;
 
-    public function __construct(
-        $id = -1,
-        $pseudo = null,
-        $firstname = null,
-        $lastname = null,
-        $email = null,
-        $password = null,
-        $avatar = null,
-        $status = 0,
-        $role = 0
-    ) {
-        $this->setId($id);
-        $this->setPseudo($pseudo);
-        $this->setFirstname($firstname);
-        $this->setLastname($lastname);
-        $this->setEmail($email);
-        $this->setPassword($password);
-        $this->setAvatar($status);
-        $this->setStatus($status);
-        $this->setRole($role);
+    public function __construct()
+    {
+        $this->foreignValues = ['role'];
 
         parent::__construct();
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
     }
 
     public function getPassword()
@@ -68,12 +41,19 @@ class User extends BaseSql
         $this->avatar = $avatar;
     }
 
+    public function validate(array $data)
+    {
+        // TODO
+
+        return [];
+    }
+
     public function getFormConfig()
     {
         return [
             'struct' => [
                 'method' => 'post',
-                'action' => 'user/add',
+                'action' => Helpers::getAdminRoute('user/save'),
                 'class' => '',
                 'submit' => 'Sauvegarder',
                 'file' => 1
@@ -82,6 +62,10 @@ class User extends BaseSql
                 [
                     'label' => 'Utilisateur',
                     'fields' => [
+                        'id' => [
+                            'type' => 'hidden',
+                            'value' => $this->getId()
+                        ],
                         'pseudo' => [
                             'type' => 'text',
                             'label' => 'Pseudo :',
@@ -136,17 +120,23 @@ class User extends BaseSql
                             'type' => 'select',
                             'label' => 'Role :',
                             'class' => 'one-col',
-                            'options' => [ // Todo : Change to getRole()->getList();
-                                'Administrateur' => 0,
-                                'Moderateur' => 1,
-                                'Utilisateur' => 2
-                            ],
-                            'value' => $this->getRole() // Todo : Change to getRole()->getId();
+                            'options' => $this->getRole()->getAllAsOptions(),
+                            'value' => $this->getRole()->getId()
                         ]
                     ]
                 ]
             ]
         ];
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
     public function getPseudo()
@@ -156,6 +146,7 @@ class User extends BaseSql
 
     public function setPseudo($pseudo)
     {
+        $pseudo = trim($pseudo);
         $this->pseudo = $pseudo;
     }
 
@@ -204,12 +195,27 @@ class User extends BaseSql
 
     public function getRole()
     {
+        if (!isset($this->role)) {
+            if (!isset($this->id_role)) {
+                return new Role;
+            }
+
+            $role = new Role;
+            $role->populate(['id' => $this->id_role]);
+            return $role;
+        }
         return $this->role;
     }
 
     public function setRole($role)
     {
-        $this->role = $role;
+        if ($role instanceof Role) {
+            $this->role = $role;
+        } else {
+            $newRole = new Role();
+            $newRole->populate(['id' => $role]);
+            $this->role = $newRole;
+        }
     }
 
     public function getListConfig()
@@ -227,61 +233,49 @@ class User extends BaseSql
                     'Action'
                 ]
             ],
-            'rows' => [
+            'rows' => $this->getListData()
+        ];
+    }
+
+    public function getListData()
+    {
+        $users = $this->getAll();
+
+        $listData = [];
+
+        /** @var User $user */
+        foreach ($users as $user) {
+            $userData = [
                 [
-                    [
-                        'type' => 'checkbox',
-                        'value' => ''
-                    ],
-                    [
-                        'type' => 'text',
-                        'value' => '1'
-                    ],
-                    [
-                        'type' => 'text',
-                        'value' => 'Laurent'
-                    ],
-                    [
-                        'type' => 'text',
-                        'value' => 'Bassin'
-                    ],
-                    [
-                        'type' => 'text',
-                        'value' => 'laurent@bassin.info'
-                    ],
-                    [
-                        'type' => 'action',
-                        'id' => 1
-                    ]
+                    'type' => 'checkbox',
+                    'value' => ''
                 ],
                 [
-                    [
-                        'type' => 'checkbox',
-                        'value' => ''
-                    ],
-                    [
-                        'type' => 'text',
-                        'value' => '2'
-                    ],
-                    [
-                        'type' => 'text',
-                        'value' => 'Laurent'
-                    ],
-                    [
-                        'type' => 'text',
-                        'value' => 'Bassin'
-                    ],
-                    [
-                        'type' => 'text',
-                        'value' => 'laurent@bassin.info'
-                    ],
-                    [
-                        'type' => 'action',
-                        'id' => 2
-                    ]
+                    'type' => 'text',
+                    'value' => $user->getId()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $user->getFirstname()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $user->getLastname()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $user->getEmail()
+                ],
+                [
+                    'type' => 'action',
+                    'id' => $user->getId()
                 ]
-            ]
-        ];
+            ];
+
+            $listData[] = $userData;
+        }
+
+        return $listData;
     }
 
 }
