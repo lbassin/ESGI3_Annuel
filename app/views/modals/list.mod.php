@@ -16,21 +16,27 @@ $data = $config['rows'];
             <th><?php echo $column; ?></th>
         <?php endforeach; ?>
     </tr>
-    <?php foreach ($data as $row): ?>
+    <?php if (!empty($data)): ?>
+        <?php foreach ($data as $row): ?>
+            <tr>
+                <?php foreach ($row as $column): ?>
+                    <?php if ($column['type'] == 'text'): ?>
+                        <td><?php echo $column['value']; ?></td>
+                    <?php elseif ($column['type'] == 'checkbox'): ?>
+                        <td><input type="checkbox"></td>
+                    <?php elseif ($column['type'] == 'action'): ?>
+                        <td><a href="<?php echo Helpers::getAdminRoute('user/edit') . $column['id']; ?>">Editer</a></td>
+                    <?php else: ?>
+                        <td></td>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </tr>
+        <?php endforeach; ?>
+    <?php else: ?>
         <tr>
-            <?php foreach ($row as $column): ?>
-                <?php if ($column['type'] == 'text'): ?>
-                    <td><?php echo $column['value']; ?></td>
-                <?php elseif ($column['type'] == 'checkbox'): ?>
-                    <td><input type="checkbox"></td>
-                <?php elseif ($column['type'] == 'action'): ?>
-                    <td><a href="<?php echo Helpers::getAdminRoute('user/edit') . $column['id']; ?>">Editer</a></td>
-                <?php else: ?>
-                    <td></td>
-                <?php endif; ?>
-            <?php endforeach; ?>
+            <td colspan="<?php echo count($config['struct']['header']); ?>" style="text-align: center;">No data</td>
         </tr>
-    <?php endforeach; ?>
+    <?php endif; ?>
 </table>
 
 

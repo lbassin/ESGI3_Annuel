@@ -13,27 +13,8 @@ class User extends BaseSql
     protected $status;
     protected $role;
 
-    public function __construct(
-        $id = -1,
-        $pseudo = null,
-        $firstname = null,
-        $lastname = null,
-        $email = null,
-        $password = null,
-        $avatar = null,
-        $role = null,
-        $status = 0
-    ) {
-        $this->setId($id);
-        $this->setPseudo($pseudo);
-        $this->setFirstname($firstname);
-        $this->setLastname($lastname);
-        $this->setEmail($email);
-        $this->setPassword($password);
-        $this->setAvatar($status);
-        $this->setStatus($status);
-        $this->setRole($role);
-
+    public function __construct()
+    {
         $this->foreignValues = ['role'];
 
         parent::__construct();
@@ -145,11 +126,7 @@ class User extends BaseSql
                             'type' => 'select',
                             'label' => 'Role :',
                             'class' => 'one-col',
-                            'options' => [ // Todo : Change to getRole()->getList();
-                                'Administrateur' => 0,
-                                'Moderateur' => 1,
-                                'Utilisateur' => 2
-                            ],
+                            'options' => $this->getRole()->getAllAsOptions(),
                             'value' => $this->getRole()->getId()
                         ]
                     ]
@@ -246,61 +223,48 @@ class User extends BaseSql
                     'Action'
                 ]
             ],
-            'rows' => [
+            'rows' => $this->getListData()
+        ];
+    }
+
+    public function getListData()
+    {
+        $users = $this->getAll();
+
+        $listData = [];
+
+        foreach ($users as $user) {
+            $userData = [
                 [
-                    [
-                        'type' => 'checkbox',
-                        'value' => ''
-                    ],
-                    [
-                        'type' => 'text',
-                        'value' => '1'
-                    ],
-                    [
-                        'type' => 'text',
-                        'value' => 'Laurent'
-                    ],
-                    [
-                        'type' => 'text',
-                        'value' => 'Bassin'
-                    ],
-                    [
-                        'type' => 'text',
-                        'value' => 'laurent@bassin.info'
-                    ],
-                    [
-                        'type' => 'action',
-                        'id' => 1
-                    ]
+                    'type' => 'checkbox',
+                    'value' => ''
                 ],
                 [
-                    [
-                        'type' => 'checkbox',
-                        'value' => ''
-                    ],
-                    [
-                        'type' => 'text',
-                        'value' => '2'
-                    ],
-                    [
-                        'type' => 'text',
-                        'value' => 'Laurent'
-                    ],
-                    [
-                        'type' => 'text',
-                        'value' => 'Bassin'
-                    ],
-                    [
-                        'type' => 'text',
-                        'value' => 'laurent@bassin.info'
-                    ],
-                    [
-                        'type' => 'action',
-                        'id' => 2
-                    ]
+                    'type' => 'text',
+                    'value' => $user->getId()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $user->getFirstname()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $user->getLastname()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $user->getEmail()
+                ],
+                [
+                    'type' => 'action',
+                    'id' => $user->getId()
                 ]
-            ]
-        ];
+            ];
+
+            $listData[] = $userData;
+        }
+
+        return $listData;
     }
 
 }

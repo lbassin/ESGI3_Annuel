@@ -40,7 +40,7 @@ class UserControllerBack
             $user->save();
         } catch (Exception $ex) {
             Session::addError($ex->getMessage());
-            die;
+            Helpers::redirectBack();
         }
 
         Session::addSuccess('User successfully created');
@@ -59,8 +59,9 @@ class UserControllerBack
         $user = new User();
         $user->populate(['id' => $userId]);
 
-        if ($user->getId() < 0) {
-            die('User not found');
+        if ($user->getId() == null) {
+            Session::addError('User ' . $userId . ' not found');
+            Helpers::redirectBack();
         }
 
         $view->assign('user', $user);

@@ -22,7 +22,7 @@ class BaseSql
     {
         $pdo = Db::getInstance();
 
-        if ($this->id == -1) {
+        if (!isset($this->id)) {
             $data = [];
             unset($this->columns['id']);
 
@@ -113,4 +113,17 @@ class BaseSql
         }
     }
 
+    public function getAll()
+    {
+        $db = Db::getInstance();
+
+        $sql = 'SELECT * FROM ' . $this->table;
+
+        $query = $db->query($sql);
+        $query->setFetchMode(PDO::FETCH_CLASS, $this->table);
+
+        $entities = $query->fetchAll();
+
+        return $entities;
+    }
 }

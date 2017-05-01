@@ -19,6 +19,14 @@ class Helpers
         return '/' . ADMIN_PATH . '/' . $path . '/';
     }
 
+    public static function redirectBack()
+    {
+        if (!empty($_SERVER['HTTP_REFERER'])) {
+            $path = $_SERVER['HTTP_REFERER'];
+            self::redirect($path);
+        }
+    }
+
     public static function redirect($path)
     {
         header('Location: ' . $path);
