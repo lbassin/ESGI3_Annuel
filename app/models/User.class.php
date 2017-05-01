@@ -20,16 +20,6 @@ class User extends BaseSql
         parent::__construct();
     }
 
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
     public function getPassword()
     {
         return $this->password;
@@ -63,7 +53,7 @@ class User extends BaseSql
         return [
             'struct' => [
                 'method' => 'post',
-                'action' => Helpers::getAdminRoute('user/add'),
+                'action' => Helpers::getAdminRoute('user/save'),
                 'class' => '',
                 'submit' => 'Sauvegarder',
                 'file' => 1
@@ -72,6 +62,10 @@ class User extends BaseSql
                 [
                     'label' => 'Utilisateur',
                     'fields' => [
+                        'id' => [
+                            'type' => 'hidden',
+                            'value' => $this->getId()
+                        ],
                         'pseudo' => [
                             'type' => 'text',
                             'label' => 'Pseudo :',
@@ -135,6 +129,16 @@ class User extends BaseSql
         ];
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
     public function getPseudo()
     {
         return $this->pseudo;
@@ -192,7 +196,13 @@ class User extends BaseSql
     public function getRole()
     {
         if (!isset($this->role)) {
-            return new Role;
+            if (!isset($this->id_role)) {
+                return new Role;
+            }
+
+            $role = new Role;
+            $role->populate(['id' => $this->id_role]);
+            return $role;
         }
         return $this->role;
     }
@@ -233,6 +243,7 @@ class User extends BaseSql
 
         $listData = [];
 
+        /** @var User $user */
         foreach ($users as $user) {
             $userData = [
                 [

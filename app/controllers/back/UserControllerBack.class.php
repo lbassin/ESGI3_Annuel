@@ -22,7 +22,7 @@ class UserControllerBack
         $view->assign('user', $user);
     }
 
-    public function addAction($params)
+    public function saveAction($params)
     {
         $user = new User();
         $errors = $user->validate($params);
@@ -43,7 +43,7 @@ class UserControllerBack
             Helpers::redirectBack();
         }
 
-        Session::addSuccess('User successfully created');
+        Session::addSuccess('User successfully saved');
         Helpers::redirect(Helpers::getAdminRoute('user'));
     }
 

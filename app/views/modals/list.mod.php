@@ -34,7 +34,7 @@ $data = $config['rows'];
         <?php endforeach; ?>
     <?php else: ?>
         <tr>
-            <td colspan="<?php echo count($config['struct']['header']); ?>" style="text-align: center;">No data</td>
+            <td colspan="<?php echo count($config['struct']['header']); ?>">No data</td>
         </tr>
     <?php endif; ?>
 </table>

@@ -29,7 +29,6 @@ class BaseSql
             $sqlCol = null;
             $sqlKey = null;
             foreach ($this->columns as $column => $value) {
-
                 if (in_array($column, $this->foreignValues)) {
                     $id = $this->$column->getId();
                     $column = 'id_' . $column;
@@ -57,7 +56,14 @@ class BaseSql
             $data = [];
             $sqlSet = [];
             foreach ($this->columns as $column => $key) {
-                $data[$column] = $this->$column;
+                if (in_array($column, $this->foreignValues)) {
+                    $id = $this->$column->getId();
+                    $column = 'id_' . $column;
+                    $data[$column] = $id;
+                } else {
+                    $data[$column] = $this->$column;
+                }
+
                 $sqlSet[] = $column . '=:' . $column;
             }
 
