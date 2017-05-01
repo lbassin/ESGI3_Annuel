@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Backoffice</title>
-        <link rel="stylesheet" type="text/css" href="app/assets/css/admin.css">
+        <link rel="stylesheet" type="text/css" href="<?php echo Helpers::getAsset('css/admin.css'); ?>">
         <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     </head>
     <body>
@@ -17,7 +17,7 @@
                 <a class="nav-link">Comments</a>
                 <a class="nav-link">Médias</a>
                 <a class="nav-link">Styles</a>
-                <a class="nav-link">Users</a>
+                <a class="nav-link" href="<?php echo Helpers::getAdminRoute('user'); ?>">Users</a>
                 <a class="nav-link">Plugins</a>
             </nav>
 
@@ -27,7 +27,7 @@
                 </div>
 
                 <a class="nav-link">Mon compte</a>
-                <a class="nav-link">Acceès front</a>
+                <a class="nav-link">Accès front</a>
 
                 <a href="#" class="logout">Logout</a>
             </div>
@@ -50,10 +50,25 @@
             </header>
         </div>
 
-        <div class="container">
-            <span>test</span>
+        <div id="back-office" class="container">
+            <div style="background: red;">
+                <ul>
+                    <?php foreach ($this->getErrors() as $message): ?>
+                        <li><?php echo $message; ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+            <div style="background: green;">
+                <ul>
+                    <?php foreach ($this->getSuccess() as $message): ?>
+                        <li><?php echo $message; ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+
+            <?php include $this->view; ?>
         </div>
 
-        <script type="text/javascript" src="app/assets/js/admin.js"></script>
+        <script type="text/javascript" src="<?php echo Helpers::getAsset('js/admin.js'); ?>"></script>
     </body>
 </html>

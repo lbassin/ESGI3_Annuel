@@ -7,6 +7,7 @@ class View
     protected $view;
     protected $template;
     protected $data = [];
+    protected $notifications = [];
 
     public function __construct($type, $view = 'index', $template = 'frontend')
     {
@@ -48,10 +49,34 @@ class View
         $this->data[$key] = $value;
     }
 
+    public function includeModal($modal, $config)
+    {
+        $filename = 'app/views/modals/' . $modal . '.mod.php';
+        if (!file_exists($filename)) {
+            die("Le modal n'existe pas");
+        }
+        include $filename;
+    }
+
+    public function getErrors()
+    {
+        $errors = Session::getErrors();
+        Session::resetErrors();
+
+        return $errors;
+    }
+
+    public function getSuccess()
+    {
+        $success = Session::getSuccess();
+        Session::resetSuccess();
+
+        return $success;
+    }
+
     public function __destruct()
     { // = renderer
         extract($this->data);
-
 
         include $this->template;
     }

@@ -3,6 +3,9 @@
   margin: 0;
   box-sizing: border-box; }
 
+img {
+  max-width: 100%; }
+
 nav {
   width: 70%;
   margin: auto;
@@ -93,5 +96,13 @@ nav {
     .two-col-picture .col.small {
       width: 40%;
       padding: 5%; }
+
+@media (max-width: 850px) {
+  .two-col-picture {
+    width: 100%; }
+    .two-col-picture .col.large {
+      width: 100%; }
+    .two-col-picture .col.small {
+      width: 100%; } }
 
 /*# sourceMappingURL=app.css.map */

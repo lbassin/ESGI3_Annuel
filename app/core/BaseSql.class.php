@@ -3,8 +3,8 @@
 class BaseSql
 {
 
+    protected $foreignValues = [];
     private $db;
-
     private $table;
     private $columns;
 
@@ -22,14 +22,21 @@ class BaseSql
     {
         $pdo = Db::getInstance();
 
-        if ($this->id == -1) {
+        if (!isset($this->id)) {
             $data = [];
             unset($this->columns['id']);
 
             $sqlCol = null;
             $sqlKey = null;
             foreach ($this->columns as $column => $value) {
-                $data[$column] = $this->$column;
+                if (in_array($column, $this->foreignValues)) {
+                    $id = $this->$column->getId();
+                    $column = 'id_' . $column;
+                    $data[$column] = $id;
+                } else {
+                    $data[$column] = $this->$column;
+                }
+
                 $sqlCol .= ',' . $column;
                 $sqlKey .= ',:' . $column;
             }
@@ -42,18 +49,26 @@ class BaseSql
                 " VALUES " .
                 "(" . $sqlKey . ");"
             );
+
             $query->execute($data);
         } else {
 
             $data = [];
             $sqlSet = [];
             foreach ($this->columns as $column => $key) {
-                $data[$column] = $this->$column;
+                if (in_array($column, $this->foreignValues)) {
+                    $id = $this->$column->getId();
+                    $column = 'id_' . $column;
+                    $data[$column] = $id;
+                } else {
+                    $data[$column] = $this->$column;
+                }
+
                 $sqlSet[] = $column . '=:' . $column;
             }
 
             $query = $pdo->prepare(
-                "UPDATE " . $this->table . ' SET date_updated = sysdate(), ' . implode(',',
+                "UPDATE " . $this->table . ' SET updated_at = sysdate(), ' . implode(',',
                     $sqlSet) . ' WHERE id = :id;'
             );
             $query->execute($data);
@@ -87,4 +102,34 @@ class BaseSql
         }
     }
 
+    public function fill(array $data)
+    {
+        foreach ($data as $field => $value) {
+            $functionName = 'set' . ucfirst($field);
+
+            if (!method_exists($this, $functionName)) {
+                continue;
+            }
+
+            if (in_array($field, $this->foreignValues)) {
+                continue;
+            }
+
+            $this->{$functionName}($value);
+        }
+    }
+
+    public function getAll()
+    {
+        $db = Db::getInstance();
+
+        $sql = 'SELECT * FROM ' . $this->table;
+
+        $query = $db->query($sql);
+        $query->setFetchMode(PDO::FETCH_CLASS, $this->table);
+
+        $entities = $query->fetchAll();
+
+        return $entities;
+    }
 }

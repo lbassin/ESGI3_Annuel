@@ -1,6 +1,6 @@
 <?php
 
-class IndexControllerAdmin
+class IndexControllerBack
 {
 
     public function indexAction($params)
