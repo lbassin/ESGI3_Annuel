@@ -39,11 +39,11 @@ class UserControllerBack
         try {
             $user->save();
         } catch (Exception $ex) {
-            // TODO Add error message (flash)
-            die($ex->getMessage());
+            Session::addError($ex->getMessage());
+            die;
         }
 
-        // TODO Add success message (flash)
+        Session::addSuccess('User successfully created');
         Helpers::redirect(Helpers::getAdminRoute('user'));
     }
 
