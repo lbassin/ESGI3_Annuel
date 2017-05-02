@@ -3,9 +3,12 @@
 class ArticleControllerBack
 {
 
-    public function indexAction($params)
+    public function indexAction()
     {
-        Helpers::debug([__DIR__, __CLASS__, __FUNCTION__, $params]);
+        $view = new View('back', 'article/index', 'admin');
+
+        $article = new Article();
+        $view->assign('article', $article);
     }
 
     public function viewAction(){
@@ -13,7 +16,10 @@ class ArticleControllerBack
     }
 
     public function newAction(){
+        $view = new View('back', 'article/new', 'admin');
 
+        $article = new Article();
+        $view->assign('article', $article);
     }
 
     public function editAction(){

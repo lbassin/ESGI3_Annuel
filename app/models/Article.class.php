@@ -111,4 +111,53 @@ class Article extends BaseSql
     {
         $this->id_user = $id_user;
     }
+
+    public function getFormConfig()
+    {
+        return [
+            'struct' => [
+                'method' => 'post',
+                'action' => '',
+                'class' => '',
+                'submit' => 'Sauvegarder'
+            ],
+            'groups' => [
+                [
+                    'label' => 'Article',
+                    'fields' => [
+                        'title' => [
+                            'type' => 'text',
+                            'label' => 'Titre de l\'article :',
+                            'class' => 'two-col'
+                        ],
+                        'content' => [
+                            'type' => 'textarea',
+                            'label' => 'Contenue de l\'article :',
+                            'class' => 'one-col'
+                        ],
+                        'url' => [
+                            'type' => 'text',
+                            'label' => 'Url :',
+                            'class' => 'one-col'
+                        ]
+                    ]
+                ],
+                [
+                    'label' => 'Configuration',
+                    'fields' => [
+                        'publish' => [
+                            'type' => 'checkbox',
+                            'label' => 'Publié :',
+                            'class' => 'one-col'
+                        ],
+                        'visibility' => [
+                            'type' => 'text',
+                            'label' => 'Visibilité :',
+                            'class' => 'one-col'
+                        ]
+                    ]
+                ],
+            ]
+        ];
+    }
 }
