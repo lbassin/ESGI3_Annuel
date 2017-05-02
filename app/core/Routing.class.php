@@ -33,7 +33,11 @@ class Routing
         $this->setAction();
         $this->setParams();
 
-        $this->runRoute();
+        if ($this->isInstalled() || $this->isSetupRoute()) {
+            $this->runRoute();
+        } else {
+            $this->runSetup();
+        }
     }
 
     /**
@@ -92,6 +96,26 @@ class Routing
         $this->params = array_merge(array_values($this->uriExploded), $_POST);
     }
 
+    public function isInstalled()
+    {
+        return false; // TODO
+    }
+
+    public function isSetupRoute()
+    {
+        return ($this->controllerName == 'SetupControllerBack');
+    }
+
+    public function runRoute()
+    {
+        if ($this->checkRoute()) {
+            $controller = new $this->controllerName();
+            $controller->{$this->actionName}($this->params);
+        } else {
+            $this->page404();
+        }
+    }
+
     /**
      * @return bool
      */
@@ -114,20 +138,16 @@ class Routing
         return true;
     }
 
-    public function runRoute()
-    {
-        if ($this->checkRoute()) {
-            $controller = new $this->controllerName();
-            $controller->{$this->actionName}($this->params);
-        } else {
-            $this->page404();
-        }
-    }
-
     public function page404()
     {
         die("Error 404");
         // TODO
+    }
+
+    public function runSetup()
+    {
+        $setupPath = Helpers::getAdminRoute('setup');
+        Helpers::redirect($setupPath);
     }
 
 }
