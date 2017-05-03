@@ -111,7 +111,6 @@
         <?php Session::resetErrors(); ?>
     <?php endif; ?>
 
-<<<<<<< HEAD
     <?php if (count(Session::getSuccess()) > 0): ?>
         <div class="flash-messages success">
             <ul>

@@ -11,23 +11,7 @@ class Article extends BaseSql
     protected $id_user;
     protected $id_survey;
 
-    public function __construct(
-        $id = -1,
-        $title = null,
-        $content = null,
-        $url = null,
-        $visibility = 0,
-        $publish = 0,
-        $id_user = null
-    )
-    {
-        $this->setId($id);
-        $this->setTitle($title);
-        $this->setContent($content);
-        $this->setUrl($url);
-        $this->setVisibility($visibility);
-        $this->setPublish($publish);
-        $this->setIdUser($id_user);
+    public function __construct() {
 
         parent::__construct();
     }
@@ -112,15 +96,28 @@ class Article extends BaseSql
         $this->id_user = $id_user;
     }
 
-    public function getFormArticle() {
-        return [
-            'struct' => [
-                'method' => 'post',
-                'action' => Helpers::getAdminRoute('article/save'),
-                'class' => '',
+    public function validate(array $data) {
+        $title = $data['title'];
+        $content = $data['content'];
+        $url = $data['url'];
 
-            ]
-        ];
+        if (empty($title)) {
+            Session::addError("Veillez indiquer un titre a votre article");
+        } else if (strlen($title) > 255) {
+            Session::addError("Le titre est trop long");
+        }
+
+        if (empty($content)) {
+            Session::addError("Veillez indiquer un contenue a votre article");
+        } else if (strlen($title) > 255) {
+            Session::addError("Le titre est trop long");
+        }
+
+        if (empty($url)) {
+            Session::addError("Veillez indiquer une url a votre article");
+        } elseif (strlen($url) > 255) {
+            Session::addError("L'url est trop long");
+        }
     }
 
     public function getFormConfig()
@@ -162,7 +159,7 @@ class Article extends BaseSql
                             'class' => 'one-col'
                         ],
                         'visibility' => [
-                            'type' => 'text',
+                            'type' => 'checkbox',
                             'label' => 'Visibilité :',
                             'class' => 'one-col'
                         ]

@@ -26,10 +26,27 @@ class ArticleControllerBack
     }
 
     public function saveAction($params) {
-        var_dump($params);
+        $article = new Article();
+
+        $article->validate($params);
+
+        if (count(Session::getErrors()) > 0) {
+            Helpers::redirectBack();
+        }
+
+        if (!isset($params['publish'])) {
+            $params['publish'] = 0;
+        }
+
+        if (!isset($params['visibility'])) {
+            $params['visibility'] = 0;
+        }
+
+        $article->fill($params);
+        $article->save();
     }
 
-    public function deleteAction(){
+    public function deleteAction() {
 
     }
 }
