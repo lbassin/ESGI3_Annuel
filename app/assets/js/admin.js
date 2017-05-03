@@ -15,7 +15,8 @@ if (loginButton != null) {
 
 var navToggle = document.querySelector(".nav-toggle");
 var navSettingsToggle = document.querySelector(".nav-settings-toogle");
-var slideNav = document.querySelector(".slide-nav");
+var slideNavLarge = document.querySelector(".slide-nav-large");
+var slideNavSmall = document.querySelector(".slide-nav-small");
 var settingsNav = document.querySelector(".settings-nav");
 var container = document.querySelector(".container");
 
@@ -25,8 +26,10 @@ if (navToggle != null) {
     {
         navToggle.classList.toggle('open');
         container.classList.toggle("slide-out-container");
-        slideNav.classList.toggle("slide-out");
-        slideNav.classList.toggle("is-visible");
+        slideNavLarge.classList.toggle("slide-out");
+        slideNavLarge.classList.toggle("is-visible");
+        slideNavSmall.classList.toggle("is-not-visible");
+        //slideNavMini.style.display = 'none';
     });
 }
 
