@@ -1,6 +1,5 @@
 <?php
 session_start();
-require "conf.inc.php";
 
 spl_autoload_register(function ($class) {
     if (file_exists("app/core/" . $class . ".class.php")) {
@@ -11,5 +10,16 @@ spl_autoload_register(function ($class) {
         }
     }
 });
+
+if (!file_exists('conf.inc.php')) {
+    define('ADMIN_PATH', 'admin');
+
+    $controller = new SetupControllerBack();
+    $controller->indexAction();
+
+    die;
+} else {
+    include "conf.inc.php";
+}
 
 $route = new Routing();

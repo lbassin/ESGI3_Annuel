@@ -1,7 +1,7 @@
 <form method="<?php echo $config['struct']['method']; ?>"
       action="<?php echo $config['struct']['action']; ?>"
       class="<?php echo $config['struct']['class']; ?>"
-      enctype="<?php echo(isset($config['struct']['file']) ? 'multipart/form-data' : 'text/plain'); ?>"
+    <?php echo(isset($config['struct']['file']) ? 'enctype="multipart/form-data"' : 'text/plain'); ?>
 >
 
     <?php foreach ($config['groups'] as $group): ?>

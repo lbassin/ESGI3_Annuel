@@ -1,0 +1,13 @@
+<?php
+
+define("DS", DIRECTORY_SEPARATOR);
+define("BASE_PATH", "/");
+define("BASE_PATH_PATTERN", "");
+
+define("DB_USER", "root");
+define("DB_PWD", "root_password!");
+define("DB_HOST", "mysql-server");
+define("DB_NAME", "qwarkz");
+define("DB_PORT", "3306");
+
+define("ADMIN_PATH", "admin");

@@ -33,11 +33,11 @@ class Routing
         $this->setAction();
         $this->setParams();
 
-        if ($this->isInstalled() || $this->isSetupRoute()) {
+//        if ($this->isInstalled() || $this->isSetupRoute()) {
             $this->runRoute();
-        } else {
-            $this->runSetup();
-        }
+//        } else {
+//            $this->runSetup();
+//        }
     }
 
     /**
@@ -96,16 +96,6 @@ class Routing
         $this->params = array_merge(array_values($this->uriExploded), $_POST);
     }
 
-    public function isInstalled()
-    {
-        return false; // TODO
-    }
-
-    public function isSetupRoute()
-    {
-        return ($this->controllerName == 'SetupControllerBack');
-    }
-
     public function runRoute()
     {
         if ($this->checkRoute()) {
@@ -142,6 +132,16 @@ class Routing
     {
         die("Error 404");
         // TODO
+    }
+
+    public function isInstalled()
+    {
+        return false; // TODO
+    }
+
+    public function isSetupRoute()
+    {
+        return ($this->controllerName == 'SetupControllerBack');
     }
 
     public function runSetup()
