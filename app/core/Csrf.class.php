@@ -25,9 +25,9 @@ class Csrf
     */
     static function check($sToken)
     {
-        if ($_SESSION['token'] != $sToken) {
+        if ($_SESSION['token']['token'] != $sToken) {
             return false;
-        } elseif ($_SESSION['user_agent'] != $_SERVER['HTTP_USER_AGENT'] || $_SESSION['ip_address'] != $_SERVER['REMOTE_ADDR'] || $_SESSION['token_expiration'] < time()) {
+        } elseif ( $_SESSION['token']['user_agent'] != $_SERVER['HTTP_USER_AGENT'] || $_SESSION['token']['ip_address'] != $_SERVER['REMOTE_ADDR'] || $_SESSION['token']['token_expiration'] < time()) {
             return false;
         } else {
             return true;
