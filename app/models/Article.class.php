@@ -112,14 +112,25 @@ class Article extends BaseSql
         $this->id_user = $id_user;
     }
 
+    public function getFormArticle() {
+        return [
+            'struct' => [
+                'method' => 'post',
+                'action' => Helpers::getAdminRoute('article/save'),
+                'class' => '',
+
+            ]
+        ];
+    }
+
     public function getFormConfig()
     {
         return [
             'struct' => [
-                'method' => 'post',
-                'action' => '',
+                'method' => 'POST',
+                'action' => Helpers::getAdminRoute('article/save'),
                 'class' => '',
-                'submit' => 'Sauvegarder'
+                'submit' => 'Sauvegarder votre article'
             ],
             'groups' => [
                 [
