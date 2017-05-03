@@ -17,10 +17,7 @@ class LoginControllerBack
         $user->populate(['email' => $params['email']]);
         if ($user->getId() && Hash::check($params['password'], $user->getPassword())) {
             if ($user->getStatus() != 0) {
-                /**
-                 * TODO after merge
-                 * Csrf::generate();
-                 */
+                Csrf::generate();
                 $view = new View('back', 'index', 'admin');
             }
         } else {

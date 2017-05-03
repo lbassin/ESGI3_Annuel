@@ -17,7 +17,6 @@ class Hash
      */
     static function check($sPassword, $sHash)
     {
-        echo 1;
         return (password_verify($sPassword, $sHash) === true) ? true : false ;
     }
     // ---
