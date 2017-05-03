@@ -8,11 +8,12 @@ class Csrf
     static function generate()
     {
         session_regenerate_id(true);
-        $sToken = sha1(uniqid(rand(), true)).date('YmdHis');
-        $_SESSION['token'] = $sToken;
-        $_SESSION['token_expiration'] = time() + 21600;
-        $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
-        $_SESSION['ip_address'] = $_SERVER['REMOTE_ADDR'];
+        Session::setToken([
+            'token' => sha1(uniqid(rand(), true)).date('YmdHis'),
+            'token_expiration' => time() + 21600,
+            'user_agent' => $_SERVER['HTTP_USER_AGENT'],
+            'ip_address' => $_SERVER['REMOTE_ADDR'],
+        ]);
     }
 
     /*

@@ -2,6 +2,13 @@
 
 class Session
 {
+    public static function setToken($aToken)
+    {
+        foreach ($aToken as $key => $value) {
+            $_SESSION['token'][$key] = $value;
+        }
+    }
+
     public static function addSuccess($message)
     {
         $notifications = self::getNotifications();
