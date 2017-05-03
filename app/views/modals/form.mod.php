@@ -1,7 +1,7 @@
 <form method="<?php echo $config['struct']['method']; ?>"
       action="<?php echo $config['struct']['action']; ?>"
       class="<?php echo $config['struct']['class']; ?>"
-      enctype="<?php echo(isset($config['struct']['file']) ? 'multipart/form-data' : 'text/plain'); ?>"
+    <?php echo(isset($config['struct']['file']) ? 'enctype="multipart/form-data"' : ''); ?>
 >
 
     <?php foreach ($config['groups'] as $group): ?>
@@ -39,7 +39,7 @@
                         <input type="<?php echo $attributs['type']; ?>"
                                name="<?php echo $name; ?>"
                                value="1"
-                            <?php echo ($attributs['value'] == true) ? 'checked="checked"' : ''; ?>
+                            <?php echo (isset($attributs['value']) && $attributs['value'] == true) ? 'checked="checked"' : ''; ?>
                         >
                     </label>
                 <?php endif; ?>
