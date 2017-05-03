@@ -3,6 +3,7 @@
       class="<?php echo $config['struct']['class']; ?>"
       enctype="<?php echo(isset($config['struct']['file']) ? 'multipart/form-data' : 'text/plain'); ?>"
 >
+    <input type="hidden" name="token" value="<?php echo $_SESSION['token']['token']; ?>">
 
     <?php foreach ($config['groups'] as $group): ?>
         <h2><?php echo $group['label']; ?></h2>
