@@ -8,7 +8,7 @@
     </head>
     <body>
         <div class="container-login" style="height: 100vh;display: flex;align-items: center;justify-content: center;">
-            <div class="login-container">
+            <!--<div class="login-container">
                 <div class="brand">
                     <div class="logo">
                         <svg width="200px" height="200px" >
@@ -23,16 +23,12 @@
                     S144.229,62.683,140.773,59.227z"/>
                         </svg>
                     </div>
-                </div>
-                <div class="field-container">
-                    <input type="text" placeholder="Identifiant">
-                </div>
-                <br>
-                <div class="field-container">
-                    <input type="password" placeholder="Mot de passe">
-                </div>
-
-                <input type="submit" class="login-submit" value="Se connecter">
+                </div>-->
+                <?php
+                    $user = new User();
+                    $this->includeModal('form', $user->getFormLogin());
+                ?>
+                <a href="<?php echo Helpers::getAdminRoute('login/forget'); ?>">Oubli</a>
             </div>
         </div>
 

@@ -48,6 +48,38 @@ class User extends BaseSql
         return [];
     }
 
+    public function getFormLogin()
+    {
+        return [
+            'struct' => [
+                'method' => 'post',
+                'action' => Helpers::getAdminRoute('login/login'),
+                'class' => '',
+                'submit' => 'Connexion',
+                'file' => 0
+            ],
+            'groups' => [
+                [
+                    'label' => '',
+                    'fields' => [
+                        'email' => [
+                            'type' => 'email',
+                            'label' => 'Identifiant',
+                            'class' => '',
+                            'value' => ''
+                        ],
+                        'password' => [
+                            'type' => 'password',
+                            'label' => 'Mot de passe',
+                            'class' => '',
+                            'value' => ''
+                        ],
+                    ]
+                ]
+            ]
+        ];
+    }
+
     public function getFormConfig()
     {
         return [

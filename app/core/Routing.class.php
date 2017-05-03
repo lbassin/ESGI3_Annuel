@@ -24,6 +24,10 @@ class Routing
         $this->uriExploded = explode("/", $uri);
 
         if ($this->checkBackOffice()) {
+            // check if connected to access to backoffice
+            if (!isset($_SESSION['id']) && !in_array('login', $this->uriExploded)) {
+                $this->page404();
+            }
             $this->handleAdmin();
         } else {
             $this->handleFront();
@@ -50,8 +54,6 @@ class Routing
 
     public function handleAdmin()
     {
-        // TODO : check if connected
-
         $this->controllerArea = 'back';
 
         unset($this->uriExploded[0]);

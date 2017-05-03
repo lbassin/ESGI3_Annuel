@@ -18,7 +18,7 @@ class Session
         self::setNotifications($notifications);
     }
 
-    private function getNotifications()
+    private static function getNotifications()
     {
         $notifications = [];
         if (isset($_SESSION['notifications'])) {
@@ -28,7 +28,7 @@ class Session
         return $notifications;
     }
 
-    private function setNotifications($notifications)
+    private static function setNotifications($notifications)
     {
         $_SESSION['notifications'] = $notifications;
     }
