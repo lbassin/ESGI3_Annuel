@@ -64,9 +64,26 @@
             </header>
         </div>
 
+        <div id="back-office" class="container">
+            <div style="background: red;">
+                <ul>
+                    <?php foreach ($this->getErrors() as $message): ?>
+                        <li><?php echo $message; ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+            <div style="background: green;">
+                <ul>
+                    <?php foreach ($this->getSuccess() as $message): ?>
+                        <li><?php echo $message; ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+
         <div class="container">
             <?php include $this->view; ?>
         </div>
+            <?php Session::resetErrors(); ?>
 
         <script type="text/javascript" src="<?php echo Helpers::getAsset('js/admin.js'); ?>"></script>
     </body>
