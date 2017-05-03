@@ -17,10 +17,11 @@ class LoginControllerBack
         $user->populate(['email' => $params['email']]);
         if ($user->getId() && Hash::check($params['password'], $user->getPassword())) {
             if ($user->getStatus() != 0) {
-                Csrf::generate();
-                //$view = new View('back', 'index', 'admin');
-                // Lancer la session d'authentification
-                //Csrf::generate();
+                /**
+                 * TODO after merge
+                 * Csrf::generate();
+                 */
+                $view = new View('back', 'index', 'admin');
             }
         } else {
             die('Connexion impossible');
