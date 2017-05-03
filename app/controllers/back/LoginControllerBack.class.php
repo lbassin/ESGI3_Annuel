@@ -14,6 +14,23 @@ class LoginControllerBack
             die('Formulaire de connexion non remplis correctement');
         }
         $user = new User();
+        $user->populate(['email' => $params['email']]);
+        if ($user->getId() && Hash::check($params['password'], $user->getPassword())) {
+            if ($user->getStatus() != 0) {
+                Csrf::generate();
+                //$view = new View('back', 'index', 'admin');
+                // Lancer la session d'authentification
+                //Csrf::generate();
+            }
+        } else {
+            die('Connexion impossible');
+        }
+    }
+
+    public function ForgetAction($params)
+    {
+
+        $user = new User();
         $user->populate(['email' => $params['email'], 'password' => $params['password']]);
 
         if ($user->getId() < 0) {
