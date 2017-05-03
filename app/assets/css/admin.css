@@ -307,13 +307,21 @@ a {
 }
 
 .container-login {
-    height: calc(100vh - 55px);
+    /*height: calc(100vh - 55px);*/
     margin: 0px;
     box-sizing: none;
     width: 100%;
     position: absolute;
     padding: 15px;
     transition: all 0.3s ease-in-out;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container-login-form {
+    margin-top: 80px;
 }
 
 .login-container {
@@ -466,8 +474,7 @@ input:-webkit-autofill {
 }
 
 .login-submit{
-    bottom: 35px;
-    position: absolute;
+    bottom: 45px;
     outline: none;
     height: 40px;
     text-align: center;
@@ -481,6 +488,9 @@ input:-webkit-autofill {
     font-size: 12px;
     font-weight: bold;
     cursor: pointer;
+    display: block;
+    margin: auto;
+    margin-top: 30px;
     -webkit-transition: all 0.25s ease;
     transition: all 0.3s ease-in-out;
 }
@@ -489,6 +499,44 @@ input:-webkit-autofill {
     background-color: #212121;
     color: #fff;
     transition: all 0.3s ease-in-out;
+}
+
+
+.button-login-page {
+    bottom: 12px;
+    margin: auto;
+    text-align: center;
+    margin-top: 20px;
+    display: block;
+}
+
+.link-password-forget {
+    width: 70%;
+}
+
+.back-login-button {
+    width: 25%;
+}
+
+.hover-link-center {
+    font-size: 13px;
+}
+
+.hover-link-center:after {
+    display:block;
+    content: '';
+    border-bottom: solid 1px #0e0e0e;
+    transform: scaleX(0);
+    transition: transform 250ms ease-in-out;
+}
+
+.hover-link-center:hover:after {
+    transform: scaleX(1);
+}
+
+
+#container-password-forget {
+    display: none;
 }
 
 
