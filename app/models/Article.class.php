@@ -127,7 +127,7 @@ class Article extends BaseSql
     {
         return [
             'struct' => [
-                'method' => 'POST',
+                'method' => 'post',
                 'action' => Helpers::getAdminRoute('article/save'),
                 'class' => '',
                 'submit' => 'Sauvegarder votre article'
