@@ -2,13 +2,26 @@
 
 class SetupControllerBack
 {
+    function __construct()
+    {
+        $step = 1;
+        if (isset($_GET['step'])) {
+            $step = $_GET['step'];
+        }
 
-    public function indexAction()
+        $function = 'step' . $step;
+        if (method_exists($this, $function)) {
+            $this->$function();
+        }
+    }
+
+
+    public function step1()
     {
         $view = new View('back', 'setup/index', 'setup');
     }
 
-    public function infosAction()
+    public function step2()
     {
         $view = new View('back', 'setup/infos', 'setup');
 
@@ -16,9 +29,16 @@ class SetupControllerBack
         $view->assign('config', $config);
     }
 
-    public function saveAction($params)
+    public function step3()
     {
+        $view = new View('back', 'setup/database', 'setup');
 
+        $_SESSION['data_config'] = $_POST;
+        //$this->createFileConfig($params);
+    }
+
+    private function createFileConfig($params)
+    {
         $sampleConfig = new File('conf.inc.php.sample');
         $config = $sampleConfig->getContent();
 
@@ -33,10 +53,8 @@ class SetupControllerBack
             $config = str_replace('{{' . $key . '}}', $value, $config);
         }
 
-        $newConfig = new File('conf.inc.php');
+        $newConfig = new File('conf.inc.php', 'w+');
         $newConfig->setContent($config);
-
-        die;
     }
 
 }

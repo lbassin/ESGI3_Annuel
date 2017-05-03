@@ -67,10 +67,6 @@ class File
             return true;
         }
 
-        if (!$this->exists()) {
-            return false;
-        }
-
         $file = fopen($this->filename, $this->mode);
 
         if (!$file) {

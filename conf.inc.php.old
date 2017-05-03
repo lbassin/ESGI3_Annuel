@@ -11,3 +11,22 @@ define("DB_NAME", "qwarkz");
 define("DB_PORT", "3306");
 
 define("ADMIN_PATH", "admin");
+
+
+//define("DS", DIRECTORY_SEPARATOR);
+
+//define("BASE_PATH", "{{CONF_BASE_PATH}}");
+//define("BASE_PATH_PATTERN", "{{CONF_BASE_PATH_PATTERN}}");
+//define("ADMIN_PATH", "{{CONF_ADMIN_PATH}}");
+
+//define("DB_USER", "{{CONF_DB_USER}}");
+//define("DB_PWD", "{{CONF_DB_PASSWORD}}");
+//define("DB_HOST", "{{CONF_DB_HOST}}");
+//define("DB_NAME", "{{CONF_DB_NAME}}");
+//define("DB_PORT", "{{CONF_DB_PORT}}");
+
+//define("SMTP_HOST", "{{CONF_SMTP_HOST}}");
+//define("SMTP_USER", "{{CONF_SMTP_USER}}");
+//define("SMTP_PASSWORD", "{{CONF_SMTP_PASSWORD}}");
+//define("SMTP_PORT", "{{CONF_SMTP_PORT}}");
+//define("SMTP_SENDER", "{{CONF_SMTP_SENDER}}");

@@ -1,3 +1,3 @@
-<a href="<?php echo Helpers::getAdminRoute('setup/infos'); ?>">
+<a href="?step=2">
     <button>Install now</button>
 </a>

@@ -12,11 +12,8 @@ spl_autoload_register(function ($class) {
 });
 
 if (!file_exists('conf.inc.php')) {
-    define('ADMIN_PATH', 'admin');
-
+    require 'app/controllers/SetupControllerBack.class.php';
     $controller = new SetupControllerBack();
-    $controller->indexAction();
-
     die;
 } else {
     include "conf.inc.php";

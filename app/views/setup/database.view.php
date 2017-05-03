@@ -1,0 +1,1 @@
+Start database installation via ajax request

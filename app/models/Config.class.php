@@ -67,7 +67,7 @@ class Config extends BaseSql
         return [
             'struct' => [
                 'method' => 'post',
-                'action' => Helpers::getAdminRoute('setup/save'),
+                'action' => '?step=3',
                 'class' => '',
                 'submit' => 'Next step'
             ],
