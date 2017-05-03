@@ -18,6 +18,8 @@ class LoginControllerBack
         if ($user->getId() && Hash::check($params['password'], $user->getPassword())) {
             if ($user->getStatus() != 0) {
                 Csrf::generate();
+                $_SESSION['id'] = $user->getId();
+                var_dump($_SESSION);
                 $view = new View('back', 'index', 'admin');
             }
         } else {
@@ -27,7 +29,6 @@ class LoginControllerBack
 
     public function ForgetAction($params)
     {
-
         $user = new User();
         $user->populate(['email' => $params['email'], 'password' => $params['password']]);
 
