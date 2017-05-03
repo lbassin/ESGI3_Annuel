@@ -35,9 +35,10 @@ a {
     margin: 0px;
     box-sizing: none;
     margin-top: 55px;
-    width: 100%;
+    width: calc(100vw - 60px);
     position: absolute;
     padding: 15px;
+    right: 0;
     transition: all 0.3s ease-in-out;
 }
 
@@ -55,14 +56,29 @@ a {
 
 .slide-nav {
     background: #212121;
-    opacity: 0;
     position: absolute;
-    width: 250px;
     height: 100%;
     top: 0;
     left: -100%;
     transition: all 0.3s ease-in-out;
     margin-top: 55px;
+    overflow: auto;
+    position: fixed;
+    z-index: 10;
+}
+
+.slide-nav-large {
+    opacity: 0;
+    width: 250px;
+    height: calc(100vh - 55px);
+    left: -100%;
+}
+
+.slide-nav-small {
+    opacity: 1;
+    width: 60px;
+    height: calc(100vh - 55px);
+    left: 0;
 }
 
 .slide-out {
@@ -76,22 +92,28 @@ a {
 
 .is-visible {
     opacity: 1;
-    overflow: auto;
-    height: calc(100vh - 55px);
-    position: fixed;
-    z-index: 10;
+
+}
+
+.is-not-visible {
+    opacity: 0;
 }
 
 .nav-link {
-    padding: 15px 0px 15px 30px;
+    padding: 15px 22px 15px 22px;
     color: #ffffff;
     display: block;
     transition: all 0.3s ease-in-out;
 }
 
-.nav-link:hover {
+.slide-nav-large .nav-link:hover {
     background-color: #353535;
     padding-left: 40px;
+    transition: all 0.3s ease-in-out;
+}
+
+.slide-nav-small .nav-link:hover {
+    background-color: #353535;
     transition: all 0.3s ease-in-out;
 }
 
@@ -191,6 +213,12 @@ a {
     padding-bottom: 15px;
     text-align: -webkit-center;
     color: white;
+}
+
+.settings-nav .nav-link:hover {
+    background-color: #353535;
+    padding-left: 40px;
+    transition: all 0.3s ease-in-out;
 }
 
 .settings-nav:after {

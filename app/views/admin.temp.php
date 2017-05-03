@@ -4,21 +4,35 @@
         <meta charset="UTF-8">
         <title>Backoffice</title>
         <link rel="stylesheet" type="text/css" href="<?php echo Helpers::getAsset('css/admin.css'); ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo Helpers::getAsset('font-awesome/css/font-awesome.min.css'); ?>">
         <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     </head>
     <body>
         <div class="wrapper">
-            <nav class="slide-nav">
-                <a class="nav-link">Dashboard</a>
-                <a class="nav-link">Updates</a>
-                <a class="nav-link">Pages</a>
-                <a class="nav-link">Articles</a>
-                <a class="nav-link">Catégories</a>
-                <a class="nav-link">Comments</a>
-                <a class="nav-link">Médias</a>
-                <a class="nav-link">Styles</a>
-                <a class="nav-link" href="<?php echo Helpers::getAdminRoute('user'); ?>">Users</a>
-                <a class="nav-link">Plugins</a>
+            <nav class="slide-nav slide-nav-large">
+                <a class="nav-link"><i class="fa fa-pie-chart" aria-hidden="true"></i>&emsp;Dashboard</a>
+                <a class="nav-link"><i class="fa fa-arrow-up" aria-hidden="true"></i>&emsp;Updates</a>
+                <a class="nav-link"><i class="fa fa-file" aria-hidden="true"></i>&emsp;Pages</a>
+                <a class="nav-link"><i class="fa fa-file-text" aria-hidden="true"></i>&emsp;Articles</a>
+                <a class="nav-link"><i class="fa fa-list-ul" aria-hidden="true"></i>&emsp;Catégories</a>
+                <a class="nav-link"><i class="fa fa-pencil" aria-hidden="true"></i>&emsp;Comments</a>
+                <a class="nav-link"><i class="fa fa-video-camera" aria-hidden="true"></i>&emsp;Médias</a>
+                <a class="nav-link"><i class="fa fa-magic" aria-hidden="true"></i>&emsp;Styles</a>
+                <a class="nav-link"><i class="fa fa-user" aria-hidden="true"></i>&emsp;Users</a>
+                <a class="nav-link"><i class="fa fa-plus-circle" aria-hidden="true"></i>&emsp;Plugins</a>
+            </nav>
+
+            <nav class="slide-nav slide-nav-small is-visible">
+                <a class="nav-link"><i class="fa fa-pie-chart" aria-hidden="true"></i></a>
+                <a class="nav-link"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                <a class="nav-link"><i class="fa fa-file" aria-hidden="true"></i></a>
+                <a class="nav-link"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+                <a class="nav-link"><i class="fa fa-list-ul" aria-hidden="true"></i></a>
+                <a class="nav-link"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                <a class="nav-link"><i class="fa fa-video-camera" aria-hidden="true"></i></a>
+                <a class="nav-link"><i class="fa fa-magic" aria-hidden="true"></i></a>
+                <a class="nav-link"><i class="fa fa-user" aria-hidden="true"></i></a>
+                <a class="nav-link"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
             </nav>
 
             <div class="settings-nav">
@@ -26,8 +40,8 @@
                     Settings
                 </div>
 
-                <a class="nav-link">Mon compte</a>
-                <a class="nav-link">Accès front</a>
+                <a class="nav-link"><i class="fa fa-cog" aria-hidden="true"></i>&emsp;Mon compte</a>
+                <a class="nav-link"><i class="fa fa-eye" aria-hidden="true"></i>&emsp;Accès front</a>
 
                 <a href="#" class="logout">Logout</a>
             </div>
@@ -50,23 +64,8 @@
             </header>
         </div>
 
-        <div id="back-office" class="container">
-            <div style="background: red;">
-                <ul>
-                    <?php foreach ($this->getErrors() as $message): ?>
-                        <li><?php echo $message; ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-            <div style="background: green;">
-                <ul>
-                    <?php foreach ($this->getSuccess() as $message): ?>
-                        <li><?php echo $message; ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-
-            <?php include $this->view; ?>
+        <div class="container">
+            <span>test</span>
         </div>
 
         <script type="text/javascript" src="<?php echo Helpers::getAsset('js/admin.js'); ?>"></script>
