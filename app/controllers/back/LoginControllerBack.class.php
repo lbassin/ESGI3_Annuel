@@ -5,12 +5,13 @@ class LoginControllerBack
 
     public function indexAction($params)
     {
+        Csrf::generate();
         $view = new View('back', 'index', 'login');
     }
 
     public function loginAction($params)
     {
-        if (empty($params['email']) || empty($params['password'])) {
+        if (empty($params['email']) || empty($params['password']) || !Csrf::check($params['token'])) {
             die('Formulaire de connexion non remplis correctement');
         }
         $user = new User();
@@ -19,8 +20,7 @@ class LoginControllerBack
             if ($user->getStatus() != 0) {
                 Csrf::generate();
                 $_SESSION['id'] = $user->getId();
-                var_dump($_SESSION);
-                $view = new View('back', 'index', 'admin');
+                Helpers::redirect(Helpers::getAdminRoute('index'));
             }
         } else {
             die('Connexion impossible');
@@ -49,7 +49,8 @@ class LoginControllerBack
     {
         session_unset();
         session_destroy();
-        $view = new View('back', 'index', 'login');
+        Helpers::redirect(BASE_PATH);
+        exit();
     }
 
     public function unsubscribeAction()
