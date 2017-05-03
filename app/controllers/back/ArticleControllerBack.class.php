@@ -26,6 +26,10 @@ class ArticleControllerBack
 
     }
 
+    public function saveAction($params) {
+        var_dump($params);
+    }
+
     public function deleteAction(){
 
     }
