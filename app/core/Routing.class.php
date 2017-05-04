@@ -70,6 +70,7 @@ class Routing
 
     public function page404()
     {
+        header('HTTP/1.0 404 Not Found');
         die("Error 404");
         // TODO
     }
@@ -115,8 +116,14 @@ class Routing
     {
         $this->params = [];
 
+        $jsonPost = file_get_contents('php://input');
+        $jsonData = json_decode($jsonPost, true);
+        if (!is_array($jsonData)) {
+            $jsonData = [];
+        }
+
+        $this->params[self::PARAMS_POST] = array_merge($_POST, $jsonData);
         $this->params[self::PARAMS_URL] = array_values($this->uriExploded);
-        $this->params[self::PARAMS_POST] = $_POST;
         $this->params[self::PARAMS_GET] = $this->getData;
         $this->params[self::PARAMS_FILE] = $_FILES;
     }
