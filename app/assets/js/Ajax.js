@@ -50,9 +50,3 @@ Ajax.prototype.post = function (url, data, success, error, progress) {
     this.request.setRequestHeader("Content-Type", "application/json");
     this.request.send(data);
 };
-
-var ajax = new Ajax();
-
-ajax.post('http://127.0.0.1:8080', 12, function (data) {
-    console.log(data);
-});
