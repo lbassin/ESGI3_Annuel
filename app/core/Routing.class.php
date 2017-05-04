@@ -53,7 +53,7 @@ class Routing
 
     private function setGetData($data)
     {
-        parse_str($data[1], $this->getData);
+        parse_str($data, $this->getData);
     }
 
     /**
