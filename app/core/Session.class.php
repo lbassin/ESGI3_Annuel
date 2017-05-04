@@ -75,4 +75,9 @@ class Session
         $notifications['error'] = [];
         self::setNotifications($notifications);
     }
+
+    public static function isLogged()
+    {
+        return isset($_SESSION['id']);
+    }
 }
