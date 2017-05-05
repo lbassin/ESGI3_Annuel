@@ -6,7 +6,7 @@
     <meta name="description" content="<?php echo(isset($description) ? $description : ''); ?>">
 
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,900|Montserrat" rel="stylesheet">
-    <link rel="stylesheet" href="themes/templates/default/assets/css/app.css">
+    <link href="themes/templates/default/assets/css/app.css">
 </head>
 <body>
 <nav>
@@ -94,5 +94,6 @@
 
     </div>
 </div>
+*/ ?>
 </body>
 </html>
