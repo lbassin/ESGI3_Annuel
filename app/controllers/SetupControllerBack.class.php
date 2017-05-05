@@ -2,6 +2,13 @@
 
 class SetupControllerBack
 {
+    private $sqlSetup = [
+        'user',
+        'article',
+        'category',
+        'seed'
+    ];
+
     function __construct()
     {
         $step = 1;
@@ -34,6 +41,8 @@ class SetupControllerBack
         $view = new View('back', 'setup/database', 'setup');
 
         $_SESSION['data_config'] = $_POST;
+
+        $view->assign('sqlSetup', $this->sqlSetup);
         //$this->createFileConfig($params);
     }
 
