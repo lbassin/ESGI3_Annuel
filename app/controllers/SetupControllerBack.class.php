@@ -57,22 +57,60 @@ class SetupControllerBack
         $_SESSION['data_config'] = $_POST;
 
         $view->assign('setupFiles', $this->schemaSetup);
-        //$this->createFileConfig($params);
+    }
+
+    public function step4()
+    {
+        $view = new View('back', 'setup/files', 'setup');
+
+        try {
+            $this->createHtaccessFile($_SESSION['data_config']);
+            $this->createFileConfig($_SESSION['data_config']);
+        } catch (Exception $ex) {
+            $view->assign('error', $ex->getMessage());
+        }
+    }
+
+    private function createHtaccessFile($params)
+    {
+        $sample = new File('.htaccess.sample');
+        $content = $sample->getContent();
+
+        $content = str_replace('{{CONF_BASE_PATH}}', $params['base_path'], $content);
+
+        $newFile = new File('.htaccess', 'w+');
+        $newFile->setContent($content);
+    }
+
+    private function createFileConfig($params)
+    {
+        $sampleConfig = new File('conf.inc.php.sample');
+        $config = $sampleConfig->getContent();
+
+        foreach ($params as $setting => $value) {
+            $key = 'CONF_' . strtoupper($setting);
+
+            if ($key == 'CONF_BASE_PATH') {
+                $value = ltrim($value, '/');
+                $config = str_replace('{{' . $key . '_PATTERN}}', $value, $config);
+            }
+
+            $config = str_replace('{{' . $key . '}}', $value, $config);
+        }
+
+        $newConfig = new File('conf.inc.php', 'w+');
+        $newConfig->setContent($config);
+
+        include 'conf.inc.php';
     }
 
     public function stepInstallDatabase()
     {
-        $_SESSION['data_config']['db_host'] = 'mysql-server';
-        $_SESSION['data_config']['db_port'] = '3306';
-        $_SESSION['data_config']['db_user'] = 'root';
-        $_SESSION['data_config']['db_password'] = 'root_password!';
-
-
         define('DB_HOST', $_SESSION['data_config']['db_host']);
         define('DB_PORT', $_SESSION['data_config']['db_port']);
         define('DB_USER', $_SESSION['data_config']['db_user']);
         define('DB_PWD', $_SESSION['data_config']['db_password']);
-        define('DB_NAME', 'demo');
+        define('DB_NAME', $_SESSION['data_config']['db_name']);
 
         $jsonData = $this->getPostData();
 
@@ -113,25 +151,4 @@ class SetupControllerBack
 
         return $jsonData;
     }
-
-    private function createFileConfig($params)
-    {
-        $sampleConfig = new File('conf.inc.php.sample');
-        $config = $sampleConfig->getContent();
-
-        foreach ($params as $setting => $value) {
-            $key = 'CONF_' . strtoupper($setting);
-
-            if ($key == 'CONF_BASE_PATH') {
-                $value = ltrim($value, '/');
-                $config = str_replace('{{' . $key . '_PATTERN}}', $value, $config);
-            }
-
-            $config = str_replace('{{' . $key . '}}', $value, $config);
-        }
-
-        $newConfig = new File('conf.inc.php', 'w+');
-        $newConfig->setContent($config);
-    }
-
 }

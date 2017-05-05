@@ -5,6 +5,9 @@
     <div id="log">
 
     </div>
+    <a href="/index.php?step=4" id="nextButton" style="display: none;">
+        <button>Next</button>
+    </a>
 </div>
 <script>
     var schemaSetup = [
@@ -23,12 +26,13 @@
         document.getElementById('setupDone').innerText = setupInstalled;
 
         if (!setup) {
+            document.getElementById('nextButton').style.display = 'block';
             return true;
         }
 
         document.getElementById('log').innerHTML += setup + ' : ';
 
-        ajax.post('http://127.0.0.1:8080/admin/setup?step=installDatabase', {'setup': setup}, function (data) {
+        ajax.post('http://127.0.0.1:8080/index.php?step=installDatabase', {'setup': setup}, function (data) {
             setupInstalled += 1;
 
             document.getElementById('log').innerHTML += ' Done<br>';
