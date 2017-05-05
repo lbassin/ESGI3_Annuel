@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Backoffice</title>
-    <link href="<?php echo Helpers::getAsset('css/admin.css'); ?>">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 
-    <!--    <script src="--><?php //echo Helpers::getAsset('js/Ajax.js'); ?><!--"></script>-->
+    <script src="../../app/assets/js/Ajax.js"></script>
 </head>
 <body>
 <div class="brand" style="position: relative;margin: 0;transform: none;left: 0;">

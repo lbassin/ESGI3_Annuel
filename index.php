@@ -11,7 +11,7 @@ spl_autoload_register(function ($class) {
     }
 });
 
-if (!file_exists('conf.inc.php')) {
+if (!file_exists('conf.inc.php') && !strpos($_SERVER['REQUEST_URI'], 'assets')) {
     require 'app/controllers/SetupControllerBack.class.php';
     $controller = new SetupControllerBack();
     die;

@@ -67,10 +67,13 @@ class File
             return true;
         }
 
+        if (!in_array($this->mode, ['w', 'w+', 'a', 'a+', 'x', 'x+']) && !file_exists($this->filename)) {
+            throw new Exception('File not found : ' . $this->filename);
+        }
         $file = fopen($this->filename, $this->mode);
 
         if (!$file) {
-            return false;
+            throw new Exception('File not found : ' . $this->filename);
         }
         $this->file = $file;
 
@@ -88,8 +91,12 @@ class File
 
     function __destruct()
     {
-        if ($this->open()) {
-            fclose($this->file);
+        try {
+            if ($this->open()) {
+                fclose($this->file);
+            }
+        } catch (Exception $ex) {
+
         }
     }
 }
