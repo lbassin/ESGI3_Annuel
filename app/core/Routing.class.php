@@ -2,28 +2,43 @@
 
 class Routing
 {
+    const PARAMS_URL = 'url';
+    const PARAMS_POST = 'post';
+    const PARAMS_GET = 'get';
+    const PARAMS_FILE = 'files';
+
     /** @var array uriExploded */
     private $uriExploded;
-
     /** @var string controllerArea */
     private $controllerArea;
     /** @var string controllerName */
     private $controllerName;
     /** @var string actionName */
     private $actionName;
-
     /** @var array params */
-    private $params;
+    private $params = [];
+    /** @var array $getData */
+    private $getData = [];
 
     public function __construct()
     {
         $uri = $_SERVER["REQUEST_URI"];
         $uri = preg_replace("#" . BASE_PATH_PATTERN . "#i", "", $uri, 1);
+
+        $uriExplodedParams = explode('?', $uri);
+        if (isset($uriExplodedParams[1])) {
+            $this->setGetData($uriExplodedParams[1]);
+        }
+
+        $uri = $uriExplodedParams[0];
         $uri = trim($uri, "/");
 
         $this->uriExploded = explode("/", $uri);
 
         if ($this->checkBackOffice()) {
+            if (!Session::isLogged() && !in_array('login', $this->uriExploded)) {
+                $this->page404();
+            }
             $this->handleAdmin();
         } else {
             $this->handleFront();
@@ -33,11 +48,12 @@ class Routing
         $this->setAction();
         $this->setParams();
 
-//        if ($this->isInstalled() || $this->isSetupRoute()) {
-            $this->runRoute();
-//        } else {
-//            $this->runSetup();
-//        }
+        $this->runRoute();
+    }
+
+    private function setGetData($data)
+    {
+        parse_str($data, $this->getData);
     }
 
     /**
@@ -54,8 +70,6 @@ class Routing
 
     public function handleAdmin()
     {
-        // TODO : check if connected
-
         $this->controllerArea = 'back';
 
         unset($this->uriExploded[0]);
@@ -93,7 +107,12 @@ class Routing
 
     public function setParams()
     {
-        $this->params = array_merge(array_values($this->uriExploded), $_POST);
+        $this->params = [];
+
+        $this->params[self::PARAMS_URL] = array_values($this->uriExploded);
+        $this->params[self::PARAMS_POST] = $_POST;
+        $this->params[self::PARAMS_GET] = $this->getData;
+        $this->params[self::PARAMS_FILE] = $_FILES;
     }
 
     public function runRoute()

@@ -16,7 +16,7 @@ class Helpers
     public static function getAdminRoute($path)
     {
         $path = rtrim($path, '/');
-        return '/' . ADMIN_PATH . '/' . $path . '/';
+        return BASE_PATH . ADMIN_PATH . '/' . $path . '/';
     }
 
     public static function redirectBack()
