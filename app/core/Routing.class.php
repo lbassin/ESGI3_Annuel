@@ -68,6 +68,13 @@ class Routing
         return ($this->uriExploded[0] === ADMIN_PATH);
     }
 
+    public function page404()
+    {
+        header('HTTP/1.0 404 Not Found');
+        die("Error 404");
+        // TODO
+    }
+
     public function handleAdmin()
     {
         $this->controllerArea = 'back';
@@ -109,8 +116,14 @@ class Routing
     {
         $this->params = [];
 
+        $jsonPost = file_get_contents('php://input');
+        $jsonData = json_decode($jsonPost, true);
+        if (!is_array($jsonData)) {
+            $jsonData = [];
+        }
+
+        $this->params[self::PARAMS_POST] = array_merge($_POST, $jsonData);
         $this->params[self::PARAMS_URL] = array_values($this->uriExploded);
-        $this->params[self::PARAMS_POST] = $_POST;
         $this->params[self::PARAMS_GET] = $this->getData;
         $this->params[self::PARAMS_FILE] = $_FILES;
     }
@@ -145,12 +158,6 @@ class Routing
         }
 
         return true;
-    }
-
-    public function page404()
-    {
-        die("Error 404");
-        // TODO
     }
 
     public function isInstalled()
