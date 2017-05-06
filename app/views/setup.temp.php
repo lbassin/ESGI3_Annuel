@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <title>Backoffice</title>
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link href="app/assets/css/admin.css" rel="stylesheet">
 
-    <script src="../../app/assets/js/Ajax.js"></script>
+    <script src="app/assets/js/Ajax.js"></script>
 </head>
 <body>
 <div class="brand" style="position: relative;margin: 0;transform: none;left: 0;">
