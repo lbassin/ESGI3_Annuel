@@ -117,13 +117,13 @@ svg path {
 }
 
 body {
-    margin: 0px;
+    margin: 0;
     font-family: 'Raleway', sans-serif;
 }
 
 .container {
     height: calc(100vh - 55px);
-    margin: 0px;
+    margin: 0;
     width: 100%;
     position: absolute;
     padding: 15px;
@@ -137,19 +137,19 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    box-shadow: 0px 0px 10px -4px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 10px -4px rgba(0, 0, 0, 0.8);
     border-radius: 10px;
     transition: all 0.3s ease-in-out;
     position: relative;
 }
 
 .container-login:hover {
-    box-shadow: 0px 0px 10px -2px rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 10px -2px rgba(0, 0, 0, 0.8);
 }
 
 .logo {
     background-color: white;
-    box-shadow: 0px 0px 5px 0px rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 5px 0 rgba(255, 255, 255, 0.8);
 }
 
 .field-container:after {
@@ -175,7 +175,7 @@ body {
 }
 
 .field-container input:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0px 1000px white inset;
+    -webkit-box-shadow: 0 0 0 1000px white inset;
 }
 
 .login-submit {

@@ -1,0 +1,29 @@
+@import "admin/menu";
+@import "admin/form";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Raleway', sans-serif;
+}
+
+.container {
+  height: calc(100vh - 55px);
+  margin: 0;
+  margin-top: 55px;
+  width: calc(100vw - 60px);
+  position: absolute;
+  padding: 15px;
+  right: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.slide-out-container {
+  width: calc(100vw - 250px);
+  margin-left: 250px;
+}

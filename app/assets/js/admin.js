@@ -34,6 +34,6 @@ if (navToggle != null) {
 }
 
 navSettingsToggle.addEventListener("click", function () {
-     settingsNav.classList.toggle("settings-visible");
+    settingsNav.classList.toggle("is-visible");
      console.log('test');
 });
