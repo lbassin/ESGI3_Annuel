@@ -55,7 +55,7 @@ if (false) {
 <div class="container" style="height: 100vh;display: flex;align-items: center;justify-content: center;">
     <span class="container-login">
         <?php include 'app/assets/logo.html'; ?>
-        <form id="container-login-form" class="container-login-form">
+        <form method="post" id="container-login-form" class="container-login-form">
             <div class="field-container">
                 <input type="text" name="email" placeholder="Identifiant">
             </div>
@@ -64,7 +64,7 @@ if (false) {
                 <input type="password" name="password" placeholder="Mot de passe">
             </div>
 
-            <input type="submit" class="login-submit" value="Se connecter">
+            <input type="submit" class="login-submit" id="login" value="Se connecter">
             <a id="forget-password-button" class="link-password-forget button-login-page">
                 <span class="hover-link-center">Mot de passe oublié</span>
             </a>
@@ -75,7 +75,7 @@ if (false) {
                 <input type="password" placeholder="Adresse email">
             </div>
 
-            <input type="submit" class="login-submit" value="Envoyer">
+            <input type="submit" class="login-submit" id="forget" value="Envoyer">
             <a id="back-login-button" class="back-login-button button-login-page">
                 <span class="hover-link-center">Retour</span>
             </a>
@@ -88,6 +88,6 @@ if (false) {
     var loginUrlPost = '<?php echo Helpers::getAdminRoute('login/login'); ?>';
     var csrfToken = '<?php echo $csrfToken; ?>';
 </script>
-
+<script src="<?php echo Helpers::getAsset('js/login.js'); ?>"></script>
 </body>
 </html>
