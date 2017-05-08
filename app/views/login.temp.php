@@ -43,7 +43,8 @@ $mail->Subject = 'Here is the subject';
 $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
 $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
-if(!$mail->send()) {
+//if(!$mail->send()) {
+if (false) {
     echo 'Message could not be sent.<br>';
     echo 'Mailer Error: ' . $mail->ErrorInfo;
 } else {
@@ -53,22 +54,22 @@ if(!$mail->send()) {
 <div class="container" style="height: 100vh;display: flex;align-items: center;justify-content: center;">
     <span class="container-login">
         <?php include 'app/assets/logo.html'; ?>
-        <span id="container-login-form" class="container-login-form">
-        <div class="field-container">
-            <input type="text" placeholder="Identifiant">
-        </div>
-        <br>
-        <div class="field-container">
-            <input type="password" placeholder="Mot de passe">
-        </div>
+        <form id="container-login-form" class="container-login-form">
+            <div class="field-container">
+                <input type="text" placeholder="Identifiant">
+            </div>
+            <br>
+            <div class="field-container">
+                <input type="password" placeholder="Mot de passe">
+            </div>
 
-        <input type="submit" class="login-submit" value="Se connecter">
-        <a id="forget-password-button" class="link-password-forget button-login-page">
-            <span class="hover-link-center">Mot de passe oublié</span>
-        </a>
-        </span>
+            <input type="submit" class="login-submit" value="Se connecter">
+            <a id="forget-password-button" class="link-password-forget button-login-page">
+                <span class="hover-link-center">Mot de passe oublié</span>
+            </a>
+        </form>
 
-        <span id="container-password-forget" class="container-login-form">
+        <form id="container-password-forget" class="container-login-form">
             <div class="field-container">
                 <input type="password" placeholder="Adresse email">
             </div>
@@ -77,10 +78,11 @@ if(!$mail->send()) {
             <a id="back-login-button" class="back-login-button button-login-page">
                 <span class="hover-link-center">Retour</span>
             </a>
-        </span>
-    </div>
+        </form>
+    </span>
+</div>
 </div>
 
-<script type="text/javascript" src="<?php echo Helpers::getAsset('js/admin.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo Helpers::getAsset('js/login.js'); ?>"></script>
 </body>
 </html>
