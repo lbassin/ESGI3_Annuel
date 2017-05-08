@@ -35,5 +35,9 @@ if (navToggle != null) {
 
 navSettingsToggle.addEventListener("click", function () {
     settingsNav.classList.toggle("is-visible");
-     console.log('test');
 });
+
+var flashMessages = document.querySelector('.flash-messages');
+setTimeout(function () {
+    flashMessages.className += ' is-not-visible';
+}, 2500);

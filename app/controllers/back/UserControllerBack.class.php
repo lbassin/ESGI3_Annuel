@@ -11,11 +11,13 @@ class UserControllerBack
         $view->assign('user', $user);
     }
 
-    public function viewAction(){
+    public function viewAction()
+    {
 
     }
 
-    public function newAction(){
+    public function newAction()
+    {
         $view = new View('back', 'user/new', 'admin');
 
         $user = new User();
@@ -25,16 +27,20 @@ class UserControllerBack
     public function saveAction($params)
     {
         $user = new User();
-        $errors = $user->validate($params);
 
+        if (!isset($params['post'])) {
+            die('error');
+        }
+        $errors = $user->validate($params);
         if (count($errors) > 0) {
             // Add errors to view
             // Redirect back
             die('error');
         }
+        $postData = $params['post'];
 
-        $user->fill($params);
-        $user->setRole($params['role']);
+        $user->fill($postData);
+        $user->setRole($postData['role']);
 
         try {
             $user->save();
@@ -49,8 +55,10 @@ class UserControllerBack
 
     public function editAction($params)
     {
+        $params = $params['url'];
         if (!isset($params[0])) {
-            die('Missing id');
+            Session::addError('Missing Id');
+            Helpers::redirectBack();
         }
         $userId = $params[0];
 
@@ -67,7 +75,8 @@ class UserControllerBack
         $view->assign('user', $user);
     }
 
-    public function deleteAction(){
+    public function deleteAction()
+    {
 
     }
 }
