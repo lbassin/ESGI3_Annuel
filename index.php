@@ -1,6 +1,5 @@
 <?php
 session_start();
-require "conf.inc.php";
 
 spl_autoload_register(function ($class) {
     if (file_exists("app/core/" . $class . ".class.php")) {
@@ -11,5 +10,13 @@ spl_autoload_register(function ($class) {
         }
     }
 });
+
+if (!file_exists('conf.inc.php') && !strpos($_SERVER['REQUEST_URI'], 'assets')) {
+    require 'app/controllers/SetupControllerBack.class.php';
+    $controller = new SetupControllerBack();
+    die;
+} else {
+    include "conf.inc.php";
+}
 
 $route = new Routing();

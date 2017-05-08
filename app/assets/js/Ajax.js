@@ -1,5 +1,5 @@
 var Ajax = function () {
-    this.request = new XMLHttpRequest();
+    this.request = null;
 };
 
 Ajax.prototype.successEvent = function (event) {
@@ -23,7 +23,6 @@ Ajax.prototype.setCallback = function (success, error, progress) {
             if (self.request.status === 200) {
                 success(self.request.response, self.request.status);
             } else {
-                console.log(self.request);
                 error(self.request, self.request.status, self.request.responseURL);
             }
         } else if (self.request.readyState === XMLHttpRequest.LOADING) {
@@ -33,6 +32,8 @@ Ajax.prototype.setCallback = function (success, error, progress) {
 };
 
 Ajax.prototype.get = function (url, success, error, progress) {
+    this.request = new XMLHttpRequest();
+
     this.setCallback(success, error, progress);
 
     this.request.open('GET', url);
@@ -40,6 +41,8 @@ Ajax.prototype.get = function (url, success, error, progress) {
 };
 
 Ajax.prototype.post = function (url, data, success, error, progress) {
+    this.request = new XMLHttpRequest();
+
     this.setCallback(success, error, progress);
 
     if (typeof data === "object") {

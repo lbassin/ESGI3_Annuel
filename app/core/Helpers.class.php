@@ -32,4 +32,9 @@ class Helpers
         header('Location: ' . $path);
         exit();
     }
+
+    public static function error500()
+    {
+        header('HTTP/1.1 500 Internal Server Error');
+    }
 }
