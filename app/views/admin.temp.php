@@ -44,7 +44,7 @@
         <a class="nav-link"><i class="fa fa-cog" aria-hidden="true"></i>&emsp;Mon compte</a>
         <a class="nav-link"><i class="fa fa-eye" aria-hidden="true"></i>&emsp;Accès front</a>
 
-        <a href="#" class="logout">Logout</a>
+        <a href="<?php echo Helpers::getAdminRoute('login/logout'); ?>" class="logout">Logout</a>
     </div>
 
     <header class="header">

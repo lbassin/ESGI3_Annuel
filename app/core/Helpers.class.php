@@ -38,4 +38,14 @@ class Helpers
     {
         header('HTTP/1.1 500 Internal Server Error');
     }
+
+    public static function error403($message = null)
+    {
+        if (is_array($message)) {
+            $message = json_encode($message);
+        }
+
+        header('HTTP/1.1 403 Forbidden');
+        die($message);
+    }
 }

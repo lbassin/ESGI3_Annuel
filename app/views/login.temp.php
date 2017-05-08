@@ -5,6 +5,7 @@
     <title>Backoffice</title>
     <link rel="stylesheet" type="text/css" href="<?php echo Helpers::getAsset('css/login.css'); ?>">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <script src="<?php echo Helpers::getAsset('js/Ajax.js'); ?>"></script>
 </head>
 <body>
 
@@ -56,11 +57,11 @@ if (false) {
         <?php include 'app/assets/logo.html'; ?>
         <form id="container-login-form" class="container-login-form">
             <div class="field-container">
-                <input type="text" placeholder="Identifiant">
+                <input type="text" name="email" placeholder="Identifiant">
             </div>
             <br>
             <div class="field-container">
-                <input type="password" placeholder="Mot de passe">
+                <input type="password" name="password" placeholder="Mot de passe">
             </div>
 
             <input type="submit" class="login-submit" value="Se connecter">
@@ -83,6 +84,10 @@ if (false) {
 </div>
 </div>
 
-<script type="text/javascript" src="<?php echo Helpers::getAsset('js/login.js'); ?>"></script>
+<script>
+    var loginUrlPost = '<?php echo Helpers::getAdminRoute('login/login'); ?>';
+    var csrfToken = '<?php echo $csrfToken; ?>';
+</script>
+
 </body>
 </html>
