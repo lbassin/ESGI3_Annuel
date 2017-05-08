@@ -22,12 +22,12 @@ $mail = new PHPMailer;
 //$mail->SMTPDebug = 2;
 
 $mail->isSMTP();                                      // Set mailer to use SMTP
-$mail->Host = 'smtp.qwarkz.fr;';  // Specify main and backup SMTP servers
+$mail->Host = 'ssl0.ovh.net';  // Specify main and backup SMTP servers
 $mail->SMTPAuth = true;                               // Enable SMTP authentication
 $mail->Username = 'noreply@qwarkz.fr';                 // SMTP username
 $mail->Password = 'azertyuiop';                           // SMTP password
-$mail->SMTPSecure = false;                            // Enable TLS encryption, `ssl` also accepted
-$mail->Port = 585;                                    // TCP port to connect to
+$mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
+$mail->Port = 465;                                    // TCP port to connect to
 
 $mail->setFrom('noreply@qwarkz.fr', 'Qwarkz');
 $mail->addAddress('maxime.marquet1@gmail.com');     // Add a recipient
