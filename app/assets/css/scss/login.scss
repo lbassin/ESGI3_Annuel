@@ -1,15 +1,5 @@
+@import "base";
 @import "animated-logo";
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: 'Raleway', sans-serif;
-}
 
 .container {
   height: calc(100vh - 55px);
@@ -38,6 +28,8 @@ body {
 }
 
 .logo {
+  top: 40%;
+  left: 50%;
   background-color: white;
   box-shadow: 0 0 5px 0 rgba(255, 255, 255, 0.8);
 }

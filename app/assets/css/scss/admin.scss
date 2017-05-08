@@ -1,16 +1,6 @@
+@import "base";
 @import "admin/menu";
 @import "admin/form";
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: 'Raleway', sans-serif;
-}
 
 .container {
   height: calc(100vh - 55px);
