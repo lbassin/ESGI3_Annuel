@@ -107,5 +107,7 @@
     <?php endforeach; ?>
 
     <br>
-    <input type="submit" value="<?php echo $config['struct']['submit']; ?>">
+    <input type="submit"
+           class="<?php echo isset($config['struct']['submit-class']) ? $config['struct']['submit-class'] : ''; ?>"
+           value="<?php echo $config['struct']['submit']; ?>">
 </form>

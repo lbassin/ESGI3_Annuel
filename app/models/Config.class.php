@@ -69,7 +69,8 @@ class Config extends BaseSql
                 'method' => 'post',
                 'action' => '?step=3',
                 'class' => '',
-                'submit' => 'Next step'
+                'submit' => 'Next step',
+                'submit-class' => 'button'
             ],
             'groups' => [
                 'general' => [

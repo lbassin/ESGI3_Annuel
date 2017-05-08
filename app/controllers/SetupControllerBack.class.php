@@ -40,6 +40,7 @@ class SetupControllerBack
     public function step1()
     {
         $view = new View('back', 'setup/index', 'setup');
+        $view->assign('step', 1);
     }
 
     public function step2()
@@ -48,20 +49,58 @@ class SetupControllerBack
 
         $config = new Config();
         $view->assign('config', $config);
+        $view->assign('step', 2);
     }
 
     public function step3()
     {
+        $_SESSION['data_config'] = $_POST;
+        if (!$this->validateSetupInformation($_SESSION['data_config'])) {
+            Helpers::redirectBack();
+        }
+
         $view = new View('back', 'setup/database', 'setup');
 
-        $_SESSION['data_config'] = $_POST;
-
         $view->assign('setupFiles', $this->schemaSetup);
+        $view->assign('step', 3);
+    }
+
+    private function validateSetupInformation($data)
+    {
+        $errors = [];
+
+        $notEmpty = [
+            'name',
+            'base_path',
+            'admin_path',
+            'db_user',
+            'db_password',
+            'db_host',
+            'db_port',
+            'db_name'
+        ];
+
+        foreach ($notEmpty as $field) {
+            if (empty($data[$field])) {
+                $errors[$field] = 'Shouldn\'t be empty';
+            }
+        }
+
+        if (!Db::tryCredentials($data['db_host'], $data['db_user'], $data['db_password'], $data['db_name'], $data['db_port'])) {
+            $errors['global'][] = 'Fail to connect to database';
+        }
+
+        if (!empty($errors)) {
+            $_SESSION['errors'] = $errors;
+            return false;
+        }
+        return true;
     }
 
     public function step4()
     {
         $view = new View('back', 'setup/files', 'setup');
+        $view->assign('step', 4);
 
         try {
             $this->createHtaccessFile($_SESSION['data_config']);
@@ -102,6 +141,12 @@ class SetupControllerBack
         $newConfig->setContent($config);
 
         include 'conf.inc.php';
+    }
+
+    public function step5()
+    {
+        $view = new View('back', 'setup/success', 'setup');
+        $view->assign('step', 5);
     }
 
     public function stepInstallDatabase()
