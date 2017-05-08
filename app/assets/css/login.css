@@ -82,7 +82,6 @@ svg path {
         transform: scale(1);
     }
 }
-
 @keyframes rotate-0 {
     from {
         transform: rotate(0deg);
@@ -91,7 +90,6 @@ svg path {
         transform: rotate(360deg);
     }
 }
-
 @keyframes rotate-1 {
     from {
         transform: rotate(0deg);
@@ -100,7 +98,6 @@ svg path {
         transform: rotate(360deg);
     }
 }
-
 @keyframes rotate-2 {
     from {
         transform: rotate(0deg);
@@ -109,7 +106,6 @@ svg path {
         transform: rotate(-360deg);
     }
 }
-
 @keyframes rotate-3 {
     from {
         transform: rotate(0deg);
@@ -118,113 +114,88 @@ svg path {
         transform: rotate(0deg);
     }
 }
+.container {
+    height: calc(100vh - 55px);
+    margin: 0;
+    width: 100%;
+    position: absolute;
+    padding: 15px;
+    transition: all 0.3s ease-in-out;
+}
+
+.container-login {
+    height: 300px;
+    width: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    box-shadow: 0 0 10px -4px rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+}
+
+.container-login:hover {
+    box-shadow: 0 0 10px -2px rgba(0, 0, 0, 0.8);
+}
 
 .logo {
+    top: 40%;
     left: 50%;
-    margin-top: -90px;
+    background-color: white;
+    box-shadow: 0 0 5px 0 rgba(255, 255, 255, 0.8);
 }
 
-.setup {
-    margin: auto;
-    width: 30%;
-}
-
-.setup .header {
-    background: #333748;
-    border-radius: 10px 10px 0 0;
-    padding: 24px 14px;
-    margin-top: 180px;
-}
-
-.setup .header .breadcrumbs {
-    background: #ccc;
-    border-radius: 3px;
-    height: 6px;
-    position: relative;
-    width: 80%;
-    margin-left: 10%;
-}
-
-.setup .header .status-progress ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.setup .header .status-progress ul li {
-    margin-top: -18px;
-    float: left;
-    width: 20%;
-    text-align: center;
-}
-
-.setup .header .status-progress span {
-    background: #439ec4;
-    border-radius: 100%;
-    border: 2px solid #eee;
-    color: #fff;
-    display: inline-block;
-    height: 24px;
-    line-height: 21px;
-    position: relative;
-    text-align: center;
-    width: 24px;
-}
-
-.setup .header .status-progress span.current {
-    background: #43c47a;
-}
-
-.setup .content {
-    background: #fff;
-    border-radius: 0 0 10px 10px;
-    padding: 12px 32px;
-    box-shadow: 0 5px 10px rgba(100, 100, 100, 0.6);
-}
-
-.setup .content .two-col {
-    display: inline-block;
-    margin-right: 5%;
-}
-
-.setup .content p.justify {
-    text-align: justify;
-}
-
-.setup .content p.center {
+.field-container:after {
+    content: "";
+    display: block;
     width: 100%;
-    margin: auto;
-    text-align: center;
+    height: 4px;
+    margin-top: -1px;
+    border-width: 0 1px 1px 1px;
+    border-style: solid;
+    border-color: #212121;
 }
-
-.setup .content form .two-col {
-    display: inline-block;
-    margin-right: 5%;
-}
-
-.setup .content input[type="submit"] {
+.field-container input {
+    width: 100%;
+    margin: 0;
+    padding: 0 6px;
     border: none;
-    height: 26px;
+    outline: none;
+    background: transparent;
+    font: 16px/1 'Lato', san-serif;
+    color: #404040;
 }
 
-.setup .content .button {
-    background: #439ec4;
-    border-radius: 5px;
-    -webkit-box-shadow: 0 2px 0 #437dc4;
-    box-shadow: 0 2px 0 #437dc4;
-    color: #fff;
-    display: inline-block;
-    font-size: 14px;
+.field-container input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset;
+}
+
+.login-submit {
+    bottom: 35px;
+    position: absolute;
+    outline: none;
+    height: 40px;
+    text-align: center;
+    width: 130px;
+    border-radius: 40px;
+    background: #fff;
+    border: 2px solid #212121;
+    color: #212121;
+    letter-spacing: 1px;
+    text-shadow: 0;
+    font-size: 12px;
     font-weight: bold;
-    height: 21px;
-    line-height: 1.5em;
-    padding: 4px 24px;
-    width: auto;
-    text-decoration: none;
+    cursor: pointer;
+    -webkit-transition: all 0.25s ease;
+    transition: all 0.3s ease-in-out;
 }
 
-.setup .content .button:hover {
-    background: #437dc4;
+.login-submit:hover {
+    background-color: #212121;
+    color: #fff;
+    transition: all 0.3s ease-in-out;
 }
 
-/*# sourceMappingURL=setup.css.map */
+/*# sourceMappingURL=login.css.map */
