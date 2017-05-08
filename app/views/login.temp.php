@@ -22,15 +22,15 @@
             //$mail->SMTPDebug = 2;
 
             $mail->isSMTP();                                      // Set mailer to use SMTP
-            $mail->Host = 'smtp.qwarkz.fr;';  // Specify main and backup SMTP servers
+            $mail->Host = 'ssl0.ovh.net';  // Specify main and backup SMTP servers
             $mail->SMTPAuth = true;                               // Enable SMTP authentication
             $mail->Username = 'noreply@qwarkz.fr';                 // SMTP username
             $mail->Password = 'azertyuiop';                           // SMTP password
-            $mail->SMTPSecure = false;                            // Enable TLS encryption, `ssl` also accepted
-            $mail->Port = 585;                                    // TCP port to connect to
+            $mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
+            $mail->Port = 465;                                    // TCP port to connect to
 
             $mail->setFrom('noreply@qwarkz.fr', 'Qwarkz');
-            $mail->addAddress('maxime.marquet1@gmail.com');     // Add a recipient
+            $mail->addAddress('fabio.rocco@green-conseil.com');     // Add a recipient
             /*$mail->addReplyTo('info@example.com', 'Information');
             $mail->addCC('cc@example.com');
             $mail->addBCC('bcc@example.com');*/
@@ -81,10 +81,22 @@
                         <input type="password" placeholder="Mot de passe">
                     </div>
 
+                    <?php
+                        $user = new User();
+                        $this->includeModal('form', $user->getFormLogin());
+                    ?>
+
                     <input type="submit" class="login-submit" value="Se connecter">
                     <a id="forget-password-button" class="link-password-forget button-login-page">
                         <span class="hover-link-center">Mot de passe oublié</span>
                     </a>
+
+                    <?php
+                    /* FABIO */
+                        $user = new User();
+                        $this->includeModal('form', $user->getFormLogin());
+                    /**/
+                    ?>
                 </span>
 
                 <span id="container-password-forget" class="container-login-form">
@@ -99,6 +111,7 @@
                 </span>
 
             </div>
+
 
 
         </div>
