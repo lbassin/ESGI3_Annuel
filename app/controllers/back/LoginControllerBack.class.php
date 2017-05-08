@@ -7,58 +7,66 @@ class LoginControllerBack
     {
         Csrf::generate();
         $view = new View('back', 'index', 'login');
+        $view->assign('csrfToken', Session::getToken());
     }
 
     public function loginAction($params)
     {
-        if (empty($params['email']) || empty($params['password']) || !Csrf::check($params['token'])) {
-            die('Formulaire de connexion non remplis correctement');
+        if (empty($params['post']) && !$this->validateLoginData($params['post'])) {
+            Helpers::error403(['error' => 'Missing Data']);
         }
+        $params = $params['post'];
+
         $user = new User();
         $user->populate(['email' => $params['email']]);
-        if ($user->getId() && Hash::check($params['password'], $user->getPassword())) {
-            if ($user->getStatus() != 0) {
-                Csrf::generate();
-                $_SESSION['id'] = $user->getId();
-                Helpers::redirect(Helpers::getAdminRoute('index'));
-            }
+
+        if ($user->getId() && Hash::check($params['password'], $user->getPassword()) && $user->getStatus() != 0) {
+            $_SESSION['id'] = $user->getId();
+
+            $message = json_encode(['success' => true, 'redirectTo' => Helpers::getAdminRoute('index')]);
+            echo $message;
         } else {
-            die('Connexion impossible');
+            Helpers::debug(password_hash('root', PASSWORD_BCRYPT));
+            Helpers::error403(['error' => 'Wrong Credentials']);
         }
+    }
+
+    private function validateLoginData($params)
+    {
+        if (empty($params['email']) || empty($params['password']) || !Csrf::check($params['token'])) {
+            return false;
+        }
+
+        return true;
     }
 
     public function ForgetAction($params)
     {
-        $user = new User();
-        $user->populate(['email' => $params['email'], 'password' => $params['password']]);
-
-        if ($user->getId() < 0) {
-            die('Connexion impossible');
-        } else {
-            // User existe
-            if ($user->getStatus() != 0) {
-                // User actif
-                $view = new View('back', 'index', 'admin');
-                // Lancer la session d'authentification
-                //Csrf::generate();
-            }
+        if (empty($params['post']) && !$this->validateForgetData($params['post'])) {
+            Helpers::error403(['error' => 'Missing Data']);
         }
+        $params = $params['post'];
+
+        $user = new User();
+        $user->populate(['email' => $params['email']]);
+
+        // TODO : Send email
+    }
+
+    private function validateForgetData($params)
+    {
+        if (empty($params['email'])) {
+            return false;
+        }
+
+        return true;
     }
 
     public function logoutAction()
     {
         session_unset();
         session_destroy();
-        Helpers::redirect(BASE_PATH);
-        exit();
+        Helpers::redirect('/' . BASE_PATH);
     }
 
-    public function unsubscribeAction()
-    {
-        $user = new User($_SESSION['id']);
-        // Status 0 means that the user is no longer active
-        $user->status = 0;
-        $user->update();
-        $view = new View('back', 'index', 'admin');
-    }
 }
