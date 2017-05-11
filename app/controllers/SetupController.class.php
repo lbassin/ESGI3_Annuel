@@ -1,6 +1,6 @@
 <?php
 
-class SetupControllerBack
+class SetupController
 {
     private $schemaSetup = [
         'schema/init',
