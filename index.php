@@ -1,6 +1,17 @@
 <?php
 session_start();
 
+$errorControllerFile = 'app/controllers/ErrorController.class.php';
+if (!file_exists($errorControllerFile)) {
+    die('Error');
+}
+include($errorControllerFile);
+
+set_exception_handler(function(Exception $ex){
+   $errorManager = new ErrorController();
+   $errorManager->handleException($ex);
+});
+
 spl_autoload_register(function ($class) {
     if (file_exists("app/core/" . $class . ".class.php")) {
         include "app/core/" . $class . ".class.php";

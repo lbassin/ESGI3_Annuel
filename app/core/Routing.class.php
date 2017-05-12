@@ -70,12 +70,9 @@ class Routing
 
     public function page404()
     {
-        $errorControllerFile = 'app/controllers/ErrorController.class.php';
-        if (!file_exists($errorControllerFile)) {
-            die('ERROR');
+        if(!class_exists('ErrorController')){
+            die('Error');
         }
-        include($errorControllerFile);
-
         $controller = new ErrorController();
         $controller->error404();
         die;
