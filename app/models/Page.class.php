@@ -1,5 +1,6 @@
 <?php
-class Page extends BaseSql
+
+class Page extends BaseSql implements Listable, Editable
 {
     protected $id;
     protected $name;
@@ -11,28 +12,8 @@ class Page extends BaseSql
     protected $meta_title;
     protected $meta_description;
 
-    public function __construct(
-        $id = -1,
-        $name = null,
-        $content = null,
-        $description = null,
-        $slug = null,
-        $visibility = 0,
-        $publish = 0,
-        $meta_title = null,
-        $meta_description = null
-    )
+    public function __construct()
     {
-        $this->setId($id);
-        $this->setName($name);
-        $this->setContent($content);
-        $this->setDescription($description);
-        $this->setUrl($slug);
-        $this->setVisibility($visibility);
-        $this->setPublish($publish);
-        $this->setMetaTitle($meta_title);
-        $this->setMetaDescription($meta_description);
-
         parent::__construct();
     }
 
@@ -124,5 +105,70 @@ class Page extends BaseSql
     public function setMetaDescription($meta_description)
     {
         $this->meta_description = $meta_description;
+    }
+
+    public function getListConfig(){
+        return [
+            Listable::LIST_STRUCT => [
+                Listable::LIST_TITLE => 'Pages',
+                Listable::LIST_NEW_LINK => Helpers::getAdminRoute('page/new'),
+                Listable::LIST_EDIT_LINK => Helpers::getAdminRoute('page/edit'),
+                Listable::LIST_HEADER => [
+                    '',
+                    'ID',
+                    'Title',
+                    'Last update',
+                    'Visible',
+                    'Action'
+                ]
+            ],
+            Listable::LIST_ROWS => $this->getListData()
+        ];
+    }
+
+    public function getListData(){
+        $pages = $this->getAll();
+
+        $listData = [];
+
+        /** @var Page $page */
+        foreach ($pages as $page){
+            $pageData = [
+                [
+                    'type' => 'checkbox',
+                    'value' => ''
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $page->getId()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $page->getName()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => 'TODO'
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $page->getVisibility()
+                ],
+                [
+                    'type' => 'action',
+                    'id' => $page->getId()
+                ]
+            ];
+
+            $listData[] = $pageData;
+        }
+
+        return $listData;
+    }
+
+    public function getFormConfig()
+    {
+
+        return [];
     }
 }

@@ -7,18 +7,18 @@ if (!file_exists($errorControllerFile)) {
 }
 include($errorControllerFile);
 
-set_exception_handler(function(Exception $ex){
-   $errorManager = new ErrorController();
-   $errorManager->handleException($ex);
+set_exception_handler(function ($ex) {
+    $errorManager = new ErrorController();
+    $errorManager->handleException($ex);
 });
 
 spl_autoload_register(function ($class) {
     if (file_exists("app/core/" . $class . ".class.php")) {
         include "app/core/" . $class . ".class.php";
-    } else {
-        if (file_exists("app/models/" . $class . ".class.php")) {
-            include "app/models/" . $class . ".class.php";
-        }
+    } elseif (file_exists("app/models/" . $class . ".class.php")) {
+        include "app/models/" . $class . ".class.php";
+    } elseif (file_exists("app/interfaces/" . $class . ".int.php")){
+        include "app/interfaces/" . $class . ".int.php";
     }
 });
 

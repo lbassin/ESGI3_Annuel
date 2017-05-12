@@ -1,1 +1,3 @@
-<h1>Page</h1>
+<?php if (isset($page)): ?>
+    <?php $this->includeModal('list', $page->getListConfig()); ?>
+<?php endif; ?>
