@@ -1,7 +1,11 @@
 <?php
 
-class Page extends BaseSql implements Listable, Editable
+class Page extends BaseSql implements Listable
 {
+    const TEMPLATE_ID = 'id';
+    const TEMPLATE_NAME = 'name';
+    const TEMPLATE_PREVIEW = 'preview';
+
     protected $id;
     protected $name;
     protected $content;
@@ -166,9 +170,4 @@ class Page extends BaseSql implements Listable, Editable
         return $listData;
     }
 
-    public function getFormConfig()
-    {
-
-        return [];
-    }
 }
