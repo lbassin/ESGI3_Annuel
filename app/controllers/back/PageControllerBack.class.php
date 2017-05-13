@@ -20,6 +20,9 @@ class PageControllerBack
 
         $page = new Page();
         $view->assign('page', $page);
+
+        $xml = new Xml('themes/templates/default/pages/template01.xml');
+        $xml->open();
     }
 
     public function editAction(){
