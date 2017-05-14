@@ -5,7 +5,7 @@ class TemplateControllerBack
 
     public function indexAction($params)
     {
-        Helpers::debug([__DIR__, __CLASS__, __FUNCTION__, $params]);
+        $view = new View('back', 'template/index', 'admin');
     }
 
     public function viewAction(){

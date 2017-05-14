@@ -25,4 +25,21 @@ class Db
         }
         return self::$instance;
     }
+
+    public static function tryCredentials($host, $user, $password, $database, $port = 3306)
+    {
+        try {
+            /** @var PDO $pdo */
+            $pdo = new PDO(
+                'mysql:host=' . $host . ';dbname=' . $database . ';port=' . $port,
+                $user,
+                $password
+            );
+        } catch (Exception $e) {
+            return false;
+        }
+
+        $pdo = null;
+        return true;
+    }
 }

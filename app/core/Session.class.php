@@ -2,6 +2,21 @@
 
 class Session
 {
+    public static function setToken($aToken)
+    {
+        foreach ($aToken as $key => $value) {
+            $_SESSION['token'][$key] = $value;
+        }
+    }
+
+    public static function getToken()
+    {
+        if (!isset($_SESSION['token']['token'])) {
+            return '';
+        }
+        return $_SESSION['token']['token'];
+    }
+
     public static function addSuccess($message)
     {
         $notifications = self::getNotifications();
@@ -11,7 +26,7 @@ class Session
         self::setNotifications($notifications);
     }
 
-    private function getNotifications()
+    private static function getNotifications()
     {
         $notifications = [];
         if (isset($_SESSION['notifications'])) {
@@ -21,7 +36,7 @@ class Session
         return $notifications;
     }
 
-    private function setNotifications($notifications)
+    private static function setNotifications($notifications)
     {
         $_SESSION['notifications'] = $notifications;
     }
@@ -67,5 +82,10 @@ class Session
         $notifications = self::getNotifications();
         $notifications['error'] = [];
         self::setNotifications($notifications);
+    }
+
+    public static function isLogged()
+    {
+        return isset($_SESSION['id']);
     }
 }

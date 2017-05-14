@@ -1,0 +1,18 @@
+.container {
+
+  form {
+    width: 80%;
+
+    p {
+      margin-right: 2%;
+    }
+
+    .one-col {
+      display: inline-block;
+    }
+
+    input[type="file"] {
+      display: block;
+    }
+  }
+}

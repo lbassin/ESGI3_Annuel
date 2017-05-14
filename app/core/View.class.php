@@ -19,9 +19,16 @@ class View
 
     public function setView($view)
     {
-        $path = 'app/views/' . $view . '.view.php';
+        if ($this->type == 'front') {
+            $path = 'themes/templates/' . $this->currentTheme . '/views/' . $view . '.view.php';
+        } elseif ($this->type == 'back') {
+            $path = 'app/views/' . $view . '.view.php';
+        } else {
+            throw new Exception('erreur');
+        }
+
         if (!file_exists($path)) {
-            die('View not found');
+            throw new Exception('View not found');
         }
 
         $this->view = $view . '.view.php';
@@ -34,11 +41,11 @@ class View
         }elseif($this->type == 'back'){
             $path = 'app/views/' . $template . '.temp.php';
         }else{
-            die('erreur');
+            throw new Exception('erreur');
         }
 
         if (!file_exists($path)) {
-            die('Template not found');
+            throw new Exception('Template not found');
         }
 
         $this->template = $path;
@@ -53,7 +60,7 @@ class View
     {
         $filename = 'app/views/modals/' . $modal . '.mod.php';
         if (!file_exists($filename)) {
-            die("Le modal n'existe pas");
+            throw new Exception("Le modal n'existe pas");
         }
         include $filename;
     }

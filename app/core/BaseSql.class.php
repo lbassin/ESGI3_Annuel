@@ -22,7 +22,7 @@ class BaseSql
     {
         $pdo = Db::getInstance();
 
-        if (!isset($this->id)) {
+        if (empty($this->id)) {
             $data = [];
             unset($this->columns['id']);
 
