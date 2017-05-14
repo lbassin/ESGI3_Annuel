@@ -19,7 +19,14 @@ class View
 
     public function setView($view)
     {
-        $path = 'app/views/' . $view . '.view.php';
+        if ($this->type == 'front') {
+            $path = 'themes/templates/' . $this->currentTheme . '/views/' . $view . '.view.php';
+        } elseif ($this->type == 'back') {
+            $path = 'app/views/' . $view . '.view.php';
+        } else {
+            die('erreur');
+        }
+
         if (!file_exists($path)) {
             die('View not found');
         }
