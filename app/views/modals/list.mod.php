@@ -1,44 +1,43 @@
-<?php
-if (!isset($config['rows'])) {
-    $config['rows'] = [];
-}
-$data = $config['rows'];
-?>
+<?php if (isset($config[Listable::LIST_STRUCT])): ?>
 
-<h1><?php echo $config['struct']['title']; ?></h1>
-<a href="<?php echo $config['struct']['newLink']; ?>">
-    <button>New</button>
-</a>
-
-<table>
-    <tr>
-        <?php foreach ($config['struct']['header'] as $column): ?>
-            <th><?php echo $column; ?></th>
-        <?php endforeach; ?>
-    </tr>
-    <?php if (!empty($data)): ?>
-        <?php foreach ($data as $row): ?>
-            <tr>
-                <?php foreach ($row as $column): ?>
-                    <?php if ($column['type'] == 'text'): ?>
-                        <td><?php echo $column['value']; ?></td>
-                    <?php elseif ($column['type'] == 'checkbox'): ?>
-                        <td><input type="checkbox"></td>
-                    <?php elseif ($column['type'] == 'action'): ?>
-                        <td><a href="<?php echo Helpers::getAdminRoute('user/edit') . $column['id']; ?>">Editer</a></td>
-                    <?php else: ?>
-                        <td></td>
-                    <?php endif; ?>
-                <?php endforeach; ?>
-            </tr>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <tr>
-            <td colspan="<?php echo count($config['struct']['header']); ?>">No data</td>
-        </tr>
+    <?php if (!isset($config[Listable::LIST_ROWS])): ?>
+        <?php $config[Listable::LIST_ROWS] = []; ?>
     <?php endif; ?>
-</table>
+    <?php $data = $config[Listable::LIST_ROWS]; ?>
 
+    <h1><?php echo $config[Listable::LIST_STRUCT][Listable::LIST_TITLE]; ?></h1>
+    <a href="<?php echo $config[Listable::LIST_STRUCT][Listable::LIST_NEW_LINK]; ?>">
+        <button>New</button>
+    </a>
 
-<br>
-<a href="#">Supprimer les utilisateurs selectionnés</a>
+    <table>
+        <tr>
+            <?php foreach ($config[Listable::LIST_STRUCT][Listable::LIST_HEADER] as $column): ?>
+                <th><?php echo $column; ?></th>
+            <?php endforeach; ?>
+        </tr>
+        <?php if (!empty($data)): ?>
+            <?php foreach ($data as $row): ?>
+                <tr>
+                    <?php foreach ($row as $column): ?>
+                        <?php if ($column['type'] == 'text'): ?>
+                            <td><?php echo $column['value']; ?></td>
+                        <?php elseif ($column['type'] == 'checkbox'): ?>
+                            <td><label><input type="checkbox"></label></td>
+                        <?php elseif ($column['type'] == 'action'): ?>
+                            <td>
+                                <a href="<?php echo $config[Listable::LIST_STRUCT][Listable::LIST_EDIT_LINK] . $column['id']; ?>">Editer</a>
+                            </td>
+                        <?php else: ?>
+                            <td></td>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </tr>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="<?php echo count($config[Listable::LIST_STRUCT][Listable::LIST_HEADER]); ?>">No data</td>
+            </tr>
+        <?php endif; ?>
+    </table>
+<?php endif; ?>

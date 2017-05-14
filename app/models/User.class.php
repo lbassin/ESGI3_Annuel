@@ -1,6 +1,6 @@
 <?php
 
-class User extends BaseSql
+class User extends BaseSql implements Listable, Editable
 {
 
     protected $id;
@@ -46,119 +46,6 @@ class User extends BaseSql
         // TODO
 
         return [];
-    }
-
-    public function getFormLogin()
-    {
-        return [
-            'struct' => [
-                'method' => 'post',
-                'action' => Helpers::getAdminRoute('login/login'),
-                'class' => '',
-                'submit' => 'Connexion',
-                'file' => 0
-            ],
-            'groups' => [
-                [
-                    'label' => '',
-                    'fields' => [
-                        'email' => [
-                            'type' => 'email',
-                            'label' => 'Identifiant',
-                            'class' => '',
-                            'value' => ''
-                        ],
-                        'password' => [
-                            'type' => 'password',
-                            'label' => 'Mot de passe',
-                            'class' => '',
-                            'value' => ''
-                        ],
-                    ]
-                ]
-            ]
-        ];
-    }
-
-    public function getFormConfig()
-    {
-        return [
-            'struct' => [
-                'method' => 'post',
-                'action' => Helpers::getAdminRoute('user/save'),
-                'class' => '',
-                'submit' => 'Sauvegarder',
-                'file' => 1
-            ],
-            'groups' => [
-                [
-                    'label' => 'Utilisateur',
-                    'fields' => [
-                        'id' => [
-                            'type' => 'hidden',
-                            'value' => $this->getId()
-                        ],
-                        'pseudo' => [
-                            'type' => 'text',
-                            'label' => 'Pseudo :',
-                            'class' => 'two-col',
-                            'value' => $this->getPseudo()
-                        ],
-                        'email' => [
-                            'type' => 'email',
-                            'label' => 'Email :',
-                            'class' => 'one-col',
-                            'value' => $this->getEmail()
-                        ],
-                        'password' => [
-                            'type' => 'password',
-                            'label' => 'Password :',
-                            'class' => 'one-col'
-                        ]
-                    ]
-                ],
-                [
-                    'label' => 'Profil',
-                    'fields' => [
-                        'lastname' => [
-                            'type' => 'text',
-                            'label' => 'Nom :',
-                            'class' => 'one-col',
-                            'value' => $this->getLastname()
-                        ],
-                        'firstname' => [
-                            'type' => 'text',
-                            'label' => 'Prénom :',
-                            'class' => 'one-col',
-                            'value' => $this->getFirstname()
-                        ],
-                        'avatar' => [
-                            'type' => 'file',
-                            'label' => 'Avatar :',
-                            'accept' => 'image/*'
-                        ]
-                    ]
-                ],
-                [
-                    'label' => 'Permissions',
-                    'fields' => [
-                        'status' => [
-                            'type' => 'checkbox',
-                            'label' => 'Actif :',
-                            'class' => 'one-col',
-                            'value' => $this->getStatus()
-                        ],
-                        'role' => [
-                            'type' => 'select',
-                            'label' => 'Role :',
-                            'class' => 'one-col',
-                            'options' => $this->getRole()->getAllAsOptions(),
-                            'value' => $this->getRole()->getId()
-                        ]
-                    ]
-                ]
-            ]
-        ];
     }
 
     public function getId()
@@ -253,10 +140,11 @@ class User extends BaseSql
     public function getListConfig()
     {
         return [
-            'struct' => [
-                'title' => 'Utilisateurs',
-                'newLink' => Helpers::getAdminRoute('user/new'),
-                'header' => [
+            Listable::LIST_STRUCT => [
+                Listable::LIST_TITLE => 'Utilisateurs',
+                Listable::LIST_NEW_LINK => Helpers::getAdminRoute('user/new'),
+                Listable::LIST_EDIT_LINK => Helpers::getAdminRoute('user/edit'),
+                Listable::LIST_HEADER => [
                     '',
                     'ID',
                     'Firstname',
@@ -265,7 +153,7 @@ class User extends BaseSql
                     'Action'
                 ]
             ],
-            'rows' => $this->getListData()
+            Listable::LIST_ROWS => $this->getListData()
         ];
     }
 
@@ -308,6 +196,117 @@ class User extends BaseSql
         }
 
         return $listData;
+    }
+
+    public function getFormLogin()
+    {
+        return [
+            Editable::FORM_STRUCT => [
+                Editable::FORM_METHOD => 'post',
+                Editable::FORM_ACTION => Helpers::getAdminRoute('login/login'),
+                Editable::FORM_SUBMIT => 'Connexion',
+                Editable::FORM_FILE => 0
+            ],
+            Editable::FORM_GROUPS => [
+                [
+                    Editable::GROUP_LABEL => '',
+                    Editable::GROUP_FIELDS => [
+                        'email' => [
+                            'type' => 'email',
+                            'label' => 'Identifiant',
+                            'class' => '',
+                            'value' => ''
+                        ],
+                        'password' => [
+                            'type' => 'password',
+                            'label' => 'Mot de passe',
+                            'class' => '',
+                            'value' => ''
+                        ],
+                    ]
+                ]
+            ]
+        ];
+    }
+
+    public function getFormConfig()
+    {
+        return [
+            Editable::FORM_STRUCT => [
+                Editable::FORM_METHOD => 'post',
+                Editable::FORM_ACTION => Helpers::getAdminRoute('user/save'),
+                Editable::FORM_SUBMIT => 'Sauvegarder',
+                Editable::FORM_FILE => 1
+            ],
+            Editable::FORM_GROUPS => [
+                [
+                    Editable::GROUP_LABEL => 'Utilisateur',
+                    Editable::GROUP_FIELDS => [
+                        'id' => [
+                            'type' => 'hidden',
+                            'value' => $this->getId()
+                        ],
+                        'pseudo' => [
+                            'type' => 'text',
+                            'label' => 'Pseudo :',
+                            'class' => 'two-col',
+                            'value' => $this->getPseudo()
+                        ],
+                        'email' => [
+                            'type' => 'email',
+                            'label' => 'Email :',
+                            'class' => 'one-col',
+                            'value' => $this->getEmail()
+                        ],
+                        'password' => [
+                            'type' => 'password',
+                            'label' => 'Password :',
+                            'class' => 'one-col'
+                        ]
+                    ]
+                ],
+                [
+                    Editable::GROUP_LABEL => 'Profil',
+                    Editable::GROUP_FIELDS => [
+                        'lastname' => [
+                            'type' => 'text',
+                            'label' => 'Nom :',
+                            'class' => 'one-col',
+                            'value' => $this->getLastname()
+                        ],
+                        'firstname' => [
+                            'type' => 'text',
+                            'label' => 'Prénom :',
+                            'class' => 'one-col',
+                            'value' => $this->getFirstname()
+                        ],
+                        'avatar' => [
+                            'type' => 'file',
+                            'label' => 'Avatar :',
+                            'accept' => 'image/*'
+                        ]
+                    ]
+                ],
+                [
+                    Editable::GROUP_LABEL => 'Permissions',
+                    Editable::GROUP_FIELDS => [
+                        'status' => [
+                            'type' => 'checkbox',
+                            'label' => 'Actif :',
+                            'class' => 'one-col',
+                            'value' => $this->getStatus()
+                        ],
+                        'role' => [
+                            'type' => 'select',
+                            'label' => 'Role :',
+                            'class' => 'one-col',
+                            'options' => $this->getRole()->getAllAsOptions(),
+                            'value' => $this->getRole()->getId()
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
 }

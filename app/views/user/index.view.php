@@ -1,5 +1,6 @@
-<?php
+<?php if (isset($user)): ?>
+    <?php $this->includeModal('list', $user->getListConfig()); ?>
+<?php endif; ?>
 
-if (isset($user)) {
-    $this->includeModal('list', $user->getListConfig());
-}
+<br>
+    <a href="#">Supprimer les utilisateurs selectionnés</a>
