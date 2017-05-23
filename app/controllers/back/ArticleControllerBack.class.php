@@ -27,8 +27,16 @@ class ArticleControllerBack
             Session::addError("Missing id");
             Helpers::redirectBack();
         }
+        $view = new View('back', 'article/edit', 'admin');
+        $articleId = $params[0];
+        $article = new Article();
+        $article->populate(["id" => $articleId]);
 
-
+        if ($article->getId() == null) {
+            Session::addError('Article ' . $articleId . ' not found');
+            Helpers::redirectBack();
+        }
+        $view->assign('article', $article);
     }
 
     public function saveAction($params) {
