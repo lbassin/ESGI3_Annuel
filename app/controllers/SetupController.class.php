@@ -115,8 +115,10 @@ class SetupController
         $sample = new File('.htaccess.sample');
         $content = $sample->getContent();
 
-        $content = str_replace('{{CONF_BASE_PATH}}', $params['base_path'], $content);
+        $configValue = $this->formatBasePath($params['base_path']);
 
+        $content = str_replace('{{CONF_BASE_PATH}}', $configValue, $content);
+        
         $newFile = new File('.htaccess', 'w+');
         $newFile->setContent($content);
     }
@@ -130,8 +132,10 @@ class SetupController
             $key = 'CONF_' . strtoupper($setting);
 
             if ($key == 'CONF_BASE_PATH') {
-                $value = ltrim($value, '/');
-                $config = str_replace('{{' . $key . '_PATTERN}}', $value, $config);
+                $value = $this->formatBasePath($value);
+
+                $pattern = str_replace('/', '\/', $value);
+                $config = str_replace('{{' . $key . '_PATTERN}}', $pattern, $config);
             }
 
             $config = str_replace('{{' . $key . '}}', $value, $config);
@@ -141,6 +145,15 @@ class SetupController
         $newConfig->setContent($config);
 
         include 'conf.inc.php';
+    }
+
+    private function formatBasePath($basePath)
+    {
+        $basePath = trim($basePath, '/');
+        $basePath = '/' . $basePath . '/';
+        $basePath = $basePath != '//' ?: '/';
+
+        return $basePath;
     }
 
     public function step5()
