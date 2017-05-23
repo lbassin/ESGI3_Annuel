@@ -5,7 +5,7 @@
     <div id="log">
 
     </div>
-    <a href="/index.php?step=4" id="nextButton" style="display: none;">
+    <a href="index.php?step=4" id="nextButton" style="display: none;">
         <button>Next</button>
     </a>
 </div>
