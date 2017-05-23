@@ -89,7 +89,7 @@ class BaseSql
         $query->execute($condition);
 
         if ($query->rowCount() > 1) {
-            die('Trop de resultat');
+            return false;
         }
 
         $data = $query->fetch(PDO::FETCH_ASSOC);

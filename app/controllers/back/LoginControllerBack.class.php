@@ -26,7 +26,6 @@ class LoginControllerBack
             $message = json_encode(['success' => true, 'redirectTo' => Helpers::getAdminRoute('index')]);
             echo $message;
         } else {
-            Helpers::debug(password_hash('root', PASSWORD_BCRYPT));
             Helpers::error403(['error' => 'Wrong Credentials']);
         }
     }
