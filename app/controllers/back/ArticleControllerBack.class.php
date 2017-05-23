@@ -7,10 +7,11 @@ class ArticleControllerBack
     {
         $view = new View('back', 'article/index', 'admin');
         $article = new Article();
+
         $view->assign('article', $article);
     }
 
-    public function viewAction(){
+    public function viewAction() {
 
     }
 
@@ -21,7 +22,12 @@ class ArticleControllerBack
         $view->assign('article', $article);
     }
 
-    public function editAction(){
+    public function editAction($params) {
+        if (!isset($params[0])) {
+            Session::addError("Missing id");
+            Helpers::redirectBack();
+        }
+
 
     }
 
@@ -44,6 +50,9 @@ class ArticleControllerBack
 
         $article->fill($params);
         $article->save();
+
+        Session::addSuccess("Votre article a bien été enregistré");
+        Helpers::redirect(Helpers::getAdminRoute('article/'));
     }
 
     public function deleteAction() {

@@ -109,8 +109,6 @@ class Article extends BaseSql
 
         if (empty($content)) {
             Session::addError("Veillez indiquer un contenue a votre article");
-        } else if (strlen($title) > 255) {
-            Session::addError("Le titre est trop long");
         }
 
         if (empty($url)) {
@@ -167,5 +165,63 @@ class Article extends BaseSql
                 ],
             ]
         ];
+    }
+
+    public function getListConfig() {
+        return [
+            'struct' => [
+                'title' => 'Articles',
+                'newLink' => Helpers::getAdminRoute('article/new'),
+                'header' => [
+                    '',
+                    'ID',
+                    'Title',
+                    'Content',
+                    'Url',
+                    'Action'
+                ]
+            ],
+            'rows' => $this->getListData()
+        ];
+    }
+
+    public function getListData() {
+        $articles = $this->getAll();
+
+        $listData = [];
+
+        /** @var Article $article */
+        foreach ($articles as $article) {
+            $articleData = [
+                [
+                    'type' => 'checkbox',
+                    'value' => ''
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $article->getId()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $article->getTitle()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $article->getContent()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $article->getUrl()
+                ],
+                [
+                    'type' => 'action',
+                    'id' => $article->getId()
+                ]
+            ];
+
+            $listData[] = $articleData;
+        }
+
+        return $listData;
     }
 }
