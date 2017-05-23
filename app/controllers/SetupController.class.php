@@ -20,7 +20,8 @@ class SetupController
         'schema/media_page',
         'schema/menu',
         'schema/theme',
-        'data/role'
+        'data/role',
+        'data/user'
     ];
 
     function __construct()
