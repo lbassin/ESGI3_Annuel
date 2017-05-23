@@ -1,15 +1,7 @@
-<<<<<<< HEAD
 <?php if (isset($config[Editable::FORM_STRUCT])): ?>
     <?php if (!isset($config[Editable::FORM_GROUPS])): ?>
         <?php $config[Editable::FORM_GROUPS] = []; ?>
     <?php endif; ?>
-=======
-<form method="<?php echo $config['struct']['method']; ?>"
-      action="<?php echo $config['struct']['action']; ?>"
-      class="<?php echo $config['struct']['class']; ?>"
-    <?php echo(isset($config['struct']['file']) ? 'enctype="multipart/form-data"' : ''); ?>
->
->>>>>>> Fix rebase
 
     <form method="<?php echo $config[Editable::FORM_STRUCT]['method']; ?>"
           action="<?php echo $config[Editable::FORM_STRUCT]['action']; ?>"

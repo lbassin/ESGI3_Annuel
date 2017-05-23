@@ -118,6 +118,7 @@
                     <li><?php echo $success; ?></li>
                 <?php endforeach; ?>
             </ul>
+        </div>
         <?php Session::resetSuccess(); ?>
     <?php endif; ?>
 
