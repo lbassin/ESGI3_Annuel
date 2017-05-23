@@ -1,7 +1,7 @@
 <form method="<?php echo $config['struct']['method']; ?>"
       action="<?php echo $config['struct']['action']; ?>"
       class="<?php echo $config['struct']['class']; ?>"
-      enctype="<?php echo(isset($config['struct']['file']) ? 'multipart/form-data' : 'text/plain'); ?>"
+    <?php echo(isset($config['struct']['file']) ? 'enctype="multipart/form-data"' : 'text/plain'); ?>
 >
     <input type="hidden" name="token" value="<?php echo $_SESSION['token']['token']; ?>">
 
@@ -107,5 +107,7 @@
     <?php endforeach; ?>
 
     <br>
-    <input type="submit" value="<?php echo $config['struct']['submit']; ?>">
+    <input type="submit"
+           class="<?php echo isset($config['struct']['submit-class']) ? $config['struct']['submit-class'] : ''; ?>"
+           value="<?php echo $config['struct']['submit']; ?>">
 </form>

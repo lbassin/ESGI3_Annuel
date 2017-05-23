@@ -9,6 +9,14 @@ class Session
         }
     }
 
+    public static function getToken()
+    {
+        if (!isset($_SESSION['token']['token'])) {
+            return '';
+        }
+        return $_SESSION['token']['token'];
+    }
+
     public static function addSuccess($message)
     {
         $notifications = self::getNotifications();
@@ -74,5 +82,10 @@ class Session
         $notifications = self::getNotifications();
         $notifications['error'] = [];
         self::setNotifications($notifications);
+    }
+
+    public static function isLogged()
+    {
+        return isset($_SESSION['id']);
     }
 }

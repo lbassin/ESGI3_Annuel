@@ -1,0 +1,109 @@
+.logo {
+  width: 200px;
+  height: 200px;
+  margin-top: -115px;
+  position: absolute;
+  border-radius: 75% 75% 75% 75%;
+  transform: translate(-50%, -50%);
+}
+
+.logo:before {
+  background-size: 100% 100%;
+  content: "Q";
+  line-height: 205px;
+  color: #000;
+  font-family: 'qwarkz';
+  font-size: 50px;
+  font-weight: bold;
+  text-align: center;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  position: absolute;
+  z-index: 99999 !important;
+}
+
+.logo-animation {
+  animation: 5s linear infinite;
+  animation-name: rotate-0;
+  animation-delay: 0s;
+  transform-origin: 50% 50%;
+  transform: rotate(0deg);
+}
+
+svg path {
+  position: absolute;
+  fill: none;
+  stroke-width: 2;
+  top: 0;
+  left: 0;
+  transform-origin: 50% 50%;
+  transform: rotate(0deg);
+  animation: 4s linear infinite;
+}
+
+.logo-animation svg path:nth-child(1) {
+  opacity: 1;
+  animation-name: rotate-1;
+  animation-delay: 0.9s;
+}
+
+.logo-animation svg path:nth-child(2) {
+  opacity: .5;
+  animation-name: rotate-2;
+  animation-delay: 1s;
+}
+
+.logo-animation svg path:nth-child(3) {
+  opacity: .8;
+  animation-name: rotate-3;
+  animation-delay: 1.1s;
+}
+
+@keyframes scale-1 {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes rotate-0 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate-1 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate-2 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes rotate-3 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}

@@ -9,14 +9,15 @@ class Helpers
         echo '</pre>';
     }
 
-    public static function getAsset($path) {
-        return BASE_PATH . 'app/assets/' . $path;
+    public static function getAsset($path)
+    {
+        return '/' . BASE_PATH . 'app/assets/' . $path;
     }
 
     public static function getAdminRoute($path)
     {
         $path = rtrim($path, '/');
-        return BASE_PATH . ADMIN_PATH . '/' . $path . '/';
+        return '/' . BASE_PATH . ADMIN_PATH . '/' . $path . '/';
     }
 
     public static function redirectBack()
@@ -31,5 +32,20 @@ class Helpers
     {
         header('Location: ' . $path);
         exit();
+    }
+
+    public static function error500()
+    {
+        header('HTTP/1.1 500 Internal Server Error');
+    }
+
+    public static function error403($message = null)
+    {
+        if (is_array($message)) {
+            $message = json_encode($message);
+        }
+
+        header('HTTP/1.1 403 Forbidden');
+        die($message);
     }
 }

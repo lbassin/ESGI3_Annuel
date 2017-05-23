@@ -2,30 +2,41 @@
 
 class Routing
 {
+    const PARAMS_URL = 'url';
+    const PARAMS_POST = 'post';
+    const PARAMS_GET = 'get';
+    const PARAMS_FILE = 'files';
+
     /** @var array uriExploded */
     private $uriExploded;
-
     /** @var string controllerArea */
     private $controllerArea;
     /** @var string controllerName */
     private $controllerName;
     /** @var string actionName */
     private $actionName;
-
     /** @var array params */
-    private $params;
+    private $params = [];
+    /** @var array $getData */
+    private $getData = [];
 
     public function __construct()
     {
         $uri = $_SERVER["REQUEST_URI"];
         $uri = preg_replace("#" . BASE_PATH_PATTERN . "#i", "", $uri, 1);
+
+        $uriExplodedParams = explode('?', $uri);
+        if (isset($uriExplodedParams[1])) {
+            $this->setGetData($uriExplodedParams[1]);
+        }
+
+        $uri = $uriExplodedParams[0];
         $uri = trim($uri, "/");
 
         $this->uriExploded = explode("/", $uri);
 
         if ($this->checkBackOffice()) {
-            // check if connected to access to backoffice
-            if (!isset($_SESSION['id']) && !in_array('login', $this->uriExploded)) {
+            if (!Session::isLogged() && !in_array('login', $this->uriExploded)) {
                 $this->page404();
             }
             $this->handleAdmin();
@@ -40,6 +51,11 @@ class Routing
         $this->runRoute();
     }
 
+    private function setGetData($data)
+    {
+        parse_str($data, $this->getData);
+    }
+
     /**
      * @return bool
      */
@@ -50,6 +66,13 @@ class Routing
         }
 
         return ($this->uriExploded[0] === ADMIN_PATH);
+    }
+
+    public function page404()
+    {
+        header('HTTP/1.1 404 Not Found');
+        die("Error 404");
+        // TODO
     }
 
     public function handleAdmin()
@@ -91,7 +114,28 @@ class Routing
 
     public function setParams()
     {
-        $this->params = array_merge(array_values($this->uriExploded), $_POST);
+        $this->params = [];
+
+        $jsonPost = file_get_contents('php://input');
+        $jsonData = json_decode($jsonPost, true);
+        if (!is_array($jsonData)) {
+            $jsonData = [];
+        }
+
+        $this->params[self::PARAMS_POST] = array_merge($_POST, $jsonData);
+        $this->params[self::PARAMS_URL] = array_values($this->uriExploded);
+        $this->params[self::PARAMS_GET] = $this->getData;
+        $this->params[self::PARAMS_FILE] = $_FILES;
+    }
+
+    public function runRoute()
+    {
+        if ($this->checkRoute()) {
+            $controller = new $this->controllerName();
+            $controller->{$this->actionName}($this->params);
+        } else {
+            $this->page404();
+        }
     }
 
     /**
@@ -116,20 +160,20 @@ class Routing
         return true;
     }
 
-    public function runRoute()
+    public function isInstalled()
     {
-        if ($this->checkRoute()) {
-            $controller = new $this->controllerName();
-            $controller->{$this->actionName}($this->params);
-        } else {
-            $this->page404();
-        }
+        return false; // TODO
     }
 
-    public function page404()
+    public function isSetupRoute()
     {
-        die("Error 404");
-        // TODO
+        return ($this->controllerName == 'SetupControllerBack');
+    }
+
+    public function runSetup()
+    {
+        $setupPath = Helpers::getAdminRoute('setup');
+        Helpers::redirect($setupPath);
     }
 
 }
