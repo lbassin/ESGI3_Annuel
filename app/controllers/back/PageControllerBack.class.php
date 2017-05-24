@@ -23,6 +23,7 @@ class PageControllerBack
             $view->assign('templates', $this->getPageTemplates());
         }else{
             $view = new View('back', 'page/new/content', 'admin');
+            $view->assign('page', new Page);
         }
     }
 

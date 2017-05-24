@@ -1,6 +1,6 @@
 <?php
 
-class Page extends BaseSql implements Listable
+class Page extends BaseSql implements Listable, Editable
 {
     const TEMPLATE_ID = 'id';
     const TEMPLATE_NAME = 'name';
@@ -168,6 +168,27 @@ class Page extends BaseSql implements Listable
         }
 
         return $listData;
+    }
+
+    public function getFormConfig()
+    {
+        return [
+            Editable::FORM_STRUCT => [
+                Editable::FORM_METHOD => 'post',
+                Editable::FORM_ACTION => Helpers::getAdminRoute('page/add'),
+                Editable::FORM_SUBMIT => 'Save'
+            ],
+            Editable::FORM_GROUPS => [
+                [
+                    Editable::GROUP_LABEL => 'Test',
+                    Editable::GROUP_FIELDS => [
+                        'test' => [
+                            'type' => 'text'
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
 }
