@@ -26,7 +26,6 @@ class LoginControllerBack
             $message = json_encode(['success' => true, 'redirectTo' => Helpers::getAdminRoute('index')]);
             echo $message;
         } else {
-            Helpers::debug(password_hash('root', PASSWORD_BCRYPT));
             Helpers::error403(['error' => 'Wrong Credentials']);
         }
     }
@@ -67,6 +66,12 @@ class LoginControllerBack
         session_unset();
         session_destroy();
         Helpers::redirect('/' . BASE_PATH);
+    }
+
+    public function resetPasswordAction($params)
+    {
+        $mail = new Mail($params['post']['email']);
+        $mail->send();
     }
 
 }

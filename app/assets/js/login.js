@@ -11,7 +11,7 @@ var showLoginError = function () {
     setTimeout(function () {
         stroke1.style.stroke = "black";
         stroke2.style.stroke = "black";
-    }, 3000);
+    }, 5000);
 };
 
 if (loginButton !== null) {
@@ -29,7 +29,10 @@ if (loginButton !== null) {
             if (data['success']) {
                 window.location = data['redirectTo'];
             }
-        }, showLoginError);
+        }, function() {
+            showLoginError();
+            showPopUp("Identifiant et/ou mot de passe<br>invalides", "error");
+        });
     });
 }
 
@@ -56,36 +59,78 @@ backLoginButton.addEventListener("click", function () {
 
 forgetButton.addEventListener("click", function (event) {
     event.preventDefault();
+    if (validateEmail(document.querySelector("#forget-mail").value)) {
 
-    alert('todo'); // route : login/forget
+
+        var data = {
+            'email': document.querySelector("input[name='email-forget']").value
+        };
+
+
+        ajax.post(loginResetPassword, data, function (data) {
+            console.log(data);
+            if (JSON.parse(data)['success']) {
+                console.log('2');
+                fadeOut(passwordForgetForm);
+                setTimeout(function () {
+                    fadeIn(loginForm);
+                }, 250);
+                showPopUp("Un email vous a été envoyé<br>pour réinitialiser votre mot de passe", "success");
+            }
+        });
+
+
+
+
+    } else {
+        showPopUp("Votre mail n'est pas valide", "error");
+    }
 });
 
 
-function fadeOut(el) {
-    el.style.opacity = 1;
+function fadeOut(element) {
+    element.style.opacity = 1;
 
     (function fade() {
-        if ((el.style.opacity -= .1) < 0) {
-            el.style.display = 'none';
-            el.classList.add('is-hidden');
+        if ((element.style.opacity -= .1) < 0) {
+            element.style.display = 'none';
+            element.classList.add('is-hidden');
         } else {
             requestAnimationFrame(fade);
         }
     })();
 }
 
-function fadeIn(el, display) {
-    if (el.classList.contains('is-hidden')) {
-        el.classList.remove('is-hidden');
+function fadeIn(element, display) {
+    if (element.classList.contains('is-hidden')) {
+        element.classList.remove('is-hidden');
     }
-    el.style.opacity = 0;
-    el.style.display = display || "block";
+    element.style.opacity = 0;
+    element.style.display = display || "block";
 
     (function fade() {
-        var val = parseFloat(el.style.opacity);
+        var val = parseFloat(element.style.opacity);
         if (!((val += .1) > 1)) {
-            el.style.opacity = val;
+            element.style.opacity = val;
             requestAnimationFrame(fade);
         }
     })();
+}
+
+function validateEmail(email) {
+    var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return regex.test(email);
+}
+
+var timeOutPopUp;
+
+function showPopUp(text, type) {
+    clearTimeout(timeOutPopUp);
+    var popup = document.querySelector("#popup-message");
+    popup.style.backgroundColor = (type == "error" ? "red" : "#27ae60");
+    popup.innerHTML = text;
+    fadeIn(popup);
+    timeOutPopUp = setTimeout(function () {
+        fadeOut(popup);
+    }, 5000);
 }

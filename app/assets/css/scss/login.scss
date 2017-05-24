@@ -114,6 +114,7 @@
 }
 
 .hover-link-center {
+  cursor : pointer;
   font-size: 13px;
 }
 
@@ -131,4 +132,12 @@
 
 #container-password-forget {
   display: none;
+}
+
+#popup-message {
+  position: absolute;
+  top: 0;
+  padding: 10px;
+  border-radius: 15px;
+  text-align: center;
 }

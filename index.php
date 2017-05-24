@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+require 'app/assets/lib/PHPMailer/PHPMailerAutoload.php';
+
 spl_autoload_register(function ($class) {
     if (file_exists("app/core/" . $class . ".class.php")) {
         include "app/core/" . $class . ".class.php";
