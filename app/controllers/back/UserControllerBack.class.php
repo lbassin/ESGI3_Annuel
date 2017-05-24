@@ -28,6 +28,8 @@ class UserControllerBack
 
     public function saveAction($params)
     {
+        var_dump($params);
+        exit();
         $user = new User();
 
         if (!isset($params['post'])) {
