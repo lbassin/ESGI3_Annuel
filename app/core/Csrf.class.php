@@ -3,8 +3,8 @@
 class Csrf
 {
     /*
-        Configure the session token for the Crsf security
-    */
+     * Generate information of authentication to stock in the session
+     */
     static function generate()
     {
         session_regenerate_id(true);
@@ -15,22 +15,24 @@ class Csrf
             'ip_address' => $_SERVER['REMOTE_ADDR'],
         ]);
     }
-
-    /*
-        Check the session with a posted token from a form
-        Returns false if the variable in parameter is not the same as that of the form
-        Returns false if the browser of ip address change
-        Returns false If the token has expired
-        Return true in the other case
-    */
+    /**
+     * Check if the token match with the one in the session
+     * @param string $sToken :
+        * @var string $aToken[0] : Match to the id of the token send
+        * @var string $aToken[1] : Match to the token send
+     * @return true if the token is recognize & match
+     * @var $_SESSION[id] is clean at the end
+     */
     static function check($sToken)
     {
-        if ($_SESSION['token']['token'] != $sToken) {
+        $aToken = explode('&', $sToken);
+        if ($_SESSION['token'][$aToken[0]]['token'] != $aToken[1]) {
             return false;
-        } elseif ( $_SESSION['token']['user_agent'] != $_SERVER['HTTP_USER_AGENT'] || $_SESSION['token']['ip_address'] != $_SERVER['REMOTE_ADDR'] || $_SESSION['token']['token_expiration'] < time()) {
+        } elseif ( $_SESSION['token'][$aToken[0]]['user_agent'] != $_SERVER['HTTP_USER_AGENT'] || $_SESSION['token'][$aToken[0]]['ip_address'] != $_SERVER['REMOTE_ADDR'] || $_SESSION['token'][$aToken[0]]['token_expiration'] < time()) {
             return false;
         } else {
             return true;
         }
+        Session::doneToken($aToken[0]);
     }
 }

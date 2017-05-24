@@ -18,6 +18,8 @@ class UserControllerBack
 
     public function newAction()
     {
+        Csrf::generate();
+
         $view = new View('back', 'user/new', 'admin');
 
         $user = new User();
