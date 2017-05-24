@@ -1,6 +1,7 @@
 @import "base";
 @import "admin/menu";
 @import "admin/form";
+@import "admin/list";
 
 .container {
   height: calc(100vh - 55px);
@@ -63,4 +64,9 @@
     max-width: 100%;
     padding: 0 6%;
   }
+}
+
+h1{
+  margin-top: 6px;
+  margin-bottom: 6px;
 }

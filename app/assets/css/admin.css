@@ -223,6 +223,48 @@ body {
   .container form input[type="file"] {
     display: block; }
 
+#list #menu {
+  line-height: 64px;
+  height: 64px;
+  width: 100%;
+  margin-bottom: 12px;
+  margin-top: 18px; }
+  #list #menu input[type="text"] {
+    line-height: 32px;
+    padding: 4px;
+    width: 20%;
+    font-style: italic;
+    padding-right: 28px;
+    padding-left: 12px;
+    background-color: #ECF0F1;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    transition: border .5s; }
+    #list #menu input[type="text"]:focus {
+      border: 1px solid #212121;
+      outline: none;
+      box-shadow: none; }
+  #list #menu:after {
+    margin-left: -25px;
+    position: relative;
+    content: "\f002";
+    font: normal normal normal 14px/1 FontAwesome; }
+  #list #menu #action {
+    float: right;
+    height: inherit;
+    padding-right: 18px; }
+    #list #menu #action a.button {
+      display: inline-block;
+      height: 50px;
+      line-height: 50px;
+      padding: 0 32px;
+      color: #000;
+      text-decoration: none; }
+      #list #menu #action a.button.primary {
+        background-color: #27ae60;
+        color: #fff;
+        border-radius: 5px; }
+
 .container {
   height: calc(100vh - 55px);
   margin: 0;
@@ -266,5 +308,9 @@ body {
   .page-template-preview img {
     max-width: 100%;
     padding: 0 6%; }
+
+h1 {
+  margin-top: 6px;
+  margin-bottom: 6px; }
 
 /*# sourceMappingURL=admin.css.map */
