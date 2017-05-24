@@ -18,8 +18,7 @@
       border: 1px solid transparent;
       transition: border .5s;
 
-      &:focus{
-
+      &:focus {
         border: 1px solid #212121;
         outline: none;
         box-shadow: none;
@@ -57,6 +56,64 @@
       }
 
     }
+  }
 
+  #filters{
+    line-height: 64px;
+
+    #mass-action{
+      width: 15%;
+      height: 64px;
+      display: inline-block;
+
+      select{
+        padding-right: 28px;
+        padding-left: 12px;
+        background-color: #ECF0F1;
+        line-height: 32px;
+        height: 32px;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+
+      }
+      &:after {
+        margin-left: -25px;
+        position: relative;
+        content: "\f150";
+        font: normal normal normal 14px/1 FontAwesome;
+      }
+
+    }
+
+    #pagination{
+      float: right;
+      background-color: #00b16a;
+      width: 15%;
+      height: 64px;
+      display: inline-block;
+    }
+  }
+
+  table {
+    width: 100%;
+
+    thead {
+      line-height: 38px;
+      background-color: #b1b6ba;
+    }
+
+    tbody {
+
+      tr {
+        td {
+          padding: 6px 12px;
+        }
+
+        &:nth-child(even){
+          background-color: #d3dbdf;
+        }
+      }
+
+    }
   }
 }

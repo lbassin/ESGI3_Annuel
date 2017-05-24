@@ -20,12 +20,28 @@
             </div>
         </div>
 
+        <div id="filters">
+            <div id="mass-action">
+                <select name="" id="">
+                    <option value="">Test</option>
+                </select>
+                <span>3 Records found</span>
+            </div>
+            <div id="pagination">
+                <select name="" id="">
+                    <option value="">20</option>
+                </select> per page
+            </div>
+        </div>
+
         <table>
+            <thead>
             <tr>
                 <?php foreach ($config[Listable::LIST_STRUCT][Listable::LIST_HEADER] as $column): ?>
                     <th><?php echo $column; ?></th>
                 <?php endforeach; ?>
             </tr>
+            </thead>
             <?php if (!empty($data)): ?>
                 <?php foreach ($data as $row): ?>
                     <tr>
@@ -46,7 +62,8 @@
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="<?php echo count($config[Listable::LIST_STRUCT][Listable::LIST_HEADER]); ?>">No data</td>
+                    <td colspan="<?php echo count($config[Listable::LIST_STRUCT][Listable::LIST_HEADER]); ?>">No data
+                    </td>
                 </tr>
             <?php endif; ?>
         </table>
