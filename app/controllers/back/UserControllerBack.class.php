@@ -18,8 +18,6 @@ class UserControllerBack
 
     public function newAction()
     {
-        Csrf::generate();
-
         $view = new View('back', 'user/new', 'admin');
 
         $user = new User();
@@ -28,8 +26,6 @@ class UserControllerBack
 
     public function saveAction($params)
     {
-        var_dump($params);
-        exit();
         $user = new User();
 
         if (!isset($params['post'])) {
