@@ -60,37 +60,67 @@
 
   #filters{
     line-height: 64px;
+    height: 64px;
+
+    margin-bottom: 6px;
+
+    select{
+      padding-right: 28px;
+      padding-left: 12px;
+      background-color: #ECF0F1;
+      line-height: 32px;
+      height: 48px;
+      width: 15%;
+      border: none;
+      outline: none;
+      margin-right: 10px;
+    }
+
 
     #mass-action{
       width: 50%;
-      height: 64px;
+      height: 100%;
       display: inline-block;
-
-      select{
-        padding-right: 28px;
-        padding-left: 12px;
-        background-color: #ECF0F1;
-        line-height: 32px;
-        height: 32px;
-        width: 15%;
-        //-moz-appearance: none;
-        //-webkit-appearance: none;
-        border: none;
-        outline: none;
-      }
-
-      .records-count{
-        margin-left: 10px;
-      }
-
     }
 
     #pagination{
+      text-align: right;
       float: right;
-      background-color: #00b16a;
-      width: 15%;
-      height: 64px;
+      width: 50%;
+      height: 48px;
       display: inline-block;
+
+      select {
+        width: auto;
+        padding: 0 12px;
+        padding-left: 6px;
+        height:100%;
+      }
+
+      .change-page{
+        width: 4%;
+        display: inline-block;
+
+        line-height: 42px; // ?
+        background-color: #ECF0F1;
+
+        text-align: center;
+
+        &.previous{
+          margin-left: 24px;
+          margin-right: 12px;
+        }
+
+        &.next{
+          margin-left: 12px;
+        }
+      }
+
+      #input-page{
+        width: 4%;
+        height: 32px;
+        text-align: center;
+      }
     }
   }
 
@@ -116,4 +146,8 @@
 
     }
   }
+}
+
+.settings-nav{
+  display: none;
 }

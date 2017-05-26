@@ -23,14 +23,21 @@
         <div id="filters">
             <div id="mass-action">
                 <select name="" id="">
-                    <option value="">Test</option>
+                    <option value="">Mass Action</option>
                 </select>
                 <span class="records-count">3 Records found</span>
             </div>
             <div id="pagination">
                 <select name="" id="">
                     <option value="">20</option>
-                </select> per page
+                </select><span>per page</span>
+                <div class="change-page previous">
+                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                </div>
+                <input id="input-page" type="text" value="1"><span> of 2</span>
+                <div class="change-page next">
+                    <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                </div>
             </div>
         </div>
 

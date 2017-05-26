@@ -265,28 +265,49 @@ body {
         color: #fff;
         border-radius: 5px; }
 #list #filters {
-  line-height: 64px; }
+  line-height: 64px;
+  height: 64px;
+  margin-bottom: 6px; }
+  #list #filters select {
+    padding-right: 28px;
+    padding-left: 12px;
+    background-color: #ECF0F1;
+    line-height: 32px;
+    height: 48px;
+    width: 15%;
+    border: none;
+    outline: none;
+    margin-right: 10px; }
   #list #filters #mass-action {
     width: 50%;
-    height: 64px;
+    height: 100%;
     display: inline-block; }
-    #list #filters #mass-action select {
-      padding-right: 28px;
-      padding-left: 12px;
-      background-color: #ECF0F1;
-      line-height: 32px;
-      height: 32px;
-      width: 15%;
-      border: none;
-      outline: none; }
-    #list #filters #mass-action .records-count {
-      margin-left: 10px; }
   #list #filters #pagination {
+    text-align: right;
     float: right;
-    background-color: #00b16a;
-    width: 15%;
-    height: 64px;
+    width: 50%;
+    height: 48px;
     display: inline-block; }
+    #list #filters #pagination select {
+      width: auto;
+      padding: 0 12px;
+      padding-left: 6px;
+      height: 100%; }
+    #list #filters #pagination .change-page {
+      width: 4%;
+      display: inline-block;
+      line-height: 42px;
+      background-color: #ECF0F1;
+      text-align: center; }
+      #list #filters #pagination .change-page.previous {
+        margin-left: 24px;
+        margin-right: 12px; }
+      #list #filters #pagination .change-page.next {
+        margin-left: 12px; }
+    #list #filters #pagination #input-page {
+      width: 4%;
+      height: 32px;
+      text-align: center; }
 #list table {
   width: 100%; }
   #list table thead {
@@ -296,6 +317,9 @@ body {
     padding: 6px 12px; }
   #list table tbody tr:nth-child(even) {
     background-color: #d3dbdf; }
+
+.settings-nav {
+  display: none; }
 
 .container {
   height: calc(100vh - 55px);
