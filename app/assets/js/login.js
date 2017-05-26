@@ -42,7 +42,6 @@ var loginForm = document.querySelector("#container-login-form");
 var passwordForgetForm = document.querySelector("#container-password-forget");
 var forgetButton = document.querySelector("#forget");
 
-
 passwordForgetButton.addEventListener("click", function () {
     fadeOut(loginForm);
     setTimeout(function () {
@@ -59,34 +58,28 @@ backLoginButton.addEventListener("click", function () {
 
 forgetButton.addEventListener("click", function (event) {
     event.preventDefault();
+
     if (validateEmail(document.querySelector("#forget-mail").value)) {
-
-
         var data = {
             'email': document.querySelector("input[name='email-forget']").value
         };
 
-
         ajax.post(loginResetPassword, data, function (data) {
-            console.log(data);
-            if (JSON.parse(data)['success']) {
-                console.log('2');
+            data = JSON.parse(data);
+            if (data['success']) {
                 fadeOut(passwordForgetForm);
                 setTimeout(function () {
                     fadeIn(loginForm);
                 }, 250);
-                showPopUp("Un email vous a été envoyé<br>pour réinitialiser votre mot de passe", "success");
+                showPopUp(data['message'], "success");
+            } else {
+                showPopUp(data['message'], "error");
             }
         });
-
-
-
-
     } else {
         showPopUp("Votre mail n'est pas valide", "error");
     }
 });
-
 
 function fadeOut(element) {
     element.style.opacity = 1;
@@ -127,7 +120,7 @@ var timeOutPopUp;
 function showPopUp(text, type) {
     clearTimeout(timeOutPopUp);
     var popup = document.querySelector("#popup-message");
-    popup.style.backgroundColor = (type == "error" ? "red" : "#27ae60");
+    popup.style.backgroundColor = (type == "error" ? "rgba(255, 31, 8, 0.73)" : "rgba(39, 174, 96, 0.73)");
     popup.innerHTML = text;
     fadeIn(popup);
     timeOutPopUp = setTimeout(function () {

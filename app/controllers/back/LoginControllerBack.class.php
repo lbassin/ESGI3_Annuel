@@ -70,8 +70,24 @@ class LoginControllerBack
 
     public function resetPasswordAction($params)
     {
-        $mail = new Mail($params['post']['email']);
-        $mail->send();
+        if (isset($params['post']['email'])) {
+            $user = new User();
+            $user->populate(['email' => $params['post']['email']]);
+
+            if(! is_null($user->getId())) { // TODO
+                ob_start();
+                $view = new View('front', 'mails/reset', 'mail');
+                $view = null;
+                $renderedView = ob_get_clean();
+
+                $mail = new Mail($params['post']['email'], 'Qwarkz - Réinitialisation de votre mot de passe', $renderedView);
+                $mail->send();
+            } else {
+                echo json_encode(['success' => false, 'message' => "Aucun compte n'est rattaché<br>à cet email"]);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Une erreur est survenue']);
+        }
     }
 
 }
