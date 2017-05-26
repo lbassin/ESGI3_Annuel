@@ -62,7 +62,7 @@
     line-height: 64px;
 
     #mass-action{
-      width: 15%;
+      width: 50%;
       height: 64px;
       display: inline-block;
 
@@ -72,15 +72,15 @@
         background-color: #ECF0F1;
         line-height: 32px;
         height: 32px;
-        -moz-appearance: none;
-        -webkit-appearance: none;
-
+        width: 15%;
+        //-moz-appearance: none;
+        //-webkit-appearance: none;
+        border: none;
+        outline: none;
       }
-      &:after {
-        margin-left: -25px;
-        position: relative;
-        content: "\f150";
-        font: normal normal normal 14px/1 FontAwesome;
+
+      .records-count{
+        margin-left: 10px;
       }
 
     }

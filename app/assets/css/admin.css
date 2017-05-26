@@ -267,7 +267,7 @@ body {
 #list #filters {
   line-height: 64px; }
   #list #filters #mass-action {
-    width: 15%;
+    width: 50%;
     height: 64px;
     display: inline-block; }
     #list #filters #mass-action select {
@@ -276,13 +276,11 @@ body {
       background-color: #ECF0F1;
       line-height: 32px;
       height: 32px;
-      -moz-appearance: none;
-      -webkit-appearance: none; }
-    #list #filters #mass-action:after {
-      margin-left: -25px;
-      position: relative;
-      content: "\f150";
-      font: normal normal normal 14px/1 FontAwesome; }
+      width: 15%;
+      border: none;
+      outline: none; }
+    #list #filters #mass-action .records-count {
+      margin-left: 10px; }
   #list #filters #pagination {
     float: right;
     background-color: #00b16a;

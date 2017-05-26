@@ -25,7 +25,7 @@
                 <select name="" id="">
                     <option value="">Test</option>
                 </select>
-                <span>3 Records found</span>
+                <span class="records-count">3 Records found</span>
             </div>
             <div id="pagination">
                 <select name="" id="">
