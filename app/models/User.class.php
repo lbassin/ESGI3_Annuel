@@ -248,19 +248,19 @@ class User extends BaseSql implements Listable, Editable
                         ],
                         'pseudo' => [
                             'type' => 'text',
-                            'label' => 'Pseudo :',
+                            'label' => 'Pseudo',
                             'class' => 'two-col',
                             'value' => $this->getPseudo()
                         ],
                         'email' => [
                             'type' => 'email',
-                            'label' => 'Email :',
+                            'label' => 'Email',
                             'class' => 'one-col',
                             'value' => $this->getEmail()
                         ],
                         'password' => [
                             'type' => 'password',
-                            'label' => 'Password :',
+                            'label' => 'Password',
                             'class' => 'one-col'
                         ]
                     ]
@@ -270,19 +270,19 @@ class User extends BaseSql implements Listable, Editable
                     Editable::GROUP_FIELDS => [
                         'lastname' => [
                             'type' => 'text',
-                            'label' => 'Nom :',
+                            'label' => 'Nom',
                             'class' => 'one-col',
                             'value' => $this->getLastname()
                         ],
                         'firstname' => [
                             'type' => 'text',
-                            'label' => 'Prénom :',
+                            'label' => 'Prénom',
                             'class' => 'one-col',
                             'value' => $this->getFirstname()
                         ],
                         'avatar' => [
                             'type' => 'file',
-                            'label' => 'Avatar :',
+                            'label' => 'Avatar',
                             'accept' => 'image/*'
                         ]
                     ]
@@ -292,13 +292,13 @@ class User extends BaseSql implements Listable, Editable
                     Editable::GROUP_FIELDS => [
                         'status' => [
                             'type' => 'checkbox',
-                            'label' => 'Actif :',
+                            'label' => 'Actif',
                             'class' => 'one-col',
                             'value' => $this->getStatus()
                         ],
                         'role' => [
                             'type' => 'select',
-                            'label' => 'Role :',
+                            'label' => 'Role',
                             'class' => 'one-col',
                             'options' => $this->getRole()->getAllAsOptions(),
                             'value' => $this->getRole()->getId()

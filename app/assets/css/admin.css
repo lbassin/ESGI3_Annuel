@@ -214,14 +214,51 @@ body {
 .is-not-visible {
   opacity: 0 !important; }
 
-.container form {
-  width: 80%; }
-  .container form p {
-    margin-right: 2%; }
-  .container form .one-col {
+#form #menu {
+  line-height: 70px;
+  height: 74px;
+  width: 100%;
+  margin: 0;
+  margin-bottom: 12px;
+  margin-top: 18px;
+  background-color: #F0F0F0;
+  border-top: 2px solid #DDD;
+  border-bottom: 2px solid #DDD; }
+  #form #menu #action {
+    float: right;
+    height: inherit;
+    padding-right: 18px; }
+    #form #menu #action a {
+      font-weight: bold; }
+      #form #menu #action a.button {
+        display: inline-block;
+        height: 45px;
+        line-height: 45px;
+        padding: 0 32px;
+        color: #000;
+        text-decoration: none;
+        cursor: pointer; }
+        #form #menu #action a.button.primary {
+          background-color: #27ae60;
+          color: #fff;
+          border-radius: 5px; }
+        #form #menu #action a.button.secondary {
+          color: #000;
+          border-radius: 5px; }
+#form h2 {
+  width: 100%;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #b5b5b5; }
+#form .field-line {
+  width: 100%;
+  margin-bottom: 12px; }
+  #form .field-line label {
+    display: inline-block;
+    width: 15%;
+    text-align: right;
+    margin-right: 1%; }
+  #form .field-line input {
     display: inline-block; }
-  .container form input[type="file"] {
-    display: block; }
 
 #list #menu {
   line-height: 64px;
