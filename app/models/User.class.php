@@ -250,7 +250,8 @@ class User extends BaseSql implements Listable, Editable
                             'type' => 'text',
                             'label' => 'Pseudo',
                             'class' => 'two-col',
-                            'value' => $this->getPseudo()
+                            'value' => $this->getPseudo(),
+                            'required' => true
                         ],
                         'email' => [
                             'type' => 'email',

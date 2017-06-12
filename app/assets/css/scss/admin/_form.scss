@@ -1,4 +1,4 @@
-#form{
+#form {
   #menu {
     line-height: 70px;
     height: 74px;
@@ -15,7 +15,7 @@
       height: inherit;
       padding-right: 18px;
 
-      a {
+      a, input[type="submit"] {
         font-weight: bold;
 
         &.button {
@@ -26,6 +26,7 @@
           color: #000;
           text-decoration: none;
           cursor: pointer;
+          border: none;
 
           &.primary {
             background-color: #27ae60;
@@ -42,44 +43,30 @@
     }
   }
 
-  h2{
+  h2 {
     width: 100%;
     padding-bottom: 6px;
     border-bottom: 2px solid #b5b5b5;
   }
 
-  .field-line{
+  .field-line {
     width: 100%;
     margin-bottom: 12px;
 
-    label{
+    label {
       display: inline-block;
       width: 15%;
       text-align: right;
       margin-right: 1%;
     }
 
-    input{
+    input {
       display: inline-block;
+      padding: 4px;
+
+      &[required] {
+        // Add content:'*';
+      }
     }
   }
 }
-//
-//.container {
-//
-//  form {
-//    width: 80%;
-//
-//    p {
-//      margin-right: 2%;
-//    }
-//
-//    .one-col {
-//      display: inline-block;
-//    }
-//
-//    input[type="file"] {
-//      display: block;
-//    }
-//  }
-//}

@@ -211,9 +211,6 @@ body {
 .is-visible {
   opacity: 1 !important; }
 
-.is-not-visible {
-  opacity: 0 !important; }
-
 #form #menu {
   line-height: 70px;
   height: 74px;
@@ -228,21 +225,22 @@ body {
     float: right;
     height: inherit;
     padding-right: 18px; }
-    #form #menu #action a {
+    #form #menu #action a, #form #menu #action input[type="submit"] {
       font-weight: bold; }
-      #form #menu #action a.button {
+      #form #menu #action a.button, #form #menu #action input[type="submit"].button {
         display: inline-block;
         height: 45px;
         line-height: 45px;
         padding: 0 32px;
         color: #000;
         text-decoration: none;
-        cursor: pointer; }
-        #form #menu #action a.button.primary {
+        cursor: pointer;
+        border: none; }
+        #form #menu #action a.button.primary, #form #menu #action input[type="submit"].button.primary {
           background-color: #27ae60;
           color: #fff;
           border-radius: 5px; }
-        #form #menu #action a.button.secondary {
+        #form #menu #action a.button.secondary, #form #menu #action input[type="submit"].button.secondary {
           color: #000;
           border-radius: 5px; }
 #form h2 {
@@ -258,7 +256,8 @@ body {
     text-align: right;
     margin-right: 1%; }
   #form .field-line input {
-    display: inline-block; }
+    display: inline-block;
+    padding: 4px; }
 
 #list #menu {
   line-height: 64px;
@@ -371,11 +370,17 @@ body {
     padding: 1px 0;
     border-radius: 6px;
     margin-bottom: 6px;
-    transition: opacity 0.5s ease-in-out; }
+    overflow: hidden;
+    transition: opacity 1.5s ease, max-height 1s ease-in-out;
+    height: auto;
+    max-height: 200px; }
     .container .flash-messages.errors {
       background-color: #ec644b; }
     .container .flash-messages.success {
       background-color: #00b16a; }
+    .container .flash-messages.is-not-visible {
+      max-height: 0;
+      opacity: 0; }
     .container .flash-messages ul {
       list-style: none; }
       .container .flash-messages ul li {
