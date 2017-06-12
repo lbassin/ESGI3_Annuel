@@ -137,7 +137,7 @@ class User extends BaseSql implements Listable, Editable
         }
     }
 
-    public function getListConfig()
+    public function getListConfig($configList = null)
     {
         return [
             Listable::LIST_STRUCT => [
@@ -153,13 +153,17 @@ class User extends BaseSql implements Listable, Editable
                     'Action'
                 ]
             ],
-            Listable::LIST_ROWS => $this->getListData()
+            Listable::LIST_ROWS => $this->getListData($configList)
         ];
     }
 
-    public function getListData()
+    public function getListData($configList = null)
     {
-        $users = $this->getAll();
+        if (!isset($configList) || !isset($configList['size']) || !isset($configList['page'])) {
+            $users = $this->getAll();
+        } else {
+            $users = $this->getPage($configList['size'], $configList['page']);
+        }
 
         $listData = [];
 

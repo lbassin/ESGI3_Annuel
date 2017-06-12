@@ -132,4 +132,20 @@ class BaseSql
 
         return $entities;
     }
+
+    public function getPage($size, $page){
+        $db = Db::getInstance();
+
+        $start = $size * ($page - 1);
+        $end = $start + $size;
+
+        $sql = 'SELECT * FROM ' . $this->table . ' LIMIT ' . $start . ',' . $end;
+
+        $query = $db->query($sql);
+        $query->setFetchMode(PDO::FETCH_CLASS, $this->table);
+
+        $entities = $query->fetchAll();
+
+        return $entities;
+    }
 }

@@ -25,11 +25,19 @@
                 <select name="" id="">
                     <option value="">Mass Action</option>
                 </select>
-                <span class="records-count">3 Records found</span>
+                <span class="records-count"><?php echo count($data);?> Records found</span>
             </div>
             <div id="pagination">
-                <select name="" id="">
-                    <option value="">20</option>
+                <select name="currentSize">
+                    <?php $availableSize = [2, 4, 8]; ?>
+                    <?php $currentSize = $pagination['size']; ?>
+                    <?php foreach ($availableSize as $size): ?>
+                        <option value="<?php echo $size; ?>"
+                            <?php if($size == $currentSize): ?>
+                                <?php echo 'selected="selected"'; ?>
+                            <?php endif; ?>
+                        ><?php echo $size; ?></option>
+                    <?php endforeach; ?>
                 </select><span>per page</span>
                 <div class="change-page previous">
                     <i class="fa fa-chevron-left" aria-hidden="true"></i>
@@ -76,3 +84,5 @@
         </table>
     <?php endif; ?>
 </div>
+
+<script src="<?php echo Helpers::getAsset('js/modals/list.js'); ?>"></script>
