@@ -2,19 +2,40 @@
 
 class Session
 {
+    /**
+     * Integrates token informations in session
+     * @param array $aToken contains token informations
+     * @var string $index contains the last index of the token array
+     * @var array $_SESSION['token'] get all informations from @param $aToken at the index from @var $index
+     */
     public static function setToken($aToken)
     {
+        $index = (isset($_SESSION['token'])) ? count($_SESSION['token']) : 0 ;
         foreach ($aToken as $key => $value) {
-            $_SESSION['token'][$key] = $value;
+            $_SESSION['token'][$index][$key] = $value;
         }
     }
 
+    /**
+     * Unset session token from index
+     * @param integer $iToken contains the index of the token
+     */
+    public static function doneToken($iIndex)
+    {
+        unset($_SESSION['token'][$iIndex]);
+    }
+
+    /**
+     * Return index and content of the last index token generated
+     * @return string index and content of the last index token generated
+     */
     public static function getToken()
     {
-        if (!isset($_SESSION['token']['token'])) {
-            return '';
+        if (isset($_SESSION['token'])) {
+            end($_SESSION['token']);
+            return key($_SESSION['token'])."&".$_SESSION['token'][key($_SESSION['token'])]['token'];
         }
-        return $_SESSION['token']['token'];
+        return '';
     }
 
     public static function addSuccess($message)
