@@ -1,22 +1,15 @@
 <?php
-class Comment extends BaseSql
+class Comment extends BaseSql implements Listable, Editable
 {
     protected $id;
     protected $content;
-    protected $id_article;
-    protected $id_user;
+    protected $article;
+    protected $user;
 
-    public function __construct(
-        $id = -1,
-        $content = null,
-        $id_article = null,
-        $id_user = null
-    )
+    public function __construct()
     {
-        $this->setId($id);
-        $this->setContent($content);
-        $this->setIdArticle($id_article);
-        $this->setIdUser($id_user);
+        $this->foreignValues[] = 'article';
+        $this->foreignValues[] = 'user';
 
         parent::__construct();
     }
@@ -41,24 +34,159 @@ class Comment extends BaseSql
         $this->content = $content;
     }
 
-    public function getIdArticle()
+    public function getArticle()
     {
-        return $this->id_article;
+        if (!isset($this->article)) {
+            if (!isset($this->id_article)) {
+                return new Article;
+            }
+
+            $article = new Article;
+            $article->populate(['id' => $this->id_article]);
+            return $article;
+        }
+        return $this->article;
     }
 
-    public function setIdArticle($id_article)
+    public function setArticle($article)
     {
-        $this->id_article = $id_article;
+        if ($article instanceof Article) {
+            $this->article = $article;
+        } else {
+            $newArticle = new Article();
+            $newArticle->populate(['id' => intval($article)]);
+
+            $this->article = $newArticle;
+        }
     }
 
-    public function getIdUser()
+    public function getUser()
     {
-        return $this->id_user;
+        if (!isset($this->user)) {
+            if (!isset($this->id_user)) {
+                return new User;
+            }
+
+            $user = new User;
+            $user->populate(['id' => $this->id_user]);
+            return $user;
+        }
+        return $this->user;
     }
 
-    public function setIdUser($id_user)
+    public function setUser($user)
     {
-        $this->id_user = $id_user;
+        if ($user instanceof User) {
+            $this->user = $user;
+        } else {
+            $newUser = new User();
+            $newUser->populate(['id' => intval($user)]);
+            $this->user = $newUser;
+        }
+    }
+
+    public function getListConfig()
+    {
+        return [
+            Listable::LIST_STRUCT => [
+                Listable::LIST_TITLE => 'Commentaires',
+                Listable::LIST_NEW_LINK => Helpers::getAdminRoute('comment/new'),
+                Listable::LIST_EDIT_LINK => Helpers::getAdminRoute('comment/edit'),
+                Listable::LIST_HEADER => [
+                    '',
+                    'ID',
+                    'Content',
+                    'Article',
+                    'User',
+                    'Action'
+                ]
+            ],
+            Listable::LIST_ROWS => $this->getListData()
+        ];
+    }
+
+    public function getListData()
+    {
+        $comments = $this->getAll();
+
+        $listData = [];
+
+        foreach ($comments as $comment) {
+            $commentData = [
+                [
+                    'type' => 'checkbox',
+                    'value' => ''
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $comment->getId()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $comment->getContent()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $comment->getArticle()->getTitle()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $comment->getUser()->getFirstName() . ' ' . $comment->getUser()->getLastName()
+                ],
+                [
+                    'type' => 'action',
+                    'id' => $comment->getId()
+                ]
+            ];
+
+            $listData[] = $commentData;
+        }
+
+        return $listData;
+    }
+
+    public function validate(array $data)
+    {
+        // TODO
+
+        return [];
+    }
+
+    public function getFormConfig()
+    {
+        return [
+            Editable::FORM_STRUCT => [
+                Editable::FORM_METHOD => 'post',
+                Editable::FORM_ACTION => Helpers::getAdminRoute('comment/save'),
+                Editable::FORM_SUBMIT => 'Sauvegarder',
+                Editable::FORM_FILE => 1
+            ],
+            Editable::FORM_GROUPS => [
+                [
+                    Editable::GROUP_LABEL => 'Commentaires',
+                    Editable::GROUP_FIELDS => [
+                        'id' => [
+                            'type' => 'hidden',
+                            'value' => $this->getId()
+                        ],
+                        'content' => [
+                            'type' => 'text',
+                            'label' => 'Content :',
+                            'class' => 'two-col',
+                            'value' => $this->getContent()
+                        ],
+                        'article' => [
+                            'type' => 'hidden',
+                            'value' => $this->getArticle()->getId()
+                        ],
+                        'user' => [
+                            'type' => 'hidden',
+                            'value' => $this->getUser()->getId()
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
 
