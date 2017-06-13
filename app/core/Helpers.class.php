@@ -11,13 +11,13 @@ class Helpers
 
     public static function getAsset($path)
     {
-        return '/' . BASE_PATH . 'app/assets/' . $path;
+        return BASE_PATH . 'app/assets/' . $path;
     }
 
     public static function getAdminRoute($path)
     {
         $path = rtrim($path, '/');
-        return '/' . BASE_PATH . ADMIN_PATH . '/' . $path . '/';
+        return BASE_PATH . ADMIN_PATH . '/' . $path . '/';
     }
 
     public static function redirectBack()

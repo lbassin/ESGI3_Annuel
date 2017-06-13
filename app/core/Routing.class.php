@@ -125,10 +125,10 @@ class Routing
             $jsonData = [];
         }
 
-        $this->params[self::PARAMS_POST] = array_merge($_POST, $jsonData);
+        $this->params[self::PARAMS_POST] = Xss::parse(array_merge($_POST, $jsonData));
         $this->params[self::PARAMS_URL] = array_values($this->uriExploded);
-        $this->params[self::PARAMS_GET] = $this->getData;
-        $this->params[self::PARAMS_FILE] = $_FILES;
+        $this->params[self::PARAMS_GET] = Xss::parse($this->getData);
+        $this->params[self::PARAMS_FILE] = Xss::parse($_FILES);
     }
 
     public function runRoute()

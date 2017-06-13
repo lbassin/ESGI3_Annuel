@@ -1,0 +1,174 @@
+#list {
+  #menu {
+    line-height: 64px;
+    height: 64px;
+    width: 100%;
+    margin-bottom: 12px;
+    margin-top: 18px;
+
+    input[type="text"] {
+      line-height: 32px;
+      padding: 4px;
+      width: 20%;
+      font-style: italic;
+      padding-right: 28px;
+      padding-left: 12px;
+      background-color: #ECF0F1;
+      border-radius: 5px;
+      border: 1px solid transparent;
+      transition: border .5s;
+
+      &:focus {
+        border: 1px solid #212121;
+        outline: none;
+        box-shadow: none;
+      }
+    }
+
+    &:after {
+      margin-left: -25px;
+      position: relative;
+      content: "\f002";
+      font: normal normal normal 14px/1 FontAwesome;
+    }
+
+    #action {
+      float: right;
+      height: inherit;
+      padding-right: 18px;
+
+      a {
+        &.button {
+          display: inline-block;
+          height: 50px;
+          line-height: 50px;
+          padding: 0 32px;
+          color: #000;
+          text-decoration: none;
+
+          &.primary {
+            background-color: #27ae60;
+            color: #fff;
+            border-radius: 5px;
+          }
+
+        }
+      }
+
+    }
+  }
+
+  #filters {
+    line-height: 64px;
+    height: 64px;
+
+    margin-bottom: 6px;
+
+    select {
+      padding-right: 28px;
+      padding-left: 12px;
+      background-color: #ECF0F1;
+      line-height: 32px;
+      height: 48px;
+      width: 15%;
+      border: none;
+      outline: none;
+      margin-right: 10px;
+      border-radius: 5px;
+    }
+
+    #mass-action {
+      width: 50%;
+      height: 100%;
+      display: inline-block;
+    }
+
+    #pagination {
+      text-align: right;
+      float: right;
+      width: 50%;
+      height: 48px;
+      display: inline-block;
+
+      select {
+        width: auto;
+        padding: 0 12px;
+        padding-left: 6px;
+        height: 100%;
+      }
+
+      .change-page {
+        width: 4%;
+        display: inline-block;
+
+        line-height: 42px;
+        background-color: #ECF0F1;
+
+        text-align: center;
+
+        border-radius: 5px;
+
+        &.previous {
+          margin-left: 24px;
+          margin-right: 12px;
+        }
+
+        &.next {
+          margin-left: 12px;
+        }
+      }
+
+      #input-page {
+        width: 4%;
+        height: 32px;
+        text-align: center;
+      }
+    }
+  }
+
+  table {
+    width: 100%;
+
+    thead {
+      line-height: 38px;
+      background-color: #b1b6ba;
+
+      th {
+        &:first-child {
+          border-radius: 5px 0 0 0;
+        }
+
+        &:last-child {
+          border-radius: 0 5px 0 0;
+        }
+      }
+    }
+
+    tbody {
+
+      tr {
+        td {
+          padding: 6px 12px;
+
+          &:first-child{
+            border-radius: 0 0 0 5px;
+          }
+
+          &:last-child{
+            border-radius: 0 0 5px 0;
+          }
+
+        }
+
+        &:nth-child(even) {
+          background-color: #d3dbdf;
+        }
+      }
+
+    }
+  }
+}
+
+.settings-nav {
+  display: none;
+}
