@@ -1,6 +1,6 @@
 <?php
 
-class Article extends BaseSql
+class Article extends BaseSql implements Listable, Editable
 {
     protected $id;
     protected $title;
@@ -8,10 +8,11 @@ class Article extends BaseSql
     protected $url;
     protected $publish;
     protected $visibility;
-    protected $id_user;
-    protected $id_survey;
+    protected $user;
+    protected $survey;
 
     public function __construct() {
+        array_push($this->foreignValues, 'user', 'survey');
 
         parent::__construct();
     }
@@ -76,27 +77,54 @@ class Article extends BaseSql
         $this->visibility = $visibility;
     }
 
-    public function getIdUser()
+    public function getUser()
     {
-        return $this->id_user;
+        if (!isset($this->user)) {
+            return new User();
+        }
+
+        $user = new User();
+        $user->populate(['id' => $this->user]);
+
+        return $user;
     }
 
-    public function setIdUser($id_user)
+    public function setUser($user)
     {
-        $this->id_user = $id_user;
+        if ($user instanceof User) {
+            $this->user = $user;
+        } else {
+            $newUser = new User();
+            $newUser->populate(['id' => intval($user)]);
+            $this->user = $newUser;
+        }
     }
 
-    public function getIdSurvey()
+    public function getSurvey()
     {
-        return $this->id_user;
+        if (!isset($this->survey)) {
+            return new Survey();
+        }
+
+        $survey = new Survey();
+        $survey->populate(['id' => $this->survey]);
+
+        return $survey;
     }
 
-    public function setIdSurvey($id_user)
+    public function setSurvey($survey)
     {
-        $this->id_user = $id_user;
+        if ($survey instanceof Survey) {
+            $this->survey = $survey;
+        } else {
+            $newSurvey = new Survey();
+            $newSurvey->populate(['id' => intval($survey)]);
+            $this->survey = $newSurvey;
+        }
     }
 
-    public function validate(array $data) {
+    public function validate($data) {
+
         $title = $data['title'];
         $content = $data['content'];
         $url = $data['url'];
@@ -121,58 +149,69 @@ class Article extends BaseSql
     public function getFormConfig()
     {
         return [
-            'struct' => [
-                'method' => 'post',
-                'action' => Helpers::getAdminRoute('article/save'),
-                'class' => '',
-                'submit' => 'Sauvegarder votre article'
+            Editable::FORM_STRUCT => [
+                Editable::FORM_METHOD => 'post',
+                Editable::FORM_ACTION => Helpers::getAdminRoute('article/save'),
+                Editable::FORM_SUBMIT => 'Sauvegarder'
             ],
-            'groups' => [
+            Editable::FORM_GROUPS => [
                 [
-                    'label' => 'Article',
-                    'fields' => [
+                    Editable::GROUP_LABEL => 'Article',
+                    Editable::GROUP_FIELDS => [
                         'title' => [
                             'type' => 'text',
                             'label' => 'Titre de l\'article :',
-                            'class' => 'two-col'
+                            'class' => 'two-col',
+                            'value' => $this->getTitle()
                         ],
                         'content' => [
                             'type' => 'textarea',
                             'label' => 'Contenue de l\'article :',
-                            'class' => 'one-col'
+                            'class' => 'one-col',
+                            'value' => $this->getContent()
                         ],
                         'url' => [
                             'type' => 'text',
                             'label' => 'Url :',
-                            'class' => 'one-col'
+                            'class' => 'one-col',
+                            'value' => $this->getUrl()
                         ]
                     ]
                 ],
                 [
-                    'label' => 'Configuration',
-                    'fields' => [
+                    Editable::GROUP_LABEL => 'Configurations',
+                    Editable::GROUP_FIELDS => [
                         'publish' => [
                             'type' => 'checkbox',
                             'label' => 'Publié :',
-                            'class' => 'one-col'
+                            'class' => 'one-col',
+                            'value' => $this->getPublish()
                         ],
                         'visibility' => [
                             'type' => 'checkbox',
                             'label' => 'Visibilité :',
-                            'class' => 'one-col'
+                            'class' => 'one-col',
+                            'value' => $this->getVisibility()
+                        ],
+                        'survey' => [
+                            'type' => 'select',
+                            'label' => 'Survey :',
+                            'class' => 'one-col',
+                            'options' => $this->getSurvey()->getAllAsOptions(),
+                            'value' => $this->getSurvey()->getId()
                         ]
                     ]
-                ],
+                ]
             ]
         ];
     }
 
     public function getListConfig() {
         return [
-            'struct' => [
-                'title' => 'Articles',
-                'newLink' => Helpers::getAdminRoute('article/new'),
-                'header' => [
+            Listable::LIST_STRUCT => [
+                Listable::LIST_NEW_LINK => Helpers::getAdminRoute('article/new'),
+                Listable::LIST_EDIT_LINK => Helpers::getAdminRoute('article/edit'),
+                Listable::LIST_HEADER => [
                     '',
                     'ID',
                     'Title',
@@ -190,7 +229,6 @@ class Article extends BaseSql
 
         $listData = [];
 
-        /** @var Article $article */
         foreach ($articles as $article) {
             $articleData = [
                 [

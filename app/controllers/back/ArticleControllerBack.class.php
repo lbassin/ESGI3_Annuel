@@ -23,13 +23,46 @@ class ArticleControllerBack
         $view->assign('article', $article);
     }
 
+    public function saveAction($params) {
+        $postData = $params['post'];
+        $article = new Article();
+
+        $article->validate($postData);
+
+        if (count(Session::getErrors()) > 0) {
+            Helpers::redirectBack();
+        }
+
+        if (!isset($postData['publish'])) {
+            $postData['publish'] = 0;
+        }
+
+        if (!isset($postData['visibility'])) {
+            $postData['visibility'] = 0;
+        }
+
+        $article->setSurvey($postData['survey']);
+        $article->fill($postData);
+        $article->setUser(1);
+
+        $article->save();
+
+        Session::addSuccess("Votre article a bien été enregistré");
+        Helpers::redirect(Helpers::getAdminRoute('article/'));
+    }
+
     public function editAction($params) {
+        $params = $params['url'];
+
         if (!isset($params[0])) {
             Session::addError("Missing id");
             Helpers::redirectBack();
         }
-        $view = new View('back', 'article/edit', 'admin');
+
         $articleId = $params[0];
+
+        $view = new View('back', 'article/edit', 'admin');
+
         $article = new Article();
         $article->populate(["id" => $articleId]);
 
@@ -38,30 +71,6 @@ class ArticleControllerBack
             Helpers::redirectBack();
         }
         $view->assign('article', $article);
-    }
-
-    public function saveAction($params) {
-        $article = new Article();
-
-        $article->validate($params);
-
-        if (count(Session::getErrors()) > 0) {
-            Helpers::redirectBack();
-        }
-
-        if (!isset($params['publish'])) {
-            $params['publish'] = 0;
-        }
-
-        if (!isset($params['visibility'])) {
-            $params['visibility'] = 0;
-        }
-
-        $article->fill($params);
-        $article->save();
-
-        Session::addSuccess("Votre article a bien été enregistré");
-        Helpers::redirect(Helpers::getAdminRoute('article/'));
     }
 
     public function deleteAction() {
