@@ -1,29 +1,15 @@
 <?php
-class Media extends BaseSql
+class Media extends BaseSql implements Listable
 {
     protected $id;
     protected $name;
     protected $path;
     protected $type;
     protected $extension;
-    protected $id_user;
+    protected $user;
 
-    public function __construct(
-        $id = -1,
-        $name = null,
-        $path = null,
-        $type = null,
-        $extension = null,
-        $id_user = null
-    )
+    public function __construct()
     {
-        $this->setId($id);
-        $this->setName($name);
-        $this->setPath($path);
-        $this->setType($type);
-        $this->setExtension($extension);
-        $this->setIdUser($id_user);
-
         parent::__construct();
     }
 
@@ -77,13 +63,97 @@ class Media extends BaseSql
         $this->extension = $extension;
     }
 
-    public function getIdUser()
+    public function getUser()
     {
-        return $this->id_user;
+        if (!isset($this->user)) {
+            if (!isset($this->id_user)) {
+                return new User;
+            }
+            $user = new User;
+            $user->populate(['id' => $this->id_user]);
+            return $user;
+        }
+        return $this->user;
     }
 
-    public function setIdUser($id_user)
+    public function setUser($user)
     {
-        $this->id_user = $id_user;
+        if ($user instanceof User) {
+            $this->user = $user;
+        } else {
+            $newUser = new User();
+            $newUser->populate(['id' => intval($user)]);
+            $this->user = $newUser;
+        }
+    }
+
+    public function getListConfig()
+    {
+        return [
+            Listable::LIST_STRUCT => [
+                Listable::LIST_TITLE => 'Medias',
+                Listable::LIST_NEW_LINK => Helpers::getAdminRoute('media/new'),
+                Listable::LIST_EDIT_LINK => Helpers::getAdminRoute('media/edit'),
+                Listable::LIST_HEADER => [
+                    '',
+                    'ID',
+                    'Name',
+                    'Path',
+                    'Type',
+                    'Extension',
+                    'User',
+                    'Action'
+                ]
+            ],
+            Listable::LIST_ROWS => $this->getListData()
+        ];
+    }
+
+    public function getListData()
+    {
+        $medias = $this->getAll();
+
+        $listData = [];
+
+        foreach ($medias as $media) {
+            $mediaData = [
+                [
+                    'type' => 'checkbox',
+                    'value' => ''
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $media->getId()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $media->getName()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $media->getPath()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $media->getType()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $media->getExtension()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $media->getUser()->getFirstName() . ' ' . $media->getUser()->getLastName()
+                ],
+                [
+                    'type' => 'action',
+                    'id' => $media->getId()
+                ]
+            ];
+
+            $listData[] = $mediaData;
+        }
+
+        return $listData;
     }
 }
