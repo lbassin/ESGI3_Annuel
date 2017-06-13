@@ -132,4 +132,36 @@ class BaseSql
 
         return $entities;
     }
+
+    public function getPage($size, $page)
+    {
+        $db = Db::getInstance();
+
+        $start = $size * ($page - 1);
+        $end = $start + $size;
+
+        $sql = 'SELECT * FROM ' . $this->table . ' LIMIT ' . $start . ',' . $end;
+
+        $query = $db->query($sql);
+        $query->setFetchMode(PDO::FETCH_CLASS, $this->table);
+
+        $entities = $query->fetchAll();
+
+        return $entities;
+    }
+
+    public function countAll()
+    {
+        $db = Db::getInstance();
+
+        $sql = 'SELECT COUNT(*) FROM ' . $this->table;
+        $query = $db->query($sql);
+
+        $data = $query->fetch(PDO::FETCH_NUM);
+        if (!isset($data[0])) {
+            return 0;
+        }
+
+        return $data[0];
+    }
 }
