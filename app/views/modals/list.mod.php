@@ -25,15 +25,15 @@
                 <select name="" id="">
                     <option value="">Mass Action</option>
                 </select>
-                <span class="records-count"><?php echo count($data);?> Records found</span>
+                <span class="records-count"><?php echo $pagination['count']; ?> Records found</span>
             </div>
             <div id="pagination">
                 <select name="currentSize">
-                    <?php $availableSize = [2, 4, 8]; ?>
+                    <?php $availableSize = [2, 4, 8]; // TODO ?>
                     <?php $currentSize = $pagination['size']; ?>
                     <?php foreach ($availableSize as $size): ?>
                         <option value="<?php echo $size; ?>"
-                            <?php if($size == $currentSize): ?>
+                            <?php if ($size == $currentSize): ?>
                                 <?php echo 'selected="selected"'; ?>
                             <?php endif; ?>
                         ><?php echo $size; ?></option>
@@ -42,7 +42,9 @@
                 <div class="change-page previous">
                     <i class="fa fa-chevron-left" aria-hidden="true"></i>
                 </div>
-                <input id="input-page" type="text" value="1"><span> of 2</span>
+                <input id="input-page" type="text" data-max="<?php echo ($pagination['count'] / $pagination['size']) + 1; ?>"
+                       value="<?php echo $pagination['page']; ?>"><span> of
+                    <?php echo ($pagination['count'] / $pagination['size']); ?></span>
                 <div class="change-page next">
                     <i class="fa fa-chevron-right" aria-hidden="true"></i>
                 </div>

@@ -313,7 +313,8 @@ body {
     width: 15%;
     border: none;
     outline: none;
-    margin-right: 10px; }
+    margin-right: 10px;
+    border-radius: 5px; }
   #list #filters #mass-action {
     width: 50%;
     height: 100%;
@@ -334,7 +335,8 @@ body {
       display: inline-block;
       line-height: 42px;
       background-color: #ECF0F1;
-      text-align: center; }
+      text-align: center;
+      border-radius: 5px; }
       #list #filters #pagination .change-page.previous {
         margin-left: 24px;
         margin-right: 12px; }
@@ -349,8 +351,16 @@ body {
   #list table thead {
     line-height: 38px;
     background-color: #b1b6ba; }
+    #list table thead th:first-child {
+      border-radius: 5px 0 0 0; }
+    #list table thead th:last-child {
+      border-radius: 0 5px 0 0; }
   #list table tbody tr td {
     padding: 6px 12px; }
+    #list table tbody tr td:first-child {
+      border-radius: 0 0 0 5px; }
+    #list table tbody tr td:last-child {
+      border-radius: 0 0 5px 0; }
   #list table tbody tr:nth-child(even) {
     background-color: #d3dbdf; }
 
