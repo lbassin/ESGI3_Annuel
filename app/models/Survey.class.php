@@ -4,14 +4,8 @@ class Survey extends BaseSql
     protected $id;
     protected $question;
 
-    public function __construct(
-        $id = -1,
-        $question = null
-    )
+    public function __construct()
     {
-        $this->setId($id);
-        $this->setQuestion($question);
-
         parent::__construct();
     }
 
@@ -33,6 +27,20 @@ class Survey extends BaseSql
     public function setQuestion($question)
     {
         $this->question = $question;
+    }
+
+    public function getAllAsOptions()
+    {
+        $surveys = $this->getAll();
+
+        $data = [];
+        foreach ($surveys as $survey) {
+            if (!empty($survey->getQuestion())) {
+                $data[$survey->getQuestion()] = $survey->getId();
+            }
+        }
+
+        return $data;
     }
 
 }
