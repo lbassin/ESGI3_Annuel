@@ -89,6 +89,36 @@ class File
         fwrite($this->file, $content);
     }
 
+    public static function errorUpload($fileError)
+    {
+        switch ($fileError) {
+            case UPLOAD_ERR_INI_SIZE:
+                Session::addError("La taille du fichier téléchargé excède la valeur autorisé par le serveur");
+                break;
+            case UPLOAD_ERR_FORM_SIZE:
+                Session::addError("La taille du fichier téléchargé excède la valeur autorisé par le formulaire");
+                break;
+            case UPLOAD_ERR_PARTIAL:
+                Session::addError("Le fichier n'a été que partiellement téléchargé");
+                break;
+            case UPLOAD_ERR_NO_FILE:
+                Session::addError("Aucun fichier n'a été téléchargé");
+                break;
+            case UPLOAD_ERR_NO_TMP_DIR:
+                Session::addError("Un dossier temporaire est manquant");
+                break;
+            case UPLOAD_ERR_CANT_WRITE:
+                Session::addError("Échec de l'écriture du fichier sur le disque");
+                break;
+            case UPLOAD_ERR_EXTENSION:
+                Session::addError("Une extension du serveur a arrêté l'envoi de fichier");
+                break;
+            default:
+                Session::addError("Erreur interne");
+                break;
+        }
+    }
+
     function __destruct()
     {
         try {
