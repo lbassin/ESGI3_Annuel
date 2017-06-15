@@ -1,5 +1,5 @@
 <?php
-class Media extends BaseSql implements Listable
+class Media extends BaseSql implements Listable, Editable
 {
     protected $id;
     protected $name;
@@ -10,6 +10,8 @@ class Media extends BaseSql implements Listable
 
     public function __construct()
     {
+        $this->foreignValues = ['user'];
+
         parent::__construct();
     }
 
@@ -155,5 +157,82 @@ class Media extends BaseSql implements Listable
         }
 
         return $listData;
+    }
+
+    public function upload(array $file)
+    {
+        if (!file_exists(FILE_UPLOAD_PATH)) {
+            if(!mkdir(FILE_UPLOAD_PATH)) {
+                Session::addError('Création du fichier d\'upload impossible, vérifiez les droits !');
+            }
+        }
+
+		$filePath = FILE_UPLOAD_PATH.'/'.uniqid().".".strtolower($this->getExensionFromFile($file['image']['name']));
+        if(!move_uploaded_file($file['image']['tmp_name'], $filePath)) {
+            Session::addError('Une erreur est intervenu dans le dossier de destination');
+        }
+        return $filePath;
+    }
+
+    public function getExensionFromFile(string $file)
+    {
+        $extension = new SplFileInfo($file);
+        return $extension->getExtension();
+    }
+
+    public function validate(array $data)
+    {
+        // Check data given for the input name
+        if (!isset($data['post']['name'])) {
+            Session::addError('Veuillez remplir le champ nom');
+        } elseif (strlen($data['post']['name']) > 255) {
+            Session::addError('Le champ nom est trop long');
+        }
+        // Check error from file
+        if (!isset($data['files']['image'])) {
+            Session::addError('Aucun fichier renseigné');
+        }
+        var_dump($data);
+        if ($data['files']['image']['error'] != 0) {
+            File::errorUpload($data['files']['image']['error']);
+        }
+        $allowedExtension = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'ttf'];
+        if (!in_array($this->getExensionFromFile($data['files']['image']['name']), $allowedExtension)) {
+            Session::addError('L\'extension du fichier n\'est pas autorisé');
+        } elseif ($data['files']['image']['size'] > FILE_UPLOAD_MAX_SIZE) {
+            Session::addError('Le fichier séléctionné est trop volumineux');
+        }
+    }
+
+    public function getFormConfig()
+    {
+        return [
+            Editable::FORM_STRUCT => [
+                Editable::FORM_METHOD => 'post',
+                Editable::FORM_ACTION => Helpers::getAdminRoute('media/save'),
+                Editable::FORM_SUBMIT => 'Sauvegarder',
+                Editable::FORM_FILE => 1
+            ],
+            Editable::FORM_GROUPS => [
+                [
+                    Editable::GROUP_LABEL => 'Media',
+                    Editable::GROUP_FIELDS => [
+                        'id' => [
+                            'type' => 'hidden',
+                            'value' => $this->getId()
+                        ],
+                        'name' => [
+                            'type' => 'text',
+                            'label' => 'Nom :',
+                        ],
+                        'image' => [
+                            'type' => 'file',
+                            'label' => 'Media :',
+                            'accept' => 'image/*'
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 }
