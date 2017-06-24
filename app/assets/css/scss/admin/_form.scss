@@ -68,5 +68,37 @@
         // Add content:'*';
       }
     }
+
+    textarea{
+      resize: none;
+    }
+  }
+
+  .widget{
+    width: 96%;
+    margin: auto;
+
+    &.page_new{
+      height: 100%;
+      display: flex;
+
+      .left{
+        width: 25%;
+        float: left;
+        text-align: right;
+        padding: 0 12px;
+      }
+
+      .middle{
+        width: 50%;
+        display: inline-block;
+      }
+
+      .right{
+        float:right;
+        width: 25%;
+      }
+
+    }
   }
 }

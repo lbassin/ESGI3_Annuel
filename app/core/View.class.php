@@ -65,6 +65,14 @@ class View
         include $filename;
     }
 
+    public function includeWidget($id){
+        $filename = 'app/views/modals/widgets/'. $id . '.wid.php';
+        if (!file_exists($filename)) {
+            throw new Exception("Le widget n'existe pas");
+        }
+        include $filename;
+    }
+
     public function getErrors()
     {
         $errors = Session::getErrors();

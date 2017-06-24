@@ -258,6 +258,25 @@ body {
   #form .field-line input {
     display: inline-block;
     padding: 4px; }
+  #form .field-line textarea {
+    resize: none; }
+#form .widget {
+  width: 96%;
+  margin: auto; }
+  #form .widget.page_new {
+    height: 100%;
+    display: flex; }
+    #form .widget.page_new .left {
+      width: 25%;
+      float: left;
+      text-align: right;
+      padding: 0 12px; }
+    #form .widget.page_new .middle {
+      width: 50%;
+      display: inline-block; }
+    #form .widget.page_new .right {
+      float: right;
+      width: 25%; }
 
 #list #menu {
   line-height: 64px;
@@ -371,7 +390,7 @@ body {
   height: calc(100vh - 55px);
   margin: 0;
   margin-top: 55px;
-  width: calc(100vw - 60px);
+  width: calc(100vw - 65px);
   position: absolute;
   padding: 15px;
   right: 0;

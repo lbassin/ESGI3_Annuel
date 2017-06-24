@@ -18,18 +18,14 @@ class PageControllerBack
 
     public function newAction($params)
     {
-        if (empty($params['url'])) {
-            $view = new View('back', 'page/new/template', 'admin');
-            $view->assign('templates', $this->getPageTemplates());
-        }else{
-            $view = new View('back', 'page/new/content', 'admin');
-            $view->assign('page', new Page);
-        }
+        $view = new View('back', 'page/new', 'admin');
+        $view->assign('page', new Page);
     }
 
     /**
      * @return array
      */
+    /*
     private function getPageTemplates()
     {
         $templates = [];
@@ -56,6 +52,7 @@ class PageControllerBack
 
         return $templates;
     }
+    */
 
     public function editAction()
     {

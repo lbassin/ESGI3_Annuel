@@ -111,7 +111,8 @@ class Page extends BaseSql implements Listable, Editable
         $this->meta_description = $meta_description;
     }
 
-    public function getListConfig(){
+    public function getListConfig()
+    {
         return [
             Listable::LIST_STRUCT => [
                 Listable::LIST_TITLE => 'Pages',
@@ -130,13 +131,14 @@ class Page extends BaseSql implements Listable, Editable
         ];
     }
 
-    public function getListData(){
+    public function getListData()
+    {
         $pages = $this->getAll();
 
         $listData = [];
 
         /** @var Page $page */
-        foreach ($pages as $page){
+        foreach ($pages as $page) {
             $pageData = [
                 [
                     'type' => 'checkbox',
@@ -180,10 +182,28 @@ class Page extends BaseSql implements Listable, Editable
             ],
             Editable::FORM_GROUPS => [
                 [
-                    Editable::GROUP_LABEL => 'Test',
+                    Editable::GROUP_LABEL => 'Search Engine Optimisation',
                     Editable::GROUP_FIELDS => [
-                        'test' => [
-                            'type' => 'text'
+                        'title' => [
+                            'type' => 'text',
+                            'label' => 'Title'
+                        ],
+                        'url' => [
+                            'type' => 'text',
+                            'label' => 'URL'
+                        ],
+                        'meta_desc' => [
+                            'type' => 'textarea',
+                            'label' => 'Description'
+                        ]
+                    ]
+                ],
+                [
+                    Editable::GROUP_LABEL => 'Content',
+                    Editable::GROUP_FIELDS => [
+                        'preview' => [
+                            'type' => 'widget',
+                            'id' => 'page/new'
                         ]
                     ]
                 ]

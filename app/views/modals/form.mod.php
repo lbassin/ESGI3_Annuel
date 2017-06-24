@@ -98,6 +98,8 @@
                                     name="<?php echo $name; ?>"
                                     placeholder="<?php echo isset($attributs['placeholder']) ? $attributs['placeholder'] : ''; ?>"
                                     id="<?php echo "input-" . $name; ?>"
+                                    cols="50"
+                                    rows="5"
                                 <?php echo(isset($attributs['required']) ? 'required="required"' : ''); ?>
                                 <?php echo(isset($attributs['disabled']) ? 'disabled="disabled"' : ''); ?>
                             ><?php echo(isset($attributs['value']) ? $attributs['value'] : ''); ?></textarea>
@@ -125,6 +127,10 @@
                             >
                         <?php endif; ?>
                     </div>
+
+                    <?php if($attributs['type'] == 'widget'): ?>
+                        <?php $this->includeWidget($attributs['id']); ?>
+                    <?php endif; ?>
 
                 <?php endforeach; ?>
             <?php endforeach; ?>
