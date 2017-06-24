@@ -1,18 +1,22 @@
+var i;
+
 var actionPopin = document.getElementsByClassName('action-popin');
-for (var i = 0; i < actionPopin.length; i++) {
+for (i = 0; i < actionPopin.length; i++) {
     actionPopin[i].addEventListener('click', function () {
         displayPopin(this);
     })
 }
 
 var overlayPopin = document.getElementsByClassName("popin-overlay");
-if (overlayPopin[0]) {
-    overlayPopin[0].addEventListener('click', hidePopin);
+for (i = 0; i < overlayPopin.length; i++) {
+    overlayPopin[i].addEventListener('click', function () {
+        hidePopin(this);
+    })
 }
 
 function displayPopin(trigger) {
-    var popin = document.getElementById("popin");
-    if(!popin){
+    var popin = document.getElementById(trigger.getAttribute("data-target"));
+    if (!popin) {
         return false;
     }
 
@@ -20,14 +24,14 @@ function displayPopin(trigger) {
     popin.style.opacity = 1;
 }
 
-function hidePopin(){
-    var popin = document.getElementById("popin");
-    if(!popin){
+function hidePopin(trigger) {
+    var popin = trigger.parentElement;
+    if (!popin) {
         return false;
     }
     popin.style.opacity = 0;
 
-    setTimeout(function(){
+    setTimeout(function () {
         popin.style.visibility = 'hidden';
     }, 750);
 }

@@ -292,18 +292,18 @@ body {
         #form .widget.page_new .right span:hover {
           background-color: rgba(172, 172, 172, 0.6); }
 
-#popin {
+.popin-container {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.75s ease-in-out; }
-  #popin .popin-overlay {
+  .popin-container .popin-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(100, 100, 100, 0.8); }
-  #popin .popin-content {
+  .popin-container .popin-content {
     position: absolute;
     top: 0;
     width: 66%;
