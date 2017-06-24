@@ -16,22 +16,53 @@ for (i = 0; i < overlayPopin.length; i++) {
 
 function displayPopin(trigger) {
     var popin = document.getElementById(trigger.getAttribute("data-target"));
-    if (!popin) {
-        return false;
+    if (popin) {
+        fadeIn(popin);
     }
-
-    popin.style.visibility = 'visible';
-    popin.style.opacity = 1;
 }
 
 function hidePopin(trigger) {
     var popin = trigger.parentElement;
-    if (!popin) {
-        return false;
+    if (popin) {
+        fadeOut(popin);
     }
-    popin.style.opacity = 0;
+}
 
-    setTimeout(function () {
-        popin.style.visibility = 'hidden';
-    }, 750);
+var templates = document.getElementsByClassName('template');
+for (i = 0; i < templates.length; i++) {
+    templates[i].addEventListener('click', function () {
+        var gridTemplates = document.querySelector('#popin-addComponent .popin-content .grid-templates');
+        fadeOut(gridTemplates);
+
+        var configTemplate = document.querySelector("#popin-addComponent .popin-content .template-config");
+        configTemplate.classList.add('fadeIn');
+    });
+}
+
+function fadeOut(element) {
+    element.classList.remove('fadeIn');
+    element.classList.add('fadeOut');
+    setTimeout(function(){
+        element.classList.add('hidden');
+        element.classList.remove('fadeOut');
+    }, 700);
+}
+
+function fadeIn(element) {
+    element.classList.add('fadeIn');
+    element.classList.remove('hidden');
+}
+
+var form = document.getElementsByTagName('form');
+if(form[0]){
+    form[0].addEventListener('submit', function(evt){
+        evt.preventDefault();
+    })
+}
+
+var validePopin = document.getElementById('validate-component');
+if(validePopin){
+    validePopin.addEventListener('click', function(){
+        fadeOut(document.getElementById('popin-addComponent'));
+    })
 }

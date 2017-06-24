@@ -12,10 +12,28 @@
     </div>
 </div>
 
-<div id="popin-addComponent" class="popin-container">
+<div id="popin-addComponent" class="popin-container hidden">
     <div class="popin-overlay">
     </div>
     <div class="popin-content">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+        <div class="grid-templates">
+            <h3>Selectionnez le template qui vous plait</h3>
+            <div>
+                <img src="<?php echo Helpers::getAsset('img/template_tmp.png'); ?>" alt="" class="template">
+                <img src="<?php echo Helpers::getAsset('img/template_tmp.png'); ?>" alt="" class="template">
+                <img src="<?php echo Helpers::getAsset('img/template_tmp.png'); ?>" alt="" class="template">
+                <img src="<?php echo Helpers::getAsset('img/template_tmp.png'); ?>" alt="" class="template">
+                <img src="<?php echo Helpers::getAsset('img/template_tmp.png'); ?>" alt="" class="template">
+                <img src="<?php echo Helpers::getAsset('img/template_tmp.png'); ?>" alt="" class="template">
+            </div>
+        </div>
+        <div class="template-config">
+            <h3>Configuration</h3>
+            <div class="field-line">
+                <label for="template-input-title">Title</label>
+                <input type="text" name="template-title" value="" placeholder="" id="template-input-title">
+            </div>
+            <button id="validate-component">Valider</button>
+        </div>
     </div>
 </div>
