@@ -142,3 +142,5 @@
         </form>
     <?php endif; ?>
 </div>
+
+<script src="<?php echo Helpers::getAsset('js/modals/form.js'); ?>"></script>
