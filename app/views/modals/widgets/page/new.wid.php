@@ -11,3 +11,10 @@
         <span class="action-popin" data-target=""><i class="fa fa-plus" aria-hidden="true"></i> Add new component</span>
     </div>
 </div>
+
+<div id="popin">
+    <div class="popin-overlay">
+    </div>
+    <div class="popin-content">
+    </div>
+</div>

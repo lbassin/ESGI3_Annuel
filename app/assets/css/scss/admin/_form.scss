@@ -123,3 +123,29 @@
     }
   }
 }
+
+#popin {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.75s ease-in-out;
+
+  .popin-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(100, 100, 100, 0.8);
+  }
+
+  .popin-content {
+    position: absolute;
+    top: 0;
+    width: 66%;
+    left: 16.5%; // (100 - width) / 2
+    height: 50%;
+    margin-top: 56px;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+}
