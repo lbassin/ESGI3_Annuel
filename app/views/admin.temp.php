@@ -70,6 +70,7 @@
         </a>
     </nav>
 
+<!--
     <div class="settings-nav">
         <div class="settings-title">
             Settings
@@ -80,6 +81,7 @@
 
         <a href="<?php echo Helpers::getAdminRoute('login/logout'); ?>" class="logout">Logout</a>
     </div>
+-->
 
     <header class="header">
         <div id="nav-icon" class="nav-toggle">

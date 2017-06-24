@@ -7,14 +7,11 @@
         <?php $data = $config[Listable::LIST_ROWS]; ?>
 
         <h1><?php echo $config[Listable::LIST_STRUCT][Listable::LIST_TITLE]; ?></h1>
-        <!--    <a href="--><?php //echo $config[Listable::LIST_STRUCT][Listable::LIST_NEW_LINK]; ?><!--">-->
-        <!--        <button>New</button>-->
-        <!--    </a>-->
 
         <div id="menu">
             <input type="text" placeholder="Search by keyword">
             <div id="action">
-                <a href="#" class="button primary">
+                <a href="<?php echo $config[Listable::LIST_STRUCT][Listable::LIST_NEW_LINK]; ?>" class="button primary">
                     New
                 </a>
             </div>
