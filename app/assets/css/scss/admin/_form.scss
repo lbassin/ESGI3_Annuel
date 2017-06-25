@@ -148,6 +148,25 @@
       border-radius: 5px;
       background-color: #fff;
       padding: 4px 12px;
+
+      .popin-content-footer {
+
+        button.validate-component {
+          float: right;
+          display: inline-block;
+          height: 36px;
+          line-height: 36px;
+          padding: 0 28px;
+          text-decoration: none;
+          cursor: pointer;
+          border: none;
+          background-color: #27ae60;
+          color: #fff;
+          border-radius: 5px;
+          margin-bottom: 12px;
+          margin-right: 8px;
+        }
+      }
     }
   }
 
@@ -160,10 +179,6 @@
       margin-bottom: 32px;
       box-shadow: 6px 6px 12px rgba(80, 80, 80, 0.6);
     }
-  }
-
-  .template-config {
-
   }
 
   .fadeIn {

@@ -313,6 +313,20 @@ body {
     border-radius: 5px;
     background-color: #fff;
     padding: 4px 12px; }
+    #form .popin-container .popin-content .popin-content-footer button.validate-component {
+      float: right;
+      display: inline-block;
+      height: 36px;
+      line-height: 36px;
+      padding: 0 28px;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      background-color: #27ae60;
+      color: #fff;
+      border-radius: 5px;
+      margin-bottom: 12px;
+      margin-right: 8px; }
 #form .grid-templates {
   transition: opacity 0.75s ease-in-out; }
   #form .grid-templates img {

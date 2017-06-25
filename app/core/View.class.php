@@ -56,7 +56,7 @@ class View
         $this->data[$key] = $value;
     }
 
-    public function includeModal($modal, $config, $pagination)
+    public function includeModal($modal, $config, $pagination = [])
     {
         $filename = 'app/views/modals/' . $modal . '.mod.php';
         if (!file_exists($filename)) {

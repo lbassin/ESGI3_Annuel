@@ -70,14 +70,15 @@ class PageControllerBack
             return [];
         }
 
+        $config = [];
         $groups = [];
         /** @var SimpleXMLElement $config */
-        foreach ($xml->getNode('config/groups') as $config) {
+        foreach ($xml->getNode('config/groups') as $xmlConfig) {
             $group = [];
-            $group[Editable::GROUP_LABEL] = (String)$config->xpath('label')[0];
+            $group[Editable::GROUP_LABEL] = (String)$xmlConfig->xpath('label')[0];
             $group[Editable::GROUP_FIELDS] = [];
 
-            $fields = $config->xpath('fields')[0];
+            $fields = $xmlConfig->xpath('fields')[0];
             /** @var SimpleXMLElement|array $attributes */
             foreach ($fields as $field => $attributes) {
                 $fieldConfig = [];
@@ -91,18 +92,34 @@ class PageControllerBack
             $groups[] = $group;
         }
 
-        return $groups;
+        $config[Editable::FORM_GROUPS] = $groups;
+        $config[Editable::FORM_STRUCT] = [
+            'method' => 'post',
+            'action' => '#',
+            'hide_header' => 1,
+            'submit' => $xml->getNode('config/struct/submit', true),
+            'file' => $xml->getNode('config/struct/file', true)
+        ];
+
+        return $config;
     }
 
-    public function templateAction($params)
+    public function componentAction($params)
     {
         if (!isset($params[Routing::PARAMS_URL][0])) {
             $template = $this->getComponentTemplates();
-        } else {
-            $template = $this->getComponentTemplate($params[Routing::PARAMS_URL][0]);
-        }
+            echo json_encode($template);
 
-        echo json_encode($template);
+        } else {
+            $templateConfig = $this->getComponentTemplate($params[Routing::PARAMS_URL][0]);
+
+            $view = new View('back', 'ajax/index', 'ajax');
+            $view->includeModal('form', $templateConfig);
+        }
+    }
+
+    public function validateComponentAction($params){
+
     }
 
     public function editAction()

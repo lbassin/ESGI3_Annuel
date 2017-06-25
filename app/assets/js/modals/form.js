@@ -9,6 +9,11 @@ for (i = 0; i < actionPopin.length; i++) {
     })
 }
 
+var validateButton = document.querySelector('#popin-addComponent .validate-component');
+if (validateButton) {
+    validateButton.addEventListener('click', validateComponent);
+}
+
 var overlayPopin = document.getElementsByClassName("popin-overlay");
 for (i = 0; i < overlayPopin.length; i++) {
     overlayPopin[i].addEventListener('click', function () {
@@ -68,19 +73,12 @@ var form = document.getElementsByTagName('form');
 if (form[0]) {
     form[0].addEventListener('submit', function (evt) {
         evt.preventDefault();
-    })
-}
-
-var validePopin = document.getElementById('validate-component');
-if (validePopin) {
-    validePopin.addEventListener('click', function () {
-        fadeOut(document.getElementById('popin-addComponent'));
-    })
+    });
 }
 
 function getTemplates() {
     var ajax = new Ajax();
-    ajax.get(urlTemplate, function (data) {
+    ajax.get(urlComponent, function (data) {
         var templates = JSON.parse(data);
 
         var templatePreview = null;
@@ -100,15 +98,38 @@ function getTemplates() {
 
 function selectTemplate(template) {
     var configTemplate = document.querySelector("#popin-addComponent .popin-content .template-config");
+    var ajaxContent = document.querySelector("#popin-addComponent .popin-content .template-config .ajax-content");
     var gridTemplates = document.querySelector('#popin-addComponent .popin-content .grid-templates');
 
     var ajax = new Ajax();
-    ajax.get(urlTemplate + '1', function (data) {
-        configTemplate.append(data);
+    ajax.get(urlComponent + template.getAttribute('data-template-id'), function (data) {
+        var formConfig = document.createElement('form');
+        formConfig.setAttribute('name', 'form-config-component');
+        formConfig.innerHTML = data;
+
+        ajaxContent.innerHTML = "";
+        ajaxContent.appendChild(formConfig);
     });
+
+    validateButton.setAttribute('data-template-id', template.getAttribute('data-template-id'));
 
     fadeOut(gridTemplates);
     setTimeout(function () {
         fadeIn(configTemplate);
     }, 750);
+}
+
+function validateComponent() {
+    var form = document.forms['form-config-component'];
+
+    var data = {};
+    for (i = 0; i < form.elements.length; i++) {
+        data[form.elements[i].name] = form.elements[i].value;
+    }
+    data['template-id'] = validateButton.getAttribute('data-template-id');
+
+    var ajax = new Ajax();
+    ajax.post(urlValidate, data, function(response){
+       console.log(response);
+    });
 }

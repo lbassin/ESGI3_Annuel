@@ -22,16 +22,15 @@
             </div>
         </div>
         <div class="template-config hidden">
-            <h3>Configuration</h3>
-            <div class="field-line">
-                <label for="template-input-title">Title</label>
-                <input type="text" name="template-title" value="" placeholder="" id="template-input-title">
+            <div class="ajax-content"></div>
+            <div class="popin-content-footer">
+                <button class="validate-component">Valider</button>
             </div>
-            <button id="validate-component">Valider</button>
         </div>
     </div>
 </div>
 
 <script>
-    var urlTemplate = '<?php echo Helpers::getAdminRoute('page/template'); ?>';
+    var urlComponent = '<?php echo Helpers::getAdminRoute('page/component'); ?>';
+    var urlValidate = '<?php echo Helpers::getAdminRoute('page/validateComponent'); ?>';
 </script>
