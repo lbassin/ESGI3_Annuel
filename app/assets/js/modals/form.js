@@ -1,5 +1,7 @@
 var i;
 
+getTemplates();
+
 var actionPopin = document.getElementsByClassName('action-popin');
 for (i = 0; i < actionPopin.length; i++) {
     actionPopin[i].addEventListener('click', function () {
@@ -26,12 +28,12 @@ function hidePopin(trigger) {
     if (popin) {
         fadeOut(popin);
 
-        setTimeout(function(){
+        setTimeout(function () {
             var popinContent = document.querySelector('#' + popin.getAttribute('id') + ' .popin-content');
             for (i = 0; i < popinContent.children.length; i++) {
                 if (i === 0) {
                     fadeIn(popinContent.children[i]);
-                }else{
+                } else {
                     fadeOut(popinContent.children[i]);
                 }
             }
@@ -43,13 +45,7 @@ function addEventOnTemplateGrid() {
     var templates = document.getElementsByClassName('template');
     for (i = 0; i < templates.length; i++) {
         templates[i].addEventListener('click', function () {
-            var gridTemplates = document.querySelector('#popin-addComponent .popin-content .grid-templates');
-            fadeOut(gridTemplates);
-
-            setTimeout(function () {
-                var configTemplate = document.querySelector("#popin-addComponent .popin-content .template-config");
-                fadeIn(configTemplate);
-            }, 750);
+            selectTemplate(this);
         });
     }
 }
@@ -91,8 +87,9 @@ function getTemplates() {
         var gridTemplates = document.querySelector('#popin-addComponent .grid-templates > div');
         for (var e = 0; e < templates.length; e++) {
             templatePreview = document.createElement('img');
-            templatePreview.setAttribute('src', templates[e].preview);
             templatePreview.classList.add('template');
+            templatePreview.setAttribute('src', templates[e].preview);
+            templatePreview.setAttribute('data-template-id', templates[e].id);
 
             gridTemplates.appendChild(templatePreview);
         }
@@ -101,4 +98,17 @@ function getTemplates() {
     })
 }
 
-getTemplates();
+function selectTemplate(template) {
+    var configTemplate = document.querySelector("#popin-addComponent .popin-content .template-config");
+    var gridTemplates = document.querySelector('#popin-addComponent .popin-content .grid-templates');
+
+    var ajax = new Ajax();
+    ajax.get(urlTemplate + '1', function (data) {
+        configTemplate.append(data);
+    });
+
+    fadeOut(gridTemplates);
+    setTimeout(function () {
+        fadeIn(configTemplate);
+    }, 750);
+}

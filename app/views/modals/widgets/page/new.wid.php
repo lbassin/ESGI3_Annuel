@@ -33,5 +33,5 @@
 </div>
 
 <script>
-    var urlTemplate = '<?php echo Helpers::getAdminRoute('page/templates'); ?>';
+    var urlTemplate = '<?php echo Helpers::getAdminRoute('page/template'); ?>';
 </script>
