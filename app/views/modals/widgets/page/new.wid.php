@@ -31,6 +31,6 @@
 </div>
 
 <script>
-    var urlComponent = '<?php echo Helpers::getAdminRoute('page/component'); ?>';
-    var urlValidate = '<?php echo Helpers::getAdminRoute('page/validateComponent'); ?>';
+    var urlComponent = '<?php echo Helpers::getAdminRoute('component/component'); ?>';
+    var urlValidate = '<?php echo Helpers::getAdminRoute('component/validate'); ?>';
 </script>

@@ -2,6 +2,8 @@ var i;
 
 getTemplates();
 
+var divPreview = document.querySelector('.widget.page_new .preview');
+
 var actionPopin = document.getElementsByClassName('action-popin');
 for (i = 0; i < actionPopin.length; i++) {
     actionPopin[i].addEventListener('click', function () {
@@ -17,7 +19,7 @@ if (validateButton) {
 var overlayPopin = document.getElementsByClassName("popin-overlay");
 for (i = 0; i < overlayPopin.length; i++) {
     overlayPopin[i].addEventListener('click', function () {
-        hidePopin(this);
+        hidePopin(this.parentElement);
     })
 }
 
@@ -28,8 +30,7 @@ function displayPopin(trigger) {
     }
 }
 
-function hidePopin(trigger) {
-    var popin = trigger.parentElement;
+function hidePopin(popin) {
     if (popin) {
         fadeOut(popin);
 
@@ -126,10 +127,15 @@ function validateComponent() {
     for (i = 0; i < form.elements.length; i++) {
         data[form.elements[i].name] = form.elements[i].value;
     }
-    data['template-id'] = validateButton.getAttribute('data-template-id');
+    data['template_id'] = validateButton.getAttribute('data-template-id');
 
     var ajax = new Ajax();
-    ajax.post(urlValidate, data, function(response){
-       console.log(response);
+    ajax.post(urlValidate, data, function (response) {
+        response = JSON.parse(response);
+
+        if (response['error'] !== true) {
+            divPreview.innerHTML += JSON.stringify(response);
+            hidePopin(document.querySelector("#popin-addComponent"));
+        }
     });
 }
