@@ -25,24 +25,39 @@ function hidePopin(trigger) {
     var popin = trigger.parentElement;
     if (popin) {
         fadeOut(popin);
+
+        setTimeout(function(){
+            var popinContent = document.querySelector('#' + popin.getAttribute('id') + ' .popin-content');
+            for (i = 0; i < popinContent.children.length; i++) {
+                if (i === 0) {
+                    fadeIn(popinContent.children[i]);
+                }else{
+                    fadeOut(popinContent.children[i]);
+                }
+            }
+        }, 650);
     }
 }
 
-var templates = document.getElementsByClassName('template');
-for (i = 0; i < templates.length; i++) {
-    templates[i].addEventListener('click', function () {
-        var gridTemplates = document.querySelector('#popin-addComponent .popin-content .grid-templates');
-        fadeOut(gridTemplates);
+function addEventOnTemplateGrid() {
+    var templates = document.getElementsByClassName('template');
+    for (i = 0; i < templates.length; i++) {
+        templates[i].addEventListener('click', function () {
+            var gridTemplates = document.querySelector('#popin-addComponent .popin-content .grid-templates');
+            fadeOut(gridTemplates);
 
-        var configTemplate = document.querySelector("#popin-addComponent .popin-content .template-config");
-        configTemplate.classList.add('fadeIn');
-    });
+            setTimeout(function () {
+                var configTemplate = document.querySelector("#popin-addComponent .popin-content .template-config");
+                fadeIn(configTemplate);
+            }, 750);
+        });
+    }
 }
 
 function fadeOut(element) {
     element.classList.remove('fadeIn');
     element.classList.add('fadeOut');
-    setTimeout(function(){
+    setTimeout(function () {
         element.classList.add('hidden');
         element.classList.remove('fadeOut');
     }, 700);
@@ -54,15 +69,36 @@ function fadeIn(element) {
 }
 
 var form = document.getElementsByTagName('form');
-if(form[0]){
-    form[0].addEventListener('submit', function(evt){
+if (form[0]) {
+    form[0].addEventListener('submit', function (evt) {
         evt.preventDefault();
     })
 }
 
 var validePopin = document.getElementById('validate-component');
-if(validePopin){
-    validePopin.addEventListener('click', function(){
+if (validePopin) {
+    validePopin.addEventListener('click', function () {
         fadeOut(document.getElementById('popin-addComponent'));
     })
 }
+
+function getTemplates() {
+    var ajax = new Ajax();
+    ajax.get(urlTemplate, function (data) {
+        var templates = JSON.parse(data);
+
+        var templatePreview = null;
+        var gridTemplates = document.querySelector('#popin-addComponent .grid-templates > div');
+        for (var e = 0; e < templates.length; e++) {
+            templatePreview = document.createElement('img');
+            templatePreview.setAttribute('src', templates[e].preview);
+            templatePreview.classList.add('template');
+
+            gridTemplates.appendChild(templatePreview);
+        }
+
+        addEventOnTemplateGrid();
+    })
+}
+
+getTemplates();

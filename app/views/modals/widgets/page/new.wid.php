@@ -19,15 +19,9 @@
         <div class="grid-templates">
             <h3>Selectionnez le template qui vous plait</h3>
             <div>
-                <img src="<?php echo Helpers::getAsset('img/template_tmp.png'); ?>" alt="" class="template">
-                <img src="<?php echo Helpers::getAsset('img/template_tmp.png'); ?>" alt="" class="template">
-                <img src="<?php echo Helpers::getAsset('img/template_tmp.png'); ?>" alt="" class="template">
-                <img src="<?php echo Helpers::getAsset('img/template_tmp.png'); ?>" alt="" class="template">
-                <img src="<?php echo Helpers::getAsset('img/template_tmp.png'); ?>" alt="" class="template">
-                <img src="<?php echo Helpers::getAsset('img/template_tmp.png'); ?>" alt="" class="template">
             </div>
         </div>
-        <div class="template-config">
+        <div class="template-config hidden">
             <h3>Configuration</h3>
             <div class="field-line">
                 <label for="template-input-title">Title</label>
@@ -37,3 +31,7 @@
         </div>
     </div>
 </div>
+
+<script>
+    var urlTemplate = '<?php echo Helpers::getAdminRoute('page/templates'); ?>';
+</script>

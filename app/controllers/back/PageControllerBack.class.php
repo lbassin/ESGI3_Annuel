@@ -25,7 +25,6 @@ class PageControllerBack
     /**
      * @return array
      */
-    /*
     private function getPageTemplates()
     {
         $templates = [];
@@ -52,7 +51,12 @@ class PageControllerBack
 
         return $templates;
     }
-    */
+
+    public function templatesAction(){
+        $template = $this->getPageTemplates();
+
+        echo json_encode($template);
+    }
 
     public function editAction()
     {
