@@ -49,7 +49,7 @@ class Xml
         }
 
         if ($asString) {
-            return (string)$node;
+            return trim((string)$node);
         }
         return $node;
     }

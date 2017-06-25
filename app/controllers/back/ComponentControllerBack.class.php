@@ -26,7 +26,7 @@ class ComponentControllerBack
             $templates[] = [
                 Page::TEMPLATE_ID => $xml->getNode('header/id', true),
                 Page::TEMPLATE_NAME => $xml->getNode('header/name', true),
-                Page::TEMPLATE_PREVIEW => trim($xml->getNode('header/preview', true))
+                Page::TEMPLATE_PREVIEW => $xml->getNode('header/example', true)
             ];
         }
 
@@ -43,12 +43,12 @@ class ComponentControllerBack
         $filePath = 'themes/templates/default/components/template' . $id . '.xml';
 
         if (!file_exists($filePath)) {
-            return ['error' => 'File not found']; // Error;
+            Helpers::error404();
         }
 
         $xml = new Xml($filePath);
         if (!$xml->open()) {
-            return [];
+            Helpers::error404();
         }
 
         $config = [];
@@ -105,10 +105,23 @@ class ComponentControllerBack
         if (!isset($data['template_id'])) {
             echo json_encode(['error' => true, 'message' => 'Template ID is missing']); // TODO : Error
         }
-
         $templateId = $data['template_id'];
         unset($data['token']);
 
-        echo json_encode(['preview' => 'TODO', 'data' => $data]);
+        // TODO : Change to getCurrentThemeDirectory();
+        $filePath = 'themes/templates/default/components/template' . $templateId . '.xml';
+
+        if (!file_exists($filePath)) {
+            Helpers::error404();
+        }
+
+        $xml = new Xml($filePath);
+        if (!$xml->open()) {
+            Helpers::error404();
+        }
+
+        $preview = $xml->getNode('header/preview', true);
+
+        echo json_encode(['preview' => $preview, 'data' => $data]);
     }
 }

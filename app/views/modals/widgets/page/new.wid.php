@@ -6,6 +6,7 @@
         <div class="preview">
 
         </div>
+        <button>Preview</button>
     </div>
     <div class="right">
         <span class="action-popin" data-target="popin-addComponent"><i class="fa fa-plus" aria-hidden="true"></i> Add new component</span>
