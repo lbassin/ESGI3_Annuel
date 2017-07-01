@@ -54,4 +54,15 @@ class Xml
         return $node;
     }
 
+    public function getNodeAsArray($path)
+    {
+        $node = $this->file->xpath($path)[0];
+        $children = [];
+        foreach ($node as $key => $value){
+            $children[$key] = (array)$value;
+        }
+
+        return $children;
+    }
+
 }

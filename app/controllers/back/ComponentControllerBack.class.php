@@ -120,8 +120,15 @@ class ComponentControllerBack
             Helpers::error404();
         }
 
-        $preview = $xml->getNode('header/preview', true);
+        $constraints = $xml->getNodeAsArray('validate');
+        $validator = new Validator();
+        $errors = $validator->validate($data, $constraints);
 
-        echo json_encode(['preview' => $preview, 'data' => $data]);
+        if (!empty($errors)) {
+            echo json_encode($errors);
+        } else {
+            $preview = $xml->getNode('header/preview', true);
+            echo json_encode(['preview' => $preview, 'data' => $data]);
+        }
     }
 }

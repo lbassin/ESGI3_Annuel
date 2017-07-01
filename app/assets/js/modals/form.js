@@ -129,19 +129,19 @@ function validateComponent() {
     }
     data['template_id'] = validateButton.getAttribute('data-template-id');
 
-
-
     var ajax = new Ajax();
     ajax.post(urlValidate, data, function (response) {
         response = JSON.parse(response);
 
-        if (response['error'] !== true) {
+        if (!response['errors']) {
             // divPreview.innerHTML += JSON.stringify(response);
             var preview = document.createElement('img');
             preview.setAttribute('src', response['preview']);
             divPreview.appendChild(preview);
 
             hidePopin(document.querySelector("#popin-addComponent"));
+        }else{
+            console.log(response['errors']);
         }
     });
 }
