@@ -347,6 +347,15 @@ body {
       border-radius: 5px;
       margin-bottom: 12px;
       margin-right: 8px; }
+    #form .popin-container .popin-content .popin-errors {
+      padding: 1px 0;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      overflow: hidden;
+      transition: opacity 1.5s ease, max-height 1s ease-in-out;
+      height: auto;
+      max-height: 200px;
+      background-color: #ec644b; }
 #form .grid-templates {
   transition: opacity 0.75s ease-in-out; }
   #form .grid-templates img {

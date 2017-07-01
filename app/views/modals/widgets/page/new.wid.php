@@ -23,6 +23,7 @@
             </div>
         </div>
         <div class="template-config hidden">
+            <div id="addComponent-errors" class="popin-errors hidden"></div>
             <div class="ajax-content"></div>
             <div class="popin-content-footer">
                 <button class="validate-component">Valider</button>

@@ -27,11 +27,8 @@
     <validate>
         <title>
             <required>1</required>
-            <min>6</min>
-            <max>255</max>
+            <min>3</min>
+            <max>125</max>
         </title>
-        <test>
-            <required>1</required>
-        </test>
     </validate>
 </component>

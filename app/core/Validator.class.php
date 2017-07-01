@@ -20,7 +20,7 @@ class Validator
     {
         $errors = [];
         foreach ($constraints as $inputName => $constraint) {
-            if (!isset($data[$inputName]) && $constraint['required']) {
+            if (empty($data[$inputName]) && $constraint['required']) {
                 $errors[$inputName]['required'] = $constraint['required'];
                 continue;
             }
@@ -63,7 +63,7 @@ class Validator
             }
         }
 
-        return ['errors' => $displayError];
+        return $displayError;
     }
 
     /**

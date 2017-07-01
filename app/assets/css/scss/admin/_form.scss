@@ -100,14 +100,14 @@
           max-width: 300px;
           border: 2px solid #9dabae;
 
-          img{
+          img {
             display: block;
             margin: auto;
             max-width: 100%;
           }
         }
 
-        button{
+        button {
           margin: auto;
           margin-top: 12px;
           display: inline;
@@ -190,6 +190,17 @@
           margin-bottom: 12px;
           margin-right: 8px;
         }
+      }
+
+      .popin-errors {
+        padding: 1px 0;
+        border-radius: 6px;
+        margin-bottom: 6px;
+        overflow: hidden;
+        transition: opacity 1.5s ease, max-height 1s ease-in-out;
+        height: auto;
+        max-height: 200px;
+        background-color: rgb(236, 100, 75);
       }
     }
   }

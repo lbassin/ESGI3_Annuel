@@ -125,7 +125,7 @@ class ComponentControllerBack
         $errors = $validator->validate($data, $constraints);
 
         if (!empty($errors)) {
-            echo json_encode($errors);
+            echo json_encode(['errors' => $errors]);
         } else {
             $preview = $xml->getNode('header/preview', true);
             echo json_encode(['preview' => $preview, 'data' => $data]);

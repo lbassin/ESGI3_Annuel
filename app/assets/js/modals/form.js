@@ -133,15 +133,31 @@ function validateComponent() {
     ajax.post(urlValidate, data, function (response) {
         response = JSON.parse(response);
 
+        var errorDiv = document.getElementById("addComponent-errors");
         if (!response['errors']) {
-            // divPreview.innerHTML += JSON.stringify(response);
             var preview = document.createElement('img');
             preview.setAttribute('src', response['preview']);
             divPreview.appendChild(preview);
 
+            fadeOut(errorDiv);
             hidePopin(document.querySelector("#popin-addComponent"));
-        }else{
-            console.log(response['errors']);
+        } else {
+            displayErrors(errorDiv, response['errors']);
         }
     });
+}
+
+function displayErrors(parentDiv, errors) {
+    var ul = document.createElement('ul');
+    var li = null;
+
+    for (var i = 0; i < errors.length; i++) {
+        li = document.createElement('li');
+        li.innerText = errors[i];
+        ul.appendChild(li);
+    }
+
+    parentDiv.innerHTML = '';
+    parentDiv.appendChild(ul);
+    fadeIn(parentDiv);
 }
