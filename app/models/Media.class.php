@@ -1,28 +1,16 @@
 <?php
-class Media extends BaseSql
+class Media extends BaseSql implements Listable, Editable
 {
     protected $id;
     protected $name;
     protected $path;
     protected $type;
     protected $extension;
-    protected $id_user;
+    protected $user;
 
-    public function __construct(
-        $id = -1,
-        $name = null,
-        $path = null,
-        $type = null,
-        $extension = null,
-        $id_user = null
-    )
+    public function __construct()
     {
-        $this->setId($id);
-        $this->setName($name);
-        $this->setPath($path);
-        $this->setType($type);
-        $this->setExtension($extension);
-        $this->setIdUser($id_user);
+        $this->foreignValues = ['user'];
 
         parent::__construct();
     }
@@ -77,13 +65,174 @@ class Media extends BaseSql
         $this->extension = $extension;
     }
 
-    public function getIdUser()
+    public function getUser()
     {
-        return $this->id_user;
+        if (!isset($this->user)) {
+            if (!isset($this->id_user)) {
+                return new User;
+            }
+            $user = new User;
+            $user->populate(['id' => $this->id_user]);
+            return $user;
+        }
+        return $this->user;
     }
 
-    public function setIdUser($id_user)
+    public function setUser($user)
     {
-        $this->id_user = $id_user;
+        if ($user instanceof User) {
+            $this->user = $user;
+        } else {
+            $newUser = new User();
+            $newUser->populate(['id' => intval($user)]);
+            $this->user = $newUser;
+        }
+    }
+
+    public function getListConfig()
+    {
+        return [
+            Listable::LIST_STRUCT => [
+                Listable::LIST_TITLE => 'Medias',
+                Listable::LIST_NEW_LINK => Helpers::getAdminRoute('media/new'),
+                Listable::LIST_EDIT_LINK => Helpers::getAdminRoute('media/edit'),
+                Listable::LIST_HEADER => [
+                    '',
+                    'ID',
+                    'Name',
+                    'Path',
+                    'Type',
+                    'Extension',
+                    'User',
+                    'Action'
+                ]
+            ],
+            Listable::LIST_ROWS => $this->getListData()
+        ];
+    }
+
+    public function getListData()
+    {
+        $medias = $this->getAll();
+
+        $listData = [];
+
+        foreach ($medias as $media) {
+            $mediaData = [
+                [
+                    'type' => 'checkbox',
+                    'value' => ''
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $media->getId()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $media->getName()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $media->getPath()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $media->getType()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $media->getExtension()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $media->getUser()->getFirstName() . ' ' . $media->getUser()->getLastName()
+                ],
+                [
+                    'type' => 'action',
+                    'id' => $media->getId()
+                ]
+            ];
+
+            $listData[] = $mediaData;
+        }
+
+        return $listData;
+    }
+
+    public function upload(array $file)
+    {
+        if (!file_exists(FILE_UPLOAD_PATH)) {
+            if(!mkdir(FILE_UPLOAD_PATH)) {
+                Session::addError('Création du fichier d\'upload impossible, vérifiez les droits !');
+            }
+        }
+
+		$filePath = FILE_UPLOAD_PATH.'/'.uniqid().".".strtolower($this->getExensionFromFile($file['image']['name']));
+        if(!move_uploaded_file($file['image']['tmp_name'], $filePath)) {
+            Session::addError('Une erreur est intervenu dans le dossier de destination');
+        }
+        return $filePath;
+    }
+
+    public function getExensionFromFile(string $file)
+    {
+        $extension = new SplFileInfo($file);
+        return $extension->getExtension();
+    }
+
+    public function validate(array $data)
+    {
+        // Check data given for the input name
+        if (!isset($data['post']['name'])) {
+            Session::addError('Veuillez remplir le champ nom');
+        } elseif (strlen($data['post']['name']) > 255) {
+            Session::addError('Le champ nom est trop long');
+        }
+        // Check error from file
+        if (!isset($data['files']['image'])) {
+            Session::addError('Aucun fichier renseigné');
+        }
+        var_dump($data);
+        if ($data['files']['image']['error'] != 0) {
+            File::errorUpload($data['files']['image']['error']);
+        }
+        $allowedExtension = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'ttf'];
+        if (!in_array($this->getExensionFromFile($data['files']['image']['name']), $allowedExtension)) {
+            Session::addError('L\'extension du fichier n\'est pas autorisé');
+        } elseif ($data['files']['image']['size'] > FILE_UPLOAD_MAX_SIZE) {
+            Session::addError('Le fichier séléctionné est trop volumineux');
+        }
+    }
+
+    public function getFormConfig()
+    {
+        return [
+            Editable::FORM_STRUCT => [
+                Editable::FORM_METHOD => 'post',
+                Editable::FORM_ACTION => Helpers::getAdminRoute('media/save'),
+                Editable::FORM_SUBMIT => 'Sauvegarder',
+                Editable::FORM_FILE => 1
+            ],
+            Editable::FORM_GROUPS => [
+                [
+                    Editable::GROUP_LABEL => 'Media',
+                    Editable::GROUP_FIELDS => [
+                        'id' => [
+                            'type' => 'hidden',
+                            'value' => $this->getId()
+                        ],
+                        'name' => [
+                            'type' => 'text',
+                            'label' => 'Nom :',
+                        ],
+                        'image' => [
+                            'type' => 'file',
+                            'label' => 'Media :',
+                            'accept' => 'image/*'
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 }
