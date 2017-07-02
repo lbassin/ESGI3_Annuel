@@ -108,6 +108,11 @@ function selectTemplate(template) {
         formConfig.setAttribute('name', 'form-config-component');
         formConfig.innerHTML = data;
 
+        formConfig.addEventListener('submit', function(evt){
+           evt.preventDefault();
+           validateComponent();
+        });
+
         ajaxContent.innerHTML = "";
         ajaxContent.appendChild(formConfig);
     });
@@ -135,9 +140,16 @@ function validateComponent() {
 
         var errorDiv = document.getElementById("addComponent-errors");
         if (!response['errors']) {
+            var oldHeight = divPreview.clientHeight;
+            setTimeout(function(){
+                addEditComponentButton(oldHeight, -1);
+            }, 450);
+
             var preview = document.createElement('img');
             preview.setAttribute('src', response['preview']);
             divPreview.appendChild(preview);
+
+            setTimeout(moveAddComponentButton, 350);
 
             fadeOut(errorDiv);
             hidePopin(document.querySelector("#popin-addComponent"));
@@ -160,4 +172,20 @@ function displayErrors(parentDiv, errors) {
     parentDiv.innerHTML = '';
     parentDiv.appendChild(ul);
     fadeIn(parentDiv);
+}
+
+function moveAddComponentButton(){
+    var btnAddComponent = document.querySelector('.widget.page_new #btnAddComponent');
+    btnAddComponent.style.top = (divPreview.clientHeight + 8) + 'px';
+}
+
+function addEditComponentButton(height){
+    var btnDiv = document.querySelector('.widget.page_new .right');
+    var button = document.createElement('div');
+
+    height += 8;
+    button.innerText = 'Edit component';
+    button.style.top = height + 'px';
+
+    btnDiv.appendChild(button);
 }

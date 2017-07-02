@@ -272,7 +272,7 @@ body {
       text-align: right;
       padding: 0 12px; }
     #form .widget.page_new .middle {
-      width: 50%;
+      min-width: 300px;
       display: inline-block;
       text-align: center; }
       #form .widget.page_new .middle .preview {
@@ -302,14 +302,16 @@ body {
     #form .widget.page_new .right {
       float: right;
       width: 25%;
-      padding: 2px 12px; }
-      #form .widget.page_new .right span {
+      padding: 2px 12px;
+      position: relative; }
+      #form .widget.page_new .right div {
         padding: 6px;
         border: 1px solid #212121;
         border-radius: 5px;
         cursor: pointer;
-        transition: 0.25s ease-in-out; }
-        #form .widget.page_new .right span:hover {
+        transition: 0.25s ease-in-out;
+        position: absolute; }
+        #form .widget.page_new .right div:hover {
           background-color: rgba(172, 172, 172, 0.6); }
 #form .popin-container {
   transition: 0.75s ease-in-out; }

@@ -9,7 +9,7 @@
         <button>Preview</button>
     </div>
     <div class="right">
-        <span class="action-popin" data-target="popin-addComponent"><i class="fa fa-plus" aria-hidden="true"></i> Add new component</span>
+        <div id="btnAddComponent" class="action-popin" data-target="popin-addComponent"><i class="fa fa-plus" aria-hidden="true"></i> Add new component</div>
     </div>
 </div>
 

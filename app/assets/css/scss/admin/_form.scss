@@ -90,7 +90,8 @@
       }
 
       .middle {
-        width: 50%;
+        //width: 50%;
+        min-width: 300px;
         display: inline-block;
         text-align: center;
 
@@ -98,6 +99,7 @@
           margin: auto;
           width: 100%;
           max-width: 300px;
+
           border: 2px solid #9dabae;
 
           img {
@@ -129,13 +131,15 @@
         float: right;
         width: 25%;
         padding: 2px 12px;
+        position: relative;
 
-        span {
+        div {
           padding: 6px;
           border: 1px solid #212121;
           border-radius: 5px;
           cursor: pointer;
           transition: 0.25s ease-in-out;
+          position: absolute;
 
           &:hover {
             background-color: rgba(172, 172, 172, 0.6);
