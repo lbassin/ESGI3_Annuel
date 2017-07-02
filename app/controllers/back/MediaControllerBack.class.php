@@ -3,13 +3,19 @@
 class MediaControllerBack
 {
 
-    public function indexAction()
+    public function indexAction($params)
     {
         $view = new View('back', 'media/index', 'admin');
 
         $media = new Media();
 
+        $configList = [];
+        $configList['size'] = isset($params['get']['size']) ? $params['get']['size'] : 2;
+        $configList['page'] = isset($params['get']['page']) ? $params['get']['page'] : 1;
+        $configList['count'] = $media->countAll();
+
         $view->assign('media', $media);
+        $view->assign('configList', $configList);
     }
 
     public function newAction(){
@@ -29,7 +35,7 @@ class MediaControllerBack
         $params['post']['path'] = $media->upload($params['files']);
         $params['post']['type'] = 'image';
         $params['post']['extension'] = $media->getExensionFromFile($params['files']['image']['name']);
-        
+
         $media->fill($params['post']);
         $media->setUser($_SESSION['id']);
 
