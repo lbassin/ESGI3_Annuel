@@ -89,6 +89,14 @@ class Media extends BaseSql implements Listable, Editable
         }
     }
 
+    public function diplay()
+    {
+        if ($this->type == 'image') {
+            $link = Helpers::getMedia($this->path);
+            return '<img src="' . $link . '">';
+        }
+    }
+
     public function getListConfig()
     {
         return [
@@ -224,6 +232,7 @@ class Media extends BaseSql implements Listable, Editable
                         'name' => [
                             'type' => 'text',
                             'label' => 'Nom :',
+                            'value' => $this->getName()
                         ],
                         'image' => [
                             'type' => 'file',

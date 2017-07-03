@@ -6,7 +6,7 @@
 
         <form method="<?php echo $config[Editable::FORM_STRUCT]['method']; ?>"
               action="<?php echo $config[Editable::FORM_STRUCT]['action']; ?>"
-              class="<?php echo $config[Editable::FORM_STRUCT]['class']; ?>"
+              class="<?php echo (isset($config[Editable::FORM_STRUCT]['class'])) ? $config[Editable::FORM_STRUCT]['class'] : ''; ?>"
             <?php echo(isset($config[Editable::FORM_STRUCT]['file']) ? 'enctype="multipart/form-data"' : 'text/plain'); ?>
         >
 

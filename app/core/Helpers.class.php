@@ -14,6 +14,11 @@ class Helpers
         return BASE_PATH . 'app/assets/' . $path;
     }
 
+    public static function getMedia($path)
+    {
+        return BASE_PATH . FILE_UPLOAD_PATH . $path;
+    }
+
     public static function getAdminRoute($path)
     {
         $path = rtrim($path, '/');

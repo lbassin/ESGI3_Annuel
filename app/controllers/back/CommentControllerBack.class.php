@@ -61,7 +61,19 @@ class CommentControllerBack
         Helpers::redirect(Helpers::getAdminRoute('comment/'));
     }
 
-    public function deleteAction() {
-
+    public function deleteAction($params = []) {
+        $ids = $params['post']['id'];
+        foreach ($ids as $key => $id) {
+            $comment = new Comment();
+            $comment->fill(['id' => $id]);
+            try {
+                $media->delete();
+            } catch (Exception $ex) {
+                Session::addError($ex->getMessage());
+                Helpers::redirectBack();
+            }
+        }
+        Session::addSuccess('Comments successfully deleted');
+        Helpers::redirect(Helpers::getAdminRoute('comment'));
     }
 }
