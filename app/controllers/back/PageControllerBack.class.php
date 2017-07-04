@@ -18,42 +18,8 @@ class PageControllerBack
 
     public function newAction($params)
     {
-        if (empty($params['url'])) {
-            $view = new View('back', 'page/new/template', 'admin');
-            $view->assign('templates', $this->getPageTemplates());
-        }else{
-            $view = new View('back', 'page/new/content', 'admin');
-        }
-    }
-
-    /**
-     * @return array
-     */
-    private function getPageTemplates()
-    {
-        $templates = [];
-        $directoryPath = 'themes/templates/default/pages/'; // TODO : Change to getCurrentThemeDirectory();
-        $directory = opendir($directoryPath);
-
-        while ($file = readdir($directory)) {
-            if ($file == '.' || $file == '..') {
-                continue;
-            }
-
-            $templatePath = $directoryPath . $file;
-            $xml = new Xml($templatePath);
-            if (!$xml->open()) {
-                continue;
-            }
-
-            $templates[] = [
-                Page::TEMPLATE_ID => $xml->getNode('header/id', true),
-                Page::TEMPLATE_NAME => $xml->getNode('header/name', true),
-                Page::TEMPLATE_PREVIEW => $xml->getNode('header/preview', true)
-            ];
-        }
-
-        return $templates;
+        $view = new View('back', 'page/new', 'admin');
+        $view->assign('page', new Page);
     }
 
     public function editAction()
