@@ -9,7 +9,13 @@ class CommentControllerBack
 
         $comment = new Comment();
 
+        $configList = [];
+        $configList['size'] = isset($params['get']['size']) ? $params['get']['size'] : 2;
+        $configList['page'] = isset($params['get']['page']) ? $params['get']['page'] : 1;
+        $configList['count'] = $comment->countAll();
+
         $view->assign('comment', $comment);
+        $view->assign('configList', $configList);
     }
 
     public function viewAction() {
@@ -24,7 +30,7 @@ class CommentControllerBack
     }
 
     public function editAction($params) {
-        $params = $params['url'];
+        $params = $params[PARAMS_URL];
         if (!isset($params[0])) {
             Session::addError("Missing id");
             Helpers::redirectBack();
@@ -49,7 +55,7 @@ class CommentControllerBack
         if (count(Session::getErrors()) > 0) {
             Helpers::redirectBack();
         }
-        $postData = $params['post'];
+        $postData = $params[PARAMS_POST];
 
         $comment->fill($postData);
         $comment->setArticle($postData['article']);
@@ -62,12 +68,13 @@ class CommentControllerBack
     }
 
     public function deleteAction($params = []) {
+        $params['post']['id'] = [1];
         $ids = $params['post']['id'];
         foreach ($ids as $key => $id) {
             $comment = new Comment();
-            $comment->fill(['id' => $id]);
+            $comment->setId($id);
             try {
-                $media->delete();
+                $comment->delete();
             } catch (Exception $ex) {
                 Session::addError($ex->getMessage());
                 Helpers::redirectBack();

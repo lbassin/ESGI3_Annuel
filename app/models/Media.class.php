@@ -200,7 +200,6 @@ class Media extends BaseSql implements Listable, Editable
         if (!isset($data['files']['image'])) {
             Session::addError('Aucun fichier renseigné');
         }
-        var_dump($data);
         if ($data['files']['image']['error'] != 0) {
             File::errorUpload($data['files']['image']['error']);
         }

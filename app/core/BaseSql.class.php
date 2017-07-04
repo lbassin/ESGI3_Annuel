@@ -167,7 +167,6 @@ class BaseSql
 
     public function delete()
     {
-        var_dump($this);
         $pdo = Db::getInstance();
         $query = $pdo->prepare(
             "DELETE FROM " . $this->table . " WHERE id = :id;"
