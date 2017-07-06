@@ -76,7 +76,7 @@ class LoginControllerBack
 
             if(! is_null($user->getId())) { // TODO
                 ob_start();
-                $view = new View('front', 'mails/reset', 'mail');
+                $view = new View('front', 'index', 'mail');
                 $view = null;
                 $renderedView = ob_get_clean();
 
