@@ -4,6 +4,12 @@ class Helpers
 {
     public static function debug($data)
     {
+        if($data === false || $data === null){
+            echo '<pre>';
+            var_dump($data);
+            echo '</pre>';
+        }
+
         echo '<pre>';
         print_r($data);
         echo '</pre>';

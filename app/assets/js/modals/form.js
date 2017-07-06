@@ -202,6 +202,6 @@ function addComponentInput(data){
     input.setAttribute('type', 'hidden');
     input.setAttribute('value', JSON.stringify(data));
     input.setAttribute('name', 'components[' + componentsCount + ']');
-
+    
     document.forms[0].appendChild(input);
 }

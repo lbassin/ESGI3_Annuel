@@ -39,17 +39,7 @@ class ComponentControllerBack
             return [];
         }
 
-        // TODO : Change to getCurrentThemeDirectory();
-        $filePath = 'themes/templates/default/components/template' . $id . '.xml';
-
-        if (!file_exists($filePath)) {
-            Helpers::error404();
-        }
-
-        $xml = new Xml($filePath);
-        if (!$xml->open()) {
-            Helpers::error404();
-        }
+        $xml = $this->getComponentXml($id);
 
         $config = [];
         $groups = [];
@@ -108,6 +98,43 @@ class ComponentControllerBack
         $templateId = $data['template_id'];
         unset($data['token']);
 
+        $constraints = $this->getComponentConstraints($templateId);
+
+        $validator = new Validator();
+        $errors = $validator->validate($data, $constraints);
+
+        if (!empty($errors)) {
+            echo json_encode(['errors' => $errors]);
+        } else {
+            $preview = $this->getComponentPreview($templateId);
+            echo json_encode(['preview' => $preview, 'data' => $data]);
+        }
+    }
+
+    private function getComponentConstraints($templateId)
+    {
+        $xml = $this->getComponentXml($templateId);
+        $constraints = $xml->getNodeAsArray('validate');
+        if (!$constraints) {
+            return [];
+        }
+
+        return $constraints;
+    }
+
+    private function getComponentPreview($templateId)
+    {
+        $xml = $this->getComponentXml($templateId);
+        $preview = $xml->getNode('header/preview', true);
+        if (!$preview) {
+            return [];
+        }
+
+        return $preview;
+    }
+
+    private function getComponentXml($templateId)
+    {
         // TODO : Change to getCurrentThemeDirectory();
         $filePath = 'themes/templates/default/components/template' . $templateId . '.xml';
 
@@ -119,16 +146,6 @@ class ComponentControllerBack
         if (!$xml->open()) {
             Helpers::error404();
         }
-
-        $constraints = $xml->getNodeAsArray('validate');
-        $validator = new Validator();
-        $errors = $validator->validate($data, $constraints);
-
-        if (!empty($errors)) {
-            echo json_encode(['errors' => $errors]);
-        } else {
-            $preview = $xml->getNode('header/preview', true);
-            echo json_encode(['preview' => $preview, 'data' => $data]);
-        }
+        return $xml;
     }
 }
