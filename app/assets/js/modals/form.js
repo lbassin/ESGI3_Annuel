@@ -1,4 +1,5 @@
 var i;
+var componentsCount = 0;
 
 getTemplates();
 
@@ -73,7 +74,10 @@ function fadeIn(element) {
 var form = document.getElementsByTagName('form');
 if (form[0]) {
     form[0].addEventListener('submit', function (evt) {
-        evt.preventDefault();
+        console.log(document.activeElement.getAttribute('data-template-id'));
+        if (document.activeElement.getAttribute('data-template-id') !== null) {
+            evt.preventDefault();
+        }
     });
 }
 
@@ -108,9 +112,9 @@ function selectTemplate(template) {
         formConfig.setAttribute('name', 'form-config-component');
         formConfig.innerHTML = data;
 
-        formConfig.addEventListener('submit', function(evt){
-           evt.preventDefault();
-           validateComponent();
+        formConfig.addEventListener('submit', function (evt) {
+            evt.preventDefault();
+            validateComponent();
         });
 
         ajaxContent.innerHTML = "";
@@ -141,15 +145,16 @@ function validateComponent() {
         var errorDiv = document.getElementById("addComponent-errors");
         if (!response['errors']) {
             var oldHeight = divPreview.clientHeight;
-            setTimeout(function(){
+            setTimeout(function () {
                 addEditComponentButton(oldHeight, -1);
             }, 450);
 
             var preview = document.createElement('img');
             preview.setAttribute('src', response['preview']);
             divPreview.appendChild(preview);
-
             setTimeout(moveAddComponentButton, 350);
+
+            addComponentInput(response['data']);
 
             fadeOut(errorDiv);
             hidePopin(document.querySelector("#popin-addComponent"));
@@ -174,12 +179,12 @@ function displayErrors(parentDiv, errors) {
     fadeIn(parentDiv);
 }
 
-function moveAddComponentButton(){
+function moveAddComponentButton() {
     var btnAddComponent = document.querySelector('.widget.page_new #btnAddComponent');
     btnAddComponent.style.top = (divPreview.clientHeight + 8) + 'px';
 }
 
-function addEditComponentButton(height){
+function addEditComponentButton(height) {
     var btnDiv = document.querySelector('.widget.page_new .right');
     var button = document.createElement('div');
 
@@ -188,4 +193,15 @@ function addEditComponentButton(height){
     button.style.top = height + 'px';
 
     btnDiv.appendChild(button);
+}
+
+function addComponentInput(data){
+    var input = document.createElement('input');
+    componentsCount++;
+
+    input.setAttribute('type', 'hidden');
+    input.setAttribute('value', JSON.stringify(data));
+    input.setAttribute('name', 'components[' + componentsCount + ']');
+    
+    document.forms[0].appendChild(input);
 }
