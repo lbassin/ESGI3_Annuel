@@ -7,8 +7,7 @@ var container = document.querySelector(".container");
 
 
 if (navToggle != null) {
-    navToggle.addEventListener("click", function()
-    {
+    navToggle.addEventListener("click", function () {
         navToggle.classList.toggle('open');
         container.classList.toggle("slide-out-container");
         slideNavLarge.classList.toggle("slide-out");
@@ -16,11 +15,11 @@ if (navToggle != null) {
         slideNavSmall.classList.toggle("is-not-visible");
         //slideNavMini.style.display = 'none';
     });
-}
 
-navSettingsToggle.addEventListener("click", function () {
-    settingsNav.classList.toggle("is-visible");
-});
+    navSettingsToggle.addEventListener("click", function () {
+        settingsNav.classList.toggle("is-visible");
+    });
+}
 
 setTimeout(function () {
     var flashMessages = document.querySelector('.flash-messages');

@@ -25,12 +25,15 @@
   &:hover {
     box-shadow: 0 0 10px -2px rgba(0, 0, 0, 0.8);
   }
+
+  .container-login-form {
+    margin-top: 80px;
+  }
 }
 
 .logo {
   top: 40%;
   left: 50%;
-  background-color: white;
   box-shadow: 0 0 5px 0 rgba(255, 255, 255, 0.8);
 }
 
@@ -64,8 +67,7 @@
 }
 
 .login-submit {
-  bottom: 35px;
-  position: absolute;
+  bottom: 45px;
   outline: none;
   height: 40px;
   text-align: center;
@@ -79,6 +81,9 @@
   font-size: 12px;
   font-weight: bold;
   cursor: pointer;
+  display: block;
+  margin: auto;
+  margin-top: 30px;
   -webkit-transition: all 0.25s ease;
   transition: all 0.3s ease-in-out;
 
@@ -87,4 +92,53 @@
     color: #fff;
     transition: all 0.3s ease-in-out;
   }
+}
+
+///////////// TODO
+
+.button-login-page {
+  bottom: 12px;
+  margin: auto;
+  text-align: center;
+  margin-top: 20px;
+  display: block;
+}
+
+.link-password-forget {
+  width: 70%;
+}
+
+.back-login-button {
+  width: 25%;
+}
+
+.hover-link-center {
+  cursor : pointer;
+  font-size: 13px;
+}
+
+.hover-link-center:after {
+  display: block;
+  content: '';
+  border-bottom: solid 1px #0e0e0e;
+  transform: scaleX(0);
+  transition: transform 250ms ease-in-out;
+}
+
+.hover-link-center:hover:after {
+  transform: scaleX(1);
+}
+
+#container-password-forget {
+  display: none;
+}
+
+#popup-message {
+  position: absolute;
+  top: 15px;
+  padding: 10px;
+  border-radius: 15px;
+  opacity: 0;
+  text-align: center;
+  box-shadow: 0 0 10px -2px rgba(0, 0, 0, 0.8);
 }
