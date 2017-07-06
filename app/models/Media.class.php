@@ -89,6 +89,14 @@ class Media extends BaseSql implements Listable, Editable
         }
     }
 
+    public function diplay()
+    {
+        if ($this->type == 'image') {
+            $link = Helpers::getMedia($this->path);
+            return '<img src="' . $link . '">';
+        }
+    }
+
     public function getListConfig()
     {
         return [
@@ -192,7 +200,6 @@ class Media extends BaseSql implements Listable, Editable
         if (!isset($data['files']['image'])) {
             Session::addError('Aucun fichier renseigné');
         }
-        var_dump($data);
         if ($data['files']['image']['error'] != 0) {
             File::errorUpload($data['files']['image']['error']);
         }
@@ -224,6 +231,7 @@ class Media extends BaseSql implements Listable, Editable
                         'name' => [
                             'type' => 'text',
                             'label' => 'Nom :',
+                            'value' => $this->getName()
                         ],
                         'image' => [
                             'type' => 'file',

@@ -1,5 +1,5 @@
 <?php if (isset($comment)): ?>
-    <?php $this->includeModal('list', $comment->getListConfig()); ?>
+    <?php $this->includeModal('list', $comment->getListConfig(), $configList); ?>
 <?php endif; ?>
 
 <br>
