@@ -25,6 +25,27 @@ class MediaControllerBack
         $view->assign('media', $media);
     }
 
+    public function editAction($params){
+        $params = $params['url'];
+        if (!isset($params[0])) {
+            Session::addError('Missing Id');
+            Helpers::redirectBack();
+        }
+        $mediaId = $params[0];
+
+        $view = new View('back', 'media/edit', 'admin');
+
+        $media = new Media();
+        $media->populate(['id' => $mediaId]);
+
+        if ($media->getId() == null) {
+            Session::addError('Media ' . $mediaId . ' not found');
+            Helpers::redirectBack();
+        }
+
+        $view->assign('media', $media);
+    }
+
     public function saveAction($params) {
         $media = new Media();
         $media->validate($params);
@@ -50,7 +71,19 @@ class MediaControllerBack
         Helpers::redirect(Helpers::getAdminRoute('media'));
     }
 
-    public function deleteAction() {
-
+    public function deleteAction($params = []) {
+        $ids = $params['post']['id'];
+        foreach ($ids as $key => $id) {
+            $media = new Media();
+            $media->fill(['id' => $id]);
+            try {
+                $media->delete();
+            } catch (Exception $ex) {
+                Session::addError($ex->getMessage());
+                Helpers::redirectBack();
+            }
+        }
+        Session::addSuccess('Medias successfully deleted');
+        Helpers::redirect(Helpers::getAdminRoute('media'));
     }
 }
