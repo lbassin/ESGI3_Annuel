@@ -22,6 +22,13 @@ class PageControllerBack
         $view->assign('page', new Page);
     }
 
+    public function addAction($params)
+    {
+        Helpers::debug($params);
+        die;
+    }
+
+
     public function editAction()
     {
 
