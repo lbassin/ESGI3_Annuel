@@ -53,4 +53,10 @@ class Helpers
         header('HTTP/1.1 403 Forbidden');
         die($message);
     }
+
+    public static function error404(){
+        $errorManager = new ErrorController();
+        $errorManager->error404();
+        die;
+    }
 }

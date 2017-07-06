@@ -2,11 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Backoffice</title>
     <link rel="stylesheet" type="text/css" href="<?php echo Helpers::getAsset('css/admin.css'); ?>">
     <link rel="stylesheet" type="text/css"
           href="<?php echo Helpers::getAsset('font-awesome/css/font-awesome.min.css'); ?>">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+
+    <script src="<?php echo Helpers::getAsset('js/Ajax.js'); ?>"></script>
 </head>
 <body>
 <div class="wrapper">
@@ -70,6 +73,7 @@
         </a>
     </nav>
 
+<!--
     <div class="settings-nav">
         <div class="settings-title">
             Settings
@@ -80,6 +84,7 @@
 
         <a href="<?php echo Helpers::getAdminRoute('login/logout'); ?>" class="logout">Logout</a>
     </div>
+-->
 
     <header class="header">
         <div id="nav-icon" class="nav-toggle">

@@ -1,6 +1,6 @@
 <?php
 
-class Page extends BaseSql implements Listable
+class Page extends BaseSql implements Listable, Editable
 {
     const TEMPLATE_ID = 'id';
     const TEMPLATE_NAME = 'name';
@@ -111,7 +111,8 @@ class Page extends BaseSql implements Listable
         $this->meta_description = $meta_description;
     }
 
-    public function getListConfig(){
+    public function getListConfig()
+    {
         return [
             Listable::LIST_STRUCT => [
                 Listable::LIST_TITLE => 'Pages',
@@ -130,13 +131,14 @@ class Page extends BaseSql implements Listable
         ];
     }
 
-    public function getListData(){
+    public function getListData()
+    {
         $pages = $this->getAll();
 
         $listData = [];
 
         /** @var Page $page */
-        foreach ($pages as $page){
+        foreach ($pages as $page) {
             $pageData = [
                 [
                     'type' => 'checkbox',
@@ -168,6 +170,45 @@ class Page extends BaseSql implements Listable
         }
 
         return $listData;
+    }
+
+    public function getFormConfig()
+    {
+        return [
+            Editable::FORM_STRUCT => [
+                Editable::FORM_METHOD => 'post',
+                Editable::FORM_ACTION => Helpers::getAdminRoute('page/add'),
+                Editable::FORM_SUBMIT => 'Save'
+            ],
+            Editable::FORM_GROUPS => [
+                [
+                    Editable::GROUP_LABEL => 'Search Engine Optimisation',
+                    Editable::GROUP_FIELDS => [
+                        'title' => [
+                            'type' => 'text',
+                            'label' => 'Title'
+                        ],
+                        'url' => [
+                            'type' => 'text',
+                            'label' => 'URL'
+                        ],
+                        'meta_desc' => [
+                            'type' => 'textarea',
+                            'label' => 'Description'
+                        ]
+                    ]
+                ],
+                [
+                    Editable::GROUP_LABEL => 'Content',
+                    Editable::GROUP_FIELDS => [
+                        'preview' => [
+                            'type' => 'widget',
+                            'id' => 'page/new'
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
 }

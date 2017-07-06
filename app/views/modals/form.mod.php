@@ -10,24 +10,25 @@
             <?php echo(isset($config[Editable::FORM_STRUCT]['file']) ? 'enctype="multipart/form-data"' : 'text/plain'); ?>
         >
 
-            <div id="menu">
-                <div id="action">
-                    <a href="<?php echo Helpers::getAdminRoute('user'); ?>" class="button secondary">
-                        <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
-                    </a>
-                    <a href="#" class="button secondary">
-                        Delete
-                    </a>
-                    <a href="#" class="button secondary">
-                        Reset
-                    </a>
-                    <a href="#" class="button secondary">
-                        Save and Continue Edit
-                    </a>
-                    <input type="submit" class="button primary" value="Save">
+            <?php if (!isset($config[Editable::FORM_STRUCT]['hide_header'])): ?>
+                <div id="menu">
+                    <div id="action">
+                        <a href="<?php echo Helpers::getAdminRoute('user'); ?>" class="button secondary">
+                            <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+                        </a>
+                        <a href="#" class="button secondary">
+                            Delete
+                        </a>
+                        <a href="#" class="button secondary">
+                            Reset
+                        </a>
+                        <a href="#" class="button secondary">
+                            Save and Continue Edit
+                        </a>
+                        <input type="submit" class="button primary" value="Save">
+                    </div>
                 </div>
-            </div>
-
+            <?php endif; ?>
             <input type="hidden" name="token" value="<?php echo Session::getToken(); ?>">
 
             <?php foreach ($config[Editable::FORM_GROUPS] as $group): ?>
@@ -98,6 +99,8 @@
                                     name="<?php echo $name; ?>"
                                     placeholder="<?php echo isset($attributs['placeholder']) ? $attributs['placeholder'] : ''; ?>"
                                     id="<?php echo "input-" . $name; ?>"
+                                    cols="50"
+                                    rows="5"
                                 <?php echo(isset($attributs['required']) ? 'required="required"' : ''); ?>
                                 <?php echo(isset($attributs['disabled']) ? 'disabled="disabled"' : ''); ?>
                             ><?php echo(isset($attributs['value']) ? $attributs['value'] : ''); ?></textarea>
@@ -126,6 +129,10 @@
                         <?php endif; ?>
                     </div>
 
+                    <?php if ($attributs['type'] == 'widget'): ?>
+                        <?php $this->includeWidget($attributs['id']); ?>
+                    <?php endif; ?>
+
                 <?php endforeach; ?>
             <?php endforeach; ?>
 
@@ -136,3 +143,5 @@
         </form>
     <?php endif; ?>
 </div>
+
+<script src="<?php echo Helpers::getAsset('js/modals/form.js'); ?>"></script>
