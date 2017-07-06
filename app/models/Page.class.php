@@ -1,6 +1,11 @@
 <?php
-class Page extends BaseSql
+
+class Page extends BaseSql implements Listable, Editable
 {
+    const TEMPLATE_ID = 'id';
+    const TEMPLATE_NAME = 'name';
+    const TEMPLATE_PREVIEW = 'preview';
+
     protected $id;
     protected $name;
     protected $content;
@@ -11,28 +16,8 @@ class Page extends BaseSql
     protected $meta_title;
     protected $meta_description;
 
-    public function __construct(
-        $id = -1,
-        $name = null,
-        $content = null,
-        $description = null,
-        $slug = null,
-        $visibility = 0,
-        $publish = 0,
-        $meta_title = null,
-        $meta_description = null
-    )
+    public function __construct()
     {
-        $this->setId($id);
-        $this->setName($name);
-        $this->setContent($content);
-        $this->setDescription($description);
-        $this->setUrl($slug);
-        $this->setVisibility($visibility);
-        $this->setPublish($publish);
-        $this->setMetaTitle($meta_title);
-        $this->setMetaDescription($meta_description);
-
         parent::__construct();
     }
 
@@ -125,4 +110,105 @@ class Page extends BaseSql
     {
         $this->meta_description = $meta_description;
     }
+
+    public function getListConfig()
+    {
+        return [
+            Listable::LIST_STRUCT => [
+                Listable::LIST_TITLE => 'Pages',
+                Listable::LIST_NEW_LINK => Helpers::getAdminRoute('page/new'),
+                Listable::LIST_EDIT_LINK => Helpers::getAdminRoute('page/edit'),
+                Listable::LIST_HEADER => [
+                    '',
+                    'ID',
+                    'Title',
+                    'Last update',
+                    'Visible',
+                    'Action'
+                ]
+            ],
+            Listable::LIST_ROWS => $this->getListData()
+        ];
+    }
+
+    public function getListData()
+    {
+        $pages = $this->getAll();
+
+        $listData = [];
+
+        /** @var Page $page */
+        foreach ($pages as $page) {
+            $pageData = [
+                [
+                    'type' => 'checkbox',
+                    'value' => ''
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $page->getId()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $page->getName()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => 'TODO'
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $page->getVisibility()
+                ],
+                [
+                    'type' => 'action',
+                    'id' => $page->getId()
+                ]
+            ];
+
+            $listData[] = $pageData;
+        }
+
+        return $listData;
+    }
+
+    public function getFormConfig()
+    {
+        return [
+            Editable::FORM_STRUCT => [
+                Editable::FORM_METHOD => 'post',
+                Editable::FORM_ACTION => Helpers::getAdminRoute('page/add'),
+                Editable::FORM_SUBMIT => 'Save'
+            ],
+            Editable::FORM_GROUPS => [
+                [
+                    Editable::GROUP_LABEL => 'Search Engine Optimisation',
+                    Editable::GROUP_FIELDS => [
+                        'title' => [
+                            'type' => 'text',
+                            'label' => 'Title'
+                        ],
+                        'url' => [
+                            'type' => 'text',
+                            'label' => 'URL'
+                        ],
+                        'meta_desc' => [
+                            'type' => 'textarea',
+                            'label' => 'Description'
+                        ]
+                    ]
+                ],
+                [
+                    Editable::GROUP_LABEL => 'Content',
+                    Editable::GROUP_FIELDS => [
+                        'preview' => [
+                            'type' => 'widget',
+                            'id' => 'page/new'
+                        ]
+                    ]
+                ]
+            ]
+        ];
+    }
+
 }

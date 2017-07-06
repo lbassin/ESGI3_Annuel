@@ -70,9 +70,12 @@ class Routing
 
     public function page404()
     {
-        header('HTTP/1.1 404 Not Found');
-        die("Error 404");
-        // TODO
+        if(!class_exists('ErrorController')){
+            die('Error');
+        }
+        $controller = new ErrorController();
+        $controller->error404();
+        die;
     }
 
     public function handleAdmin()
@@ -122,10 +125,10 @@ class Routing
             $jsonData = [];
         }
 
-        $this->params[self::PARAMS_POST] = array_merge($_POST, $jsonData);
+        $this->params[self::PARAMS_POST] = Xss::parse(array_merge($_POST, $jsonData));
         $this->params[self::PARAMS_URL] = array_values($this->uriExploded);
-        $this->params[self::PARAMS_GET] = $this->getData;
-        $this->params[self::PARAMS_FILE] = $_FILES;
+        $this->params[self::PARAMS_GET] = Xss::parse($this->getData);
+        $this->params[self::PARAMS_FILE] = Xss::parse($_FILES);
     }
 
     public function runRoute()
@@ -161,16 +164,6 @@ class Routing
         }
 
         return true;
-    }
-
-    public function isInstalled()
-    {
-        return false; // TODO
-    }
-
-    public function isSetupRoute()
-    {
-        return ($this->controllerName == 'SetupControllerBack');
     }
 
     public function runSetup()

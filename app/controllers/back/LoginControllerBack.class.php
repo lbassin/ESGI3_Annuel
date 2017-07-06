@@ -6,7 +6,7 @@ class LoginControllerBack
     public function indexAction($params)
     {
         Csrf::generate();
-        $view = new View('back', 'index', 'login');
+        $view = new View('back', 'login/index', 'login');
         $view->assign('csrfToken', Session::getToken());
     }
 

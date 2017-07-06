@@ -11,23 +11,7 @@ class Article extends BaseSql
     protected $id_user;
     protected $id_survey;
 
-    public function __construct(
-        $id = -1,
-        $title = null,
-        $content = null,
-        $url = null,
-        $visibility = 0,
-        $publish = 0,
-        $id_user = null
-    )
-    {
-        $this->setId($id);
-        $this->setTitle($title);
-        $this->setContent($content);
-        $this->setUrl($url);
-        $this->setVisibility($visibility);
-        $this->setPublish($publish);
-        $this->setIdUser($id_user);
+    public function __construct() {
 
         parent::__construct();
     }
@@ -110,5 +94,134 @@ class Article extends BaseSql
     public function setIdSurvey($id_user)
     {
         $this->id_user = $id_user;
+    }
+
+    public function validate(array $data) {
+        $title = $data['title'];
+        $content = $data['content'];
+        $url = $data['url'];
+
+        if (empty($title)) {
+            Session::addError("Veillez indiquer un titre a votre article");
+        } else if (strlen($title) > 255) {
+            Session::addError("Le titre est trop long");
+        }
+
+        if (empty($content)) {
+            Session::addError("Veillez indiquer un contenue a votre article");
+        }
+
+        if (empty($url)) {
+            Session::addError("Veillez indiquer une url a votre article");
+        } elseif (strlen($url) > 255) {
+            Session::addError("L'url est trop long");
+        }
+    }
+
+    public function getFormConfig()
+    {
+        return [
+            'struct' => [
+                'method' => 'post',
+                'action' => Helpers::getAdminRoute('article/save'),
+                'class' => '',
+                'submit' => 'Sauvegarder votre article'
+            ],
+            'groups' => [
+                [
+                    'label' => 'Article',
+                    'fields' => [
+                        'title' => [
+                            'type' => 'text',
+                            'label' => 'Titre de l\'article :',
+                            'class' => 'two-col'
+                        ],
+                        'content' => [
+                            'type' => 'textarea',
+                            'label' => 'Contenue de l\'article :',
+                            'class' => 'one-col'
+                        ],
+                        'url' => [
+                            'type' => 'text',
+                            'label' => 'Url :',
+                            'class' => 'one-col'
+                        ]
+                    ]
+                ],
+                [
+                    'label' => 'Configuration',
+                    'fields' => [
+                        'publish' => [
+                            'type' => 'checkbox',
+                            'label' => 'Publié :',
+                            'class' => 'one-col'
+                        ],
+                        'visibility' => [
+                            'type' => 'checkbox',
+                            'label' => 'Visibilité :',
+                            'class' => 'one-col'
+                        ]
+                    ]
+                ],
+            ]
+        ];
+    }
+
+    public function getListConfig() {
+        return [
+            'struct' => [
+                'title' => 'Articles',
+                'newLink' => Helpers::getAdminRoute('article/new'),
+                'header' => [
+                    '',
+                    'ID',
+                    'Title',
+                    'Content',
+                    'Url',
+                    'Action'
+                ]
+            ],
+            'rows' => $this->getListData()
+        ];
+    }
+
+    public function getListData() {
+        $articles = $this->getAll();
+
+        $listData = [];
+
+        /** @var Article $article */
+        foreach ($articles as $article) {
+            $articleData = [
+                [
+                    'type' => 'checkbox',
+                    'value' => ''
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $article->getId()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $article->getTitle()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $article->getContent()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $article->getUrl()
+                ],
+                [
+                    'type' => 'action',
+                    'id' => $article->getId()
+                ]
+            ];
+
+            $listData[] = $articleData;
+        }
+
+        return $listData;
     }
 }

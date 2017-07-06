@@ -21,7 +21,9 @@ if (navToggle != null) {
     });
 }
 
-var flashMessages = document.querySelector('.flash-messages');
 setTimeout(function () {
-    flashMessages.className += ' is-not-visible';
+    var flashMessages = document.querySelector('.flash-messages');
+    if(flashMessages){
+        flashMessages.className += ' is-not-visible';
+    }
 }, 2500);

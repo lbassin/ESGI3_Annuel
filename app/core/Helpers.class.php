@@ -14,6 +14,11 @@ class Helpers
         return BASE_PATH . 'app/assets/' . $path;
     }
 
+    public static function getMedia($path)
+    {
+        return BASE_PATH . FILE_UPLOAD_PATH . $path;
+    }
+
     public static function getAdminRoute($path)
     {
         $path = rtrim($path, '/');
@@ -47,5 +52,11 @@ class Helpers
 
         header('HTTP/1.1 403 Forbidden');
         die($message);
+    }
+
+    public static function error404(){
+        $errorManager = new ErrorController();
+        $errorManager->error404();
+        die;
     }
 }

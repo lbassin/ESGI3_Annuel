@@ -2,3 +2,4 @@
 conf.inc.php
 /.idea/*
 /.sass-cache/*
+/app/assets/media/*

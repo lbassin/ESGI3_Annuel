@@ -5,22 +5,30 @@ class PageControllerBack
 
     public function indexAction($params)
     {
-        Helpers::debug([__DIR__, __CLASS__, __FUNCTION__, $params]);
+        $view = new View('back', 'page/index', 'admin');
+
+        $page = new Page();
+        $view->assign('page', $page);
     }
 
-    public function viewAction(){
-
-    }
-
-    public function newAction(){
-
-    }
-
-    public function editAction(){
+    public function viewAction()
+    {
 
     }
 
-    public function deleteAction(){
+    public function newAction($params)
+    {
+        $view = new View('back', 'page/new', 'admin');
+        $view->assign('page', new Page);
+    }
+
+    public function editAction()
+    {
+
+    }
+
+    public function deleteAction()
+    {
 
     }
 }

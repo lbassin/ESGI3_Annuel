@@ -17,3 +17,6 @@ define("SMTP_USER", "{{CONF_SMTP_USER}}");
 define("SMTP_PASSWORD", "{{CONF_SMTP_PASSWORD}}");
 define("SMTP_PORT", "{{CONF_SMTP_PORT}}");
 define("SMTP_SENDER", "{{CONF_SMTP_SENDER}}");
+
+define("FILE_UPLOAD_MAX_SIZE", 10000000);
+define("FILE_UPLOAD_PATH", 'app/assets/media');

@@ -2,40 +2,78 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Backoffice</title>
     <link rel="stylesheet" type="text/css" href="<?php echo Helpers::getAsset('css/admin.css'); ?>">
     <link rel="stylesheet" type="text/css"
           href="<?php echo Helpers::getAsset('font-awesome/css/font-awesome.min.css'); ?>">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+
+    <script src="<?php echo Helpers::getAsset('js/Ajax.js'); ?>"></script>
 </head>
 <body>
 <div class="wrapper">
     <nav class="slide-nav slide-nav-large">
-        <a class="nav-link"><i class="fa fa-pie-chart" aria-hidden="true"></i>&emsp;Dashboard</a>
-        <a class="nav-link"><i class="fa fa-arrow-up" aria-hidden="true"></i>&emsp;Updates</a>
-        <a class="nav-link"><i class="fa fa-file" aria-hidden="true"></i>&emsp;Pages</a>
-        <a class="nav-link"><i class="fa fa-file-text" aria-hidden="true"></i>&emsp;Articles</a>
-        <a class="nav-link"><i class="fa fa-list-ul" aria-hidden="true"></i>&emsp;Catégories</a>
-        <a class="nav-link"><i class="fa fa-pencil" aria-hidden="true"></i>&emsp;Comments</a>
-        <a class="nav-link"><i class="fa fa-video-camera" aria-hidden="true"></i>&emsp;Médias</a>
-        <a class="nav-link"><i class="fa fa-magic" aria-hidden="true"></i>&emsp;Styles</a>
-        <a class="nav-link"><i class="fa fa-user" aria-hidden="true"></i>&emsp;Users</a>
-        <a class="nav-link"><i class="fa fa-plus-circle" aria-hidden="true"></i>&emsp;Plugins</a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute(''); ?>">
+            <i class="fa fa-pie-chart" aria-hidden="true"></i>&emsp;Dashboard
+        </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('update'); ?>"> <!-- 404 -->
+            <i class="fa fa-arrow-up" aria-hidden="true"></i>&emsp;Updates
+        </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('page'); ?>">
+            <i class="fa fa-file" aria-hidden="true"></i>&emsp;Pages
+        </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('article'); ?>">
+            <i class="fa fa-file-text" aria-hidden="true"></i>&emsp;Articles
+        </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('category'); ?>">
+            <i class="fa fa-list-ul" aria-hidden="true"></i>&emsp;Catégories
+        </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('comment'); ?>"> <!-- 404 -->
+            <i class="fa fa-pencil" aria-hidden="true"></i>&emsp;Comments
+        </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('media'); ?>"> <!-- 404 -->
+            <i class="fa fa-video-camera" aria-hidden="true"></i>&emsp;Médias
+        </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('page'); ?>">
+            <i class="fa fa-magic" aria-hidden="true"></i>&emsp;Styles
+        </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('user'); ?>">
+            <i class="fa fa-user" aria-hidden="true"></i>&emsp;Users
+        </a>
     </nav>
 
     <nav class="slide-nav slide-nav-small is-visible">
-        <a class="nav-link"><i class="fa fa-pie-chart" aria-hidden="true"></i></a>
-        <a class="nav-link"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
-        <a class="nav-link"><i class="fa fa-file" aria-hidden="true"></i></a>
-        <a class="nav-link"><i class="fa fa-file-text" aria-hidden="true"></i></a>
-        <a class="nav-link"><i class="fa fa-list-ul" aria-hidden="true"></i></a>
-        <a class="nav-link"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-        <a class="nav-link"><i class="fa fa-video-camera" aria-hidden="true"></i></a>
-        <a class="nav-link"><i class="fa fa-magic" aria-hidden="true"></i></a>
-        <a class="nav-link"><i class="fa fa-user" aria-hidden="true"></i></a>
-        <a class="nav-link"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute(''); ?>">
+            <i class="fa fa-pie-chart" aria-hidden="true"></i>
+        </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('update'); ?>">
+            <i class="fa fa-arrow-up" aria-hidden="true"></i>
+        </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('page'); ?>">
+            <i class="fa fa-file" aria-hidden="true"></i>
+        </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('article'); ?>">
+            <i class="fa fa-file-text" aria-hidden="true"></i>
+        </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('category'); ?>">
+            <i class="fa fa-list-ul" aria-hidden="true"></i>
+        </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('comment'); ?>">
+            <i class="fa fa-pencil" aria-hidden="true"></i>
+        </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('media'); ?>">
+            <i class="fa fa-video-camera" aria-hidden="true"></i>
+        </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('page'); ?>">
+            <i class="fa fa-magic" aria-hidden="true"></i>
+        </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('user'); ?>">
+            <i class="fa fa-user" aria-hidden="true"></i>
+        </a>
     </nav>
 
+<!--
     <div class="settings-nav">
         <div class="settings-title">
             Settings
@@ -46,6 +84,7 @@
 
         <a href="<?php echo Helpers::getAdminRoute('login/logout'); ?>" class="logout">Logout</a>
     </div>
+-->
 
     <header class="header">
         <div id="nav-icon" class="nav-toggle">

@@ -65,17 +65,16 @@ class Config extends BaseSql
     public function getSetupForm()
     {
         return [
-            'struct' => [
-                'method' => 'post',
-                'action' => '?step=3',
-                'class' => '',
-                'submit' => 'Next step',
+            Editable::FORM_STRUCT => [
+                Editable::FORM_METHOD => 'post',
+                Editable::FORM_ACTION => '?step=3',
+                Editable::FORM_SUBMIT => 'Next step',
                 'submit-class' => 'button'
             ],
-            'groups' => [
+            Editable::FORM_GROUPS => [
                 'general' => [
-                    'label' => 'General',
-                    'fields' => [
+                    Editable::GROUP_LABEL => 'General',
+                    Editable::GROUP_FIELDS => [
                         'name' => [
                             'type' => 'text',
                             'label' => 'Nom :'
@@ -92,8 +91,8 @@ class Config extends BaseSql
 
                 ],
                 'database' => [
-                    'label' => 'Base de données',
-                    'fields' => [
+                    Editable::GROUP_LABEL => 'Base de données',
+                    Editable::GROUP_FIELDS => [
                         'db_host' => [
                             'type' => 'text',
                             'label' => 'Host :'
@@ -118,8 +117,8 @@ class Config extends BaseSql
                     ]
                 ],
                 'smtp' => [
-                    'label' => 'SMTP',
-                    'fields' => [
+                    Editable::GROUP_LABEL => 'SMTP',
+                    Editable::GROUP_FIELDS => [
                         'smtp_host' => [
                             'type' => 'text',
                             'label' => 'Host :'
@@ -145,6 +144,45 @@ class Config extends BaseSql
                             'type' => 'text',
                             'label' => 'Sender :'
                         ],
+                    ]
+                ]
+            ]
+        ];
+    }
+
+    public function getAdminUserForm()
+    {
+        return [
+            Editable::FORM_STRUCT => [
+                Editable::FORM_METHOD => 'post',
+                Editable::FORM_ACTION => '?step=5',
+                Editable::FORM_SUBMIT => 'Next Step',
+                'submit-class' => 'button'
+            ],
+            Editable::FORM_GROUPS => [
+                'user' => [
+                    Editable::GROUP_LABEL => 'Admin',
+                    Editable::GROUP_FIELDS => [
+                        'firstname' => [
+                            'type' => 'text',
+                            'label' => 'Firstname :'
+                        ],
+                        'lastname' => [
+                            'type' => 'text',
+                            'label' => 'Lastname :'
+                        ],
+                        'pseudo' => [
+                            'type' => 'text',
+                            'label' => 'Pseudo :'
+                        ],
+                        'email' => [
+                            'type' => 'text',
+                            'label' => 'Email :'
+                        ],
+                        'password' => [
+                            'type' => 'password',
+                            'label' => 'Password :'
+                        ]
                     ]
                 ]
             ]

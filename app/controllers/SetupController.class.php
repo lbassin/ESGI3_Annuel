@@ -1,6 +1,6 @@
 <?php
 
-class SetupControllerBack
+class SetupController
 {
     private $schemaSetup = [
         'schema/init',
@@ -20,7 +20,8 @@ class SetupControllerBack
         'schema/media_page',
         'schema/menu',
         'schema/theme',
-        'data/role'
+        'data/role',
+        'data/user'
     ];
 
     function __construct()
@@ -97,10 +98,15 @@ class SetupControllerBack
         return true;
     }
 
-    public function step4()
+    public function step5()
     {
+        $_SESSION['data_admin'] = $_POST;
+        if (!$this->validateAdminInformation($_SESSION['data_admin'])) {
+            Helpers::redirectBack();
+        }
+
         $view = new View('back', 'setup/files', 'setup');
-        $view->assign('step', 4);
+        $view->assign('step', 5);
 
         try {
             $this->createHtaccessFile($_SESSION['data_config']);
@@ -108,6 +114,19 @@ class SetupControllerBack
         } catch (Exception $ex) {
             $view->assign('error', $ex->getMessage());
         }
+
+        $this->createAdmin();
+
+        unset($_SESSION['data_config']);
+        unset($_SESSION['data_admin']);
+    }
+
+    private function createAdmin(){
+        $user = new User;
+        $user->fill($_SESSION['data_admin']);
+        $user->setRole(1);
+        $user->setStatus(1);
+        $user->save();
     }
 
     private function createHtaccessFile($params)
@@ -115,7 +134,9 @@ class SetupControllerBack
         $sample = new File('.htaccess.sample');
         $content = $sample->getContent();
 
-        $content = str_replace('{{CONF_BASE_PATH}}', $params['base_path'], $content);
+        $configValue = $this->formatBasePath($params['base_path']);
+
+        $content = str_replace('{{CONF_BASE_PATH}}', $configValue, $content);
 
         $newFile = new File('.htaccess', 'w+');
         $newFile->setContent($content);
@@ -130,8 +151,10 @@ class SetupControllerBack
             $key = 'CONF_' . strtoupper($setting);
 
             if ($key == 'CONF_BASE_PATH') {
-                $value = ltrim($value, '/');
-                $config = str_replace('{{' . $key . '_PATTERN}}', $value, $config);
+                $value = $this->formatBasePath($value);
+
+                $pattern = str_replace('/', '\/', $value);
+                $config = str_replace('{{' . $key . '_PATTERN}}', $pattern, $config);
             }
 
             $config = str_replace('{{' . $key . '}}', $value, $config);
@@ -143,10 +166,46 @@ class SetupControllerBack
         include 'conf.inc.php';
     }
 
-    public function step5()
+    private function formatBasePath($basePath)
     {
-        $view = new View('back', 'setup/success', 'setup');
-        $view->assign('step', 5);
+        $basePath = trim($basePath, '/');
+        $basePath = '/' . $basePath . '/';
+        $basePath = $basePath != '//' ?: '/';
+
+        return $basePath;
+    }
+
+    public function step4()
+    {
+        $view = new View('back', 'setup/user', 'setup');
+        $view->assign('step', 4);
+        $view->assign('config', new Config());
+    }
+
+
+    private function validateAdminInformation($data)
+    {
+        $errors = [];
+
+        $notEmpty = [
+            'firstname',
+            'lastname',
+            'pseudo',
+            'email',
+            'password'
+        ];
+
+        foreach ($notEmpty as $field) {
+            if (empty($data[$field])) {
+                $errors[$field] = 'Shouldn\'t be empty';
+            }
+        }
+
+        if (!empty($errors)) {
+            $_SESSION['errors'] = $errors;
+            return false;
+        }
+        return true;
     }
 
     public function stepInstallDatabase()
