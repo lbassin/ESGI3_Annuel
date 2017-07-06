@@ -30,6 +30,9 @@ body {
   position: absolute;
   z-index: 99999 !important; }
 
+#logo-circle-1 {
+  fill: white; }
+
 .logo-animation {
   animation: 5s linear infinite;
   animation-name: rotate-0;
@@ -116,7 +119,6 @@ svg path {
 .logo {
   top: 40%;
   left: 50%;
-  background-color: white;
   box-shadow: 0 0 5px 0 rgba(255, 255, 255, 0.8); }
 
 .field-container:after {

@@ -52,6 +52,7 @@
     width: 60px;
     height: calc(100vh - 55px);
     left: 0;
+    z-index: 0;
 
     .nav-link:hover {
       background-color: #353535;
@@ -69,9 +70,8 @@
 }
 
 .settings-nav {
-  opacity: 0;
+  display: none;
   margin: 50px 5px;
-  display: block;
   z-index: 15;
   right: 0;
   background: #212121;
@@ -199,11 +199,15 @@
     }
 
     span:nth-child(1) {
-      top: 0;
+      top: 0px;
     }
 
-    span:nth-child(2), #nav-icon span:nth-child(3) {
+    span:nth-child(2) {
       top: 9px;
+    }
+
+    span:nth-child(3) {
+      top: 8px;
     }
 
     span:nth-child(4) {
@@ -260,5 +264,6 @@
 }
 
 .is-visible {
+  display: block;
   opacity: 1 !important;
 }
