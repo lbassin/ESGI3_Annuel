@@ -174,4 +174,9 @@ class BaseSql
         $data = ['id' => $this->id];
         $query->execute($data);
     }
+
+    public function getForeignValues()
+    {
+        return $this->foreignValues;
+    }
 }
