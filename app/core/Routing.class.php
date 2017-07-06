@@ -148,15 +148,18 @@ class Routing
     {
         $controllerPath = "app/controllers/" . $this->controllerArea . '/' . $this->controllerName . ".class.php";
         if (!file_exists($controllerPath)) {
+            echo '1';
             return false;
         }
         include $controllerPath;
 
         if (!class_exists($this->controllerName)) {
+            echo '2';
             return false;
         }
 
         if (!method_exists($this->controllerName, $this->actionName)) {
+            echo $this->actionName;
             return false;
         }
 

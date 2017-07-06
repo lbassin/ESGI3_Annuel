@@ -164,4 +164,19 @@ class BaseSql
 
         return $data[0];
     }
+
+    public function delete()
+    {
+        $pdo = Db::getInstance();
+        $query = $pdo->prepare(
+            "DELETE FROM " . $this->table . " WHERE id = :id;"
+        );
+        $data = ['id' => $this->id];
+        $query->execute($data);
+    }
+
+    public function getForeignValues()
+    {
+        return $this->foreignValues;
+    }
 }
