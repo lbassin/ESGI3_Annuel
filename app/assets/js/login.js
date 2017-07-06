@@ -59,7 +59,10 @@ backLoginButton.addEventListener("click", function () {
 forgetButton.addEventListener("click", function (event) {
     event.preventDefault();
 
+    console.log('test');
+
     if (validateEmail(document.querySelector("#forget-mail").value)) {
+
         var data = {
             'email': document.querySelector("input[name='email-forget']").value
         };

@@ -11,7 +11,6 @@ class Mail
         $this->to = $to;
         $this->subject = (! empty($subject) ? $subject : "Qwarkz mailing"); //TODO
         $this->message = (! empty($message) ? $message : "test mail true");
-        echo $message;
     }
 
     public function send()
