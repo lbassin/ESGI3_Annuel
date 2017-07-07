@@ -95,6 +95,8 @@ class LoginControllerBack
             $user->setPassword($params['post']['password']);
             $user->save();
 
+            $resetPassword->delete();
+
             $message = json_encode(['success' => true, 'message' => 'Votre mot de passe a été réinitialisé<br>Vous allez être redirigé']);
         } else {
             $message = json_encode(['success' => false, 'message' => 'Une erreur est survenue']);
