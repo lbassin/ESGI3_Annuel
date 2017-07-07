@@ -96,21 +96,35 @@ if(validateResetPassword != null) {
         event.preventDefault();
 
         if (document.querySelector("input[name='new-password'").value != "" && document.querySelector("input[name='new-password'").value === document.querySelector("input[name='new-password-confirmation'").value) {
-
             var data = {
                 'password': document.querySelector("input[name='new-password'").value,
                 'token': window.location.href.split("/").pop()
             };
 
-
             ajax.post(loginValidateResetPassword, data, function (data) {
                 data = JSON.parse(data);
                 if (data['success']) {
-                    fadeOut(passwordForgetForm);
-                    setTimeout(function () {
-                        fadeIn(loginForm);
-                    }, 250);
                     showPopUp(data['message'], "success");
+                    fadeOut(loginForm);
+
+                    setTimeout(function () {
+                        fadeIn(document.getElementById("countdowntimer"));
+                        fadeIn(document.getElementById("countdowntimerseconds"));
+                        var timeleft = 5;
+                        var downloadTimer = setInterval(function(){
+                            timeleft--;
+                            if (timeleft == 1) {
+                                document.getElementById("countdowntimerseconds").textContent = "seconde";
+                            }
+                            document.getElementById("countdowntimer").textContent = timeleft;
+                            if(timeleft <= 0)
+                                clearInterval(downloadTimer);
+                        }, 1000);
+
+                        setTimeout(function () {
+                            window.location = loginIndex;
+                        }, 5000);
+                    }, 250);
                 } else {
                     showLoginError();
                     showPopUp(data['message'], "error");

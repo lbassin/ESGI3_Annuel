@@ -4,6 +4,8 @@
 
 <span class="container-login">
     <?php include 'app/assets/logo.html'; ?>
+    <p id="countdowntimer">5</p>
+    <p id="countdowntimerseconds">secondes</p>
     <form method="post" id="container-login-form" class="container-login-form">
         <div class="field-container">
             <input type="password" name="new-password" placeholder="Mot de passe" autofocus>
