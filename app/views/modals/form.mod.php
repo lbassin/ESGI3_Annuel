@@ -129,7 +129,7 @@
                     </div>
 
                     <?php if ($attributs['type'] == 'widget'): ?>
-                        <?php $this->includeWidget($attributs['id']); ?>
+                        <?php $this->includeWidget($attributs['id'], isset($attributs['data']) ? $attributs['data'] : []); ?>
                     <?php endif; ?>
 
                 <?php endforeach; ?>

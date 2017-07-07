@@ -27,7 +27,7 @@ class PageControllerBack
      */
     public function newAction($params)
     {
-        $view = new View('back', 'page/new', 'admin');
+        $view = new View('back', 'page/form', 'admin');
         $view->assign('page', new Page);
     }
 
@@ -90,14 +90,22 @@ class PageControllerBack
             $validatorComponent->validate($component->getConstraints());
         }
 
-        if(count(Session::getErrors()) > 0){
+        if (count(Session::getErrors()) > 0) {
             Helpers::redirectBack();
         }
     }
 
-    public function editAction()
+    public function editAction($params)
     {
+        if (!isset($params[Routing::PARAMS_URL][0])) {
+            Helpers::redirectBack();
+        }
 
+        $page = new Page();
+        $page->populate(['id' => $params[Routing::PARAMS_URL][0]]);
+
+        $view = new View('back', 'page/form', 'admin');
+        $view->assign('page', $page);
     }
 
     public function deleteAction()

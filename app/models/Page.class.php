@@ -78,6 +78,22 @@ class Page extends BaseSql implements Listable, Editable
         $this->publish = $publish;
     }
 
+    public function getComponents()
+    {
+        $component = new Page_Component();
+        $components = $component->getAll(['page_id' => $this->getId()]);
+
+        $data = [];
+        /** @var Page_Component $component */
+        foreach ($components as $component) {
+            $componentData = $component->getConfig();
+            $componentData['template_id'] = $component->getTemplateId();
+            $data[] = $componentData;
+        }
+
+        return $data;
+    }
+
     public function getListConfig()
     {
         return [
@@ -154,27 +170,30 @@ class Page extends BaseSql implements Listable, Editable
                         'title' => [
                             'type' => 'text',
                             'label' => 'Title',
-                            'required' => 1
+                            'required' => 1,
+                            'value' => $this->getTitle()
                         ],
                         'url' => [
                             'type' => 'text',
                             'label' => 'URL',
-                            'required' => 1
+                            'required' => 1,
+                            'value' => $this->getUrl()
                         ],
                         'description' => [
                             'type' => 'textarea',
                             'label' => 'Description',
-                            'required' => 1
+                            'required' => 1,
+                            'value' => $this->getDescription()
                         ],
                         'publish' => [
                             'type' => 'checkbox',
                             'label' => 'Publié',
-                            'value' => 1
+                            'value' => $this->getPublish()
                         ],
                         'visibility' => [
                             'type' => 'checkbox',
                             'label' => 'Visible',
-                            'value' => 1
+                            'value' => $this->getVisibility()
                         ]
                     ]
                 ],
@@ -183,7 +202,8 @@ class Page extends BaseSql implements Listable, Editable
                     Editable::GROUP_FIELDS => [
                         'preview' => [
                             'type' => 'widget',
-                            'id' => 'page/new'
+                            'id' => 'page/new',
+                            'data' => $this->getComponents()
                         ]
                     ]
                 ]

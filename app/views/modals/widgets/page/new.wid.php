@@ -9,7 +9,10 @@
         <button>Preview</button>
     </div>
     <div class="right">
-        <div id="btnAddComponent" class="action-popin" data-target="popin-addComponent"><i class="fa fa-plus" aria-hidden="true"></i> Add new component</div>
+        <div id="btnAddComponent" class="action-popin" data-target="popin-addComponent"><i class="fa fa-plus"
+                                                                                           aria-hidden="true"></i> Add
+            new component
+        </div>
     </div>
 </div>
 
@@ -35,4 +38,5 @@
 <script>
     var urlComponent = '<?php echo Helpers::getAdminRoute('component/component'); ?>';
     var urlValidate = '<?php echo Helpers::getAdminRoute('component/validate'); ?>';
+    var data = '<?php echo isset($widgetData) ? json_encode($widgetData) : ''; ?>';
 </script>
