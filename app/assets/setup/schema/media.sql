@@ -5,7 +5,7 @@ CREATE TABLE `media` (
   `type`       VARCHAR(25)         NOT NULL,
   `extension`  VARCHAR(25)         NOT NULL,
   `id_user`    INT(11)             NOT NULL,
-  `created_at` DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` DATETIME,
+  `created_at` TIMESTAMP            NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP,
   CONSTRAINT FK_MEDIA_USER FOREIGN KEY (id_user) REFERENCES user (id)
 );

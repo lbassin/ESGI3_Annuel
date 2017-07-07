@@ -7,8 +7,8 @@ CREATE TABLE `article` (
   `visibility` INT(11)             NOT NULL,
   `id_user`    INT(11)             NOT NULL,
   `id_survey`  INT(11)             NOT NULL,
-  `created_at` DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` DATETIME,
+  `created_at` TIMESTAMP            NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP,
   CONSTRAINT FK_ARTICLE_USER FOREIGN KEY (id_user) REFERENCES user (id),
   CONSTRAINT FK_ARTICLE_SURVEY FOREIGN KEY (id_survey) REFERENCES survey (id)
 );
