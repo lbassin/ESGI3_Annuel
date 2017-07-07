@@ -64,6 +64,7 @@ class LoginControllerBack
                 $view = new View('front', 'index', 'mail');
                 $view->assign('pseudo', $user->getPseudo());
                 $view->assign('token', $token);
+                $view->assign('port', ($_SERVER['SERVER_PORT'] == 80 ? "http" : "https") . "://");
                 $view = null;
                 $renderedView = ob_get_clean();
 
@@ -91,18 +92,13 @@ class LoginControllerBack
             $user = new User();
             $user->populate(['id' => $resetPassword->getUserId()]);
 
-            Helpers::debug($resetPassword);
-
             $user->setPassword($params['post']['password']);
-
-            Helpers::debug($user);
-
-            $user->save(); // TODO BUG SAVE
+            $user->save();
 
             $message = json_encode(['success' => true, 'message' => 'Votre mot de passe a été réinitialisé<br>Vous allez être redirigé']);
         } else {
             $message = json_encode(['success' => false, 'message' => 'Une erreur est survenue']);
         }
-        //echo $message;
+        echo $message;
     }
 }
