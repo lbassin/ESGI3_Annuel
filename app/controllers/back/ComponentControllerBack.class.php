@@ -35,44 +35,10 @@ class ComponentControllerBack
 
     private function getComponentTemplate($id)
     {
-        if ($id < 0) {
-            return [];
-        }
+        $component = new Page_Component();
+        $component->setTemplateId($id);
 
-        $xml = $this->getComponentXml($id);
-
-        $config = [];
-        $groups = [];
-        /** @var SimpleXMLElement $config */
-        foreach ($xml->getNode('config/groups') as $xmlConfig) {
-            $group = [];
-            $group[Editable::GROUP_LABEL] = (String)$xmlConfig->xpath('label')[0];
-            $group[Editable::GROUP_FIELDS] = [];
-
-            $fields = $xmlConfig->xpath('fields')[0];
-            /** @var SimpleXMLElement|array $attributes */
-            foreach ($fields as $field => $attributes) {
-                $fieldConfig = [];
-
-                $fieldConfig['label'] = (string)$attributes['label'];
-                $fieldConfig['type'] = (string)$attributes['type'];
-
-                $group[Editable::GROUP_FIELDS][$field] = $fieldConfig;
-            }
-
-            $groups[] = $group;
-        }
-
-        $config[Editable::FORM_GROUPS] = $groups;
-        $config[Editable::FORM_STRUCT] = [
-            'method' => 'post',
-            'action' => '#',
-            'hide_header' => 1,
-            'submit' => $xml->getNode('config/struct/submit', true),
-            'file' => $xml->getNode('config/struct/file', true)
-        ];
-
-        return $config;
+        return $component->getFormConfig();
     }
 
     public function componentAction($params)
@@ -98,7 +64,9 @@ class ComponentControllerBack
         $templateId = $data['template_id'];
         unset($data['token']);
 
-        $constraints = $this->getComponentConstraints($templateId);
+        $component = new Page_Component();
+        $component->setTemplateId($templateId);
+        $constraints = $component->getConstraints();
 
         $validator = new Validator($data, null);
         $validator->validate($constraints);
@@ -108,46 +76,9 @@ class ComponentControllerBack
         if (!empty($errors)) {
             echo json_encode(['errors' => $errors]);
         } else {
-            $preview = $this->getComponentPreview($templateId);
+            $preview = $component->getPreview($templateId);
             echo json_encode(['preview' => $preview, 'data' => $data]);
         }
     }
 
-    private function getComponentConstraints($templateId)
-    {
-        $xml = $this->getComponentXml($templateId);
-        $constraints = $xml->getNodeAsArray('validate');
-        if (!$constraints) {
-            return [];
-        }
-
-        return $constraints;
-    }
-
-    private function getComponentPreview($templateId)
-    {
-        $xml = $this->getComponentXml($templateId);
-        $preview = $xml->getNode('header/preview', true);
-        if (!$preview) {
-            return [];
-        }
-
-        return $preview;
-    }
-
-    private function getComponentXml($templateId)
-    {
-        // TODO : Change to getCurrentThemeDirectory();
-        $filePath = 'themes/templates/default/components/template' . $templateId . '.xml';
-
-        if (!file_exists($filePath)) {
-            Helpers::error404();
-        }
-
-        $xml = new Xml($filePath);
-        if (!$xml->open()) {
-            Helpers::error404();
-        }
-        return $xml;
-    }
 }

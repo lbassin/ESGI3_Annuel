@@ -37,7 +37,7 @@ class BaseSql
                     $data[$column] = $this->$column;
                 }
 
-                $sqlCol .= ',' . $column;
+                $sqlCol .= ',`' . $column . '`';
                 $sqlKey .= ',:' . $column;
             }
             $sqlCol = ltrim($sqlCol, ',');

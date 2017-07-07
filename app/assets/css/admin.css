@@ -267,9 +267,11 @@ body {
       vertical-align: top; }
   #form .field-line input {
     display: inline-block;
-    padding: 4px; }
+    padding: 4px;
+    font-family: 'Raleway', sans-serif; }
   #form .field-line textarea {
-    resize: none; }
+    resize: none;
+    font-family: 'Raleway', sans-serif; }
 #form .widget {
   width: 96%;
   margin: auto; }
