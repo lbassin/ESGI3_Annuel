@@ -100,8 +100,10 @@ class ComponentControllerBack
 
         $constraints = $this->getComponentConstraints($templateId);
 
-        $validator = new Validator();
-        $errors = $validator->validate($data, $constraints);
+        $validator = new Validator($data, null);
+        $validator->validate($constraints);
+        $errors = Session::getErrors();
+        Session::resetErrors();
 
         if (!empty($errors)) {
             echo json_encode(['errors' => $errors]);

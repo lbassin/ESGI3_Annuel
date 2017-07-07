@@ -41,12 +41,17 @@ class PageControllerBack
         }
         $data = $params[Routing::PARAMS_POST];
 
-        $validator = new Validator();
-        $errors = $validator->validate($data, $this->getPageConstraints());
+        $validator = new Validator($data, Page::class);
+        $validator->validate($this->getPageConstraints());
 
         foreach ($data['components'] as $component){
+            $validatorComponent = new Validator($component);
+            $validatorComponent->validate([]);
             $componentData = json_decode($component, true);
         }
+
+        $errors = Session::getErrors();
+        Session::resetErrors();
 
         Helpers::debug($errors);
         Helpers::debug($params);
