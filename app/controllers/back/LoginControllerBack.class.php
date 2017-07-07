@@ -56,7 +56,7 @@ class LoginControllerBack
                 ob_start();
                 $view = new View('front', 'index', 'mail');
                 $view->assign('pseudo', $user->getPseudo());
-                $view->assign('link', 'nothing');
+                $view->assign('token', '123456');
                 $view = null;
                 $renderedView = ob_get_clean();
 
@@ -70,4 +70,15 @@ class LoginControllerBack
         }
     }
 
+    public function resetAction() {
+        Csrf::generate();
+        $view = new View('back', 'login/reset', 'login');
+        $view->assign('csrfToken', Session::getToken());
+    }
+
+    public function validateResetPasswordAction($params) {
+        if (isset($params['post']['password'])) {
+
+        }
+    }
 }

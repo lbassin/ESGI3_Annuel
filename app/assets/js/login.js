@@ -41,48 +41,81 @@ var backLoginButton = document.querySelector("#back-login-button");
 var loginForm = document.querySelector("#container-login-form");
 var passwordForgetForm = document.querySelector("#container-password-forget");
 var forgetButton = document.querySelector("#forget");
+var validateResetPassword = document.querySelector("#validate-reset-password");
 
-passwordForgetButton.addEventListener("click", function () {
-    fadeOut(loginForm);
-    setTimeout(function () {
-        fadeIn(passwordForgetForm);
-    }, 250);
-});
+if(passwordForgetButton != null) {
+    passwordForgetButton.addEventListener("click", function () {
+        fadeOut(loginForm);
+        setTimeout(function () {
+            fadeIn(passwordForgetForm);
+        }, 250);
+    });
+}
 
-backLoginButton.addEventListener("click", function () {
-    fadeOut(passwordForgetForm);
-    setTimeout(function () {
-        fadeIn(loginForm);
-    }, 250);
-});
+if(backLoginButton != null) {
+    backLoginButton.addEventListener("click", function () {
+        fadeOut(passwordForgetForm);
+        setTimeout(function () {
+            fadeIn(loginForm);
+        }, 250);
+    });
+}
 
-forgetButton.addEventListener("click", function (event) {
-    event.preventDefault();
+if(forgetButton != null) {
+    forgetButton.addEventListener("click", function (event) {
+        event.preventDefault();
 
-    console.log('test');
+        if (validateEmail(document.querySelector("#forget-mail").value)) {
 
-    if (validateEmail(document.querySelector("#forget-mail").value)) {
+            var data = {
+                'email': document.querySelector("input[name='email-forget']").value
+            };
 
-        var data = {
-            'email': document.querySelector("input[name='email-forget']").value
-        };
+            ajax.post(loginResetPassword, data, function (data) {
+                data = JSON.parse(data);
+                if (data['success']) {
+                    fadeOut(passwordForgetForm);
+                    setTimeout(function () {
+                        fadeIn(loginForm);
+                    }, 250);
+                    showPopUp(data['message'], "success");
+                } else {
+                    showPopUp(data['message'], "error");
+                }
+            });
+        } else {
+            showPopUp("Votre mail n'est pas valide", "error");
+        }
+    });
+}
 
-        ajax.post(loginResetPassword, data, function (data) {
-            data = JSON.parse(data);
-            if (data['success']) {
-                fadeOut(passwordForgetForm);
-                setTimeout(function () {
-                    fadeIn(loginForm);
-                }, 250);
-                showPopUp(data['message'], "success");
-            } else {
-                showPopUp(data['message'], "error");
-            }
-        });
-    } else {
-        showPopUp("Votre mail n'est pas valide", "error");
-    }
-});
+if(validateResetPassword != null) {
+    validateResetPassword.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        if (document.querySelector("input[name='new-password'").value != "" && document.querySelector("input[name='new-password'").value === document.querySelector("input[name='new-password-confirmation'").value) {
+
+            var data = {
+                'password': document.querySelector("input[name='new-password'").value
+            };
+
+            ajax.post(loginValidateResetPassword, data, function (data) {
+                data = JSON.parse(data);
+                if (data['success']) {
+                    fadeOut(passwordForgetForm);
+                    setTimeout(function () {
+                        fadeIn(loginForm);
+                    }, 250);
+                    showPopUp(data['message'], "success");
+                } else {
+                    showPopUp(data['message'], "error");
+                }
+            });
+        } else {
+            showPopUp("Vos mots de passe ne sont pas identiques", "error");
+        }
+    });
+}
 
 function fadeOut(element) {
     element.style.opacity = 1;

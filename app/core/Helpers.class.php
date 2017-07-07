@@ -25,6 +25,11 @@ class Helpers
         return BASE_PATH . ADMIN_PATH . '/' . $path . '/';
     }
 
+    public static function getExternalAdminRoute($path)
+    {
+        return $_SERVER['HTTP_HOST'] . self::getAdminRoute($path);
+    }
+
     public static function redirectBack()
     {
         if (!empty($_SERVER['HTTP_REFERER'])) {
