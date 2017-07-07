@@ -5,94 +5,76 @@
  */
 class Validator
 {
-    private $translation = [
-        'required' => 'Le champs {{name}} est obligatoire',
-        'min' => 'La taille minimun du champs {{name}} est de {{value}}',
-        'max' => 'La taille maximale du champs {{name}} est de {{value}}'
-    ];
+    private $data;
+    private $className;
 
-    /**
-     * @param $data
-     * @param $constraints
-     * @return array
-     */
-    public function validate($data, $constraints)
+    function __construct($className, $data)
     {
-        $errors = [];
-        foreach ($constraints as $inputName => $constraint) {
-            if (empty($data[$inputName]) && $constraint['required']) {
-                $errors[$inputName]['required'] = $constraint['required'];
-                continue;
-            }
-            unset($constraint['required']);
+        $this->className = $className;
+        $this->data = $data;
+    }
 
-            if (!isset($data[$inputName])) {
-                continue;
-            }
-
-            foreach ($constraint as $function => $value) {
-                if (!method_exists($this, $function)) {
-                    continue;
-                }
-
-                if (!$this->$function($data[$inputName], $value)) {
-                    $errors[$inputName][$function] = $value;
+    public function validate(array $constraints)
+    {
+        foreach ($constraints as $column => $constraint) {
+            foreach ($constraint as $rule => $inputValue) {
+                if (method_exists($this, $rule)) {
+                    $this->$rule($column, $this->data[$column], $inputValue);
                 }
             }
-
         }
-
-        return $this->formatErrors($errors);
     }
 
     /**
-     * @param array $errors
-     * @return array
-     */
-    public function formatErrors(array $errors)
-    {
-        $displayError = [];
-        foreach ($errors as $name => $inputErrors) {
-            foreach ($inputErrors as $error => $value) {
-                $message = $this->translation[$error];
-
-                $message = str_replace('{{name}}', $name, $message);
-                $message = str_replace('{{value}}', $value, $message);
-
-                $displayError[] = $message;
-            }
-        }
-
-        return $displayError;
-    }
-
-    /**
-     * @param $input
+     * @param $inputName
+     * @param $inputValue
      * @param $constraint
-     * @return bool
      */
-    private function required($input, $constraint)
+    private function required($inputName, $inputValue, $constraint)
     {
-        return false;
+        (empty($inputValue) && $constraint == true) ?  Session::addError('Le champ ' . $inputName . ' est requis !') : '';
     }
 
     /**
-     * @param $input
+     * @param $inputName
+     * @param $inputValue
      * @param $constraint
-     * @return bool
      */
-    private function min($input, $constraint)
+    private function min($inputName, $inputValue, $constraint)
     {
-        return strlen($input) >= $constraint;
+        (strlen($inputValue) <= $constraint) ?  Session::addError('Le champ ' . $inputName . ' est trop court, limite : ' . $constraint . ' minimum !') : '';
     }
 
     /**
-     * @param $input
+     * @param $inputName
+     * @param $inputValue
      * @param $constraint
-     * @return bool
      */
-    private function max($input, $constraint)
+    private function max($inputName, $inputValue, $constraint)
     {
-        return strlen($input) <= $constraint;
+        (strlen($inputValue) >= $constraint) ?  Session::addError('Le champ ' . $inputName . ' est trop long, limite : ' . $constraint . ' maximum !') : '';
+    }
+
+    /**
+     * @param $inputName
+     * @param $inputValue
+     * @param $constraint
+     */
+    private function email($inputName, $inputValue, $constraint)
+    {
+        (!filter_var($inputValue, FILTER_VALIDATE_EMAIL) && $constraint == true) ?  Session::addError('Le champ ' . $inputName . ' doit être sous format email !') : '';
+    }
+
+    /**
+     * @param $inputName
+     * @param $inputValue
+     * @param $constraint
+     */
+    private function unique($inputName, $inputValue, $constraint)
+    {
+        $class = new $this->className();
+        $class->populate([$inputName => $inputValue]);
+        $getter = 'get' . ucfirst($inputName);
+        (!empty($class->$getter()) && $constraint == true) ?  Session::addError('Le champ ' . $inputName . ' doit être unique !') : '';
     }
 }
