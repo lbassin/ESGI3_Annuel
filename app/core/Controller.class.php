@@ -53,11 +53,12 @@ abstract class Controller implements Controllable
         $view->assign(lcfirst($this->className), $class);
     }
 
-    public function saveAction($params = []) {
+    public function saveAction($params = [])
+    {
         $class = new $this->className();
         $postData = $params[Routing::PARAMS_POST];
 
-        $validator = new Validator($this->className, $postData);
+        $validator = new Validator($postData, $this->className);
         $validator->validate($class->validate());
 
         if (count(Session::getErrors()) > 0) {

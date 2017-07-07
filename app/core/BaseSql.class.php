@@ -37,7 +37,7 @@ class BaseSql
                     $data[$column] = $this->$column;
                 }
 
-                $sqlCol .= ',' . $column;
+                $sqlCol .= ',`' . $column . '`';
                 $sqlKey .= ',:' . $column;
             }
             $sqlCol = ltrim($sqlCol, ',');
@@ -127,15 +127,26 @@ class BaseSql
         }
     }
 
-    public function getAll()
+    public function getAll($condition = [])
     {
         $db = Db::getInstance();
 
-        $sql = 'SELECT * FROM ' . $this->table;
+        $conditionQuery = '';
+        foreach ($condition as $field => $value) {
+            $conditionQuery .= $field . ' = :' . $field . ' AND ';
+        }
+        $conditionQuery = trim($conditionQuery, ' AND ');
 
-        $query = $db->query($sql);
+        if (count($condition) <= 0) {
+            $conditionQuery = '1 = 1';
+        }
+
+        $query = Db::getInstance()->prepare(
+            'SELECT * FROM ' . $this->table . ' WHERE ' . $conditionQuery
+        );
+        $query->execute($condition);
+
         $query->setFetchMode(PDO::FETCH_CLASS, $this->table);
-
         $entities = $query->fetchAll();
 
         return $entities;

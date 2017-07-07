@@ -1,13 +1,17 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="description" content="...">
-    <title>Error <?php echo(isset($errorCode) ? $errorCode : ''); ?></title>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Error <?php echo(isset($errorCode) ? $errorCode : ''); ?></title>
+        <link rel="stylesheet" href="<?php echo Helpers::getAsset('css/error.css'); ?>">
+        <link rel="stylesheet" type="text/css" href="<?php echo Helpers::getAsset('css/login.css'); ?>">
+        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    </head>
+    <body>
 
-    <link rel="stylesheet" href="<?php echo Helpers::getAsset('css/error.css'); ?>">
-</head>
-<body>
-<?php include $this->view; ?>
-</body>
+        <div class="container">
+            <?php include $this->view; ?>
+        </div>
+
+    </body>
 </html>

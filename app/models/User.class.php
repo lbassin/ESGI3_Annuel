@@ -208,6 +208,7 @@ class User extends BaseSql implements Listable, Editable
             Editable::FORM_STRUCT => [
                 Editable::FORM_METHOD => 'post',
                 Editable::FORM_ACTION => Helpers::getAdminRoute('login/login'),
+                Editable::FORM_BACK_URL => Helpers::getAdminRoute('login'),
                 Editable::FORM_SUBMIT => 'Connexion',
                 Editable::FORM_FILE => 0
             ],
@@ -239,6 +240,7 @@ class User extends BaseSql implements Listable, Editable
             Editable::FORM_STRUCT => [
                 Editable::FORM_METHOD => 'post',
                 Editable::FORM_ACTION => Helpers::getAdminRoute('user/save'),
+                Editable::FORM_BACK_URL => Helpers::getAdminRoute('user'),
                 Editable::FORM_SUBMIT => 'Sauvegarder',
                 Editable::FORM_FILE => 1
             ],
