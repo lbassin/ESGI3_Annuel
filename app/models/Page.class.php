@@ -186,15 +186,18 @@ class Page extends BaseSql implements Listable, Editable
                     Editable::GROUP_FIELDS => [
                         'title' => [
                             'type' => 'text',
-                            'label' => 'Title'
+                            'label' => 'Title',
+                            'required' => 1
                         ],
                         'url' => [
                             'type' => 'text',
-                            'label' => 'URL'
+                            'label' => 'URL',
+                            'required' => 1
                         ],
                         'meta_desc' => [
                             'type' => 'textarea',
-                            'label' => 'Description'
+                            'label' => 'Description',
+                            'required' => 1
                         ]
                     ]
                 ],

@@ -258,6 +258,11 @@ body {
     width: 15%;
     text-align: right;
     margin-right: 1%; }
+    #form .field-line label.required:after {
+      content: "*";
+      color: red;
+      font-size: 180%;
+      vertical-align: middle; }
     #form .field-line label.vertical-align {
       vertical-align: top; }
   #form .field-line input {

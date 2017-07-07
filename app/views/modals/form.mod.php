@@ -38,7 +38,7 @@
 
                     <div class="field-line">
                         <?php if ($attributs['type'] == 'email' || $attributs['type'] == 'text' || $attributs['type'] == 'password'): ?>
-                            <label for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
+                            <label class="<?php echo(isset($attributs['required']) ? 'required' : ''); ?>" for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
                             <input
                                     type="<?php echo $attributs['type']; ?>"
                                     name="<?php echo $name; ?>"
@@ -51,7 +51,7 @@
                         <?php endif; ?>
 
                         <?php if ($attributs['type'] == 'file'): ?>
-                            <label for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
+                            <label class="<?php echo(isset($attributs['required']) ? 'required' : ''); ?>" for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
                             <input type="<?php echo $attributs['type']; ?>"
                                    name="<?php echo $name; ?>"
                                    accept="<?php echo isset($attributs['accept']) ? $attributs['accept'] : ''; ?>"
@@ -62,7 +62,7 @@
                         <?php endif; ?>
 
                         <?php if ($attributs['type'] == 'checkbox'): ?>
-                            <label for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
+                            <label class="<?php echo(isset($attributs['required']) ? 'required' : ''); ?>" for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
                             <input type="<?php echo $attributs['type']; ?>"
                                    name="<?php echo $name; ?>"
                                    value="1"
@@ -72,7 +72,7 @@
                         <?php endif; ?>
 
                         <?php if ($attributs['type'] == 'select'): ?>
-                            <label for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
+                            <label class="<?php echo(isset($attributs['required']) ? 'required' : ''); ?>" for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
                             <select name="<?php echo $name; ?>" id="<?php echo "input-" . $name; ?>">
                                 <?php foreach ($attributs['options'] as $selectLabel => $selectValue): ?>
                                     <option
@@ -94,14 +94,13 @@
                         <?php endif; ?>
 
                         <?php if ($attributs['type'] == 'textarea'): ?>
-                            <label for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
+                            <label class="vertical-align <?php echo(isset($attributs['required']) ? 'required' : ''); ?>" for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
                             <textarea
                                     name="<?php echo $name; ?>"
                                     placeholder="<?php echo isset($attributs['placeholder']) ? $attributs['placeholder'] : ''; ?>"
                                     id="<?php echo "input-" . $name; ?>"
                                     cols="50"
                                     rows="5"
-                                <?php echo(isset($attributs['required']) ? 'required="required"' : ''); ?>
                                 <?php echo(isset($attributs['disabled']) ? 'disabled="disabled"' : ''); ?>
                             ><?php echo(isset($attributs['value']) ? $attributs['value'] : ''); ?></textarea>
                         <?php endif; ?>
@@ -119,7 +118,7 @@
                         <?php endif; ?>
 
                         <?php if ($attributs['type'] == 'date'): ?>
-                            <label for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
+                            <label class="<?php echo(isset($attributs['required']) ? 'required' : ''); ?>" for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
                             <input type="<?php echo $attributs['type']; ?>"
                                    name="<?php echo $name; ?>"
                                    value="<?php echo(isset($attributs['value']) ? $attributs['value'] : ''); ?>"
