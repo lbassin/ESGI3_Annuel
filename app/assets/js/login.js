@@ -80,10 +80,12 @@ if(forgetButton != null) {
                     }, 250);
                     showPopUp(data['message'], "success");
                 } else {
+                    showLoginError();
                     showPopUp(data['message'], "error");
                 }
             });
         } else {
+            showLoginError();
             showPopUp("Votre mail n'est pas valide", "error");
         }
     });
@@ -96,8 +98,10 @@ if(validateResetPassword != null) {
         if (document.querySelector("input[name='new-password'").value != "" && document.querySelector("input[name='new-password'").value === document.querySelector("input[name='new-password-confirmation'").value) {
 
             var data = {
-                'password': document.querySelector("input[name='new-password'").value
+                'password': document.querySelector("input[name='new-password'").value,
+                'token': window.location.href.split("/").pop()
             };
+
 
             ajax.post(loginValidateResetPassword, data, function (data) {
                 data = JSON.parse(data);
@@ -108,10 +112,12 @@ if(validateResetPassword != null) {
                     }, 250);
                     showPopUp(data['message'], "success");
                 } else {
+                    showLoginError();
                     showPopUp(data['message'], "error");
                 }
             });
         } else {
+            showLoginError();
             showPopUp("Vos mots de passe ne sont pas identiques", "error");
         }
     });
