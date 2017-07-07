@@ -4,6 +4,6 @@ CREATE TABLE `page_component` (
   `order`       INT(11)             NOT NULL,
   `template_id` INT(11)             NOT NULL,
   `config`      VARCHAR(255)        NOT NULL,
-  `created_at`  DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at`  DATETIME
+  `created_at`  TIMESTAMP            NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at`  TIMESTAMP
 );
