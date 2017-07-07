@@ -13,7 +13,10 @@
             <?php if (!isset($config[Editable::FORM_STRUCT]['hide_header'])): ?>
                 <div id="menu">
                     <div id="action">
-                        <a href="<?php echo Helpers::getAdminRoute('user'); ?>" class="button secondary">
+                        <a href="<?php echo isset($config[Editable::FORM_STRUCT][Editable::FORM_BACK_URL]) ?
+                            $config[Editable::FORM_STRUCT][Editable::FORM_BACK_URL] :
+                            '#undefined'; ?>"
+                           class="button secondary">
                             <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
                         </a>
                         <a href="#" class="button secondary">
@@ -38,7 +41,8 @@
 
                     <div class="field-line">
                         <?php if ($attributs['type'] == 'email' || $attributs['type'] == 'text' || $attributs['type'] == 'password'): ?>
-                            <label class="<?php echo(isset($attributs['required']) ? 'required' : ''); ?>" for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
+                            <label class="<?php echo(isset($attributs['required']) ? 'required' : ''); ?>"
+                                   for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
                             <input
                                     type="<?php echo $attributs['type']; ?>"
                                     name="<?php echo $name; ?>"
@@ -51,7 +55,8 @@
                         <?php endif; ?>
 
                         <?php if ($attributs['type'] == 'file'): ?>
-                            <label class="<?php echo(isset($attributs['required']) ? 'required' : ''); ?>" for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
+                            <label class="<?php echo(isset($attributs['required']) ? 'required' : ''); ?>"
+                                   for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
                             <input type="<?php echo $attributs['type']; ?>"
                                    name="<?php echo $name; ?>"
                                    accept="<?php echo isset($attributs['accept']) ? $attributs['accept'] : ''; ?>"
@@ -62,7 +67,8 @@
                         <?php endif; ?>
 
                         <?php if ($attributs['type'] == 'checkbox'): ?>
-                            <label class="<?php echo(isset($attributs['required']) ? 'required' : ''); ?>" for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
+                            <label class="<?php echo(isset($attributs['required']) ? 'required' : ''); ?>"
+                                   for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
                             <input type="<?php echo $attributs['type']; ?>"
                                    name="<?php echo $name; ?>"
                                    value="1"
@@ -72,7 +78,8 @@
                         <?php endif; ?>
 
                         <?php if ($attributs['type'] == 'select'): ?>
-                            <label class="<?php echo(isset($attributs['required']) ? 'required' : ''); ?>" for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
+                            <label class="<?php echo(isset($attributs['required']) ? 'required' : ''); ?>"
+                                   for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
                             <select name="<?php echo $name; ?>" id="<?php echo "input-" . $name; ?>">
                                 <?php foreach ($attributs['options'] as $selectLabel => $selectValue): ?>
                                     <option
@@ -94,7 +101,8 @@
                         <?php endif; ?>
 
                         <?php if ($attributs['type'] == 'textarea'): ?>
-                            <label class="vertical-align <?php echo(isset($attributs['required']) ? 'required' : ''); ?>" for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
+                            <label class="vertical-align <?php echo(isset($attributs['required']) ? 'required' : ''); ?>"
+                                   for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
                             <textarea
                                     name="<?php echo $name; ?>"
                                     placeholder="<?php echo isset($attributs['placeholder']) ? $attributs['placeholder'] : ''; ?>"
@@ -118,7 +126,8 @@
                         <?php endif; ?>
 
                         <?php if ($attributs['type'] == 'date'): ?>
-                            <label class="<?php echo(isset($attributs['required']) ? 'required' : ''); ?>" for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
+                            <label class="<?php echo(isset($attributs['required']) ? 'required' : ''); ?>"
+                                   for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
                             <input type="<?php echo $attributs['type']; ?>"
                                    name="<?php echo $name; ?>"
                                    value="<?php echo(isset($attributs['value']) ? $attributs['value'] : ''); ?>"
@@ -129,7 +138,7 @@
                     </div>
 
                     <?php if ($attributs['type'] == 'widget'): ?>
-                        <?php $this->includeWidget($attributs['id']); ?>
+                        <?php $this->includeWidget($attributs['id'], isset($attributs['data']) ? $attributs['data'] : []); ?>
                     <?php endif; ?>
 
                 <?php endforeach; ?>

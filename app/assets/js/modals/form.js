@@ -144,18 +144,7 @@ function validateComponent() {
 
         var errorDiv = document.getElementById("addComponent-errors");
         if (!response['errors']) {
-            var oldHeight = divPreview.clientHeight;
-            setTimeout(function () {
-                addEditComponentButton(oldHeight, -1);
-            }, 450);
-
-            var preview = document.createElement('img');
-            preview.setAttribute('src', response['preview']);
-            divPreview.appendChild(preview);
-            setTimeout(moveAddComponentButton, 350);
-
-            addComponentInput(response['data']);
-
+            addPreview(response);
             fadeOut(errorDiv);
             hidePopin(document.querySelector("#popin-addComponent"));
         } else {
@@ -195,13 +184,39 @@ function addEditComponentButton(height) {
     btnDiv.appendChild(button);
 }
 
-function addComponentInput(data){
+function addComponentInput(data) {
     var input = document.createElement('input');
     componentsCount++;
 
     input.setAttribute('type', 'hidden');
     input.setAttribute('value', JSON.stringify(data));
     input.setAttribute('name', 'components[' + componentsCount + ']');
-    
+
     document.forms[0].appendChild(input);
+}
+
+function addPreview(data) {
+    var oldHeight = divPreview.clientHeight;
+    setTimeout(function () {
+        addEditComponentButton(oldHeight, -1);
+    }, 450);
+
+    var preview = document.createElement('img');
+    preview.setAttribute('src', data['preview']);
+    divPreview.appendChild(preview);
+    setTimeout(moveAddComponentButton, 350);
+
+    addComponentInput(data['data']);
+}
+
+if (data !== undefined) {
+    data = JSON.parse(data);
+    for (i = 0; i < data.length; i++) {
+        var ajax = new Ajax();
+
+        ajax.post(urlValidate, data[i], function (response) {
+            response = JSON.parse(response);
+            addPreview(response);
+        });
+    }
 }
