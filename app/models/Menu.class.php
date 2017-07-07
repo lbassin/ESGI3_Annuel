@@ -1,23 +1,13 @@
 <?php
-class Menu extends BaseSql
+class Menu extends BaseSql implements Editable, Listable
 {
     protected $id;
     protected $label;
     protected $url;
     protected $parent_id;
 
-    public function __construct(
-        $id = -1,
-        $label = null,
-        $url = false,
-        $parent_id = null
-    )
+    public function __construct()
     {
-        $this->setId($id);
-        $this->setLabel($label);
-        $this->setUrl($url);
-        $this->setParentId($parent_id);
-
         parent::__construct();
     }
 
@@ -59,6 +49,59 @@ class Menu extends BaseSql
     public function setParentId($parent_id)
     {
         $this->parent_id = $parent_id;
+    }
+
+    public function getFormConfig()
+    {
+        // TODO: Implement getFormConfig() method.
+    }
+
+    public function getListConfig()
+    {
+        return [
+            Listable::LIST_STRUCT => [
+                Listable::LIST_TITLE => 'Menus',
+                Listable::LIST_NEW_LINK => Helpers::getAdminRoute('menu/new'),
+                Listable::LIST_EDIT_LINK => Helpers::getAdminRoute('menu/edit'),
+                Listable::LIST_HEADER => [
+                    '',
+                    'ID',
+                    'Label',
+                    'Action'
+                ]
+            ],
+            Listable::LIST_ROWS => $this->getListData()
+        ];
+    }
+
+    public function getListData()
+    {
+        $menus = $this->getAll();
+        $listData = [];
+
+        foreach ($menus as $menu) {
+            $menuData = [
+                [
+                    'type' => 'checkbox',
+                    'value' => ''
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $menu->getId()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $menu->getLabel()
+                ],
+                [
+                    'type' => 'action',
+                    'id' => $menu->getId()
+                ]
+
+            ];
+            $listData[] = $menuData;
+        }
+        return $listData;
     }
 
 }
