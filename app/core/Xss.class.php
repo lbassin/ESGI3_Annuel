@@ -15,8 +15,22 @@ class Xss
                 $eDirty[$key] = self::parse($value);
             }
         } else {
-            $eDirty = htmlentities($eDirty, ENT_QUOTES, 'UTF-8');
+            if(self::isJson($eDirty)){
+                $jsonDirty = json_decode($eDirty, true);
+                $jsonDirty = self::parse($jsonDirty);
+                $eDirty = json_encode($jsonDirty);
+            }else{
+                $eDirty = htmlentities($eDirty, ENT_QUOTES, 'UTF-8');
+            }
         }
         return $eDirty;
+    }
+
+    private static function isJson($string) {
+        $result = json_decode($string);
+        if(is_int($result)){
+            return false;
+        }
+        return (json_last_error() == JSON_ERROR_NONE);
     }
 }

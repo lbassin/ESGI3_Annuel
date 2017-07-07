@@ -45,15 +45,8 @@ class PageControllerBack
         $errors = $validator->validate($data, $this->getPageConstraints());
 
         foreach ($data['components'] as $component){
-            Helpers::debug(gettype($component));
-            Helpers::debug($component);
             $componentData = json_decode($component, true);
-            Helpers::debug($componentData);
-            Helpers::debug(json_last_error_msg());
-            Helpers::debug('# ---- #');
         }
-
-//        Helpers::debug(json_decode('{"title":"test",\"template_id\":\"1\"}', true));
 
         Helpers::debug($errors);
         Helpers::debug($params);
