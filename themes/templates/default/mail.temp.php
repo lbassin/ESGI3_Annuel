@@ -142,6 +142,7 @@
             </tbody>
         </table>
     </div>
+
     <!--[if mso | IE]>
     </td></tr></table>
     <![endif]-->
@@ -261,7 +262,7 @@
                                         <tbody>
                                         <tr>
                                             <td style="border:1px solid black;border-radius:10px;color:#000;cursor:auto;padding:10px 25px;" align="center" valign="middle" bgcolor="#fff">
-                                                <a href="<?php echo $link; ?>" target="_blank" style="text-decoration:none;background:#fff;color:#000;font-family:Helvetica;font-size:14px;font-weight:bold;line-height:120%;text-transform:none;margin:0px;">Réinitialiser mon mot de passe</a>
+                                                <a href="<?php echo $port . Helpers::getExternalAdminRoute('login/reset') . $token; ?>" target="_blank" style="text-decoration:none;background:#fff;color:#000;font-family:Helvetica;font-size:14px;font-weight:bold;line-height:120%;text-transform:none;margin:0px;">Réinitialiser mon mot de passe</a>
                                             </td>
                                         </tr>
                                         </tbody>

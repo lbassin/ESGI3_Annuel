@@ -93,12 +93,15 @@ svg path {
   to {
     transform: rotate(0deg); } }
 .container {
-  height: calc(100vh - 55px);
   margin: 0;
   width: 100%;
   position: absolute;
   padding: 15px;
-  transition: all 0.3s ease-in-out; }
+  transition: all 0.3s ease-in-out;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
 
 .container-login {
   height: 300px;
@@ -177,6 +180,11 @@ svg path {
 .link-password-forget {
   width: 70%; }
 
+.link-password-return {
+  width: 27%;
+  color: black;
+  text-decoration: none; }
+
 .back-login-button {
   width: 25%; }
 
@@ -205,5 +213,19 @@ svg path {
   opacity: 0;
   text-align: center;
   box-shadow: 0 0 10px -2px rgba(0, 0, 0, 0.8); }
+
+#countdowntimer {
+  z-index: -1;
+  position: absolute;
+  font-size: 50px;
+  margin: 0;
+  opacity: 0; }
+
+#countdowntimerseconds {
+  z-index: -1;
+  position: absolute;
+  font-size: 35px;
+  margin-top: 45px;
+  opacity: 0; }
 
 /*# sourceMappingURL=login.css.map */

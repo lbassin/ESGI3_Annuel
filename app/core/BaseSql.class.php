@@ -100,6 +100,14 @@ class BaseSql
         foreach ($data as $name => $value) {
             $this->$name = $value;
         }
+
+        foreach ($this->getForeignValues() as $key) {
+            $getter = 'get' . ucfirst($key);
+            if (method_exists($this, $getter)) {
+                $this->$key = $this->$getter();
+                unset($this->{'id_' . $key});
+            }
+        }
     }
 
     public function fill(array $data)

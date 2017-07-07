@@ -57,7 +57,9 @@ abstract class Controller implements Controllable
         $class = new $this->className();
         $postData = $params[Routing::PARAMS_POST];
 
-        $class->validate($postData);
+        $validator = new Validator($this->className, $postData);
+        $validator->validate($class->validate());
+
         if (count(Session::getErrors()) > 0) {
             Helpers::redirectBack();
         }

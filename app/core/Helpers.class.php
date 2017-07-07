@@ -4,6 +4,12 @@ class Helpers
 {
     public static function debug($data)
     {
+        if($data === false || $data === null){
+            echo '<pre>';
+            var_dump($data);
+            echo '</pre>';
+        }
+
         echo '<pre>';
         print_r($data);
         echo '</pre>';
@@ -23,6 +29,11 @@ class Helpers
     {
         $path = rtrim($path, '/');
         return BASE_PATH . ADMIN_PATH . '/' . $path . '/';
+    }
+
+    public static function getExternalAdminRoute($path)
+    {
+        return $_SERVER['HTTP_HOST'] . self::getAdminRoute($path);
     }
 
     public static function redirectBack()

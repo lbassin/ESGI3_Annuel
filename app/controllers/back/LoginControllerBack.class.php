@@ -54,9 +54,17 @@ class LoginControllerBack
 
             if(! is_null($user->getId())) { // TODO
                 ob_start();
+                $resetPassword = new Reset_Password();
+                $token = $resetPassword->generateToken();
+                $resetPassword->setToken($token);
+                $resetPassword->setUserId($user->getId());
+
+                $resetPassword->save();
+
                 $view = new View('front', 'index', 'mail');
                 $view->assign('pseudo', $user->getPseudo());
-                $view->assign('link', 'nothing');
+                $view->assign('token', $token);
+                $view->assign('port', ($_SERVER['SERVER_PORT'] == 80 ? "http" : "https") . "://");
                 $view = null;
                 $renderedView = ob_get_clean();
 
@@ -70,4 +78,27 @@ class LoginControllerBack
         }
     }
 
+    public function resetAction() {
+        Csrf::generate();
+        $view = new View('back', 'login/reset', 'login');
+        $view->assign('csrfToken', Session::getToken());
+    }
+
+    public function validateResetPasswordAction($params) {
+        if (isset($params['post']['password'])) {
+            $resetPassword = new Reset_Password();
+            $resetPassword->populate(['token' => $params['post']['token']]);
+
+            $user = new User();
+            $user->populate(['id' => $resetPassword->getUserId()]);
+
+            $user->setPassword($params['post']['password']);
+            $user->save();
+
+            $message = json_encode(['success' => true, 'message' => 'Votre mot de passe a été réinitialisé<br>Vous allez être redirigé']);
+        } else {
+            $message = json_encode(['success' => false, 'message' => 'Une erreur est survenue']);
+        }
+        echo $message;
+    }
 }
