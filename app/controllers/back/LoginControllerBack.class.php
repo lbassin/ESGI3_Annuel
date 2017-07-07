@@ -91,11 +91,18 @@ class LoginControllerBack
             $user = new User();
             $user->populate(['id' => $resetPassword->getUserId()]);
 
+            Helpers::debug($resetPassword);
+
             $user->setPassword($params['post']['password']);
+
+            Helpers::debug($user);
+
             $user->save(); // TODO BUG SAVE
 
+            $message = json_encode(['success' => true, 'message' => 'Votre mot de passe a été réinitialisé<br>Vous allez être redirigé']);
         } else {
-            echo json_encode(['success' => false, 'message' => 'Une erreur est survenue']);
+            $message = json_encode(['success' => false, 'message' => 'Une erreur est survenue']);
         }
+        //echo $message;
     }
 }
