@@ -93,12 +93,15 @@ svg path {
   to {
     transform: rotate(0deg); } }
 .container {
-  height: calc(100vh - 55px);
   margin: 0;
   width: 100%;
   position: absolute;
   padding: 15px;
-  transition: all 0.3s ease-in-out; }
+  transition: all 0.3s ease-in-out;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
 
 .container-login {
   height: 300px;
@@ -176,6 +179,11 @@ svg path {
 
 .link-password-forget {
   width: 70%; }
+
+.link-password-return {
+  width: 27%;
+  color: black;
+  text-decoration: none; }
 
 .back-login-button {
   width: 25%; }
