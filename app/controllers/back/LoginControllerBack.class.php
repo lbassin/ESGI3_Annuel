@@ -79,9 +79,16 @@ class LoginControllerBack
     }
 
     public function resetAction() {
-        Csrf::generate();
-        $view = new View('back', 'login/reset', 'login');
-        $view->assign('csrfToken', Session::getToken());
+        $resetPassword = new Reset_Password();
+        $tmp = explode('/', $_SERVER['REQUEST_URI']);
+        $resetPassword->populate(['token' => end($tmp)]);
+        if(! is_null($resetPassword->getId())) {
+            Csrf::generate();
+            $view = new View('back', 'login/reset', 'login');
+            $view->assign('csrfToken', Session::getToken());
+        } else {
+            Helpers::error404();
+        }
     }
 
     public function validateResetPasswordAction($params) {
