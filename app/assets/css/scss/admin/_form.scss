@@ -58,6 +58,10 @@
       width: 15%;
       text-align: right;
       margin-right: 1%;
+
+      &.vertical-align{
+        vertical-align: top;
+      }
     }
 
     input {
