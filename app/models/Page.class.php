@@ -225,7 +225,6 @@ class Page extends BaseSql implements Listable, Editable
             'url' => [
                 'unique' => 1,
                 'require' => 1,
-                'min' => 3
             ],
             'description' => [
                 'min' => 5
