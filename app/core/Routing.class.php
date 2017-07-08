@@ -39,16 +39,18 @@ class Routing
             if (!Session::isLogged() && !in_array('login', $this->uriExploded)) {
                 $this->page404();
             }
+
             $this->handleAdmin();
+
+            $this->setController();
+            $this->setAction();
+            $this->setParams();
+
+            $this->runRoute();
         } else {
             $this->handleFront();
+            $this->runRoute();
         }
-
-        $this->setController();
-        $this->setAction();
-        $this->setParams();
-
-        $this->runRoute();
     }
 
     private function setGetData($data)
@@ -70,7 +72,7 @@ class Routing
 
     public function page404()
     {
-        if(!class_exists('ErrorController')){
+        if (!class_exists('ErrorController')) {
             die('Error');
         }
         $controller = new ErrorController();
@@ -89,6 +91,16 @@ class Routing
     public function handleFront()
     {
         $this->controllerArea = 'front';
+
+        $this->controllerName = 'PageControllerFront';
+        $this->actionName = 'indexAction';
+
+        $url = implode('/', $this->uriExploded);
+        if (empty($url)) {
+            $url = '/';
+        }
+
+        $this->params = ['url' => $url];
     }
 
     public function setController()

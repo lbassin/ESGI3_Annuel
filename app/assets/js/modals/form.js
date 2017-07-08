@@ -211,12 +211,21 @@ function addPreview(data) {
 
 if (data !== undefined) {
     data = JSON.parse(data);
+    var previews = [];
+
     for (i = 0; i < data.length; i++) {
         var ajax = new Ajax();
-
         ajax.post(urlValidate, data[i], function (response) {
             response = JSON.parse(response);
-            addPreview(response);
-        });
+            previews[this] = response;
+
+            if (previews.length === data.length) {
+                for (var e = 0; e < previews.length; e++) {
+                    setTimeout(function(){
+                        addPreview(previews[this]);
+                    }.bind(e), 100) // TODO ...
+                }
+            }
+        }.bind(i));
     }
 }
