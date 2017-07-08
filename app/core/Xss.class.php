@@ -4,14 +4,18 @@ class Xss
 {
     /**
      * Convert an element to an html entity
-     * @param element $eDirty the element to convert
-     * @return element $eDirty the elemement converted
+     * @param array|string $eDirty the element to convert
+     * @return array|string $eDirty the elemement converted
      * how to use : Xss::parse($element = ['*' => ['*']]...);
      */
     static function parse($eDirty)
     {
         if (is_array($eDirty)) {
             foreach ($eDirty as $key => $value) {
+                if (empty($value)) {
+                    continue;
+                }
+
                 $eDirty[$key] = self::parse($value);
             }
         } else {
