@@ -86,4 +86,8 @@ class MediaControllerBack
         Session::addSuccess('Medias successfully deleted');
         Helpers::redirect(Helpers::getAdminRoute('media'));
     }
+
+    public function previewAction($params) {
+
+    }
 }
