@@ -136,10 +136,16 @@
       th {
         &:first-child {
           border-radius: 5px 0 0 0;
+          width: 24px;
+        }
+
+        &:nth-child(2) {
+          width: 46px;
         }
 
         &:last-child {
           border-radius: 0 5px 0 0;
+          width: 100px;
         }
       }
     }
@@ -150,14 +156,26 @@
         td {
           padding: 6px 12px;
 
-          &:first-child{
-            border-radius: 0 0 0 5px;
+          &:nth-child(2) {
+            text-align: center;
           }
 
-          &:last-child{
-            border-radius: 0 0 5px 0;
+          &:last-child {
+            text-align: center;
           }
 
+        }
+
+        &:last-child {
+          td {
+            &:first-child {
+              border-radius: 0 0 0 5px;
+            }
+
+            &:last-child {
+              border-radius: 0 0 5px 0;
+            }
+          }
         }
 
         &:nth-child(even) {
