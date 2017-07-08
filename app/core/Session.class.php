@@ -120,8 +120,11 @@ class Session
         unset($_SESSION['form']);
     }
 
-    public static function getFormData($name)
+    public static function getFormData($name = null)
     {
+        if($name === null){
+            return isset($_SESSION['form']) ? $_SESSION['form'] : '';
+        }
         return (isset($_SESSION['form'][$name]) ? $_SESSION['form'][$name] : '');
     }
 }

@@ -15,6 +15,11 @@ class Page extends BaseSql implements Listable, Editable
 
     public function __construct()
     {
+        $this->defaultValues = [
+            'publish' => 0,
+            'visibility' => 0
+        ];
+
         parent::__construct();
     }
 
