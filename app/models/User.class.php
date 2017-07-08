@@ -16,6 +16,9 @@ class User extends BaseSql implements Listable, Editable
     public function __construct()
     {
         $this->foreignValues = ['role'];
+        $this->defaultValues = [
+            'status' => 0
+        ];
 
         parent::__construct();
     }
@@ -39,11 +42,6 @@ class User extends BaseSql implements Listable, Editable
     public function setAvatar($avatar)
     {
         $this->avatar = $avatar;
-    }
-
-    public function validate()
-    {
-        return ['ok'];
     }
 
     public function getId()
@@ -200,38 +198,6 @@ class User extends BaseSql implements Listable, Editable
         return $listData;
     }
 
-    public function getFormLogin()
-    {
-        return [
-            Editable::FORM_STRUCT => [
-                Editable::FORM_METHOD => 'post',
-                Editable::FORM_ACTION => Helpers::getAdminRoute('login/login'),
-                Editable::FORM_BACK_URL => Helpers::getAdminRoute('login'),
-                Editable::FORM_SUBMIT => 'Connexion',
-                Editable::FORM_FILE => 0
-            ],
-            Editable::FORM_GROUPS => [
-                [
-                    Editable::GROUP_LABEL => '',
-                    Editable::GROUP_FIELDS => [
-                        'email' => [
-                            'type' => 'email',
-                            'label' => 'Identifiant',
-                            'class' => '',
-                            'value' => ''
-                        ],
-                        'password' => [
-                            'type' => 'password',
-                            'label' => 'Mot de passe',
-                            'class' => '',
-                            'value' => ''
-                        ],
-                    ]
-                ]
-            ]
-        ];
-    }
-
     public function getFormConfig()
     {
         return [
@@ -313,4 +279,13 @@ class User extends BaseSql implements Listable, Editable
             ]
         ];
     }
+
+
+    public function validate()
+    {
+        return [
+
+        ];
+    }
+
 }

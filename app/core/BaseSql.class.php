@@ -4,6 +4,7 @@ class BaseSql
 {
 
     protected $foreignValues = [];
+    protected $defaultValues = [];
     private $db;
     private $table;
     private $columns;
@@ -34,7 +35,11 @@ class BaseSql
                     $column = 'id_' . $column;
                     $data[$column] = $id;
                 } else {
-                    $data[$column] = $this->$column;
+                    if (!empty($this->$column)) {
+                        $data[$column] = $this->$column;
+                    } else {
+                        $data[$column] = isset($this->defaultValues[$column]) ? $this->defaultValues[$column] : null;
+                    }
                 }
 
                 $sqlCol .= ',`' . $column . '`';
