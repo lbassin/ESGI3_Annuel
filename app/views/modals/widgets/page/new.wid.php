@@ -54,3 +54,4 @@
         var data = dataSession;
     }
 </script>
+<script src="<?php echo Helpers::getAsset('js/modals/widgets/page.js') ?>"></script>

@@ -1,5 +1,6 @@
 <?php
-class Theme extends BaseSql
+
+class Theme extends BaseSql implements Listable
 {
     protected $id;
     protected $name;
@@ -101,4 +102,28 @@ class Theme extends BaseSql
     }
 
 
+    public function getListConfig()
+    {
+        return [
+            Listable::LIST_STRUCT => [
+                Listable::LIST_TITLE => 'Thèmes',
+                Listable::LIST_NEW_LINK => Helpers::getAdminRoute('page/new'),
+                Listable::LIST_EDIT_LINK => Helpers::getAdminRoute('page/edit'),
+                Listable::LIST_HEADER => [
+                    '',
+                    'ID',
+                    '',
+                    '',
+                    '',
+                    'Action'
+                ]
+            ],
+            Listable::LIST_ROWS => $this->getListData()
+        ];
+    }
+
+    public function getListData()
+    {
+        // TODO: Implement getListData() method.
+    }
 }
