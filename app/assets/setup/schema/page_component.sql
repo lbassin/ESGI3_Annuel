@@ -5,5 +5,6 @@ CREATE TABLE `page_component` (
   `template_id` INT(11)             NOT NULL,
   `config`      VARCHAR(255)        NOT NULL,
   `created_at`  TIMESTAMP            NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at`  TIMESTAMP
+  `updated_at`  TIMESTAMP,
+   CONSTRAINT FK_PAGE_COMPONENT_PAGE FOREIGN KEY (page_id) REFERENCES page (id)
 );

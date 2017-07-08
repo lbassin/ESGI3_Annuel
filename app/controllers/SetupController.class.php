@@ -17,6 +17,7 @@ class SetupController
         'schema/media',
         'schema/media_article',
         'schema/page',
+        'schema/page_component',
         'schema/media_page',
         'schema/menu',
         'schema/theme',
