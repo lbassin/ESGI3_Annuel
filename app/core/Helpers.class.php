@@ -20,6 +20,10 @@ class Helpers
         return BASE_PATH . 'app/assets/' . $path;
     }
 
+    public static function getThemeAsset($path){
+        return '/themes/templates/default/assets/' . $path; // TODO : Change default by current theme
+    }
+
     public static function getMedia($path)
     {
         return BASE_PATH . FILE_UPLOAD_PATH . $path;

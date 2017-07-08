@@ -13,7 +13,7 @@ class ComponentControllerBack
         $directory = opendir($directoryPath);
 
         while ($file = readdir($directory)) {
-            if ($file == '.' || $file == '..') {
+            if ($file == '.' || $file == '..' || pathinfo($file)['extension'] != 'xml') {
                 continue;
             }
 
