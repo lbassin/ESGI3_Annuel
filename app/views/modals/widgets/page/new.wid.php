@@ -36,7 +36,22 @@
 </div>
 
 <script>
+    var dataSession = [];
+    <?php foreach (Session::getFormData('components') as $component): ?>
+        dataSession.push(JSON.parse(<?php echo json_encode($component); ?>));
+    <?php endforeach; ?>
+
+    dataSession = JSON.stringify(dataSession);
+</script>
+
+<script>
     var urlComponent = '<?php echo Helpers::getAdminRoute('component/component'); ?>';
     var urlValidate = '<?php echo Helpers::getAdminRoute('component/validate'); ?>';
     var data = '<?php echo isset($widgetData) ? json_encode($widgetData) : ''; ?>';
+
+    if (JSON.parse(dataSession).length > 0) {
+        console.log(dataSession.length);
+        var data = dataSession;
+    }
 </script>
+<script src="<?php echo Helpers::getAsset('js/modals/widgets/page.js') ?>"></script>

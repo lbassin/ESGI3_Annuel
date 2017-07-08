@@ -497,15 +497,23 @@ body {
     line-height: 38px;
     background-color: #b1b6ba; }
     #list table thead th:first-child {
-      border-radius: 5px 0 0 0; }
+      border-radius: 5px 0 0 0;
+      width: 24px; }
+    #list table thead th:nth-child(2) {
+      width: 46px; }
     #list table thead th:last-child {
-      border-radius: 0 5px 0 0; }
+      border-radius: 0 5px 0 0;
+      width: 100px; }
   #list table tbody tr td {
     padding: 6px 12px; }
-    #list table tbody tr td:first-child {
-      border-radius: 0 0 0 5px; }
+    #list table tbody tr td:nth-child(2) {
+      text-align: center; }
     #list table tbody tr td:last-child {
-      border-radius: 0 0 5px 0; }
+      text-align: center; }
+  #list table tbody tr:last-child td:first-child {
+    border-radius: 0 0 0 5px; }
+  #list table tbody tr:last-child td:last-child {
+    border-radius: 0 0 5px 0; }
   #list table tbody tr:nth-child(even) {
     background-color: #d3dbdf; }
 

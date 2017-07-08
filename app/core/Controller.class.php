@@ -11,13 +11,14 @@ abstract class Controller implements Controllable
         $this->className = str_replace(self::CLASS_CONTROLLER, '', get_called_class());
     }
 
-    public function indexAction()
+    public function indexAction($params = [])
     {
         $view = new View('back', lcfirst($this->className) . '/index', 'admin');
 
         $class = new $this->className;
-        $this->configList['size'] = isset($params[Routing::PARAMS_GET]['size']) ? $params[Routing::PARAMS_GET]['size'] : 20;
+        $this->configList['size'] = isset($params[Routing::PARAMS_GET]['size']) ? $params[Routing::PARAMS_GET]['size'] : 10;
         $this->configList['page'] = isset($params[Routing::PARAMS_GET]['page']) ? $params[Routing::PARAMS_GET]['page'] : 1;
+        $this->configList['availableSize'] = [10, 20, 50];
         $this->configList['count'] = $class->countAll();
 
         $view->assign(lcfirst($this->className), $class);
@@ -61,6 +62,7 @@ abstract class Controller implements Controllable
         $validator->validate($class->validate());
 
         if (count(Session::getErrors()) > 0) {
+            Session::setFormData($postData);
             Helpers::redirectBack();
         }
 

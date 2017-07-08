@@ -2,8 +2,7 @@
 
 class IndexControllerBack
 {
-
-    public function indexAction($params)
+    public function indexAction()
     {
         $view = new View('back', 'dashboard/index', 'admin');
     }
