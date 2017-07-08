@@ -7,8 +7,8 @@
     margin-bottom: 12px;
     margin-top: 18px;
     background-color: #F0F0F0;
-    border-top: 2px solid #DDD;
-    border-bottom: 2px solid #DDD;
+    border: 2px solid #DDD;
+    border-radius: 5px;
 
     #action {
       float: right;
@@ -17,6 +17,12 @@
 
       a, input[type="submit"] {
         font-weight: bold;
+        transition: .5s ease;
+
+        &:hover {
+          background-color: #dadada;
+          transition: .5s ease;
+        }
 
         &.button {
           display: inline-block;
@@ -40,6 +46,8 @@
           }
         }
       }
+
+
     }
   }
 
