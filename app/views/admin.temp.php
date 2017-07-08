@@ -32,7 +32,7 @@
         <a class="nav-link" href="<?php echo Helpers::getAdminRoute('comment'); ?>">
             <i class="fa fa-pencil" aria-hidden="true"></i>&emsp;Comments
         </a>
-        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('design'); ?>">
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('theme  '); ?>">
             <i class="fa fa-magic" aria-hidden="true"></i>&emsp;Thèmes
         </a>
         <a class="nav-link" href="<?php echo Helpers::getAdminRoute('media'); ?>">
@@ -59,7 +59,7 @@
         <a class="nav-link" href="<?php echo Helpers::getAdminRoute('comment'); ?>">
             <i class="fa fa-pencil" aria-hidden="true"></i>
         </a>
-        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('design'); ?>">
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('theme'); ?>">
             <i class="fa fa-magic" aria-hidden="true"></i>
         </a>
         <a class="nav-link" href="<?php echo Helpers::getAdminRoute('media'); ?>">
