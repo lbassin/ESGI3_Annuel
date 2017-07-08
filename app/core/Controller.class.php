@@ -17,7 +17,7 @@ abstract class Controller implements Controllable
 
         $class = new $this->className;
 
-        $this->configList['size'] = isset($params[Routing::PARAMS_GET]['size']) ? $params[Routing::PARAMS_GET]['size'] : 2;
+        $this->configList['size'] = isset($params[Routing::PARAMS_GET]['size']) ? $params[Routing::PARAMS_GET]['size'] : 20;
         $this->configList['page'] = isset($params[Routing::PARAMS_GET]['page']) ? $params[Routing::PARAMS_GET]['page'] : 1;
         $this->configList['count'] = $class->countAll();
 
