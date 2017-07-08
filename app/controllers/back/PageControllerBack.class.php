@@ -13,6 +13,10 @@ class PageControllerBack extends Controller
         $data = $params[Routing::PARAMS_POST];
 
         $this->validateNewPage($data);
+        if (count(Session::getErrors()) > 0) {
+            Session::setFormData($data);
+            Helpers::redirectBack();
+        }
 
         try {
             $page = new Page();
@@ -20,7 +24,7 @@ class PageControllerBack extends Controller
             $page->save();
             $page->populate(['url' => $data['url']]);
 
-            $order = 0;
+            $order = 1;
             foreach ($data['components'] as $componentData) {
                 $componentData = json_decode($componentData, true);
                 $templateId = $componentData['template_id'];
@@ -62,10 +66,6 @@ class PageControllerBack extends Controller
 
             $validatorComponent = new Validator($componentData);
             $validatorComponent->validate($component->getConstraints());
-        }
-
-        if (count(Session::getErrors()) > 0) {
-            Helpers::redirectBack();
         }
     }
 }
