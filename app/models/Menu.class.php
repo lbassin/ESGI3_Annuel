@@ -51,9 +51,52 @@ class Menu extends BaseSql implements Editable, Listable
         $this->parent_id = $parent_id;
     }
 
+    public function validate()
+    {
+        return [
+            'label' => [
+                'required' => true,
+            ],
+            'url' => [
+                'required' => true,
+                'unique' => true,
+            ]
+        ];
+    }
+
     public function getFormConfig()
     {
-        // TODO: Implement getFormConfig() method.
+        return [
+            Editable::FORM_STRUCT => [
+                Editable::FORM_METHOD => 'post',
+                Editable::FORM_ACTION => Helpers::getAdminRoute('menu/format'),
+                Editable::FORM_SUBMIT => 'Save'
+            ],
+            Editable::FORM_GROUPS => [
+                [
+                    Editable::GROUP_LABEL => 'Parent menu',
+                    Editable::GROUP_FIELDS => [
+                        'label' => [
+                            'type' => 'text',
+                            'label' => 'Link'
+                        ],
+                        'url' => [
+                            'type' => 'text',
+                            'label' => 'URL'
+                        ]
+                    ]
+                ],
+                [
+                    Editable::GROUP_LABEL => 'Dropdown',
+                    Editable::GROUP_FIELDS => [
+                        'preview' => [
+                            'type' => 'widget',
+                            'id' => 'menu/new'
+                        ]
+                    ]
+                ]
+            ]
+        ];
     }
 
     public function getListConfig()
@@ -76,7 +119,7 @@ class Menu extends BaseSql implements Editable, Listable
 
     public function getListData()
     {
-        $menus = $this->getAll();
+        $menus = $this->getParent();
         $listData = [];
 
         foreach ($menus as $menu) {
@@ -102,6 +145,17 @@ class Menu extends BaseSql implements Editable, Listable
             $listData[] = $menuData;
         }
         return $listData;
+    }
+
+    public function getParent()
+    {
+        $menus = $this->getAll();
+        foreach ($menus as $key => $menu) {
+            if ($menu->getParentId() == null) {
+                $parentMenu[] = $menu;
+            }
+        }
+        return $parentMenu;
     }
 
 }
