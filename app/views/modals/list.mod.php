@@ -26,9 +26,8 @@
             </div>
             <div id="pagination">
                 <select name="currentSize">
-                    <?php $availableSize = [20, 40, 80]; // TODO ?>
                     <?php $currentSize = $pagination['size']; ?>
-                    <?php foreach ($availableSize as $size): ?>
+                    <?php foreach ($pagination['availableSize'] as $size): ?>
                         <option value="<?php echo $size; ?>"
                             <?php if ($size == $currentSize): ?>
                                 <?php echo 'selected="selected"'; ?>
@@ -41,7 +40,7 @@
                 </div>
                 <input id="input-page" type="text" data-max="<?php echo ($pagination['count'] / $pagination['size']) + 1; ?>"
                        value="<?php echo $pagination['page']; ?>"><span> of
-                    <?php echo ($pagination['count'] / $pagination['size']); ?></span>
+                    <?php echo ceil($pagination['count'] / $pagination['size']); ?></span>
                 <div class="change-page next">
                     <i class="fa fa-chevron-right" aria-hidden="true"></i>
                 </div>
