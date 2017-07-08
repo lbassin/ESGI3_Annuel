@@ -46,7 +46,8 @@
                             <input
                                     type="<?php echo $attributs['type']; ?>"
                                     name="<?php echo $name; ?>"
-                                    value="<?php echo isset($attributs['value']) ? $attributs['value'] : ''; ?>"
+                                    value="<?php echo !empty(Session::getFormData($name)) ?
+                                        Session::getFormData($name) : (isset($attributs['value']) ? $attributs['value'] : ''); ?>"
                                     placeholder="<?php echo isset($attributs['placeholder']) ? $attributs['placeholder'] : ''; ?>"
                                     id="<?php echo "input-" . $name; ?>"
                                 <?php echo(isset($attributs['required']) ? 'required="required"' : ''); ?>
@@ -73,7 +74,7 @@
                                    name="<?php echo $name; ?>"
                                    value="1"
                                    id="<?php echo "input-" . $name; ?>"
-                                <?php echo ($attributs['value'] == true) ? 'checked="checked"' : ''; ?>
+                                <?php echo ($attributs['value'] == true || Session::getFormData($name)) ? 'checked="checked"' : ''; ?>
                             >
                         <?php endif; ?>
 
@@ -84,7 +85,10 @@
                                 <?php foreach ($attributs['options'] as $selectLabel => $selectValue): ?>
                                     <option
                                             value="<?php echo $selectValue; ?>"
-                                        <?php echo (isset($attributs['value']) && $attributs['value'] == $selectValue) ?
+                                        <?php $value = !empty(Session::getFormData($name)) ?
+                                            Session::getFormData($name) : (isset($attributs['value']) ?
+                                                $attributs['value'] : ''); ?>
+                                        <?php echo (!empty($value) && $value == $selectValue) ?
                                             'selected="selected"' : ''; ?>
                                     >
                                         <?php echo $selectLabel; ?>
@@ -96,7 +100,9 @@
                         <?php if ($attributs['type'] == 'hidden'): ?>
                             <input type="<?php echo $attributs['type']; ?>"
                                    name="<?php echo $name; ?>"
-                                   value="<?php echo $attributs['value']; ?>"
+                                   value="<?php echo !empty(Session::getFormData($name)) ?
+                                       Session::getFormData($name) : (isset($attributs['value']) ?
+                                           $attributs['value'] : ''); ?>"
                             >
                         <?php endif; ?>
 
@@ -110,7 +116,9 @@
                                     cols="50"
                                     rows="5"
                                 <?php echo(isset($attributs['disabled']) ? 'disabled="disabled"' : ''); ?>
-                            ><?php echo(isset($attributs['value']) ? $attributs['value'] : ''); ?></textarea>
+                            ><?php echo(!empty(Session::getFormData($name)) ?
+                                    Session::getFormData($name) : (isset($attributs['value']) ?
+                                        $attributs['value'] : '')); ?></textarea>
                         <?php endif; ?>
 
                         <?php if ($attributs['type'] == 'radio'): ?>
@@ -119,7 +127,10 @@
                                 <input type="<?php echo $attributs['type']; ?>"
                                        name="<?php echo $name; ?>"
                                        value="<?php echo $radioValue; ?>"
-                                    <?php echo (isset($attributs['value']) && $attributs['value'] == $radioValue) ?
+                                    <?php $value = !empty(Session::getFormData($name) ?
+                                        Session::getFormData($name) : (isset($attributs['value']) ?
+                                            $attributs['value'] : '')); ?>
+                                    <?php echo (!empty($value) && $value == $radioValue) ?
                                         'checked="checked"' : ''; ?>
                                 >
                             <?php endforeach; ?>
@@ -130,7 +141,9 @@
                                    for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
                             <input type="<?php echo $attributs['type']; ?>"
                                    name="<?php echo $name; ?>"
-                                   value="<?php echo(isset($attributs['value']) ? $attributs['value'] : ''); ?>"
+                                   value="<?php echo(!empty(Session::getFormData($name)) ?
+                                       Session::getFormData($name) : (isset($attributs['value']) ?
+                                           $attributs['value'] : '')); ?>"
                                    placeholder="JJ/MM/YYYY"
                                    id="<?php echo "input-" . $name; ?>"
                             >
@@ -153,3 +166,4 @@
 </div>
 
 <script src="<?php echo Helpers::getAsset('js/modals/form.js'); ?>"></script>
+<?php Session::resetFormData(); ?>

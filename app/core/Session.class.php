@@ -6,11 +6,11 @@ class Session
      * Integrates token informations in session
      * @param array $aToken contains token informations
      * @var string $index contains the last index of the token array
-     * @var array $_SESSION['token'] get all informations from @param $aToken at the index from @var $index
+     * @var array $_SESSION ['token'] get all informations from @param $aToken at the index from @var $index
      */
     public static function setToken($aToken)
     {
-        $index = (isset($_SESSION['token'])) ? count($_SESSION['token']) : 0 ;
+        $index = (isset($_SESSION['token'])) ? count($_SESSION['token']) : 0;
         foreach ($aToken as $key => $value) {
             $_SESSION['token'][$index][$key] = $value;
         }
@@ -33,7 +33,7 @@ class Session
     {
         if (isset($_SESSION['token'])) {
             end($_SESSION['token']);
-            return key($_SESSION['token'])."&".$_SESSION['token'][key($_SESSION['token'])]['token'];
+            return key($_SESSION['token']) . "&" . $_SESSION['token'][key($_SESSION['token'])]['token'];
         }
         return '';
     }
@@ -108,5 +108,20 @@ class Session
     public static function isLogged()
     {
         return isset($_SESSION['id']);
+    }
+
+    public static function setFormData($data)
+    {
+        $_SESSION['form'] = $data;
+    }
+
+    public static function resetFormData()
+    {
+        unset($_SESSION['form']);
+    }
+
+    public static function getFormData($name)
+    {
+        return (isset($_SESSION['form'][$name]) ? $_SESSION['form'][$name] : '');
     }
 }

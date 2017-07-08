@@ -61,6 +61,7 @@ abstract class Controller implements Controllable
         $validator->validate($class->validate());
 
         if (count(Session::getErrors()) > 0) {
+            Session::setFormData($postData);
             Helpers::redirectBack();
         }
 
