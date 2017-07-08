@@ -41,11 +41,9 @@ class User extends BaseSql implements Listable, Editable
         $this->avatar = $avatar;
     }
 
-    public function validate(array $data)
+    public function validate()
     {
-        // TODO
-
-        return [];
+        return ['ok'];
     }
 
     public function getId()
@@ -315,5 +313,4 @@ class User extends BaseSql implements Listable, Editable
             ]
         ];
     }
-
 }
