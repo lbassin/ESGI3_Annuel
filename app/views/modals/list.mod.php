@@ -26,7 +26,7 @@
             </div>
             <div id="pagination">
                 <select name="currentSize">
-                    <?php $availableSize = [2, 4, 8]; // TODO ?>
+                    <?php $availableSize = [20, 40, 80]; // TODO ?>
                     <?php $currentSize = $pagination['size']; ?>
                     <?php foreach ($availableSize as $size): ?>
                         <option value="<?php echo $size; ?>"
