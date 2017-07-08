@@ -27,9 +27,3 @@ setTimeout(function () {
         flashMessages.className += ' is-not-visible';
     }
 }, 2500);
-
-document.querySelector("#input-image").addEventListener('change', function() {
-    console.log('clicked');
-});
-
-console.log(mediaPreview);

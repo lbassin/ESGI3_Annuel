@@ -237,6 +237,10 @@ class Media extends BaseSql implements Listable, Editable
                             'type' => 'file',
                             'label' => 'Media :',
                             'accept' => 'image/*'
+                        ],
+                        'preview' => [
+                            'type' => 'widget',
+                            'id' => 'media/new'
                         ]
                     ]
                 ]
