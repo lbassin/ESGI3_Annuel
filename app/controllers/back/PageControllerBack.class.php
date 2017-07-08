@@ -3,34 +3,8 @@
 /**
  * Class PageControllerBack
  */
-class PageControllerBack
+class PageControllerBack extends Controller
 {
-
-    /**
-     * @param $params
-     */
-    public function indexAction($params)
-    {
-        $view = new View('back', 'page/index', 'admin');
-
-        $page = new Page();
-        $view->assign('page', $page);
-    }
-
-    public function viewAction()
-    {
-
-    }
-
-    /**
-     * @param $params
-     */
-    public function newAction($params)
-    {
-        $view = new View('back', 'page/form', 'admin');
-        $view->assign('page', new Page);
-    }
-
     public function addAction($params)
     {
         if (!isset($params[Routing::PARAMS_POST])) {
@@ -93,23 +67,5 @@ class PageControllerBack
         if (count(Session::getErrors()) > 0) {
             Helpers::redirectBack();
         }
-    }
-
-    public function editAction($params)
-    {
-        if (!isset($params[Routing::PARAMS_URL][0])) {
-            Helpers::redirectBack();
-        }
-
-        $page = new Page();
-        $page->populate(['id' => $params[Routing::PARAMS_URL][0]]);
-
-        $view = new View('back', 'page/form', 'admin');
-        $view->assign('page', $page);
-    }
-
-    public function deleteAction()
-    {
-
     }
 }
