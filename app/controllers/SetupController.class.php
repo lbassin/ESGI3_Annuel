@@ -18,6 +18,7 @@ class SetupController
         'schema/media_article',
         'schema/page',
         'schema/page_component',
+        'schema/reset_password',
         'schema/media_page',
         'schema/menu',
         'schema/theme',
