@@ -11,7 +11,7 @@ abstract class Controller implements Controllable
         $this->className = str_replace(self::CLASS_CONTROLLER, '', get_called_class());
     }
 
-    public function indexAction()
+    public function indexAction($params = [])
     {
         $view = new View('back', lcfirst($this->className) . '/index', 'admin');
 
