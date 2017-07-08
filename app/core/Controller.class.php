@@ -16,7 +16,6 @@ abstract class Controller implements Controllable
         $view = new View('back', lcfirst($this->className) . '/index', 'admin');
 
         $class = new $this->className;
-
         $this->configList['size'] = isset($params[Routing::PARAMS_GET]['size']) ? $params[Routing::PARAMS_GET]['size'] : 20;
         $this->configList['page'] = isset($params[Routing::PARAMS_GET]['page']) ? $params[Routing::PARAMS_GET]['page'] : 1;
         $this->configList['count'] = $class->countAll();
@@ -67,9 +66,9 @@ abstract class Controller implements Controllable
 
         $class->fill($postData);
 
-        foreach ($class->getForeignValues() as $key => $table) {
+        foreach ($class->getForeignValues() as $table) {
             $setterName = 'set' . ucfirst($table);
-            $class->$setterName($postData);
+            $class->$setterName($postData[$table]);
         }
 
         $class->save();
