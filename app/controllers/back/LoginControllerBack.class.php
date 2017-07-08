@@ -3,7 +3,7 @@
 class LoginControllerBack
 {
 
-    public function indexAction($params)
+    public function indexAction()
     {
         Csrf::generate();
         $view = new View('back', 'login/index', 'login');
