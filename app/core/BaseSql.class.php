@@ -56,6 +56,8 @@ class BaseSql
             );
 
             $query->execute($data);
+
+            $this->setId($pdo->lastInsertId());
         } else {
 
             $data = [];

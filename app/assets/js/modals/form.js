@@ -34,6 +34,13 @@ function hidePopin(popin) {
                     fadeOut(popinContent.children[i]);
                 }
             }
+
+            var errors = document.querySelector('#' + popin.getAttribute('id') + ' .popin-errors');
+            var errorsList = errors.querySelector('ul');
+            if (errorsList) {
+                errors.removeChild(errorsList)
+            }
+            fadeOut(errors);
         }, 650);
     }
 }

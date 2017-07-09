@@ -347,7 +347,7 @@ body {
     border-radius: 5px;
     background-color: #fff;
     padding: 4px 12px; }
-    #form .popin-container .popin-content .popin-content-footer button.validate-component {
+    #form .popin-container .popin-content .popin-content-footer .validate-component {
       float: right;
       display: inline-block;
       height: 36px;

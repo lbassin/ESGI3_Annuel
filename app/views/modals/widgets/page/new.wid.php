@@ -29,7 +29,22 @@
             <div id="addComponent-errors" class="popin-errors hidden"></div>
             <div class="ajax-content"></div>
             <div class="popin-content-footer">
-                <button class="validate-component">Valider</button>
+                <div class="validate-component">Valider</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="popin-editComponent" class="popin-container hidden">
+    <div class="popin-overlay">
+    </div>
+    <div class="popin-content">
+        <div class="editComponent">
+            <div id="editComponent-errors" class="popin-errors hidden"></div>
+            <div class="ajax-content"></div>
+                <div class="popin-content-footer">
+                    <div class="validate-component">Valider</div>
+                </div>
             </div>
         </div>
     </div>
@@ -37,20 +52,21 @@
 
 <script>
     var dataSession = [];
-    <?php foreach (Session::getFormData('components') as $component): ?>
-        dataSession.push(JSON.parse(<?php echo json_encode($component); ?>));
-    <?php endforeach; ?>
-
+    <?php if(!empty(Session::getFormData('components'))): ?>
+        <?php foreach (Session::getFormData('components') as $component): ?>
+            dataSession.push(JSON.parse(<?php echo json_encode($component); ?>));
+        <?php endforeach; ?>
+    <?php endif; ?>
     dataSession = JSON.stringify(dataSession);
 </script>
 
 <script>
+    var urlEditComponent = '<?php echo Helpers::getAdminRoute('component/edit'); ?>';
     var urlComponent = '<?php echo Helpers::getAdminRoute('component/component'); ?>';
     var urlValidate = '<?php echo Helpers::getAdminRoute('component/validate'); ?>';
     var data = '<?php echo isset($widgetData) ? json_encode($widgetData) : ''; ?>';
 
     if (JSON.parse(dataSession).length > 0) {
-        console.log(dataSession.length);
         var data = dataSession;
     }
 </script>
