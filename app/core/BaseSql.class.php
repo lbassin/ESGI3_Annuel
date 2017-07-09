@@ -51,9 +51,8 @@ class BaseSql
             );
 
             $query->execute($data);
-            $test = $query->lastInsertId();
 
-            Session::addLastInsertId($test);
+            $this->setId($pdo->lastInsertId());
         } else {
 
             $data = [];

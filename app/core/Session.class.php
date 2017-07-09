@@ -109,16 +109,4 @@ class Session
     {
         return isset($_SESSION['id']);
     }
-
-    public static function addLastInsertId($id)
-    {
-        $_SESSION['lastInsertId'] = $id;
-    }
-
-    public static function getLastInsertId()
-    {
-        $id = $_SESSION['lastInsertId'];
-        unset($_SESSION['lastInsertId']);
-        return $id;
-    }
 }
