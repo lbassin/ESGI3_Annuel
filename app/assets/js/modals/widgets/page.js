@@ -1,6 +1,6 @@
 var i;
-var componentsCount = 0;
 var components = [];
+var componentIdEditing = 0;
 
 getTemplates();
 
@@ -77,7 +77,7 @@ function selectTemplate(template) {
     }, 750);
 }
 
-function validateComponent(action) {
+function validateComponent(action, componentId) {
     var formName = 'form-' + action + '-component';
     var form = document.forms[formName];
 
@@ -87,7 +87,7 @@ function validateComponent(action) {
     }
 
     var validateButton = validateButtonAdd;
-    if(action === 'edit'){
+    if (action === 'edit') {
         validateButton = validateButtonEdit;
     }
 
@@ -99,15 +99,17 @@ function validateComponent(action) {
 
         var errorDiv = document.getElementById(action + "Component-errors");
         if (!response['errors']) {
-            if(action === 'add'){
+            if (action === 'add') {
                 addPreview(response);
-            }else if(action === 'edit'){
-                // TODO
+            } else if (action === 'edit') {
+                var input = document.getElementsByName('components[' + componentIdEditing + ']')[0];
+                input.setAttribute('value', JSON.stringify(response['data']));
+                components[componentIdEditing] = response['data'];
             }
 
             fadeOut(errorDiv);
             var errorsList = errorDiv.querySelector('ul');
-            if(errorsList){
+            if (errorsList) {
                 errorDiv.removeChild(errorsList);
             }
 
@@ -132,20 +134,21 @@ function addEditComponentButton(height, componentId) {
     button.style.top = height + 'px';
     button.setAttribute('data-component-id', componentId);
 
-    button.addEventListener('click', function(){
+    button.addEventListener('click', function () {
         editComponent(this.getAttribute('data-component-id'));
+        componentIdEditing = this.getAttribute('data-component-id');
     });
 
     btnDiv.appendChild(button);
 }
 
-function editComponent(componentId){
-    if(componentId === undefined){
+function editComponent(componentId) {
+    if (componentId === undefined) {
         return false;
     }
 
     var currentComponent = components[componentId];
-    if(!currentComponent){
+    if (!currentComponent) {
         return false;
     }
     var ajaxContent = document.querySelector('#popin-editComponent .ajax-content');
@@ -156,7 +159,7 @@ function editComponent(componentId){
         formConfig.setAttribute('name', 'form-edit-component');
         formConfig.innerHTML = data;
 
-        formConfig.addEventListener('submit', function(evt){
+        formConfig.addEventListener('submit', function (evt) {
             evt.preventDefault();
             validateComponent('edit');
         });
@@ -172,11 +175,10 @@ function editComponent(componentId){
 
 function addComponentInput(data) {
     var input = document.createElement('input');
-    componentsCount++;
 
     input.setAttribute('type', 'hidden');
     input.setAttribute('value', JSON.stringify(data));
-    input.setAttribute('name', 'components[' + componentsCount + ']');
+    input.setAttribute('name', 'components[' + components.length + ']');
 
     document.forms[0].appendChild(input);
 }
@@ -186,6 +188,7 @@ function addPreview(data) {
     setTimeout(function () {
         addEditComponentButton(oldHeight, this);
     }.bind(components.length), 450);
+    addComponentInput(data['data']);
 
     components.push(data['data']);
 
@@ -193,8 +196,6 @@ function addPreview(data) {
     preview.setAttribute('src', data['preview']);
     divPreview.appendChild(preview);
     setTimeout(moveAddComponentButton, 350);
-
-    addComponentInput(data['data']);
 }
 
 if (data !== undefined) {
@@ -209,7 +210,7 @@ if (data !== undefined) {
 
             if (previews.length === data.length) {
                 for (var e = 0; e < previews.length; e++) {
-                    setTimeout(function(){
+                    setTimeout(function () {
                         addPreview(previews[this]);
                     }.bind(e), 100) // TODO ...
                 }
