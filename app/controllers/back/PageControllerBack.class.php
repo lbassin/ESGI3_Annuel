@@ -29,10 +29,13 @@ class PageControllerBack extends Controller
             foreach ($data['components'] as $componentData) {
                 $componentData = json_decode($componentData, true);
                 $templateId = $componentData['template_id'];
+                $componentId = $componentData['id'];
                 unset($componentData['template_id']);
+                unset($componentData['id']);
 
                 /** @var Page_Component $component */
                 $component = new Page_Component();
+                $component->setId($componentId);
                 $component->setPageId($page->getId());
                 $component->setTemplateId($templateId);
                 $component->setOrder($order);

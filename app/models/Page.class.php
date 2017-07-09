@@ -82,6 +82,7 @@ class Page extends BaseSql implements Listable, Editable
         foreach ($components as $component) {
             $componentData = $component->getConfig();
             $componentData['template_id'] = $component->getTemplateId();
+            $componentData['id'] = $component->getId();
             $data[] = $componentData;
         }
 
