@@ -1,70 +1,69 @@
 <?php
 
-class ArticleControllerBack
+class ArticleControllerBack extends Controller
 {
-
-    public function indexAction()
+    public function saveAction($params = [])
     {
-        $view = new View('back', 'article/index', 'admin');
+        $this->check((isset($postData['token'])) ? $postData['token'] : '');
 
-        $article = new Article();
-
-        $view->assign('article', $article);
-    }
-
-    public function viewAction() {
-
-    }
-
-    public function newAction(){
-        $view = new View('back', 'article/new', 'admin');
-
-        $article = new Article();
-        $view->assign('article', $article);
-    }
-
-    public function editAction($params) {
-        if (!isset($params[0])) {
-            Session::addError("Missing id");
-            Helpers::redirectBack();
+        if (!isset($params[Routing::PARAMS_POST])) {
+            $params[Routing::PARAMS_POST] = [];
         }
-        $view = new View('back', 'article/edit', 'admin');
-        $articleId = $params[0];
-        $article = new Article();
-        $article->populate(["id" => $articleId]);
+        $data = $params[Routing::PARAMS_POST];
 
-        if ($article->getId() == null) {
-            Session::addError('Article ' . $articleId . ' not found');
-            Helpers::redirectBack();
-        }
-        $view->assign('article', $article);
-    }
-
-    public function saveAction($params) {
-        $article = new Article();
-
-        $article->validate($params);
-
+        $this->validateNewPage($data);
         if (count(Session::getErrors()) > 0) {
+            Session::setFormData($data);
             Helpers::redirectBack();
         }
 
-        if (!isset($params['publish'])) {
-            $params['publish'] = 0;
+        try {
+            $page = new Article();
+            $page->fill($data);
+            $page->save();
+
+            $order = 1;
+            foreach ($data['components'] as $componentData) {
+                $componentData = json_decode($componentData, true);
+                $templateId = $componentData['template_id'];
+                unset($componentData['template_id']);
+
+                /** @var Page_Component $component */
+                $component = new Page_Component();
+                $component->setPageId($page->getId());
+                $component->setTemplateId($templateId);
+                $component->setOrder($order);
+                $component->setConfig($componentData);
+                $order += 1;
+
+                $component->save();
+            }
+        } catch (Exception $ex) {
+            Session::addError($ex->getMessage());
+            Helpers::redirectBack();
         }
 
-        if (!isset($params['visibility'])) {
-            $params['visibility'] = 0;
-        }
-
-        $article->fill($params);
-        $article->save();
-
-        Session::addSuccess("Votre article a bien été enregistré");
-        Helpers::redirect(Helpers::getAdminRoute('article/'));
+        Session::addSuccess('Composant ajouté');
+        Helpers::redirect(Helpers::getAdminRoute('page'));
+        return true;
     }
 
-    public function deleteAction() {
+    private function validateNewPage(array $data)
+    {
+        $page = new Page();
 
+        $validator = new Validator($data, Page::class);
+        $validator->validate($page->getConstraints());
+
+        foreach ($data['components'] as $componentData) {
+            $componentData = json_decode($componentData, true);
+
+            /** @var Page_Component $component */
+            $component = new Page_Component();
+            $component->setTemplateId($componentData['template_id']);
+
+            $validatorComponent = new Validator($componentData);
+            $validatorComponent->validate($component->getConstraints());
+        }
     }
 }

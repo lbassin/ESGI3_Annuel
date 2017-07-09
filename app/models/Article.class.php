@@ -96,73 +96,74 @@ class Article extends BaseSql
         $this->id_user = $id_user;
     }
 
-    public function validate(array $data) {
-        $title = $data['title'];
-        $content = $data['content'];
-        $url = $data['url'];
+    public function getComponents()
+    {
+        $component = new Page_Component();
+        $components = $component->getAll(['page_id' => $this->getId()]);
 
-        if (empty($title)) {
-            Session::addError("Veillez indiquer un titre a votre article");
-        } else if (strlen($title) > 255) {
-            Session::addError("Le titre est trop long");
+        $data = [];
+        /** @var Page_Component $component */
+        foreach ($components as $component) {
+            $componentData = $component->getConfig();
+            $componentData['template_id'] = $component->getTemplateId();
+            $data[] = $componentData;
         }
 
-        if (empty($content)) {
-            Session::addError("Veillez indiquer un contenue a votre article");
-        }
-
-        if (empty($url)) {
-            Session::addError("Veillez indiquer une url a votre article");
-        } elseif (strlen($url) > 255) {
-            Session::addError("L'url est trop long");
-        }
+        return $data;
     }
 
     public function getFormConfig()
     {
         return [
-            'struct' => [
-                'method' => 'post',
-                'action' => Helpers::getAdminRoute('article/save'),
-                'class' => '',
-                'submit' => 'Sauvegarder votre article'
+            Editable::FORM_STRUCT => [
+                Editable::FORM_METHOD => 'post',
+                Editable::FORM_ACTION => Helpers::getAdminRoute('article/save'),
+                Editable::FORM_BACK_URL => Helpers::getAdminRoute('article'),
+                Editable::FORM_SUBMIT => 'Save'
             ],
-            'groups' => [
+            Editable::FORM_GROUPS => [
                 [
-                    'label' => 'Article',
-                    'fields' => [
+                    Editable::GROUP_LABEL => 'Article Optimisation',
+                    Editable::GROUP_FIELDS => [
+                        'id' => [
+                            'type' => 'hidden',
+                            'value' => $this->getId()
+                        ],
                         'title' => [
                             'type' => 'text',
-                            'label' => 'Titre de l\'article :',
-                            'class' => 'two-col'
+                            'label' => 'Title',
+                            'required' => 1,
+                            'value' => $this->getTitle()
+                        ],
+                        'url' => [
+                            'type' => 'text',
+                            'label' => 'URL',
+                            'required' => 1,
+                            'value' => $this->getUrl()
                         ],
                         'content' => [
                             'type' => 'textarea',
                             'label' => 'Contenue de l\'article :',
-                            'class' => 'one-col'
+                            'class' => 'one-col',
+                            'value' => $this->getContent()
                         ],
-                        'url' => [
-                            'type' => 'text',
-                            'label' => 'Url :',
-                            'class' => 'one-col'
+                        'publish' => [
+                            'type' => 'checkbox',
+                            'label' => 'Publié',
+                            'value' => $this->getPublish()
                         ]
                     ]
                 ],
                 [
-                    'label' => 'Configuration',
-                    'fields' => [
-                        'publish' => [
-                            'type' => 'checkbox',
-                            'label' => 'Publié :',
-                            'class' => 'one-col'
-                        ],
-                        'visibility' => [
-                            'type' => 'checkbox',
-                            'label' => 'Visibilité :',
-                            'class' => 'one-col'
+                    Editable::GROUP_LABEL => 'Content',
+                    Editable::GROUP_FIELDS => [
+                        'preview' => [
+                            'type' => 'widget',
+                            'id' => 'page/new',
+                            'data' => $this->getComponents()
                         ]
                     ]
-                ],
+                ]
             ]
         ];
     }
