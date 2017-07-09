@@ -2,6 +2,7 @@
 
 abstract class Controller implements Controllable
 {
+    use Csrfable;
     const CLASS_CONTROLLER = 'ControllerBack';
     private $className;
     private $configList = [];
@@ -57,6 +58,7 @@ abstract class Controller implements Controllable
     {
         $class = new $this->className();
         $postData = $params[Routing::PARAMS_POST];
+        $this->check((isset($postData['token'])) ? $postData['token'] : '');
 
         $validator = new Validator($postData, $this->className);
         $validator->validate($class->validate());
