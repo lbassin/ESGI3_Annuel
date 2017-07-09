@@ -130,11 +130,7 @@ class Page extends BaseSql implements Listable, Editable
                 ],
                 [
                     'type' => 'text',
-                    'value' => 'TODO'
-                ],
-                [
-                    'type' => 'text',
-                    'value' => $page->getPublish()
+                    'value' => $page->getPublish() ? 'Oui' : 'Non'
                 ],
                 [
                     'type' => 'action',

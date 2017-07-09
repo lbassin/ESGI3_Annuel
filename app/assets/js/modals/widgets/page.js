@@ -1,5 +1,6 @@
 var i;
 var componentsCount = 0;
+var components = [];
 
 getTemplates();
 
@@ -106,15 +107,48 @@ function moveAddComponentButton() {
     btnAddComponent.style.top = (divPreview.clientHeight + 8) + 'px';
 }
 
-function addEditComponentButton(height) {
+function addEditComponentButton(height, componentId) {
     var btnDiv = document.querySelector('.widget.page_new .right');
     var button = document.createElement('div');
 
     height += 8;
     button.innerText = 'Edit component';
     button.style.top = height + 'px';
+    button.setAttribute('data-component-id', componentId);
+
+    button.addEventListener('click', function(){
+        editComponent(this.getAttribute('data-component-id'));
+    });
 
     btnDiv.appendChild(button);
+}
+
+function editComponent(componentId){
+    if(componentId === undefined){
+        return false;
+    }
+
+    var currentComponent = components[componentId];
+    if(!currentComponent){
+        return false;
+    }
+    var ajaxContent = document.querySelector('#popin-editComponent .ajax-content');
+    var ajax = new Ajax();
+    ajax.post(urlEditComponent + currentComponent.template_id, currentComponent, function (data) {
+        var formConfig = document.createElement('form');
+        formConfig.setAttribute('name', 'form-config-component');
+        formConfig.innerHTML = data;
+
+        formConfig.addEventListener('submit', function(evt){
+            evt.preventDefault();
+            validateComponent();
+        });
+
+        ajaxContent.innerHTML = "";
+        ajaxContent.appendChild(formConfig);
+    });
+
+    fadeIn(document.querySelector('#popin-editComponent'));
 }
 
 function addComponentInput(data) {
@@ -131,8 +165,11 @@ function addComponentInput(data) {
 function addPreview(data) {
     var oldHeight = divPreview.clientHeight;
     setTimeout(function () {
-        addEditComponentButton(oldHeight, -1);
-    }, 450);
+        addEditComponentButton(oldHeight, this);
+        console.log(this);
+    }.bind(components.length), 450);
+
+    components.push(data['data']);
 
     var preview = document.createElement('img');
     preview.setAttribute('src', data['preview']);
