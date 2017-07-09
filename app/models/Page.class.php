@@ -149,7 +149,7 @@ class Page extends BaseSql implements Listable, Editable
         return [
             Editable::FORM_STRUCT => [
                 Editable::FORM_METHOD => 'post',
-                Editable::FORM_ACTION => Helpers::getAdminRoute('page/add'),
+                Editable::FORM_ACTION => Helpers::getAdminRoute('page/save'),
                 Editable::FORM_BACK_URL => Helpers::getAdminRoute('page'),
                 Editable::FORM_SUBMIT => 'Save'
             ],

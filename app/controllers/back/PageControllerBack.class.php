@@ -5,8 +5,10 @@
  */
 class PageControllerBack extends Controller
 {
-    public function addAction($params)
+    public function saveAction($params = [])
     {
+        $this->check((isset($postData['token'])) ? $postData['token'] : '');
+
         if (!isset($params[Routing::PARAMS_POST])) {
             $params[Routing::PARAMS_POST] = [];
         }
@@ -22,7 +24,6 @@ class PageControllerBack extends Controller
             $page = new Page();
             $page->fill($data);
             $page->save();
-            $page->populate(['url' => $data['url']]);
 
             $order = 1;
             foreach ($data['components'] as $componentData) {
