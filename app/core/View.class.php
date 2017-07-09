@@ -65,7 +65,7 @@ class View
         include $filename;
     }
 
-    public function includeWidget($id){
+    public function includeWidget($id, $widgetData = []){
         $filename = 'app/views/modals/widgets/'. $id . '.wid.php';
         if (!file_exists($filename)) {
             throw new Exception("Le widget n'existe pas");

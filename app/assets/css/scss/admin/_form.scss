@@ -58,19 +58,32 @@
       width: 15%;
       text-align: right;
       margin-right: 1%;
+
+      &.required:after{
+        content: "*";
+        color: red;
+        font-size: 180%;
+        vertical-align: middle;
+      }
+
+      &.vertical-align{
+        vertical-align: top;
+      }
+    }
+
+    label.vertical-align{
+
     }
 
     input {
       display: inline-block;
       padding: 4px;
-
-      &[required] {
-        // Add content:'*';
-      }
+      font-family: 'Raleway', sans-serif;
     }
 
     textarea {
       resize: none;
+      font-family: 'Raleway', sans-serif;
     }
   }
 
@@ -179,7 +192,7 @@
 
       .popin-content-footer {
 
-        button.validate-component {
+        .validate-component {
           float: right;
           display: inline-block;
           height: 36px;

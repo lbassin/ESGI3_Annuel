@@ -17,29 +17,26 @@
         <a class="nav-link" href="<?php echo Helpers::getAdminRoute(''); ?>">
             <i class="fa fa-pie-chart" aria-hidden="true"></i>&emsp;Dashboard
         </a>
-        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('update'); ?>"> <!-- 404 -->
-            <i class="fa fa-arrow-up" aria-hidden="true"></i>&emsp;Updates
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('user'); ?>">
+            <i class="fa fa-user" aria-hidden="true"></i>&emsp;Users
         </a>
         <a class="nav-link" href="<?php echo Helpers::getAdminRoute('page'); ?>">
             <i class="fa fa-file" aria-hidden="true"></i>&emsp;Pages
         </a>
-        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('article'); ?>">
-            <i class="fa fa-file-text" aria-hidden="true"></i>&emsp;Articles
-        </a>
         <a class="nav-link" href="<?php echo Helpers::getAdminRoute('category'); ?>">
             <i class="fa fa-list-ul" aria-hidden="true"></i>&emsp;Catégories
         </a>
-        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('comment'); ?>"> <!-- 404 -->
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('article'); ?>">
+            <i class="fa fa-file-text" aria-hidden="true"></i>&emsp;Articles
+        </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('comment'); ?>">
             <i class="fa fa-pencil" aria-hidden="true"></i>&emsp;Comments
         </a>
-        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('media'); ?>"> <!-- 404 -->
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('theme  '); ?>">
+            <i class="fa fa-magic" aria-hidden="true"></i>&emsp;Thèmes
+        </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('media'); ?>">
             <i class="fa fa-video-camera" aria-hidden="true"></i>&emsp;Médias
-        </a>
-        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('page'); ?>">
-            <i class="fa fa-magic" aria-hidden="true"></i>&emsp;Styles
-        </a>
-        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('user'); ?>">
-            <i class="fa fa-user" aria-hidden="true"></i>&emsp;Users
         </a>
     </nav>
 
@@ -47,33 +44,30 @@
         <a class="nav-link" href="<?php echo Helpers::getAdminRoute(''); ?>">
             <i class="fa fa-pie-chart" aria-hidden="true"></i>
         </a>
-        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('update'); ?>">
-            <i class="fa fa-arrow-up" aria-hidden="true"></i>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('user'); ?>">
+            <i class="fa fa-user" aria-hidden="true"></i>
         </a>
         <a class="nav-link" href="<?php echo Helpers::getAdminRoute('page'); ?>">
             <i class="fa fa-file" aria-hidden="true"></i>
         </a>
-        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('article'); ?>">
-            <i class="fa fa-file-text" aria-hidden="true"></i>
-        </a>
         <a class="nav-link" href="<?php echo Helpers::getAdminRoute('category'); ?>">
             <i class="fa fa-list-ul" aria-hidden="true"></i>
+        </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('article'); ?>">
+            <i class="fa fa-file-text" aria-hidden="true"></i>
         </a>
         <a class="nav-link" href="<?php echo Helpers::getAdminRoute('comment'); ?>">
             <i class="fa fa-pencil" aria-hidden="true"></i>
         </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('theme'); ?>">
+            <i class="fa fa-magic" aria-hidden="true"></i>
+        </a>
         <a class="nav-link" href="<?php echo Helpers::getAdminRoute('media'); ?>">
             <i class="fa fa-video-camera" aria-hidden="true"></i>
         </a>
-        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('page'); ?>">
-            <i class="fa fa-magic" aria-hidden="true"></i>
-        </a>
-        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('user'); ?>">
-            <i class="fa fa-user" aria-hidden="true"></i>
-        </a>
     </nav>
 
-<!--
+
     <div class="settings-nav">
         <div class="settings-title">
             Settings
@@ -84,7 +78,7 @@
 
         <a href="<?php echo Helpers::getAdminRoute('login/logout'); ?>" class="logout">Logout</a>
     </div>
--->
+
 
     <header class="header">
         <div id="nav-icon" class="nav-toggle">

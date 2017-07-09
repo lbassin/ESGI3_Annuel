@@ -16,6 +16,9 @@ class User extends BaseSql implements Listable, Editable
     public function __construct()
     {
         $this->foreignValues = ['role'];
+        $this->defaultValues = [
+            'status' => 0
+        ];
 
         parent::__construct();
     }
@@ -39,13 +42,6 @@ class User extends BaseSql implements Listable, Editable
     public function setAvatar($avatar)
     {
         $this->avatar = $avatar;
-    }
-
-    public function validate(array $data)
-    {
-        // TODO
-
-        return [];
     }
 
     public function getId()
@@ -202,43 +198,13 @@ class User extends BaseSql implements Listable, Editable
         return $listData;
     }
 
-    public function getFormLogin()
-    {
-        return [
-            Editable::FORM_STRUCT => [
-                Editable::FORM_METHOD => 'post',
-                Editable::FORM_ACTION => Helpers::getAdminRoute('login/login'),
-                Editable::FORM_SUBMIT => 'Connexion',
-                Editable::FORM_FILE => 0
-            ],
-            Editable::FORM_GROUPS => [
-                [
-                    Editable::GROUP_LABEL => '',
-                    Editable::GROUP_FIELDS => [
-                        'email' => [
-                            'type' => 'email',
-                            'label' => 'Identifiant',
-                            'class' => '',
-                            'value' => ''
-                        ],
-                        'password' => [
-                            'type' => 'password',
-                            'label' => 'Mot de passe',
-                            'class' => '',
-                            'value' => ''
-                        ],
-                    ]
-                ]
-            ]
-        ];
-    }
-
     public function getFormConfig()
     {
         return [
             Editable::FORM_STRUCT => [
                 Editable::FORM_METHOD => 'post',
                 Editable::FORM_ACTION => Helpers::getAdminRoute('user/save'),
+                Editable::FORM_BACK_URL => Helpers::getAdminRoute('user'),
                 Editable::FORM_SUBMIT => 'Sauvegarder',
                 Editable::FORM_FILE => 1
             ],
@@ -253,20 +219,18 @@ class User extends BaseSql implements Listable, Editable
                         'pseudo' => [
                             'type' => 'text',
                             'label' => 'Pseudo',
-                            'class' => 'two-col',
                             'value' => $this->getPseudo(),
                             'required' => true
                         ],
                         'email' => [
                             'type' => 'email',
                             'label' => 'Email',
-                            'class' => 'one-col',
-                            'value' => $this->getEmail()
+                            'value' => $this->getEmail(),
+                            'required' => true
                         ],
                         'password' => [
                             'type' => 'password',
                             'label' => 'Password',
-                            'class' => 'one-col'
                         ]
                     ]
                 ],
@@ -276,13 +240,11 @@ class User extends BaseSql implements Listable, Editable
                         'lastname' => [
                             'type' => 'text',
                             'label' => 'Nom',
-                            'class' => 'one-col',
                             'value' => $this->getLastname()
                         ],
                         'firstname' => [
                             'type' => 'text',
                             'label' => 'Prénom',
-                            'class' => 'one-col',
                             'value' => $this->getFirstname()
                         ],
                         'avatar' => [
@@ -298,18 +260,36 @@ class User extends BaseSql implements Listable, Editable
                         'status' => [
                             'type' => 'checkbox',
                             'label' => 'Actif',
-                            'class' => 'one-col',
                             'value' => $this->getStatus()
                         ],
                         'role' => [
                             'type' => 'select',
                             'label' => 'Role',
-                            'class' => 'one-col',
                             'options' => $this->getRole()->getAllAsOptions(),
                             'value' => $this->getRole()->getId()
                         ]
                     ]
                 ]
+            ]
+        ];
+    }
+
+    public function validate()
+    {
+        return [
+            'pseudo' => [
+                'unique' => 1,
+                'require' => 1,
+                'min' => 3,
+                'max' => 255
+            ],
+            'email' => [
+                'unique' => 1,
+                'require' => 1,
+                'min' => 3,
+                'max' => 255
+            ],
+            'password' => [
             ]
         ];
     }

@@ -3,91 +3,70 @@
 /**
  * Class PageControllerBack
  */
-class PageControllerBack
+class PageControllerBack extends Controller
 {
-
-    /**
-     * @param $params
-     */
-    public function indexAction($params)
+    public function saveAction($params = [])
     {
-        $view = new View('back', 'page/index', 'admin');
+        $this->check((isset($postData['token'])) ? $postData['token'] : '');
 
-        $page = new Page();
-        $view->assign('page', $page);
-    }
-
-    public function viewAction()
-    {
-
-    }
-
-    /**
-     * @param $params
-     */
-    public function newAction($params)
-    {
-        $view = new View('back', 'page/new', 'admin');
-        $view->assign('page', new Page);
-    }
-
-    /**
-     * @param $params
-     */
-    public function addAction($params)
-    {
         if (!isset($params[Routing::PARAMS_POST])) {
             $params[Routing::PARAMS_POST] = [];
         }
         $data = $params[Routing::PARAMS_POST];
 
-        $validator = new Validator();
-        $errors = $validator->validate($data, $this->getPageConstraints());
-
-        foreach ($data['components'] as $component){
-            Helpers::debug(gettype($component));
-            Helpers::debug($component);
-            $componentData = json_decode($component, true);
-            Helpers::debug($componentData);
-            Helpers::debug(json_last_error_msg());
-            Helpers::debug('# ---- #');
+        $this->validateNewPage($data);
+        if (count(Session::getErrors()) > 0) {
+            Session::setFormData($data);
+            Helpers::redirectBack();
         }
 
-//        Helpers::debug(json_decode('{"title":"test",\"template_id\":\"1\"}', true));
+        try {
+            $page = new Page();
+            $page->fill($data);
+            $page->save();
 
-        Helpers::debug($errors);
-        Helpers::debug($params);
-        die;
+            $order = 1;
+            foreach ($data['components'] as $componentData) {
+                $componentData = json_decode($componentData, true);
+                $templateId = $componentData['template_id'];
+                unset($componentData['template_id']);
+
+                /** @var Page_Component $component */
+                $component = new Page_Component();
+                $component->setPageId($page->getId());
+                $component->setTemplateId($templateId);
+                $component->setOrder($order);
+                $component->setConfig($componentData);
+                $order += 1;
+
+                $component->save();
+            }
+        } catch (Exception $ex) {
+            Session::addError($ex->getMessage());
+            Helpers::redirectBack();
+        }
+
+        Session::addSuccess('Composant ajouté');
+        Helpers::redirect(Helpers::getAdminRoute('page'));
+        return true;
     }
 
-    public function editAction()
+    private function validateNewPage(array $data)
     {
+        $page = new Page();
 
-    }
+        $validator = new Validator($data, Page::class);
+        $validator->validate($page->getConstraints());
 
-    public function deleteAction()
-    {
+        foreach ($data['components'] as $componentData) {
+            $componentData = json_decode($componentData, true);
 
-    }
+            /** @var Page_Component $component */
+            $component = new Page_Component();
+            $component->setTemplateId($componentData['template_id']);
 
-    /**
-     * @return array
-     */
-    private function getPageConstraints()
-    {
-        return [
-            'title' => [
-                'required' => 1,
-                'min' => 4
-            ],
-            'url' => [
-                'unique' => 1,
-                'require' => 1,
-                'min' => 3
-            ],
-            'meta_desc' => [
-                'min' => 5
-            ]
-        ];
+            $validatorComponent = new Validator($componentData);
+            $validatorComponent->validate($component->getConstraints());
+        }
     }
 }

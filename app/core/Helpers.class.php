@@ -20,6 +20,10 @@ class Helpers
         return BASE_PATH . 'app/assets/' . $path;
     }
 
+    public static function getThemeAsset($path){
+        return '/themes/templates/default/assets/' . $path; // TODO : Change default by current theme
+    }
+
     public static function getMedia($path)
     {
         return BASE_PATH . FILE_UPLOAD_PATH . $path;
@@ -29,6 +33,11 @@ class Helpers
     {
         $path = rtrim($path, '/');
         return BASE_PATH . ADMIN_PATH . '/' . $path . '/';
+    }
+
+    public static function getExternalAdminRoute($path)
+    {
+        return $_SERVER['HTTP_HOST'] . self::getAdminRoute($path);
     }
 
     public static function redirectBack()

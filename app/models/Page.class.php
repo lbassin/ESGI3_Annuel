@@ -7,17 +7,18 @@ class Page extends BaseSql implements Listable, Editable
     const TEMPLATE_PREVIEW = 'preview';
 
     protected $id;
-    protected $name;
-    protected $content;
+    protected $title;
     protected $description;
     protected $url;
-    protected $visibility;
     protected $publish;
-    protected $meta_title;
-    protected $meta_description;
 
     public function __construct()
     {
+        $this->defaultValues = [
+            'publish' => 0,
+            'visibility' => 0
+        ];
+
         parent::__construct();
     }
 
@@ -31,24 +32,14 @@ class Page extends BaseSql implements Listable, Editable
         $this->id = $id;
     }
 
-    public function getName()
+    public function getTitle()
     {
-        return $this->name;
+        return $this->title;
     }
 
-    public function setName($name)
+    public function setTitle($title)
     {
-        $this->name = $name;
-    }
-
-    public function getContent()
-    {
-        return $this->content;
-    }
-
-    public function setContent($content)
-    {
-        $this->content = $content;
+        $this->title = $title;
     }
 
     public function getDescription()
@@ -71,16 +62,6 @@ class Page extends BaseSql implements Listable, Editable
         $this->url = $url;
     }
 
-    public function getVisibility()
-    {
-        return $this->visibility;
-    }
-
-    public function setVisibility($visibility)
-    {
-        $this->visibility = $visibility;
-    }
-
     public function getPublish()
     {
         return $this->publish;
@@ -91,24 +72,20 @@ class Page extends BaseSql implements Listable, Editable
         $this->publish = $publish;
     }
 
-    public function getMetaTitle()
+    public function getComponents()
     {
-        return $this->meta_title;
-    }
+        $component = new Page_Component();
+        $components = $component->getAll(['page_id' => $this->getId()]);
 
-    public function setMetaTitle($meta_title)
-    {
-        $this->meta_title = $meta_title;
-    }
+        $data = [];
+        /** @var Page_Component $component */
+        foreach ($components as $component) {
+            $componentData = $component->getConfig();
+            $componentData['template_id'] = $component->getTemplateId();
+            $data[] = $componentData;
+        }
 
-    public function getMetaDescription()
-    {
-        return $this->meta_description;
-    }
-
-    public function setMetaDescription($meta_description)
-    {
-        $this->meta_description = $meta_description;
+        return $data;
     }
 
     public function getListConfig()
@@ -122,8 +99,7 @@ class Page extends BaseSql implements Listable, Editable
                     '',
                     'ID',
                     'Title',
-                    'Last update',
-                    'Visible',
+                    'Publié',
                     'Action'
                 ]
             ],
@@ -150,15 +126,11 @@ class Page extends BaseSql implements Listable, Editable
                 ],
                 [
                     'type' => 'text',
-                    'value' => $page->getName()
+                    'value' => $page->getTitle()
                 ],
                 [
                     'type' => 'text',
-                    'value' => 'TODO'
-                ],
-                [
-                    'type' => 'text',
-                    'value' => $page->getVisibility()
+                    'value' => $page->getPublish() ? 'Oui' : 'Non'
                 ],
                 [
                     'type' => 'action',
@@ -177,24 +149,40 @@ class Page extends BaseSql implements Listable, Editable
         return [
             Editable::FORM_STRUCT => [
                 Editable::FORM_METHOD => 'post',
-                Editable::FORM_ACTION => Helpers::getAdminRoute('page/add'),
+                Editable::FORM_ACTION => Helpers::getAdminRoute('page/save'),
+                Editable::FORM_BACK_URL => Helpers::getAdminRoute('page'),
                 Editable::FORM_SUBMIT => 'Save'
             ],
             Editable::FORM_GROUPS => [
                 [
                     Editable::GROUP_LABEL => 'Search Engine Optimisation',
                     Editable::GROUP_FIELDS => [
+                        'id' => [
+                            'type' => 'hidden',
+                            'value' => $this->getId()
+                        ],
                         'title' => [
                             'type' => 'text',
-                            'label' => 'Title'
+                            'label' => 'Title',
+                            'required' => 1,
+                            'value' => $this->getTitle()
                         ],
                         'url' => [
                             'type' => 'text',
-                            'label' => 'URL'
+                            'label' => 'URL',
+                            'required' => 1,
+                            'value' => $this->getUrl()
                         ],
-                        'meta_desc' => [
+                        'description' => [
                             'type' => 'textarea',
-                            'label' => 'Description'
+                            'label' => 'Description',
+                            'required' => 1,
+                            'value' => $this->getDescription()
+                        ],
+                        'publish' => [
+                            'type' => 'checkbox',
+                            'label' => 'Publié',
+                            'value' => $this->getPublish()
                         ]
                     ]
                 ],
@@ -203,7 +191,8 @@ class Page extends BaseSql implements Listable, Editable
                     Editable::GROUP_FIELDS => [
                         'preview' => [
                             'type' => 'widget',
-                            'id' => 'page/new'
+                            'id' => 'page/new',
+                            'data' => $this->getComponents()
                         ]
                     ]
                 ]
@@ -211,4 +200,23 @@ class Page extends BaseSql implements Listable, Editable
         ];
     }
 
+    /**
+     * @return array
+     */
+    public function getConstraints()
+    {
+        return [
+            'title' => [
+                'required' => 1,
+                'min' => 4
+            ],
+            'url' => [
+                'unique' => 1,
+                'require' => 1,
+            ],
+            'description' => [
+                'min' => 5
+            ]
+        ];
+    }
 }

@@ -13,7 +13,10 @@
             <?php if (!isset($config[Editable::FORM_STRUCT]['hide_header'])): ?>
                 <div id="menu">
                     <div id="action">
-                        <a href="<?php echo Helpers::getAdminRoute('user'); ?>" class="button secondary">
+                        <a href="<?php echo isset($config[Editable::FORM_STRUCT][Editable::FORM_BACK_URL]) ?
+                            $config[Editable::FORM_STRUCT][Editable::FORM_BACK_URL] :
+                            '#undefined'; ?>"
+                           class="button secondary">
                             <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
                         </a>
                         <a href="#" class="button secondary">
@@ -38,11 +41,13 @@
 
                     <div class="field-line">
                         <?php if ($attributs['type'] == 'email' || $attributs['type'] == 'text' || $attributs['type'] == 'password'): ?>
-                            <label for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
+                            <label class="<?php echo(isset($attributs['required']) ? 'required' : ''); ?>"
+                                   for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
                             <input
                                     type="<?php echo $attributs['type']; ?>"
                                     name="<?php echo $name; ?>"
-                                    value="<?php echo isset($attributs['value']) ? $attributs['value'] : ''; ?>"
+                                    value="<?php echo !empty(Session::getFormData($name)) ?
+                                        Session::getFormData($name) : (isset($attributs['value']) ? $attributs['value'] : ''); ?>"
                                     placeholder="<?php echo isset($attributs['placeholder']) ? $attributs['placeholder'] : ''; ?>"
                                     id="<?php echo "input-" . $name; ?>"
                                 <?php echo(isset($attributs['required']) ? 'required="required"' : ''); ?>
@@ -51,7 +56,8 @@
                         <?php endif; ?>
 
                         <?php if ($attributs['type'] == 'file'): ?>
-                            <label for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
+                            <label class="<?php echo(isset($attributs['required']) ? 'required' : ''); ?>"
+                                   for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
                             <input type="<?php echo $attributs['type']; ?>"
                                    name="<?php echo $name; ?>"
                                    accept="<?php echo isset($attributs['accept']) ? $attributs['accept'] : ''; ?>"
@@ -62,22 +68,27 @@
                         <?php endif; ?>
 
                         <?php if ($attributs['type'] == 'checkbox'): ?>
-                            <label for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
+                            <label class="<?php echo(isset($attributs['required']) ? 'required' : ''); ?>"
+                                   for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
                             <input type="<?php echo $attributs['type']; ?>"
                                    name="<?php echo $name; ?>"
                                    value="1"
                                    id="<?php echo "input-" . $name; ?>"
-                                <?php echo ($attributs['value'] == true) ? 'checked="checked"' : ''; ?>
+                                <?php echo ($attributs['value'] == true || Session::getFormData($name)) ? 'checked="checked"' : ''; ?>
                             >
                         <?php endif; ?>
 
                         <?php if ($attributs['type'] == 'select'): ?>
-                            <label for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
+                            <label class="<?php echo(isset($attributs['required']) ? 'required' : ''); ?>"
+                                   for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
                             <select name="<?php echo $name; ?>" id="<?php echo "input-" . $name; ?>">
                                 <?php foreach ($attributs['options'] as $selectLabel => $selectValue): ?>
                                     <option
                                             value="<?php echo $selectValue; ?>"
-                                        <?php echo (isset($attributs['value']) && $attributs['value'] == $selectValue) ?
+                                        <?php $value = !empty(Session::getFormData($name)) ?
+                                            Session::getFormData($name) : (isset($attributs['value']) ?
+                                                $attributs['value'] : ''); ?>
+                                        <?php echo (!empty($value) && $value == $selectValue) ?
                                             'selected="selected"' : ''; ?>
                                     >
                                         <?php echo $selectLabel; ?>
@@ -89,21 +100,25 @@
                         <?php if ($attributs['type'] == 'hidden'): ?>
                             <input type="<?php echo $attributs['type']; ?>"
                                    name="<?php echo $name; ?>"
-                                   value="<?php echo $attributs['value']; ?>"
+                                   value="<?php echo !empty(Session::getFormData($name)) ?
+                                       Session::getFormData($name) : (isset($attributs['value']) ?
+                                           $attributs['value'] : ''); ?>"
                             >
                         <?php endif; ?>
 
                         <?php if ($attributs['type'] == 'textarea'): ?>
-                            <label for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
+                            <label class="vertical-align <?php echo(isset($attributs['required']) ? 'required' : ''); ?>"
+                                   for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
                             <textarea
                                     name="<?php echo $name; ?>"
                                     placeholder="<?php echo isset($attributs['placeholder']) ? $attributs['placeholder'] : ''; ?>"
                                     id="<?php echo "input-" . $name; ?>"
                                     cols="50"
                                     rows="5"
-                                <?php echo(isset($attributs['required']) ? 'required="required"' : ''); ?>
                                 <?php echo(isset($attributs['disabled']) ? 'disabled="disabled"' : ''); ?>
-                            ><?php echo(isset($attributs['value']) ? $attributs['value'] : ''); ?></textarea>
+                            ><?php echo(!empty(Session::getFormData($name)) ?
+                                    Session::getFormData($name) : (isset($attributs['value']) ?
+                                        $attributs['value'] : '')); ?></textarea>
                         <?php endif; ?>
 
                         <?php if ($attributs['type'] == 'radio'): ?>
@@ -112,17 +127,23 @@
                                 <input type="<?php echo $attributs['type']; ?>"
                                        name="<?php echo $name; ?>"
                                        value="<?php echo $radioValue; ?>"
-                                    <?php echo (isset($attributs['value']) && $attributs['value'] == $radioValue) ?
+                                    <?php $value = !empty(Session::getFormData($name) ?
+                                        Session::getFormData($name) : (isset($attributs['value']) ?
+                                            $attributs['value'] : '')); ?>
+                                    <?php echo (!empty($value) && $value == $radioValue) ?
                                         'checked="checked"' : ''; ?>
                                 >
                             <?php endforeach; ?>
                         <?php endif; ?>
 
                         <?php if ($attributs['type'] == 'date'): ?>
-                            <label for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
+                            <label class="<?php echo(isset($attributs['required']) ? 'required' : ''); ?>"
+                                   for="<?php echo "input-" . $name; ?>"><?php echo isset($attributs['label']) ? $attributs['label'] : ''; ?></label>
                             <input type="<?php echo $attributs['type']; ?>"
                                    name="<?php echo $name; ?>"
-                                   value="<?php echo(isset($attributs['value']) ? $attributs['value'] : ''); ?>"
+                                   value="<?php echo(!empty(Session::getFormData($name)) ?
+                                       Session::getFormData($name) : (isset($attributs['value']) ?
+                                           $attributs['value'] : '')); ?>"
                                    placeholder="JJ/MM/YYYY"
                                    id="<?php echo "input-" . $name; ?>"
                             >
@@ -130,7 +151,7 @@
                     </div>
 
                     <?php if ($attributs['type'] == 'widget'): ?>
-                        <?php $this->includeWidget($attributs['id']); ?>
+                        <?php $this->includeWidget($attributs['id'], isset($attributs['data']) ? $attributs['data'] : []); ?>
                     <?php endif; ?>
 
                 <?php endforeach; ?>
@@ -145,3 +166,4 @@
 </div>
 
 <script src="<?php echo Helpers::getAsset('js/modals/form.js'); ?>"></script>
+<?php Session::resetFormData(); ?>

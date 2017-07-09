@@ -30,6 +30,9 @@ body {
   position: absolute;
   z-index: 99999 !important; }
 
+#logo-circle-1 {
+  fill: white; }
+
 .logo-animation {
   animation: 5s linear infinite;
   animation-name: rotate-0;
@@ -90,12 +93,15 @@ svg path {
   to {
     transform: rotate(0deg); } }
 .container {
-  height: calc(100vh - 55px);
   margin: 0;
   width: 100%;
   position: absolute;
   padding: 15px;
-  transition: all 0.3s ease-in-out; }
+  transition: all 0.3s ease-in-out;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
 
 .container-login {
   height: 300px;
@@ -110,11 +116,12 @@ svg path {
   position: relative; }
   .container-login:hover {
     box-shadow: 0 0 10px -2px rgba(0, 0, 0, 0.8); }
+  .container-login .container-login-form {
+    margin-top: 80px; }
 
 .logo {
   top: 40%;
   left: 50%;
-  background-color: white;
   box-shadow: 0 0 5px 0 rgba(255, 255, 255, 0.8); }
 
 .field-container:after {
@@ -139,8 +146,7 @@ svg path {
     -webkit-box-shadow: 0 0 0 1000px white inset; }
 
 .login-submit {
-  bottom: 35px;
-  position: absolute;
+  bottom: 45px;
   outline: none;
   height: 40px;
   text-align: center;
@@ -154,11 +160,72 @@ svg path {
   font-size: 12px;
   font-weight: bold;
   cursor: pointer;
+  display: block;
+  margin: auto;
+  margin-top: 30px;
   -webkit-transition: all 0.25s ease;
   transition: all 0.3s ease-in-out; }
   .login-submit:hover {
     background-color: #212121;
     color: #fff;
     transition: all 0.3s ease-in-out; }
+
+.button-login-page {
+  bottom: 12px;
+  margin: auto;
+  text-align: center;
+  margin-top: 20px;
+  display: block; }
+
+.link-password-forget {
+  width: 70%; }
+
+.link-password-return {
+  width: 27%;
+  color: black;
+  text-decoration: none; }
+
+.back-login-button {
+  width: 25%; }
+
+.hover-link-center {
+  cursor: pointer;
+  font-size: 13px; }
+
+.hover-link-center:after {
+  display: block;
+  content: '';
+  border-bottom: solid 1px #0e0e0e;
+  transform: scaleX(0);
+  transition: transform 250ms ease-in-out; }
+
+.hover-link-center:hover:after {
+  transform: scaleX(1); }
+
+#container-password-forget {
+  display: none; }
+
+#popup-message {
+  position: absolute;
+  top: 15px;
+  padding: 10px;
+  border-radius: 15px;
+  opacity: 0;
+  text-align: center;
+  box-shadow: 0 0 10px -2px rgba(0, 0, 0, 0.8); }
+
+#countdowntimer {
+  z-index: -1;
+  position: absolute;
+  font-size: 50px;
+  margin: 0;
+  opacity: 0; }
+
+#countdowntimerseconds {
+  z-index: -1;
+  position: absolute;
+  font-size: 35px;
+  margin-top: 45px;
+  opacity: 0; }
 
 /*# sourceMappingURL=login.css.map */

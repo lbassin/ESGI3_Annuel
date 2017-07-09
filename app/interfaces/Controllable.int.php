@@ -2,7 +2,7 @@
 
 Interface Controllable
 {
-    public function indexAction();
+    public function indexAction($params = []);
 
     public function newAction();
 

@@ -6,6 +6,6 @@ CREATE TABLE `theme` (
   `version`     VARCHAR(25)         NOT NULL,
   `author`      VARCHAR(100)        NOT NULL,
   `description` TEXT                NOT NULL,
-  `created_at`  DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at`  DATETIME
+  `created_at`  TIMESTAMP            NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at`  TIMESTAMP
 );

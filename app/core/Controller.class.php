@@ -12,14 +12,14 @@ abstract class Controller implements Controllable
         $this->className = str_replace(self::CLASS_CONTROLLER, '', get_called_class());
     }
 
-    public function indexAction()
+    public function indexAction($params = [])
     {
         $view = new View('back', lcfirst($this->className) . '/index', 'admin');
 
         $class = new $this->className;
-
-        $this->configList['size'] = isset($params[Routing::PARAMS_GET]['size']) ? $params[Routing::PARAMS_GET]['size'] : 2;
+        $this->configList['size'] = isset($params[Routing::PARAMS_GET]['size']) ? $params[Routing::PARAMS_GET]['size'] : 10;
         $this->configList['page'] = isset($params[Routing::PARAMS_GET]['page']) ? $params[Routing::PARAMS_GET]['page'] : 1;
+        $this->configList['availableSize'] = [10, 20, 50];
         $this->configList['count'] = $class->countAll();
 
         $view->assign(lcfirst($this->className), $class);
@@ -60,19 +60,21 @@ abstract class Controller implements Controllable
         if ($multiple == true && $multiple != -1) {
             $this->check((isset($postData['token'])) ? $postData['token'] : '');
         }
-        $validator = new Validator($this->className, $postData);
+        $validator = new Validator($postData, $this->className);
         $validator->validate($class->validate());
 
         if (count(Session::getErrors()) > 0) {
+            Session::setFormData($postData);
             Helpers::redirectBack();
         }
 
         $class->fill($postData);
 
-        foreach ($class->getForeignValues() as $key => $table) {
+        foreach ($class->getForeignValues() as $table) {
             $setterName = 'set' . ucfirst($table);
-            $class->$setterName($postData);
+            $class->$setterName($postData[$table]);
         }
+
         $class->save();
 
         if ($multiple == false) {
