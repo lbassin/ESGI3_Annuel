@@ -10,7 +10,6 @@ class Page extends BaseSql implements Listable, Editable
     protected $title;
     protected $description;
     protected $url;
-    protected $visibility;
     protected $publish;
 
     public function __construct()
@@ -63,16 +62,6 @@ class Page extends BaseSql implements Listable, Editable
         $this->url = $url;
     }
 
-    public function getVisibility()
-    {
-        return $this->visibility;
-    }
-
-    public function setVisibility($visibility)
-    {
-        $this->visibility = $visibility;
-    }
-
     public function getPublish()
     {
         return $this->publish;
@@ -110,8 +99,7 @@ class Page extends BaseSql implements Listable, Editable
                     '',
                     'ID',
                     'Title',
-                    'Last update',
-                    'Visible',
+                    'Publié',
                     'Action'
                 ]
             ],
@@ -146,7 +134,7 @@ class Page extends BaseSql implements Listable, Editable
                 ],
                 [
                     'type' => 'text',
-                    'value' => $page->getVisibility()
+                    'value' => $page->getPublish()
                 ],
                 [
                     'type' => 'action',
@@ -195,11 +183,6 @@ class Page extends BaseSql implements Listable, Editable
                             'type' => 'checkbox',
                             'label' => 'Publié',
                             'value' => $this->getPublish()
-                        ],
-                        'visibility' => [
-                            'type' => 'checkbox',
-                            'label' => 'Visible',
-                            'value' => $this->getVisibility()
                         ]
                     ]
                 ],
