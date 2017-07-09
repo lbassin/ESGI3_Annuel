@@ -231,7 +231,6 @@ class User extends BaseSql implements Listable, Editable
                         'password' => [
                             'type' => 'password',
                             'label' => 'Password',
-                            'required' => true
                         ]
                     ]
                 ],
@@ -291,8 +290,6 @@ class User extends BaseSql implements Listable, Editable
                 'max' => 255
             ],
             'password' => [
-                'required' => 1,
-                'min' => 6
             ]
         ];
     }

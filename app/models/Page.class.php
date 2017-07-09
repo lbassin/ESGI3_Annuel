@@ -157,6 +157,10 @@ class Page extends BaseSql implements Listable, Editable
                 [
                     Editable::GROUP_LABEL => 'Search Engine Optimisation',
                     Editable::GROUP_FIELDS => [
+                        'id' => [
+                            'type' => 'hidden',
+                            'value' => $this->getId()
+                        ],
                         'title' => [
                             'type' => 'text',
                             'label' => 'Title',
