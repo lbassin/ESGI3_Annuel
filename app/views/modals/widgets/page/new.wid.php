@@ -29,7 +29,7 @@
             <div id="addComponent-errors" class="popin-errors hidden"></div>
             <div class="ajax-content"></div>
             <div class="popin-content-footer">
-                <button class="validate-component">Valider</button>
+                <div class="validate-component">Valider</div>
             </div>
         </div>
     </div>
@@ -39,9 +39,12 @@
     <div class="popin-overlay">
     </div>
     <div class="popin-content">
+        <div class="editComponent">
+            <div id="editComponent-errors" class="popin-errors hidden"></div>
             <div class="ajax-content"></div>
-            <div class="popin-content-footer">
-                Validate
+                <div class="popin-content-footer">
+                    <div class="validate-component">Valider</div>
+                </div>
             </div>
         </div>
     </div>
