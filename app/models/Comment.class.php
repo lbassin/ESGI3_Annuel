@@ -145,7 +145,7 @@ class Comment extends BaseSql implements Listable, Editable
         return $listData;
     }
 
-    public function validate(array $data)
+    public function validate()
     {
         // TODO
 

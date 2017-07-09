@@ -54,10 +54,12 @@ abstract class Controller implements Controllable
         $view->assign(lcfirst($this->className), $class);
     }
 
-    public function saveAction($params = []) {
+    public function saveAction($params = [], $multiple = false) {
         $class = new $this->className();
         $postData = $params[Routing::PARAMS_POST];
-        $this->check((isset($postData['token'])) ? $postData['token'] : '');
+        if ($multiple == true && $multiple != -1) {
+            $this->check((isset($postData['token'])) ? $postData['token'] : '');
+        }
         $validator = new Validator($this->className, $postData);
         $validator->validate($class->validate());
 
@@ -71,11 +73,13 @@ abstract class Controller implements Controllable
             $setterName = 'set' . ucfirst($table);
             $class->$setterName($postData);
         }
-
         $class->save();
 
-        Session::addSuccess("Votre " . lcfirst($this->className) . " a bien été enregistré");
-        Helpers::redirect(Helpers::getAdminRoute(lcfirst($this->className) . '/'));
+        if ($multiple == false) {
+            Session::addSuccess("Votre " . lcfirst($this->className) . " a bien été enregistré");
+            Helpers::redirect(Helpers::getAdminRoute(lcfirst($this->className) . '/'));
+        }
+        return $class->getId();
     }
 
     public function deleteAction($params = [])

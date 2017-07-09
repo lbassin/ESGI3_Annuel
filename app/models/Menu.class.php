@@ -41,12 +41,12 @@ class Menu extends BaseSql implements Editable, Listable
         $this->url = $url;
     }
 
-    public function getParentId()
+    public function getParent_id()
     {
         return $this->parent_id;
     }
 
-    public function setParentId($parent_id)
+    public function setParent_id($parent_id)
     {
         $this->parent_id = $parent_id;
     }
@@ -60,7 +60,7 @@ class Menu extends BaseSql implements Editable, Listable
             'url' => [
                 'required' => true,
                 'unique' => true,
-            ]
+            ],
         ];
     }
 
@@ -69,7 +69,7 @@ class Menu extends BaseSql implements Editable, Listable
         return [
             Editable::FORM_STRUCT => [
                 Editable::FORM_METHOD => 'post',
-                Editable::FORM_ACTION => Helpers::getAdminRoute('menu/format'),
+                Editable::FORM_ACTION => Helpers::getAdminRoute('menu/save'),
                 Editable::FORM_SUBMIT => 'Save'
             ],
             Editable::FORM_GROUPS => [
@@ -150,8 +150,9 @@ class Menu extends BaseSql implements Editable, Listable
     public function getParent()
     {
         $menus = $this->getAll();
+        $parentMenu = [];
         foreach ($menus as $key => $menu) {
-            if ($menu->getParentId() == null) {
+            if ($menu->getParent_id() == null) {
                 $parentMenu[] = $menu;
             }
         }

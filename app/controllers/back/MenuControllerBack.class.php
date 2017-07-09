@@ -2,28 +2,13 @@
 
 class MenuControllerBack extends Controller
 {
-    /*
-     * $params['post'] = [
-     *      'label' => 'blabla',
-     *      'url'   => 'blabla',
-     *      [
-     *          0 => [
-         *          'label' => 'blabla',
-         *          'url'   => 'blabla'
-     *          ],
-     *          1 => [
-         *          'label' => 'blabla',
-         *          'url'   => 'blabla'
-     *          ],
-     *      ]
-     * ]
-     * */
-    public function formatAction($params)
+    public function saveAction($params = [], $multiple = false)
     {
         $params['post'] = [
             'parent' => [
                 'label' => 'papa',
                 'url'   => 'papa',
+                'token' => $params['post']['token'],
             ],
             'child' => [
                 0 => [
@@ -36,13 +21,15 @@ class MenuControllerBack extends Controller
                 ],
             ]
         ];
-        parent::saveAction([Routing::PARAMS_POST => $params[Routing::PARAMS_POST]['parent']], 1);
-        $lastId = Session::getLastInsertId();
-        $lengthSubMenu = count($params[Routing::PARAMS_POST]['child']);
-        foreach ($params[Routing::PARAMS_POST]['child'] as $key => $childItem) {
-            $childItem->setParentId($lastId);
-            parent::saveAction(['post' => $childItem], --$lengthSubMenu);
+
+        $idParent = parent::saveAction([Routing::PARAMS_POST => $params[Routing::PARAMS_POST]['parent']], true);
+
+        if (!empty($params[Routing::PARAMS_POST]['child'])) {
+            $count = count($params[Routing::PARAMS_POST]['child']) -1;
+            foreach ($params[Routing::PARAMS_POST]['child'] as $key => $subLink) {
+                $subLink['parent_id'] = $idParent;
+                parent::saveAction([Routing::PARAMS_POST => $subLink], (($count != $key) ? -1 : false));
+            }
         }
-        exit();
     }
 }
