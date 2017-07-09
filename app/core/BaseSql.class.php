@@ -71,7 +71,7 @@ class BaseSql
                     $data[$column] = $this->$column;
                 }
 
-                $sqlSet[] = $column . '=:' . $column;
+                $sqlSet[] = '`' . $column . '`' . '=:' . $column;
             }
 
             $query = $pdo->prepare(

@@ -102,7 +102,10 @@ function validateComponent(action, componentId) {
             if (action === 'add') {
                 addPreview(response);
             } else if (action === 'edit') {
+                var componentId = components[componentIdEditing].id;
                 var input = document.getElementsByName('components[' + componentIdEditing + ']')[0];
+
+                response['data']['id'] = componentId;
                 input.setAttribute('value', JSON.stringify(response['data']));
                 components[componentIdEditing] = response['data'];
             }
