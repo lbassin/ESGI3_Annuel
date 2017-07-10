@@ -81,4 +81,17 @@ class ComponentControllerBack
         }
     }
 
+    public function editAction($params){
+        if(empty($params[Routing::PARAMS_POST])){
+            return json_encode(['error' => true]); // TODO
+        }
+
+        $data = $params[Routing::PARAMS_POST];
+        $templateConfig = $this->getComponentTemplate($data['template_id']);
+
+        Session::setFormData($data);
+
+        $view = new View('back', 'ajax/index', 'ajax');
+        $view->includeModal('form', $templateConfig);
+    }
 }

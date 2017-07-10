@@ -79,9 +79,17 @@ class Validator
             return false;
         }
 
+        /** @var BaseSql $class */
         $class = new $this->className();
-        $class->populate([$inputName => $inputValue]);
-        $getter = 'get' . ucfirst($inputName);
-        (!empty($class->$getter()) && $constraint == true) ? Session::addError('Le champ ' . $inputName . ' doit être unique !') : '';
+        $found = $class->getAll([$inputName => $inputValue]);
+
+        if (isset($this->data['id']) && count($found) == 1 && $found[0]->getId() == $this->data['id']) {
+            return true;
+        } else if (count($found) == 0) {
+            return true;
+        } else {
+            Session::addError('Le champ ' . $inputName . ' doit être unique !');
+            return false;
+        }
     }
 }

@@ -1,13 +1,23 @@
 var i;
-var componentsCount = 0;
+var components = [];
+var componentIdEditing = 0;
 
 getTemplates();
 
 var divPreview = document.querySelector('.widget.page_new .preview');
 
-var validateButton = document.querySelector('#popin-addComponent .validate-component');
-if (validateButton) {
-    validateButton.addEventListener('click', validateComponent);
+var validateButtonAdd = document.querySelector('#popin-addComponent .validate-component');
+if (validateButtonAdd) {
+    validateButtonAdd.addEventListener('click', function (event) {
+        validateComponent('add');
+    });
+}
+
+var validateButtonEdit = document.querySelector('#popin-editComponent .validate-component');
+if (validateButtonEdit) {
+    validateButtonEdit.addEventListener('click', function (event) {
+        validateComponent('edit');
+    });
 }
 
 function addEventOnTemplateGrid() {
@@ -17,16 +27,6 @@ function addEventOnTemplateGrid() {
             selectTemplate(this);
         });
     }
-}
-
-var form = document.getElementsByTagName('form');
-if (form[0]) {
-    form[0].addEventListener('submit', function (evt) {
-        console.log(document.activeElement.getAttribute('data-template-id'));
-        if (document.activeElement.getAttribute('data-template-id') !== null) {
-            evt.preventDefault();
-        }
-    });
 }
 
 function getTemplates() {
@@ -57,19 +57,19 @@ function selectTemplate(template) {
     var ajax = new Ajax();
     ajax.get(urlComponent + template.getAttribute('data-template-id'), function (data) {
         var formConfig = document.createElement('form');
-        formConfig.setAttribute('name', 'form-config-component');
+        formConfig.setAttribute('name', 'form-add-component');
         formConfig.innerHTML = data;
 
         formConfig.addEventListener('submit', function (evt) {
             evt.preventDefault();
-            validateComponent();
+            validateComponent('add');
         });
 
         ajaxContent.innerHTML = "";
         ajaxContent.appendChild(formConfig);
     });
 
-    validateButton.setAttribute('data-template-id', template.getAttribute('data-template-id'));
+    validateButtonAdd.setAttribute('data-template-id', template.getAttribute('data-template-id'));
 
     fadeOut(gridTemplates);
     setTimeout(function () {
@@ -77,24 +77,46 @@ function selectTemplate(template) {
     }, 750);
 }
 
-function validateComponent() {
-    var form = document.forms['form-config-component'];
+function validateComponent(action, componentId) {
+    var formName = 'form-' + action + '-component';
+    var form = document.forms[formName];
 
     var data = {};
     for (i = 0; i < form.elements.length; i++) {
         data[form.elements[i].name] = form.elements[i].value;
     }
+
+    var validateButton = validateButtonAdd;
+    if (action === 'edit') {
+        validateButton = validateButtonEdit;
+    }
+
     data['template_id'] = validateButton.getAttribute('data-template-id');
 
     var ajax = new Ajax();
     ajax.post(urlValidate, data, function (response) {
         response = JSON.parse(response);
 
-        var errorDiv = document.getElementById("addComponent-errors");
+        var errorDiv = document.getElementById(action + "Component-errors");
         if (!response['errors']) {
-            addPreview(response);
+            if (action === 'add') {
+                addPreview(response);
+            } else if (action === 'edit') {
+                var componentId = components[componentIdEditing].id;
+                var input = document.getElementsByName('components[' + componentIdEditing + ']')[0];
+
+                response['data']['id'] = componentId;
+                input.setAttribute('value', JSON.stringify(response['data']));
+                components[componentIdEditing] = response['data'];
+            }
+
             fadeOut(errorDiv);
-            hidePopin(document.querySelector("#popin-addComponent"));
+            var errorsList = errorDiv.querySelector('ul');
+            if (errorsList) {
+                errorDiv.removeChild(errorsList);
+            }
+
+            hidePopin(document.querySelector('#popin-' + action + 'Component'));
         } else {
             displayErrors(errorDiv, response['errors']);
         }
@@ -106,40 +128,77 @@ function moveAddComponentButton() {
     btnAddComponent.style.top = (divPreview.clientHeight + 8) + 'px';
 }
 
-function addEditComponentButton(height) {
+function addEditComponentButton(height, componentId) {
     var btnDiv = document.querySelector('.widget.page_new .right');
     var button = document.createElement('div');
 
     height += 8;
     button.innerText = 'Edit component';
     button.style.top = height + 'px';
+    button.setAttribute('data-component-id', componentId);
+
+    button.addEventListener('click', function () {
+        editComponent(this.getAttribute('data-component-id'));
+        componentIdEditing = this.getAttribute('data-component-id');
+    });
 
     btnDiv.appendChild(button);
 }
 
+function editComponent(componentId) {
+    if (componentId === undefined) {
+        return false;
+    }
+
+    var currentComponent = components[componentId];
+    if (!currentComponent) {
+        return false;
+    }
+    var ajaxContent = document.querySelector('#popin-editComponent .ajax-content');
+    var ajax = new Ajax();
+
+    ajax.post(urlEditComponent + currentComponent.template_id, currentComponent, function (data) {
+        var formConfig = document.createElement('form');
+        formConfig.setAttribute('name', 'form-edit-component');
+        formConfig.innerHTML = data;
+
+        formConfig.addEventListener('submit', function (evt) {
+            evt.preventDefault();
+            validateComponent('edit');
+        });
+
+        validateButtonEdit.setAttribute('data-template-id', currentComponent.template_id);
+
+        ajaxContent.innerHTML = "";
+        ajaxContent.appendChild(formConfig);
+    });
+
+    fadeIn(document.querySelector('#popin-editComponent'));
+}
+
 function addComponentInput(data) {
     var input = document.createElement('input');
-    componentsCount++;
 
     input.setAttribute('type', 'hidden');
     input.setAttribute('value', JSON.stringify(data));
-    input.setAttribute('name', 'components[' + componentsCount + ']');
+    input.setAttribute('name', 'components[' + components.length + ']');
 
-    document.forms[0].appendChild(input);
+    document.forms['model-form'].appendChild(input);
 }
 
 function addPreview(data) {
     var oldHeight = divPreview.clientHeight;
     setTimeout(function () {
-        addEditComponentButton(oldHeight, -1);
-    }, 450);
+        addEditComponentButton(oldHeight, this);
+    }.bind(components.length), 450);
+    addComponentInput(data['data']);
+
+    components.push(data['data']);
 
     var preview = document.createElement('img');
     preview.setAttribute('src', data['preview']);
     divPreview.appendChild(preview);
     setTimeout(moveAddComponentButton, 350);
-
-    addComponentInput(data['data']);
 }
 
 if (data !== undefined) {
@@ -148,15 +207,27 @@ if (data !== undefined) {
 
     for (i = 0; i < data.length; i++) {
         var ajax = new Ajax();
+
         ajax.post(urlValidate, data[i], function (response) {
             response = JSON.parse(response);
             previews[this] = response;
 
             if (previews.length === data.length) {
-                for (var e = 0; e < previews.length; e++) {
-                    setTimeout(function(){
-                        addPreview(previews[this]);
-                    }.bind(e), 100) // TODO ...
+                // Fix asynchrone bug ... Object added in the array but undefined
+                var ready = true;
+                for (var j = 0; j < previews.length; j++) {
+                    if (previews[j] === undefined) {
+                        ready = false;
+                        break;
+                    }
+                }
+
+                if (ready) {
+                    for (var e = 0; e < previews.length; e++) {
+                        setTimeout(function () {
+                            addPreview(previews[this]);
+                        }.bind(e), 100) // TODO ...
+                    }
                 }
             }
         }.bind(i));

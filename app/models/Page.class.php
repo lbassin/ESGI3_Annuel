@@ -10,7 +10,6 @@ class Page extends BaseSql implements Listable, Editable
     protected $title;
     protected $description;
     protected $url;
-    protected $visibility;
     protected $publish;
 
     public function __construct()
@@ -63,16 +62,6 @@ class Page extends BaseSql implements Listable, Editable
         $this->url = $url;
     }
 
-    public function getVisibility()
-    {
-        return $this->visibility;
-    }
-
-    public function setVisibility($visibility)
-    {
-        $this->visibility = $visibility;
-    }
-
     public function getPublish()
     {
         return $this->publish;
@@ -93,6 +82,7 @@ class Page extends BaseSql implements Listable, Editable
         foreach ($components as $component) {
             $componentData = $component->getConfig();
             $componentData['template_id'] = $component->getTemplateId();
+            $componentData['id'] = $component->getId();
             $data[] = $componentData;
         }
 
@@ -110,8 +100,7 @@ class Page extends BaseSql implements Listable, Editable
                     '',
                     'ID',
                     'Title',
-                    'Last update',
-                    'Visible',
+                    'Publié',
                     'Action'
                 ]
             ],
@@ -142,11 +131,7 @@ class Page extends BaseSql implements Listable, Editable
                 ],
                 [
                     'type' => 'text',
-                    'value' => 'TODO'
-                ],
-                [
-                    'type' => 'text',
-                    'value' => $page->getVisibility()
+                    'value' => $page->getPublish() ? 'Oui' : 'Non'
                 ],
                 [
                     'type' => 'action',
@@ -165,14 +150,17 @@ class Page extends BaseSql implements Listable, Editable
         return [
             Editable::FORM_STRUCT => [
                 Editable::FORM_METHOD => 'post',
-                Editable::FORM_ACTION => Helpers::getAdminRoute('page/add'),
-                Editable::FORM_BACK_URL => Helpers::getAdminRoute('page'),
-                Editable::FORM_SUBMIT => 'Save'
+                Editable::MODEL_URL => Helpers::getAdminRoute('page'),
+                Editable::MODEL_ID => $this->getId()
             ],
             Editable::FORM_GROUPS => [
                 [
                     Editable::GROUP_LABEL => 'Search Engine Optimisation',
                     Editable::GROUP_FIELDS => [
+                        'id' => [
+                            'type' => 'hidden',
+                            'value' => $this->getId()
+                        ],
                         'title' => [
                             'type' => 'text',
                             'label' => 'Title',
@@ -195,11 +183,6 @@ class Page extends BaseSql implements Listable, Editable
                             'type' => 'checkbox',
                             'label' => 'Publié',
                             'value' => $this->getPublish()
-                        ],
-                        'visibility' => [
-                            'type' => 'checkbox',
-                            'label' => 'Visible',
-                            'value' => $this->getVisibility()
                         ]
                     ]
                 ],

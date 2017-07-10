@@ -56,6 +56,8 @@ class BaseSql
             );
 
             $query->execute($data);
+
+            $this->setId($pdo->lastInsertId());
         } else {
 
             $data = [];
@@ -66,10 +68,14 @@ class BaseSql
                     $column = 'id_' . $column;
                     $data[$column] = $id;
                 } else {
-                    $data[$column] = $this->$column;
+                    if (!empty($this->$column)) {
+                        $data[$column] = $this->$column;
+                    } else {
+                        $data[$column] = isset($this->defaultValues[$column]) ? $this->defaultValues[$column] : null;
+                    }
                 }
 
-                $sqlSet[] = $column . '=:' . $column;
+                $sqlSet[] = '`' . $column . '`' . '=:' . $column;
             }
 
             $query = $pdo->prepare(

@@ -21,6 +21,8 @@ spl_autoload_register(function ($class) {
         include "app/models/" . $class . ".class.php";
     } elseif (file_exists("app/interfaces/" . $class . ".int.php")){
         include "app/interfaces/" . $class . ".int.php";
+    } elseif (file_exists("app/traits/" . $class . ".trait.php")){
+        include "app/traits/" . $class . ".trait.php";
     }
 });
 

@@ -5,12 +5,14 @@
  */
 class PageControllerBack extends Controller
 {
-    public function addAction($params)
+    public function saveAction($params = [])
     {
         if (!isset($params[Routing::PARAMS_POST])) {
             $params[Routing::PARAMS_POST] = [];
         }
         $data = $params[Routing::PARAMS_POST];
+
+        $this->check((isset($data['token'])) ? $data['token'] : '');
 
         $this->validateNewPage($data);
         if (count(Session::getErrors()) > 0) {
@@ -22,16 +24,18 @@ class PageControllerBack extends Controller
             $page = new Page();
             $page->fill($data);
             $page->save();
-            $page->populate(['url' => $data['url']]);
 
             $order = 1;
             foreach ($data['components'] as $componentData) {
                 $componentData = json_decode($componentData, true);
                 $templateId = $componentData['template_id'];
+                $componentId = $componentData['id'];
                 unset($componentData['template_id']);
+                unset($componentData['id']);
 
                 /** @var Page_Component $component */
                 $component = new Page_Component();
+                $component->setId($componentId);
                 $component->setPageId($page->getId());
                 $component->setTemplateId($templateId);
                 $component->setOrder($order);
@@ -46,7 +50,11 @@ class PageControllerBack extends Controller
         }
 
         Session::addSuccess('Composant ajouté');
-        Helpers::redirect(Helpers::getAdminRoute('page'));
+        if (isset($params[Routing::PARAMS_GET]['redirectToEdit'])) {
+            Helpers::redirect(Helpers::getAdminRoute('page/edit/' . $page->getId()));
+        } else {
+            Helpers::redirect(Helpers::getAdminRoute('page'));
+        }
         return true;
     }
 
