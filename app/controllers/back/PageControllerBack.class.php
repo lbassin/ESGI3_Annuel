@@ -7,12 +7,12 @@ class PageControllerBack extends Controller
 {
     public function saveAction($params = [])
     {
-        $this->check((isset($postData['token'])) ? $postData['token'] : '');
-
         if (!isset($params[Routing::PARAMS_POST])) {
             $params[Routing::PARAMS_POST] = [];
         }
         $data = $params[Routing::PARAMS_POST];
+
+        $this->check((isset($data['token'])) ? $data['token'] : '');
 
         $this->validateNewPage($data);
         if (count(Session::getErrors()) > 0) {
@@ -50,7 +50,11 @@ class PageControllerBack extends Controller
         }
 
         Session::addSuccess('Composant ajouté');
-        Helpers::redirect(Helpers::getAdminRoute('page'));
+        if (isset($params[Routing::PARAMS_GET]['redirectToEdit'])) {
+            Helpers::redirect(Helpers::getAdminRoute('page/edit/' . $page->getId()));
+        } else {
+            Helpers::redirect(Helpers::getAdminRoute('page'));
+        }
         return true;
     }
 

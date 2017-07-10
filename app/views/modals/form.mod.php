@@ -4,34 +4,40 @@
             <?php $config[Editable::FORM_GROUPS] = []; ?>
         <?php endif; ?>
 
-        <form method="<?php echo $config[Editable::FORM_STRUCT]['method']; ?>"
-              action="<?php echo $config[Editable::FORM_STRUCT]['action']; ?>"
+        <?php if (!isset($config[Editable::FORM_STRUCT]['hide_header'])): ?>
+            <div id="menu">
+                <div id="action">
+                    <a href="<?php echo $config[Editable::FORM_STRUCT][Editable::MODEL_URL]; ?>"
+                       class="button secondary">
+                        <i class="fa fa-arrow-left" aria-hidden="true"></i> Retour
+                    </a>
+                    <form method="post"
+                          action="<?php echo $config[Editable::FORM_STRUCT][Editable::MODEL_URL] . 'delete'; ?>">
+                        <input type="hidden" name="token" value="<?php echo Session::getToken(); ?>">
+                        <input type="hidden" name="id"
+                               value="<?php echo $config[Editable::FORM_STRUCT][Editable::MODEL_ID]; ?>">
+                        <input type="submit" class="button secondary" value="Supprimer"/>
+                    </form>
+                    <a href="<?php echo isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '#undefined'; ?>"
+                       class="button secondary">
+                        Reset
+                    </a>
+                    <a href="#" class="button secondary" id="saveEditBtn">
+                        Sauvegarder et editer
+                    </a>
+                    <a href="#" class="button primary" id="saveBtn">
+                        Sauvegarder
+                    </a>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <form name="model-form"
+              method="<?php echo $config[Editable::FORM_STRUCT]['method']; ?>"
+              action="<?php echo $config[Editable::FORM_STRUCT][Editable::MODEL_URL] . 'save'; ?>"
               class="<?php echo (isset($config[Editable::FORM_STRUCT]['class'])) ? $config[Editable::FORM_STRUCT]['class'] : ''; ?>"
             <?php echo(isset($config[Editable::FORM_STRUCT]['file']) ? 'enctype="multipart/form-data"' : 'text/plain'); ?>
         >
-
-            <?php if (!isset($config[Editable::FORM_STRUCT]['hide_header'])): ?>
-                <div id="menu">
-                    <div id="action">
-                        <a href="<?php echo isset($config[Editable::FORM_STRUCT][Editable::FORM_BACK_URL]) ?
-                            $config[Editable::FORM_STRUCT][Editable::FORM_BACK_URL] :
-                            '#undefined'; ?>"
-                           class="button secondary">
-                            <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
-                        </a>
-                        <a href="#" class="button secondary">
-                            Delete
-                        </a>
-                        <a href="#" class="button secondary">
-                            Reset
-                        </a>
-                        <a href="#" class="button secondary">
-                            Save and Continue Edit
-                        </a>
-                        <input type="submit" class="button primary" value="Save">
-                    </div>
-                </div>
-            <?php endif; ?>
             <input type="hidden" name="token" value="<?php echo Session::getToken(); ?>">
 
             <?php foreach ($config[Editable::FORM_GROUPS] as $group): ?>
@@ -157,10 +163,6 @@
                 <?php endforeach; ?>
             <?php endforeach; ?>
 
-            <!--            <input type="submit"-->
-            <!--                   class="-->
-            <?php //echo isset($config[Editable::FORM_STRUCT]['submit-class']) ? $config[Editable::FORM_STRUCT]['submit-class'] : ''; ?><!--"-->
-            <!--                   value="--><?php //echo $config[Editable::FORM_STRUCT]['submit']; ?><!--">-->
         </form>
     <?php endif; ?>
 </div>
