@@ -207,15 +207,27 @@ if (data !== undefined) {
 
     for (i = 0; i < data.length; i++) {
         var ajax = new Ajax();
+        
         ajax.post(urlValidate, data[i], function (response) {
             response = JSON.parse(response);
             previews[this] = response;
 
             if (previews.length === data.length) {
-                for (var e = 0; e < previews.length; e++) {
-                    setTimeout(function () {
-                        addPreview(previews[this]);
-                    }.bind(e), 100) // TODO ...
+                // Fix asynchrone bug ... Object added in the array but undefined
+                var ready = true;
+                for (var j = 0; j < previews.length; j++) {
+                    if (previews[j] === undefined) {
+                        ready = false;
+                        break;
+                    }
+                }
+
+                if (ready) {
+                    for (var e = 0; e < previews.length; e++) {
+                        setTimeout(function () {
+                            addPreview(previews[this]);
+                        }.bind(e), 100) // TODO ...
+                    }
                 }
             }
         }.bind(i));
