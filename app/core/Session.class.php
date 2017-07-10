@@ -18,11 +18,11 @@ class Session
 
     /**
      * Unset session token from index
-     * @param integer $iToken contains the index of the token
+     * @param integer $index contains the index of the token
      */
-    public static function doneToken($iIndex)
+    public static function removeToken($index)
     {
-        unset($_SESSION['token'][$iIndex]);
+        unset($_SESSION['token'][$index]);
     }
 
     /**

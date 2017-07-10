@@ -224,28 +224,31 @@ body {
   background-color: #F0F0F0;
   border-top: 2px solid #DDD;
   border-bottom: 2px solid #DDD; }
+  #form #menu form {
+    display: inline-block; }
   #form #menu #action {
     float: right;
     height: inherit;
     padding-right: 18px; }
-    #form #menu #action a, #form #menu #action input[type="submit"] {
-      font-weight: bold; }
-      #form #menu #action a.button, #form #menu #action input[type="submit"].button {
-        display: inline-block;
-        height: 45px;
-        line-height: 45px;
-        padding: 0 32px;
+    #form #menu #action a.button, #form #menu #action input[type="submit"].button {
+      display: inline-block;
+      height: 45px;
+      line-height: 45px;
+      padding: 0 32px;
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      background-color: transparent;
+      font-family: 'Raleway', sans-serif;
+      font-size: 16px; }
+      #form #menu #action a.button.primary, #form #menu #action input[type="submit"].button.primary {
+        background-color: #27ae60;
+        color: #fff;
+        border-radius: 5px; }
+      #form #menu #action a.button.secondary, #form #menu #action input[type="submit"].button.secondary {
         color: #000;
-        text-decoration: none;
-        cursor: pointer;
-        border: none; }
-        #form #menu #action a.button.primary, #form #menu #action input[type="submit"].button.primary {
-          background-color: #27ae60;
-          color: #fff;
-          border-radius: 5px; }
-        #form #menu #action a.button.secondary, #form #menu #action input[type="submit"].button.secondary {
-          color: #000;
-          border-radius: 5px; }
+        border-radius: 5px; }
 #form h2 {
   width: 100%;
   padding-bottom: 6px;

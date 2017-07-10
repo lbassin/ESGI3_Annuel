@@ -183,7 +183,7 @@ function addComponentInput(data) {
     input.setAttribute('value', JSON.stringify(data));
     input.setAttribute('name', 'components[' + components.length + ']');
 
-    document.forms[0].appendChild(input);
+    document.forms['model-form'].appendChild(input);
 }
 
 function addPreview(data) {
@@ -207,7 +207,7 @@ if (data !== undefined) {
 
     for (i = 0; i < data.length; i++) {
         var ajax = new Ajax();
-        
+
         ajax.post(urlValidate, data[i], function (response) {
             response = JSON.parse(response);
             previews[this] = response;

@@ -7,10 +7,13 @@ Interface Editable
     const FORM_METHOD = 'method';
     const FORM_ACTION = 'action';
     const FORM_BACK_URL = 'back_url';
+    const FORM_DELETE_URL = 'delete_url';
     const FORM_SUBMIT = 'submit';
     const FORM_FILE = 'file';
     const GROUP_LABEL = 'label';
     const GROUP_FIELDS = 'fields';
+    const MODEL_URL = 'model_url';
+    const MODEL_ID = 'model_id';
 
     public function getFormConfig();
 }
