@@ -67,7 +67,12 @@ function selectTemplate(template) {
 
         ajaxContent.innerHTML = "";
         ajaxContent.appendChild(formConfig);
-        testDev();
+
+        var scripts = formConfig.querySelectorAll('[data-call-script]');
+        for(var e = 0; e < scripts.length; e++){
+            var toCall = scripts[e].getAttribute('data-call-script');
+            window[toCall]();
+        }
     });
 
     validateButtonAdd.setAttribute('data-template-id', template.getAttribute('data-template-id'));

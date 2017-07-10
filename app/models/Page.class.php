@@ -192,7 +192,8 @@ class Page extends BaseSql implements Listable, Editable
                         'preview' => [
                             'type' => 'widget',
                             'id' => 'page/new',
-                            'data' => $this->getComponents()
+                            'data' => $this->getComponents(),
+                            'script' => 'wysiwyg.js'
                         ]
                     ]
                 ]
