@@ -48,12 +48,18 @@ class ArticleControllerBack extends Controller
         return true;
     }
 
+    public function testAction() {
+        $data = array("bonjour");
+
+        echo json_encode($data);
+    }
+
     private function validateNewPage(array $data)
     {
         $page = new Page();
 
-        $validator = new Validator($data, Page::class);
-        $validator->validate($page->getConstraints());
+        //$validator = new Validator($data, Page::class);
+        //$validator->validate($page->getConstraints());
 
         foreach ($data['components'] as $componentData) {
             $componentData = json_decode($componentData, true);

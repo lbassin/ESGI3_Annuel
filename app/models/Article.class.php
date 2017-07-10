@@ -159,7 +159,7 @@ class Article extends BaseSql
                     Editable::GROUP_FIELDS => [
                         'preview' => [
                             'type' => 'widget',
-                            'id' => 'page/new',
+                            'id' => 'article/new',
                             'data' => $this->getComponents()
                         ]
                     ]
