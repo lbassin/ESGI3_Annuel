@@ -67,6 +67,7 @@ function selectTemplate(template) {
 
         ajaxContent.innerHTML = "";
         ajaxContent.appendChild(formConfig);
+        testDev();
     });
 
     validateButtonAdd.setAttribute('data-template-id', template.getAttribute('data-template-id'));

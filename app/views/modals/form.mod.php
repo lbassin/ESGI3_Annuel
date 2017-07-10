@@ -157,6 +157,20 @@
                     </div>
 
                     <?php if ($attributs['type'] == 'widget'): ?>
+                        <?php if($attributs['id'] == 'page/new'): ?>
+                <script>
+                    function testDev(){
+                        var quill = new Quill('#editor', {
+                            modules: {
+                                toolbar: true,
+                                formula: true,
+                                syntax: true
+                            },
+                            theme: 'snow'
+                        });
+                    }
+                </script>
+                        <?php endif; ?>
                         <?php $this->includeWidget($attributs['id'], isset($attributs['data']) ? $attributs['data'] : []); ?>
                     <?php endif; ?>
 
