@@ -24,4 +24,6 @@
             </group>
         </groups>
     </config>
+    <validate>
+    </validate>
 </component>
