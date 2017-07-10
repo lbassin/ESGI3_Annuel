@@ -1,12 +1,4 @@
-function initWysiwygEditor(){
-    var editor = document.querySelector('#editor');
-    var form = getParentByTagName(editor, 'form');
-
-    form.addEventListener('submit', function () {
-        var input = document.querySelector('#editor-input');
-        input.setAttribute('value', JSON.stringify(quill.getContents()));
-    });
-
+function initWysiwygEditor() {
     var toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],
         ['blockquote', 'code-block'],
@@ -30,12 +22,23 @@ function initWysiwygEditor(){
         languages: ['javascript', 'ruby', 'python', 'php']
     });
 
-    var quill = new Quill('#editor', {
-        modules: {
-            toolbar: toolbarOptions,
-            formula: true,
-            syntax: true
-        },
-        theme: 'snow'
-    });
+    var editors = document.querySelectorAll('.wysiwyg-editor');
+    for (var i = 0; i < editors.length; i++) {
+        var quill = new Quill(editors[i], {
+            modules: {
+                toolbar: toolbarOptions,
+                formula: true,
+                syntax: true
+            },
+            theme: 'snow'
+        });
+
+        var input = editors[i].nextElementSibling;
+        quill.on('text-change', function (data, old) {
+            var input = this[0];
+            var quill = this[1]; // I'm sorry ...
+
+            input.setAttribute('value', JSON.stringify(quill.getContents()));
+        }.bind([input, quill]));
+    }
 }

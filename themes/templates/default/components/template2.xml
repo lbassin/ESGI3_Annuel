@@ -17,9 +17,21 @@
         </struct>
         <groups>
             <group>
-                <label>Content</label>
+                <label>Left Column</label>
                 <fields>
-                    <texte type="widget" id="wysiwyg/editor" script="wysiwyg.js"/>
+                    <left type="widget" id="wysiwyg/editor" script="wysiwyg.js"/>
+                </fields>
+            </group>
+            <group>
+                <label>Middle Column</label>
+                <fields>
+                    <middle type="widget" id="wysiwyg/editor" script="wysiwyg.js"/>
+                </fields>
+            </group>
+            <group>
+                <label>Right Column</label>
+                <fields>
+                    <right type="widget" id="wysiwyg/editor" script="wysiwyg.js"/>
                 </fields>
             </group>
         </groups>

@@ -69,9 +69,18 @@ function selectTemplate(template) {
         ajaxContent.appendChild(formConfig);
 
         var scripts = formConfig.querySelectorAll('[data-call-script]');
-        for(var e = 0; e < scripts.length; e++){
+        var called = [];
+        for (var e = 0; e < scripts.length; e++) {
             var toCall = scripts[e].getAttribute('data-call-script');
-            window[toCall]();
+            if (called.indexOf(toCall) === -1) {
+                window[toCall]();
+                called.push(toCall);
+            }
+        }
+
+        var editors = document.querySelectorAll('input[name=editor]');
+        for (var i = 0; i < editors.length; i++) {
+            editors[i].setAttribute('name', editors[i].getAttribute('name') + i.toString());
         }
     });
 
