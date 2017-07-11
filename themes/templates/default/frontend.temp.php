@@ -37,5 +37,6 @@
     <?php endforeach; ?>
 </div>
 
+    <script src="<?php echo Helpers::getAsset('js/wysiwyg.js'); ?>"></script>
 </body>
 </html>
