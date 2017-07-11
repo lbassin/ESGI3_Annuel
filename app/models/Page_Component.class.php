@@ -136,6 +136,8 @@ class Page_Component extends BaseSql
 
                 $fieldConfig['label'] = (string)$attributes['label'];
                 $fieldConfig['type'] = (string)$attributes['type'];
+                $fieldConfig['id'] = (string)$attributes['id'];
+                $fieldConfig['script'] = (string)$attributes['script'];
 
                 $group[Editable::GROUP_FIELDS][$field] = $fieldConfig;
             }

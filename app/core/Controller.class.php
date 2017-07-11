@@ -28,6 +28,7 @@ abstract class Controller implements Controllable
 
     public function newAction()
     {
+        Csrf::generate();
         $view = new View('back', lcfirst($this->className) . '/new', 'admin');
 
         $class = new $this->className;
@@ -36,6 +37,7 @@ abstract class Controller implements Controllable
 
     public function editAction($params = [])
     {
+        Csrf::generate();
         $classId = $params[Routing::PARAMS_URL][0];
         if (!isset($classId)) {
             Session::addError("Missing id");
@@ -78,15 +80,23 @@ abstract class Controller implements Controllable
         $class->save();
 
         Session::addSuccess("Votre " . lcfirst($this->className) . " a bien été enregistré");
-        Helpers::redirect(Helpers::getAdminRoute(lcfirst($this->className) . '/'));
+        if (isset($params[Routing::PARAMS_GET]['redirectToEdit'])) {
+            Helpers::redirect(Helpers::getAdminRoute(lcfirst($this->className) . '/edit/' . $class->getId()));
+        } else {
+            Helpers::redirect(Helpers::getAdminRoute(lcfirst($this->className)));
+        }
     }
 
     public function deleteAction($params = [])
     {
-        $params = explode(',', $params[Routing::PARAMS_GET]['id']);
+        $postData = $params[Routing::PARAMS_POST];
+        $this->check(isset($postData['token']) ? $postData['token'] : '');
+
+        $params = explode(',', $postData['id']);
         foreach ($params as $key => $value) {
             $class = new $this->className();
             $class->setId($value);
+
             try {
                 $class->delete();
             } catch (Exception $ex) {
@@ -94,7 +104,7 @@ abstract class Controller implements Controllable
                 Helpers::redirectBack();
             }
         }
-        Session::addSuccess($this->className . 'successfully deleted');
+        Session::addSuccess($this->className . ' successfully deleted');
         Helpers::redirect(Helpers::getAdminRoute($this->className));
     }
 }

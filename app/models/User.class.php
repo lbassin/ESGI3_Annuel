@@ -203,9 +203,8 @@ class User extends BaseSql implements Listable, Editable
         return [
             Editable::FORM_STRUCT => [
                 Editable::FORM_METHOD => 'post',
-                Editable::FORM_ACTION => Helpers::getAdminRoute('user/save'),
-                Editable::FORM_BACK_URL => Helpers::getAdminRoute('user'),
-                Editable::FORM_SUBMIT => 'Sauvegarder',
+                Editable::MODEL_URL => Helpers::getAdminRoute('user'),
+                Editable::MODEL_ID => $this->getId(),
                 Editable::FORM_FILE => 1
             ],
             Editable::FORM_GROUPS => [

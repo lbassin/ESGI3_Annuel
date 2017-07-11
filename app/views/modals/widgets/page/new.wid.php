@@ -64,7 +64,7 @@
     var urlEditComponent = '<?php echo Helpers::getAdminRoute('component/edit'); ?>';
     var urlComponent = '<?php echo Helpers::getAdminRoute('component/component'); ?>';
     var urlValidate = '<?php echo Helpers::getAdminRoute('component/validate'); ?>';
-    var data = '<?php echo isset($widgetData) ? json_encode($widgetData) : ''; ?>';
+    var data = '<?php echo isset($widgetData) ? addslashes(json_encode($widgetData)) : ''; ?>';
 
     if (JSON.parse(dataSession).length > 0) {
         var data = dataSession;
