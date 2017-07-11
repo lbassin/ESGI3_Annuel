@@ -32,7 +32,7 @@ nav {
   margin: auto;
   font-family: 'Lato', sans-serif; }
   .container .row {
-    min-height: 300px; }
+    margin-bottom: 12px; }
   .container h1 {
     text-align: center;
     font-weight: 500;

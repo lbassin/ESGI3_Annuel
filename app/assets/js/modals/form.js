@@ -88,3 +88,19 @@ function displayErrors(parentDiv, errors) {
     parentDiv.appendChild(ul);
     fadeIn(parentDiv);
 }
+
+function getParentByTagName(node, tagname) {
+    var parent;
+    if (node === null || tagname === '') return;
+    parent  = node.parentNode;
+    tagname = tagname.toUpperCase();
+
+    while (parent.tagName !== "HTML") {
+        if (parent.tagName === tagname) {
+            return parent;
+        }
+        parent = parent.parentNode;
+    }
+
+    return parent;
+}
