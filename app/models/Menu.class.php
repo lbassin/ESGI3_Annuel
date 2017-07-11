@@ -64,6 +64,16 @@ class Menu extends BaseSql implements Editable, Listable
         ];
     }
 
+    public function getSubmenu()
+    {
+        $dataMenu = [];
+        foreach ($this->getAll(['parent_id' => $this->getId()]) as $key => $subMenu) {
+            $dataMenu[$subMenu->getId()]['link'] = $subMenu->getLabel();
+            $dataMenu[$subMenu->getId()]['slug'] = $subMenu->getUrl();
+        }
+        return json_encode($dataMenu);
+    }
+
     public function getFormConfig()
     {
         return [
@@ -91,7 +101,8 @@ class Menu extends BaseSql implements Editable, Listable
                     Editable::GROUP_FIELDS => [
                         'preview' => [
                             'type' => 'widget',
-                            'id' => 'menu/new'
+                            'id' => 'menu/new',
+                            'data' => $this->getSubMenu()
                         ]
                     ]
                 ]

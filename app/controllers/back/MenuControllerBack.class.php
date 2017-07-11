@@ -2,6 +2,17 @@
 
 class MenuControllerBack extends Controller
 {
+    public function newAction()
+    {
+        $menu = new Menu();
+        $menu->setId(1);
+        $params = [
+            'jsonsublink' => $menu->getSubmenu(),
+            'nbSublink' => 1,
+        ];
+        parent::newAction($params);
+    }
+
     public function saveAction($params = [], $multiple = false)
     {
         $params['post'] = [
@@ -31,5 +42,13 @@ class MenuControllerBack extends Controller
                 parent::saveAction([Routing::PARAMS_POST => $subLink], (($count != $key) ? -1 : false));
             }
         }
+    }
+
+    public function getSubMenu($parent_id)
+    {
+        $menu = new Menu();
+        $menu->setId($parent_id);
+        $subMenu = $menu->getSubmenu();
+        return $subMenu;
     }
 }

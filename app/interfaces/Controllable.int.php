@@ -8,7 +8,7 @@ Interface Controllable
 
     public function editAction($params = []);
 
-    public function saveAction($params = [], $multiple = false);
+    public function saveAction($params = []);
 
     public function deleteAction($params = []);
 }
