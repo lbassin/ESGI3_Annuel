@@ -26,12 +26,15 @@ abstract class Controller implements Controllable
         $view->assign('configList', $this->configList);
     }
 
-    public function newAction()
+    public function newAction($params = [])
     {
         $view = new View('back', lcfirst($this->className) . '/new', 'admin');
 
         $class = new $this->className;
         $view->assign(lcfirst($this->className), $class);
+        if (!empty($params)) {
+            $view->assign('params', $params);
+        }
     }
 
     public function editAction($params = [])
