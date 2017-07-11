@@ -28,6 +28,7 @@ abstract class Controller implements Controllable
 
     public function newAction()
     {
+        Csrf::generate();
         $view = new View('back', lcfirst($this->className) . '/new', 'admin');
 
         $class = new $this->className;

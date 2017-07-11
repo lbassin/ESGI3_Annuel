@@ -157,6 +157,10 @@
                     </div>
 
                     <?php if ($attributs['type'] == 'widget'): ?>
+                        <?php if(!empty($attributs['script'])): ?>
+                            <script src="<?php echo Helpers::getAsset('js/modals/widgets/'.$attributs['script']); ?>"></script>
+                        <?php endif; ?>
+
                         <?php $this->includeWidget($attributs['id'], isset($attributs['data']) ? $attributs['data'] : []); ?>
                     <?php endif; ?>
 

@@ -29,7 +29,7 @@ class PageControllerBack extends Controller
             foreach ($data['components'] as $componentData) {
                 $componentData = json_decode($componentData, true);
                 $templateId = $componentData['template_id'];
-                $componentId = $componentData['id'];
+                $componentId = isset($componentData['id']) ? $componentData['id'] : null;
                 unset($componentData['template_id']);
                 unset($componentData['id']);
 
