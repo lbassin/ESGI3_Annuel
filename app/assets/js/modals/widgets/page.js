@@ -51,37 +51,11 @@ function getTemplates() {
 
 function selectTemplate(template) {
     var configTemplate = document.querySelector("#popin-addComponent .popin-content .template-config");
-    var ajaxContent = document.querySelector("#popin-addComponent .popin-content .template-config .ajax-content");
     var gridTemplates = document.querySelector('#popin-addComponent .popin-content .grid-templates');
 
     var ajax = new Ajax();
     ajax.get(urlComponent + template.getAttribute('data-template-id'), function (data) {
-        var formConfig = document.createElement('form');
-        formConfig.setAttribute('name', 'form-add-component');
-        formConfig.innerHTML = data;
-
-        formConfig.addEventListener('submit', function (evt) {
-            evt.preventDefault();
-            validateComponent('add');
-        });
-
-        ajaxContent.innerHTML = "";
-        ajaxContent.appendChild(formConfig);
-
-        var scripts = formConfig.querySelectorAll('[data-call-script]');
-        var called = [];
-        for (var e = 0; e < scripts.length; e++) {
-            var toCall = scripts[e].getAttribute('data-call-script');
-            if (called.indexOf(toCall) === -1) {
-                window[toCall]();
-                called.push(toCall);
-            }
-        }
-
-        var editors = document.querySelectorAll('input[name=editor]');
-        for (var i = 0; i < editors.length; i++) {
-            editors[i].setAttribute('name', editors[i].getAttribute('name') + i.toString());
-        }
+        displayFormConfig(data, 'add', "#popin-addComponent .popin-content .template-config .ajax-content");
     });
 
     validateButtonAdd.setAttribute('data-template-id', template.getAttribute('data-template-id'));
@@ -169,23 +143,12 @@ function editComponent(componentId) {
     if (!currentComponent) {
         return false;
     }
-    var ajaxContent = document.querySelector('#popin-editComponent .ajax-content');
+
     var ajax = new Ajax();
-
     ajax.post(urlEditComponent + currentComponent.template_id, currentComponent, function (data) {
-        var formConfig = document.createElement('form');
-        formConfig.setAttribute('name', 'form-edit-component');
-        formConfig.innerHTML = data;
-
-        formConfig.addEventListener('submit', function (evt) {
-            evt.preventDefault();
-            validateComponent('edit');
-        });
+        displayFormConfig(data, 'edit', '#popin-editComponent .ajax-content');
 
         validateButtonEdit.setAttribute('data-template-id', currentComponent.template_id);
-
-        ajaxContent.innerHTML = "";
-        ajaxContent.appendChild(formConfig);
     });
 
     fadeIn(document.querySelector('#popin-editComponent'));
@@ -246,5 +209,35 @@ if (data !== undefined) {
                 }
             }
         }.bind(i));
+    }
+}
+
+function displayFormConfig(data, action, ajaxContentSelector) {
+    var ajaxContent = document.querySelector(ajaxContentSelector);
+    var formConfig = document.createElement('form');
+    formConfig.setAttribute('name', 'form-' + action + '-component');
+    formConfig.innerHTML = data;
+
+    formConfig.addEventListener('submit', function (evt) {
+        evt.preventDefault();
+        validateComponent(action);
+    });
+
+    ajaxContent.innerHTML = "";
+    ajaxContent.appendChild(formConfig);
+
+    var scripts = formConfig.querySelectorAll('[data-call-script]');
+    var called = [];
+    for (var e = 0; e < scripts.length; e++) {
+        var toCall = scripts[e].getAttribute('data-call-script');
+        if (called.indexOf(toCall) === -1) {
+            window[toCall]();
+            called.push(toCall);
+        }
+    }
+
+    var editors = document.querySelectorAll('input[name=editor]');
+    for (var i = 0; i < editors.length; i++) {
+        editors[i].setAttribute('name', editors[i].getAttribute('name') + i.toString());
     }
 }
