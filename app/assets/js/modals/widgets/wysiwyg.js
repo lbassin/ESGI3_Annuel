@@ -33,11 +33,6 @@ function initWysiwygEditor() {
             theme: 'snow'
         });
 
-        var editorData = editors[i].getAttribute('data-old-value');
-        if (editorData) {
-            quill.setContents(JSON.parse(editorData));
-        }
-
         var input = editors[i].nextElementSibling;
         quill.on('text-change', function (data, old) {
             var input = this[0];
@@ -45,5 +40,10 @@ function initWysiwygEditor() {
 
             input.setAttribute('value', JSON.stringify(quill.getContents()));
         }.bind([input, quill]));
+
+        var editorData = editors[i].getAttribute('data-old-value');
+        if (editorData) {
+            quill.setContents(JSON.parse(editorData));
+        }
     }
 }
