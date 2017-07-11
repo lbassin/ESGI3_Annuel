@@ -24,6 +24,7 @@ class PageControllerFront
 
     private function generateComponent($data)
     {
+        Helpers::debug($data);
         ob_start();
         include 'themes/templates/default/components/template1.php';
         $render = ob_get_clean();

@@ -239,5 +239,6 @@ function displayFormConfig(data, action, ajaxContentSelector) {
     var editors = document.querySelectorAll('input[name=editor]');
     for (var i = 0; i < editors.length; i++) {
         editors[i].setAttribute('name', editors[i].getAttribute('name') + i.toString());
+        console.log(editors[i]);
     }
 }
