@@ -108,7 +108,7 @@ class Article extends BaseSql implements Editable, Listable
             ],
             Editable::FORM_GROUPS => [
                 [
-                    Editable::GROUP_LABEL => 'Content',
+                    Editable::GROUP_LABEL => 'Choix du template',
                     Editable::GROUP_FIELDS => [
                         'preview' => [
                             'type' => 'widget',
@@ -179,5 +179,32 @@ class Article extends BaseSql implements Editable, Listable
         }
 
         return $listData;
+    }
+
+    public function getTemplates()
+    {
+        $templates = [];
+        $directoryPath = 'themes/templates/default/articles/'; // TODO : Change to getCurrentThemeDirectory();
+        $directory = opendir($directoryPath);
+
+        while ($file = readdir($directory)) {
+            if ($file == '.' || $file == '..' || pathinfo($file)['extension'] != 'xml') {
+                continue;
+            }
+
+            $templatePath = $directoryPath . $file;
+            $xml = new Xml($templatePath);
+            if (!$xml->open()) {
+                continue;
+            }
+
+            $templates[] = [
+                Page::TEMPLATE_ID => $xml->getNode('header/id', true),
+                Page::TEMPLATE_NAME => $xml->getNode('header/name', true),
+                Page::TEMPLATE_PREVIEW => $xml->getNode('header/example', true)
+            ];
+        }
+
+        return $templates;
     }
 }
