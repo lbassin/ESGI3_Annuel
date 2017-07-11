@@ -96,28 +96,11 @@ class Article extends BaseSql
         $this->id_user = $id_user;
     }
 
-    public function getComponents()
-    {
-        $component = new Page_Component();
-        $components = $component->getAll(['page_id' => $this->getId()]);
-
-        $data = [];
-        /** @var Page_Component $component */
-        foreach ($components as $component) {
-            $componentData = $component->getConfig();
-            $componentData['template_id'] = $component->getTemplateId();
-            $data[] = $componentData;
-        }
-
-        return $data;
-    }
-
     public function getFormConfig()
     {
         return [
             Editable::FORM_STRUCT => [
                 Editable::FORM_METHOD => 'post',
-                Editable::FORM_ACTION => Helpers::getAdminRoute('article/save'),
                 Editable::FORM_BACK_URL => Helpers::getAdminRoute('article'),
                 Editable::FORM_SUBMIT => 'Save'
             ],
