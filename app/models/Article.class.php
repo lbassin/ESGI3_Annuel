@@ -1,6 +1,6 @@
 <?php
 
-class Article extends BaseSql
+class Article extends BaseSql implements Editable, Listable
 {
     protected $id;
     protected $title;
@@ -11,7 +11,8 @@ class Article extends BaseSql
     protected $id_user;
     protected $id_survey;
 
-    public function __construct() {
+    public function __construct()
+    {
 
         parent::__construct();
     }
@@ -101,49 +102,18 @@ class Article extends BaseSql
         return [
             Editable::FORM_STRUCT => [
                 Editable::FORM_METHOD => 'post',
-                Editable::FORM_BACK_URL => Helpers::getAdminRoute('article'),
+                Editable::MODEL_URL => Helpers::getAdminRoute('article'),
+                Editable::MODEL_ID => $this->getId(),
                 Editable::FORM_SUBMIT => 'Save'
             ],
             Editable::FORM_GROUPS => [
-                [
-                    Editable::GROUP_LABEL => 'Article Optimisation',
-                    Editable::GROUP_FIELDS => [
-                        'id' => [
-                            'type' => 'hidden',
-                            'value' => $this->getId()
-                        ],
-                        'title' => [
-                            'type' => 'text',
-                            'label' => 'Title',
-                            'required' => 1,
-                            'value' => $this->getTitle()
-                        ],
-                        'url' => [
-                            'type' => 'text',
-                            'label' => 'URL',
-                            'required' => 1,
-                            'value' => $this->getUrl()
-                        ],
-                        'content' => [
-                            'type' => 'textarea',
-                            'label' => 'Contenue de l\'article :',
-                            'class' => 'one-col',
-                            'value' => $this->getContent()
-                        ],
-                        'publish' => [
-                            'type' => 'checkbox',
-                            'label' => 'Publié',
-                            'value' => $this->getPublish()
-                        ]
-                    ]
-                ],
                 [
                     Editable::GROUP_LABEL => 'Content',
                     Editable::GROUP_FIELDS => [
                         'preview' => [
                             'type' => 'widget',
                             'id' => 'article/new',
-                            'data' => $this->getComponents()
+                            'data' => ''
                         ]
                     ]
                 ]
@@ -151,7 +121,8 @@ class Article extends BaseSql
         ];
     }
 
-    public function getListConfig() {
+    public function getListConfig()
+    {
         return [
             'struct' => [
                 'title' => 'Articles',
@@ -169,7 +140,8 @@ class Article extends BaseSql
         ];
     }
 
-    public function getListData() {
+    public function getListData()
+    {
         $articles = $this->getAll();
 
         $listData = [];
