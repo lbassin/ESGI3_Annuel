@@ -328,6 +328,8 @@ body {
         position: absolute; }
         #form .widget.page_new .right div:hover {
           background-color: rgba(172, 172, 172, 0.6); }
+  #form .widget.article_new #template-grid img {
+    padding: 6px; }
 #form .popin-container {
   transition: 0.75s ease-in-out; }
   #form .popin-container .popin-overlay {

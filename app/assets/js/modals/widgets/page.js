@@ -225,20 +225,5 @@ function displayFormConfig(data, action, ajaxContentSelector) {
 
     ajaxContent.innerHTML = "";
     ajaxContent.appendChild(formConfig);
-
-    var scripts = formConfig.querySelectorAll('[data-call-script]');
-    var called = [];
-    for (var e = 0; e < scripts.length; e++) {
-        var toCall = scripts[e].getAttribute('data-call-script');
-        if (called.indexOf(toCall) === -1) {
-            window[toCall]();
-            called.push(toCall);
-        }
-    }
-
-    var editors = document.querySelectorAll('input[name=editor]');
-    for (var i = 0; i < editors.length; i++) {
-        editors[i].setAttribute('name', editors[i].getAttribute('name') + i.toString());
-        console.log(editors[i]);
-    }
+    refreshFormElements(formConfig);
 }

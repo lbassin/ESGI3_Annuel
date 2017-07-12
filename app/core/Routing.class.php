@@ -41,16 +41,15 @@ class Routing
             }
 
             $this->handleAdmin();
-
-            $this->setController();
-            $this->setAction();
-            $this->setParams();
-
-            $this->runRoute();
         } else {
             $this->handleFront();
-            $this->runRoute();
         }
+
+        $this->setController();
+        $this->setAction();
+        $this->setParams();
+
+        $this->runRoute();
     }
 
     private function setGetData($data)
@@ -91,16 +90,6 @@ class Routing
     public function handleFront()
     {
         $this->controllerArea = 'front';
-
-        $this->controllerName = 'PageControllerFront';
-        $this->actionName = 'indexAction';
-
-        $url = implode('/', $this->uriExploded);
-        if (empty($url)) {
-            $url = '/';
-        }
-
-        $this->params = ['url' => $url];
     }
 
     public function setController()
@@ -112,11 +101,23 @@ class Routing
         $controller = (empty($requested)) ? "Index" : ucfirst($requested);
         $this->controllerName = $controller . "Controller" . ucfirst($this->controllerArea);
 
-        unset($this->uriExploded[0]);
+        if ($this->controllerArea == 'front') {
+            if (!file_exists("app/controllers/" . $this->controllerArea . '/' . $this->controllerName . ".class.php")) {
+                $this->controllerName = 'PageControllerFront';
+            }
+        } else {
+            unset($this->uriExploded[0]);
+        }
+
     }
 
     public function setAction()
     {
+        if ($this->controllerArea == 'front') {
+            $this->actionName = 'indexAction';
+            return false;
+        }
+
         if (isset($this->uriExploded[1])) {
             $requested = $this->uriExploded[1];
         }
