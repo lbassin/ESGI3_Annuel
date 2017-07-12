@@ -71,7 +71,7 @@ class Menu extends BaseSql implements Editable, Listable
             $dataMenu[$subMenu->getId()]['label'] = $subMenu->getLabel();
             $dataMenu[$subMenu->getId()]['url'] = $subMenu->getUrl();
         }
-        return json_encode($dataMenu);
+        return $dataMenu;
     }
 
     public function getFormConfig()
@@ -109,7 +109,7 @@ class Menu extends BaseSql implements Editable, Listable
                         'preview' => [
                             'type' => 'widget',
                             'id' => 'menu/new',
-                            'data' => $this->getSubMenu()
+                            'data' => json_encode($this->getSubMenu())
                         ]
                     ]
                 ]

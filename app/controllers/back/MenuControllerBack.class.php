@@ -6,6 +6,31 @@ class MenuControllerBack extends Controller
     {
         $idParent = parent::saveAction([Routing::PARAMS_POST => $params[Routing::PARAMS_POST]], true);
 
+        $menu = new Menu();
+        $menu->populate(['id' => $idParent]);
+
+        $childrenIds = [];
+        foreach ($params[Routing::PARAMS_POST]['child'] as $child) {
+            if (empty($child['id'])) {
+                continue;
+            }
+            $childrenIds[] = $child['id'];
+        }
+
+        foreach (array_keys($menu->getSubmenu()) as $childId) {
+            if (in_array($childId, $childrenIds)) {
+                continue;
+            }
+            $child = new Menu();
+            $child->setId($childId);
+
+            try {
+                $child->delete();
+            } catch (Exception $ex) {
+                Session::addError($ex->getMessage());
+                Helpers::redirectBack();
+            }
+        }
 
         if (!empty($params[Routing::PARAMS_POST]['child'])) {
             $count = count($params[Routing::PARAMS_POST]['child']) - 1;

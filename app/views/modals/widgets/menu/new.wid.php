@@ -6,10 +6,11 @@
             <label for="input-url-">Lien</label>
             <input type="text" class="input-url" id="input-url-">
             <input type="hidden" class="input-id">
+            <div class="remove-sublink button"><i class="fa fa-remove" aria-hidden="true"></i>&nbsp;Supprimer</div>
         </div>
     </div>
     <div id="dropdown-config"></div>
-    <div id="add-sublink"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Ajout sous menu</div>
+    <div class="button" id="add-sublink"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;Ajout sous menu</div>
 </div>
 
 <script>

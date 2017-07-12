@@ -334,14 +334,14 @@ body {
     width: auto; }
   #form .widget.menu_new input {
     margin-right: 24px; }
-  #form .widget.menu_new #add-sublink {
+  #form .widget.menu_new .button {
     display: inline-block;
     padding: 6px;
     border: 1px solid #212121;
     border-radius: 5px;
     cursor: pointer;
     transition: 0.25s ease-in-out; }
-    #form .widget.menu_new #add-sublink:hover {
+    #form .widget.menu_new .button:hover {
       background-color: rgba(172, 172, 172, 0.6); }
 #form .popin-container {
   transition: 0.75s ease-in-out; }

@@ -61,7 +61,6 @@ abstract class Controller implements Controllable
 
     public function saveAction($params = [], $multiple = false)
     {
-        Helpers::debug($params);
         $class = new $this->className();
         $postData = $params[Routing::PARAMS_POST];
         if ($multiple == true && $multiple != -1) {

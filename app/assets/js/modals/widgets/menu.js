@@ -7,6 +7,7 @@ if (addButton) {
     });
 }
 
+
 if (data) {
     data = JSON.parse(data);
     for (var id in data) {
@@ -19,6 +20,8 @@ if (data) {
         addNewSublink(label, url, id);
     }
 }
+initRemoveBtns();
+
 
 function addNewSublink(label, url, id) {
     var input = document.querySelector('#field-line-example').querySelector('div').cloneNode(true);
@@ -51,4 +54,15 @@ function addNewSublink(label, url, id) {
 
     childCount += 1;
     document.querySelector('#dropdown-config').appendChild(input);
+}
+
+function initRemoveBtns() {
+    var removeButtons = document.querySelectorAll('.remove-sublink');
+    if (removeButtons) {
+        for (var i = 0; i < removeButtons.length; i++) {
+            removeButtons[i].addEventListener('click', function () {
+                this.parentNode.remove();
+            })
+        }
+    }
 }
