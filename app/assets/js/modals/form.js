@@ -1,5 +1,20 @@
 var i;
 
+var saveBtn = document.querySelector('#saveBtn');
+if (saveBtn) {
+    saveBtn.addEventListener('click', function () {
+        document.forms['model-form'].submit();
+    })
+}
+
+var saveEditBtn = document.querySelector('#saveEditBtn');
+if (saveEditBtn) {
+    saveEditBtn.addEventListener('click', function () {
+        document.forms['model-form'].action += '?redirectToEdit=1';
+        document.forms['model-form'].submit();
+    })
+}
+
 var actionPopin = document.getElementsByClassName('action-popin');
 for (i = 0; i < actionPopin.length; i++) {
     actionPopin[i].addEventListener('click', function () {
@@ -72,4 +87,37 @@ function displayErrors(parentDiv, errors) {
     parentDiv.innerHTML = '';
     parentDiv.appendChild(ul);
     fadeIn(parentDiv);
+}
+
+function getParentByTagName(node, tagname) {
+    var parent;
+    if (node === null || tagname === '') return;
+    parent = node.parentNode;
+    tagname = tagname.toUpperCase();
+
+    while (parent.tagName !== "HTML") {
+        if (parent.tagName === tagname) {
+            return parent;
+        }
+        parent = parent.parentNode;
+    }
+
+    return parent;
+}
+
+function refreshFormElements(form) {
+    var scripts = form.querySelectorAll('[data-call-script]');
+    var called = [];
+    for (var e = 0; e < scripts.length; e++) {
+        var toCall = scripts[e].getAttribute('data-call-script');
+        if (called.indexOf(toCall) === -1) {
+            window[toCall]();
+            called.push(toCall);
+        }
+    }
+
+    var editors = document.querySelectorAll('input[name=editor]');
+    for (var i = 0; i < editors.length; i++) {
+        editors[i].setAttribute('name', editors[i].getAttribute('name') + i.toString());
+    }
 }

@@ -10,13 +10,16 @@
     border-top: 2px solid #DDD;
     border-bottom: 2px solid #DDD;
 
+    form{
+      display: inline-block
+    }
+
     #action {
       float: right;
       height: inherit;
       padding-right: 18px;
 
       a, input[type="submit"] {
-        font-weight: bold;
 
         &.button {
           display: inline-block;
@@ -27,6 +30,9 @@
           text-decoration: none;
           cursor: pointer;
           border: none;
+          background-color: transparent;
+          font-family: 'Raleway', sans-serif;
+          font-size: 16px;
 
           &.primary {
             background-color: #27ae60;
@@ -161,6 +167,14 @@
 
       }
 
+    }
+
+    &.article_new{
+      #template-grid{
+        img{
+          padding: 6px;
+        }
+      }
     }
   }
 

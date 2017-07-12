@@ -6,7 +6,7 @@ class PageControllerFront
     public function indexAction($params)
     {
         $page = new Page();
-        $page->populate(['url' => $params['url']]);
+        $page->populate(['url' => $params[Routing::PARAMS_URL][0]]);
 
         if ($page->getId() === null) {
             Helpers::error404();
@@ -24,8 +24,13 @@ class PageControllerFront
 
     private function generateComponent($data)
     {
+        if (!isset($data['template_id'])) {
+            return false;
+        }
+        $templateId = $data['template_id'];
+
         ob_start();
-        include 'themes/templates/default/components/template1.php';
+        include 'themes/templates/default/components/template' . $templateId . '.php';
         $render = ob_get_clean();
 
         return $render;

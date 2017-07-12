@@ -81,8 +81,9 @@ class ComponentControllerBack
         }
     }
 
-    public function editAction($params){
-        if(empty($params[Routing::PARAMS_POST])){
+    public function editAction($params)
+    {
+        if (empty($params[Routing::PARAMS_POST])) {
             return json_encode(['error' => true]); // TODO
         }
 

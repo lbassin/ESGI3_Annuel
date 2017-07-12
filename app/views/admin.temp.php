@@ -7,9 +7,20 @@
     <link rel="stylesheet" type="text/css" href="<?php echo Helpers::getAsset('css/admin.css'); ?>">
     <link rel="stylesheet" type="text/css"
           href="<?php echo Helpers::getAsset('font-awesome/css/font-awesome.min.css'); ?>">
-    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-
+    <link href="//fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <script src="<?php echo Helpers::getAsset('js/Ajax.js'); ?>"></script>
+
+
+    <!-- Quill JS -->
+    <link href="//cdn.quilljs.com/1.2.6/quill.snow.css" rel="stylesheet">
+    <link href="//cdn.quilljs.com/1.2.6/quill.bubble.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/dracula.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script src="//cdn.quilljs.com/1.2.6/quill.js"></script>
+    <!-- -->
+
 </head>
 <body>
 <div class="wrapper">
