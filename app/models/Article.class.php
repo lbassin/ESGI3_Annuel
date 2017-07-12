@@ -4,10 +4,11 @@ class Article extends BaseSql implements Editable, Listable
 {
     protected $id;
     protected $title;
+    protected $description;
     protected $content;
     protected $url;
     protected $publish;
-    protected $visibility;
+    protected $template_id;
     protected $id_user;
     protected $id_survey;
 
@@ -35,6 +36,16 @@ class Article extends BaseSql implements Editable, Listable
     public function setTitle($title)
     {
         $this->title = $title;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    public function setDescription($description)
+    {
+        $this->title = $description;
     }
 
     public function getContent()
@@ -67,14 +78,14 @@ class Article extends BaseSql implements Editable, Listable
         $this->publish = $publish;
     }
 
-    public function getVisibility()
+    public function getTemplateId()
     {
-        return $this->visibility;
+        return $this->template_id;
     }
 
-    public function setVisibility($visibility)
+    public function setTemplateId($templateId)
     {
-        $this->visibility = $visibility;
+        $this->template_id = $templateId;
     }
 
     public function getIdUser()
@@ -113,7 +124,8 @@ class Article extends BaseSql implements Editable, Listable
                         'preview' => [
                             'type' => 'widget',
                             'id' => 'article/new',
-                            'data' => ''
+                            'data' => '',
+                            'script' => 'wysiwyg.js'
                         ]
                     ]
                 ]
@@ -206,5 +218,18 @@ class Article extends BaseSql implements Editable, Listable
         }
 
         return $templates;
+    }
+
+    public function getTemplateFormConfig($templateId = null)
+    {
+        if (!$templateId) {
+            $templateId = $this->template_id;
+        }
+
+        $filePath = 'themes/templates/default/articles/template' . $templateId . '.xml';
+        $xml = new Xml($filePath);
+        $config = $xml->xmlFormConfigToArray();
+
+        return $config;
     }
 }

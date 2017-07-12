@@ -11,9 +11,21 @@ class ArticleControllerBack extends Controller
         echo json_encode($templates);
     }
 
-    public function formAction()
+    public function formAction($params)
     {
-        echo json_encode(['todo']);
+        if (!isset($params[Routing::PARAMS_URL][0])) {
+            echo json_encode(['error' => true]);
+            die;
+        }
+        $id = $params[Routing::PARAMS_URL][0];
+
+        $article = new Article();
+        $article->setTemplateId($id);
+
+        $config = $article->getTemplateFormConfig();
+
+        $view = new View('back', 'ajax/index', 'ajax');
+        $view->includeModal('form', $config);
     }
 
 }

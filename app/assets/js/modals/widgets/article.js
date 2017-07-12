@@ -1,5 +1,6 @@
 getTemplates();
 
+// Get preview of availables template
 function getTemplates() {
     var ajax = new Ajax();
     ajax.get(urlTemplates, function (data) {
@@ -19,11 +20,25 @@ function getTemplates() {
     })
 }
 
+// Clic on a template preview
 function selectTemplate() {
     var ajax = new Ajax();
 
     ajax.get(formTemplate + this.getAttribute('data-template-id'), function (data) {
-        console.log(data);
-    //     displayFormConfig(data, 'add', "#popin-addComponent .popin-content .template-config .ajax-content");
+        var formConfig = document.createElement('div');
+        formConfig.setAttribute('id', 'template-config');
+        formConfig.innerHTML = data;
+
+        var templateConfig = document.forms['model-form'].querySelector('#template-config');
+        if (templateConfig) {
+            if (confirm('Etes vous sur de vouloir changer de template ?\nCette action supprimare définitivement les données non sauvegardées')) {
+                document.forms['model-form'].removeChild(templateConfig);
+                document.forms['model-form'].appendChild(formConfig);
+                refreshFormElements(formConfig);
+            }
+        } else {
+            document.forms['model-form'].appendChild(formConfig);
+            refreshFormElements(formConfig);
+        }
     })
 }
