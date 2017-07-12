@@ -1,17 +1,19 @@
 <?php
 
-class Article extends BaseSql
+class Article extends BaseSql implements Editable, Listable
 {
     protected $id;
     protected $title;
+    protected $description;
     protected $content;
     protected $url;
     protected $publish;
-    protected $visibility;
+    protected $template_id;
     protected $id_user;
     protected $id_survey;
 
-    public function __construct() {
+    public function __construct()
+    {
 
         parent::__construct();
     }
@@ -34,6 +36,16 @@ class Article extends BaseSql
     public function setTitle($title)
     {
         $this->title = $title;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    public function setDescription($description)
+    {
+        $this->title = $description;
     }
 
     public function getContent()
@@ -66,14 +78,14 @@ class Article extends BaseSql
         $this->publish = $publish;
     }
 
-    public function getVisibility()
+    public function getTemplateId()
     {
-        return $this->visibility;
+        return $this->template_id;
     }
 
-    public function setVisibility($visibility)
+    public function setTemplateId($templateId)
     {
-        $this->visibility = $visibility;
+        $this->template_id = $templateId;
     }
 
     public function getIdUser()
@@ -96,78 +108,33 @@ class Article extends BaseSql
         $this->id_user = $id_user;
     }
 
-    public function validate(array $data) {
-        $title = $data['title'];
-        $content = $data['content'];
-        $url = $data['url'];
-
-        if (empty($title)) {
-            Session::addError("Veillez indiquer un titre a votre article");
-        } else if (strlen($title) > 255) {
-            Session::addError("Le titre est trop long");
-        }
-
-        if (empty($content)) {
-            Session::addError("Veillez indiquer un contenue a votre article");
-        }
-
-        if (empty($url)) {
-            Session::addError("Veillez indiquer une url a votre article");
-        } elseif (strlen($url) > 255) {
-            Session::addError("L'url est trop long");
-        }
-    }
-
     public function getFormConfig()
     {
         return [
-            'struct' => [
-                'method' => 'post',
-                'action' => Helpers::getAdminRoute('article/save'),
-                'class' => '',
-                'submit' => 'Sauvegarder votre article'
+            Editable::FORM_STRUCT => [
+                Editable::FORM_METHOD => 'post',
+                Editable::MODEL_URL => Helpers::getAdminRoute('article'),
+                Editable::MODEL_ID => $this->getId(),
+                Editable::FORM_SUBMIT => 'Save'
             ],
-            'groups' => [
+            Editable::FORM_GROUPS => [
                 [
-                    'label' => 'Article',
-                    'fields' => [
-                        'title' => [
-                            'type' => 'text',
-                            'label' => 'Titre de l\'article :',
-                            'class' => 'two-col'
-                        ],
-                        'content' => [
-                            'type' => 'textarea',
-                            'label' => 'Contenue de l\'article :',
-                            'class' => 'one-col'
-                        ],
-                        'url' => [
-                            'type' => 'text',
-                            'label' => 'Url :',
-                            'class' => 'one-col'
+                    Editable::GROUP_LABEL => 'Choix du template',
+                    Editable::GROUP_FIELDS => [
+                        'preview' => [
+                            'type' => 'widget',
+                            'id' => 'article/new',
+                            'data' => '',
+                            'script' => 'wysiwyg.js'
                         ]
                     ]
-                ],
-                [
-                    'label' => 'Configuration',
-                    'fields' => [
-                        'publish' => [
-                            'type' => 'checkbox',
-                            'label' => 'Publié :',
-                            'class' => 'one-col'
-                        ],
-                        'visibility' => [
-                            'type' => 'checkbox',
-                            'label' => 'Visibilité :',
-                            'class' => 'one-col'
-                        ]
-                    ]
-                ],
+                ]
             ]
         ];
     }
 
-    public function getListConfig() {
+    public function getListConfig()
+    {
         return [
             'struct' => [
                 'title' => 'Articles',
@@ -185,7 +152,8 @@ class Article extends BaseSql
         ];
     }
 
-    public function getListData() {
+    public function getListData()
+    {
         $articles = $this->getAll();
 
         $listData = [];
@@ -223,5 +191,45 @@ class Article extends BaseSql
         }
 
         return $listData;
+    }
+
+    public function getTemplates()
+    {
+        $templates = [];
+        $directoryPath = 'themes/templates/default/articles/'; // TODO : Change to getCurrentThemeDirectory();
+        $directory = opendir($directoryPath);
+
+        while ($file = readdir($directory)) {
+            if ($file == '.' || $file == '..' || pathinfo($file)['extension'] != 'xml') {
+                continue;
+            }
+
+            $templatePath = $directoryPath . $file;
+            $xml = new Xml($templatePath);
+            if (!$xml->open()) {
+                continue;
+            }
+
+            $templates[] = [
+                Page::TEMPLATE_ID => $xml->getNode('header/id', true),
+                Page::TEMPLATE_NAME => $xml->getNode('header/name', true),
+                Page::TEMPLATE_PREVIEW => $xml->getNode('header/example', true)
+            ];
+        }
+
+        return $templates;
+    }
+
+    public function getTemplateFormConfig($templateId = null)
+    {
+        if (!$templateId) {
+            $templateId = $this->template_id;
+        }
+
+        $filePath = 'themes/templates/default/articles/template' . $templateId . '.xml';
+        $xml = new Xml($filePath);
+        $config = $xml->xmlFormConfigToArray();
+
+        return $config;
     }
 }

@@ -168,6 +168,14 @@
       }
 
     }
+
+    &.article_new{
+      #template-grid{
+        img{
+          padding: 6px;
+        }
+      }
+    }
   }
 
   .popin-container {
