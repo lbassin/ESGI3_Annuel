@@ -2,36 +2,19 @@
 
 class MenuControllerBack extends Controller
 {
-    public function newAction($params = [])
-    {
-        $menu = new Menu();
-        $menu->setId(1);
-
-        $params = [
-            'jsonsublink' => $menu->getSubmenu(),
-            'nbSublink' => 1,
-        ];
-        parent::newAction($params);
-    }
-
     public function saveAction($params = [], $multiple = false)
     {
-//            'child' => [
-//                0 => [
-//                    'label' => 'test1',
-//                    'url'   => 'test1'
-//                ],
-//                1 => [
-//                    'label' => 'test2',
-//                    'url'   => 'test2'
-//                ],
-        $idParent = parent::saveAction([Routing::PARAMS_POST => $params[Routing::PARAMS_POST]['parent']], true);
+        $idParent = parent::saveAction([Routing::PARAMS_POST => $params[Routing::PARAMS_POST]], true);
+
 
         if (!empty($params[Routing::PARAMS_POST]['child'])) {
-            $count = count($params[Routing::PARAMS_POST]['child']) -1;
+            $count = count($params[Routing::PARAMS_POST]['child']) - 1;
             foreach ($params[Routing::PARAMS_POST]['child'] as $key => $subLink) {
                 $subLink['parent_id'] = $idParent;
-                parent::saveAction([Routing::PARAMS_POST => $subLink], (($count != $key) ? -1 : false));
+                parent::saveAction([
+                    Routing::PARAMS_POST => $subLink,
+                    Routing::PARAMS_GET => $params[Routing::PARAMS_GET]
+                ], ($count != $key));
             }
         }
     }

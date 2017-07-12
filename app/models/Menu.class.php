@@ -1,4 +1,5 @@
 <?php
+
 class Menu extends BaseSql implements Editable, Listable
 {
     protected $id;
@@ -59,7 +60,6 @@ class Menu extends BaseSql implements Editable, Listable
             ],
             'url' => [
                 'required' => true,
-                'unique' => true,
             ],
         ];
     }
@@ -68,8 +68,8 @@ class Menu extends BaseSql implements Editable, Listable
     {
         $dataMenu = [];
         foreach ($this->getAll(['parent_id' => $this->getId()]) as $key => $subMenu) {
-            $dataMenu[$subMenu->getId()]['link'] = $subMenu->getLabel();
-            $dataMenu[$subMenu->getId()]['slug'] = $subMenu->getUrl();
+            $dataMenu[$subMenu->getId()]['label'] = $subMenu->getLabel();
+            $dataMenu[$subMenu->getId()]['url'] = $subMenu->getUrl();
         }
         return json_encode($dataMenu);
     }
@@ -87,13 +87,19 @@ class Menu extends BaseSql implements Editable, Listable
                 [
                     Editable::GROUP_LABEL => 'Parent menu',
                     Editable::GROUP_FIELDS => [
+                        'id' => [
+                            'type' => 'hidden',
+                            'value' => $this->getId()
+                        ],
                         'label' => [
                             'type' => 'text',
-                            'label' => 'Label'
+                            'label' => 'Label',
+                            'value' => $this->getLabel()
                         ],
                         'url' => [
                             'type' => 'text',
-                            'label' => 'URL'
+                            'label' => 'URL',
+                            'value' => $this->getUrl()
                         ]
                     ]
                 ],
@@ -103,7 +109,7 @@ class Menu extends BaseSql implements Editable, Listable
                         'preview' => [
                             'type' => 'widget',
                             'id' => 'menu/new',
-                            'data' => '', //$this->getSubMenu()
+                            'data' => $this->getSubMenu()
                         ]
                     ]
                 ]

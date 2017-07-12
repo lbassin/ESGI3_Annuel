@@ -59,12 +59,15 @@ abstract class Controller implements Controllable
         $view->assign(lcfirst($this->className), $class);
     }
 
-    public function saveAction($params = [], $multiple = false) {
+    public function saveAction($params = [], $multiple = false)
+    {
+        Helpers::debug($params);
         $class = new $this->className();
         $postData = $params[Routing::PARAMS_POST];
         if ($multiple == true && $multiple != -1) {
             $this->check((isset($postData['token'])) ? $postData['token'] : '');
         }
+
         $validator = new Validator($postData, $this->className);
         $validator->validate($class->validate());
 
@@ -85,7 +88,7 @@ abstract class Controller implements Controllable
         if (!$multiple) {
             Session::addSuccess("Votre " . lcfirst($this->className) . " a bien été enregistré");
             if (isset($params[Routing::PARAMS_GET]['redirectToEdit'])) {
-                Helpers::redirect(Helpers::getAdminRoute(lcfirst($this->className) . '/edit/' . $class->getId()));
+                Helpers::redirectBack();
             } else {
                 Helpers::redirect(Helpers::getAdminRoute(lcfirst($this->className)));
             }
