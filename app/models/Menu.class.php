@@ -79,7 +79,8 @@ class Menu extends BaseSql implements Editable, Listable
         return [
             Editable::FORM_STRUCT => [
                 Editable::FORM_METHOD => 'post',
-                Editable::FORM_ACTION => Helpers::getAdminRoute('menu/save'),
+                Editable::MODEL_URL => Helpers::getAdminRoute('menu'),
+                Editable::MODEL_ID => $this->getId(),
                 Editable::FORM_SUBMIT => 'Save'
             ],
             Editable::FORM_GROUPS => [
@@ -88,7 +89,7 @@ class Menu extends BaseSql implements Editable, Listable
                     Editable::GROUP_FIELDS => [
                         'label' => [
                             'type' => 'text',
-                            'label' => 'Link'
+                            'label' => 'Label'
                         ],
                         'url' => [
                             'type' => 'text',
@@ -102,7 +103,7 @@ class Menu extends BaseSql implements Editable, Listable
                         'preview' => [
                             'type' => 'widget',
                             'id' => 'menu/new',
-                            'data' => $this->getSubMenu()
+                            'data' => '', //$this->getSubMenu()
                         ]
                     ]
                 ]

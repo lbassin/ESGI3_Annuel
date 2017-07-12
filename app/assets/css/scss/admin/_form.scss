@@ -10,7 +10,7 @@
     border-top: 2px solid #DDD;
     border-bottom: 2px solid #DDD;
 
-    form{
+    form {
       display: inline-block
     }
 
@@ -65,19 +65,19 @@
       text-align: right;
       margin-right: 1%;
 
-      &.required:after{
+      &.required:after {
         content: "*";
         color: red;
         font-size: 180%;
         vertical-align: middle;
       }
 
-      &.vertical-align{
+      &.vertical-align {
         vertical-align: top;
       }
     }
 
-    label.vertical-align{
+    label.vertical-align {
 
     }
 
@@ -102,7 +102,7 @@
       display: flex;
 
       .left {
-        width: 0%;
+        width: 0;
         float: left;
         text-align: right;
         padding: 0 12px;
@@ -169,10 +169,32 @@
 
     }
 
-    &.article_new{
-      #template-grid{
-        img{
+    &.article_new {
+      #template-grid {
+        img {
           padding: 6px;
+        }
+      }
+    }
+
+    &.menu_new {
+      label {
+        width: auto;
+      }
+      input {
+        margin-right: 24px;
+      }
+      #add-sublink {
+        display: inline-block;
+
+        padding: 6px;
+        border: 1px solid #212121;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.25s ease-in-out;
+
+        &:hover {
+          background-color: rgba(172, 172, 172, 0.6);
         }
       }
     }
