@@ -6,7 +6,7 @@ class PageControllerFront
     public function indexAction($params)
     {
         $page = new Page();
-        $page->populate(['url' => $params['url']]);
+        $page->populate(['url' => $params[Routing::PARAMS_URL][0]]);
 
         if ($page->getId() === null) {
             Helpers::error404();
