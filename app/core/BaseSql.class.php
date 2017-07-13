@@ -209,4 +209,8 @@ class BaseSql
     {
         return $this->foreignValues;
     }
+
+    public function validate(array $data){
+        return [];
+    }
 }

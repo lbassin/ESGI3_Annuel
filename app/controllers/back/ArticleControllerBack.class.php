@@ -28,4 +28,24 @@ class ArticleControllerBack extends Controller
         $view->includeModal('form', $config);
     }
 
+    public function saveAction($params = [])
+    {
+        $postData = $params[Routing::PARAMS_POST];
+
+        $content = [];
+        foreach ($postData as $key => $value) {
+            if (in_array($key, ['token', 'title', 'description', 'url', 'publish', 'templateId'])) {
+                continue;
+            }
+
+            $content[$key] = $value;
+            unset($postData[$key]);
+        }
+        $postData['content'] = serialize($content);
+        $postData['idUser'] = Session::getUserId();
+
+        $params[Routing::PARAMS_POST] = $postData;
+        parent::saveAction($params);
+    }
+
 }

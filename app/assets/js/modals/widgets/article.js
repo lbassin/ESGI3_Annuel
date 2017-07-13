@@ -20,7 +20,7 @@ function getTemplates() {
     })
 }
 
-// Clic on a template preview
+// Click on a template preview
 function selectTemplate() {
     var ajax = new Ajax();
 
@@ -28,6 +28,17 @@ function selectTemplate() {
         var formConfig = document.createElement('div');
         formConfig.setAttribute('id', 'template-config');
         formConfig.innerHTML = data;
+
+        var formTag = formConfig.querySelector('form');
+        if (formTag) {
+            formConfig.innerHTML = formTag.innerHTML;
+        }
+
+        var templateIdInput = document.createElement('input');
+        templateIdInput.setAttribute('type', 'hidden');
+        templateIdInput.setAttribute('name', 'templateId');
+        templateIdInput.setAttribute('value', this.getAttribute('data-template-id'));
+        formConfig.appendChild(templateIdInput);
 
         var templateConfig = document.forms['model-form'].querySelector('#template-config');
         if (templateConfig) {
@@ -40,5 +51,5 @@ function selectTemplate() {
             document.forms['model-form'].appendChild(formConfig);
             refreshFormElements(formConfig);
         }
-    })
+    }.bind(this))
 }

@@ -45,7 +45,7 @@ class Article extends BaseSql implements Editable, Listable
 
     public function setDescription($description)
     {
-        $this->title = $description;
+        $this->description = $description;
     }
 
     public function getContent()
@@ -137,9 +137,10 @@ class Article extends BaseSql implements Editable, Listable
     {
         return [
             'struct' => [
-                'title' => 'Articles',
-                'newLink' => Helpers::getAdminRoute('article/new'),
-                'header' => [
+                Listable::LIST_TITLE => 'Articles',
+                Listable::LIST_NEW_LINK => Helpers::getAdminRoute('article/new'),
+                Listable::LIST_EDIT_LINK => Helpers::getAdminRoute('article/edit'),
+                Listable::LIST_HEADER => [
                     '',
                     'ID',
                     'Title',
@@ -148,7 +149,7 @@ class Article extends BaseSql implements Editable, Listable
                     'Action'
                 ]
             ],
-            'rows' => $this->getListData()
+            Listable::LIST_ROWS => $this->getListData()
         ];
     }
 

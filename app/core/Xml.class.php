@@ -97,6 +97,7 @@ class Xml
                 $fieldConfig['type'] = (string)$attributes['type'];
                 $fieldConfig['id'] = (string)$attributes['id'];
                 $fieldConfig['script'] = (string)$attributes['script'];
+                $fieldConfig['value'] = (string)$attributes['value'];
 
                 $group[Editable::GROUP_FIELDS][$field] = $fieldConfig;
             }
