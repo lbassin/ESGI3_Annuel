@@ -80,7 +80,7 @@
                                    name="<?php echo $name; ?>"
                                    value="1"
                                    id="<?php echo "input-" . $name; ?>"
-                                <?php echo ($attributs['value'] == true || Session::getFormData($name)) ? 'checked="checked"' : ''; ?>
+                                <?php echo (($attributs['value'] && $attributs['value'] == true) || Session::getFormData($name)) ? 'checked="checked"' : ''; ?>
                             >
                         <?php endif; ?>
 

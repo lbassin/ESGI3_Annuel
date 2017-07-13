@@ -100,6 +100,7 @@ class Page extends BaseSql implements Listable, Editable
                     '',
                     'ID',
                     'Title',
+                    'Url',
                     'Publié',
                     'Action'
                 ]
@@ -128,6 +129,10 @@ class Page extends BaseSql implements Listable, Editable
                 [
                     'type' => 'text',
                     'value' => $page->getTitle()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $page->getUrl()
                 ],
                 [
                     'type' => 'text',

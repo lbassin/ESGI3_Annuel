@@ -4,7 +4,7 @@ class Helpers
 {
     public static function debug($data)
     {
-        if($data === false || $data === null){
+        if ($data === false || $data === null) {
             echo '<pre>';
             var_dump($data);
             echo '</pre>';
@@ -20,13 +20,14 @@ class Helpers
         return BASE_PATH . 'app/assets/' . $path;
     }
 
-    public static function getThemeAsset($path){
+    public static function getThemeAsset($path)
+    {
         return '/themes/templates/default/assets/' . $path; // TODO : Change default by current theme
     }
 
     public static function getMedia($path)
     {
-        return BASE_PATH . FILE_UPLOAD_PATH . $path;
+        return BASE_PATH . $path;
     }
 
     public static function getAdminRoute($path)
@@ -69,7 +70,8 @@ class Helpers
         die($message);
     }
 
-    public static function error404(){
+    public static function error404()
+    {
         $errorManager = new ErrorController();
         $errorManager->error404();
         die;

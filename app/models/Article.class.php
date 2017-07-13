@@ -14,6 +14,9 @@ class Article extends BaseSql implements Editable, Listable
 
     public function __construct()
     {
+        $this->defaultValues = [
+            'publish' => 0
+        ];
 
         parent::__construct();
     }
@@ -45,12 +48,12 @@ class Article extends BaseSql implements Editable, Listable
 
     public function setDescription($description)
     {
-        $this->title = $description;
+        $this->description = $description;
     }
 
     public function getContent()
     {
-        return $this->content;
+        return unserialize($this->content);
     }
 
     public function setContent($content)
@@ -121,6 +124,10 @@ class Article extends BaseSql implements Editable, Listable
                 [
                     Editable::GROUP_LABEL => 'Choix du template',
                     Editable::GROUP_FIELDS => [
+                        'id' => [
+                            'type' => 'hidden',
+                            'value' => $this->getId()
+                        ],
                         'preview' => [
                             'type' => 'widget',
                             'id' => 'article/new',
@@ -137,18 +144,19 @@ class Article extends BaseSql implements Editable, Listable
     {
         return [
             'struct' => [
-                'title' => 'Articles',
-                'newLink' => Helpers::getAdminRoute('article/new'),
-                'header' => [
+                Listable::LIST_TITLE => 'Articles',
+                Listable::LIST_NEW_LINK => Helpers::getAdminRoute('article/new'),
+                Listable::LIST_EDIT_LINK => Helpers::getAdminRoute('article/edit'),
+                Listable::LIST_HEADER => [
                     '',
                     'ID',
                     'Title',
-                    'Content',
                     'Url',
+                    'Publié',
                     'Action'
                 ]
             ],
-            'rows' => $this->getListData()
+            Listable::LIST_ROWS => $this->getListData()
         ];
     }
 
@@ -175,11 +183,11 @@ class Article extends BaseSql implements Editable, Listable
                 ],
                 [
                     'type' => 'text',
-                    'value' => $article->getContent()
+                    'value' => $article->getUrl()
                 ],
                 [
                     'type' => 'text',
-                    'value' => $article->getUrl()
+                    'value' => $article->getPublish() ? 'Oui' : 'Non'
                 ],
                 [
                     'type' => 'action',

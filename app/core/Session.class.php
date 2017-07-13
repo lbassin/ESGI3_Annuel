@@ -127,4 +127,8 @@ class Session
         }
         return (isset($_SESSION['form'][$name]) ? $_SESSION['form'][$name] : '');
     }
+
+    public static function getUserId(){
+        return isset($_SESSION['id']) ? $_SESSION['id'] : null;
+    }
 }
