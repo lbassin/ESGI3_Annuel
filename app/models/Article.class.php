@@ -14,6 +14,9 @@ class Article extends BaseSql implements Editable, Listable
 
     public function __construct()
     {
+        $this->defaultValues = [
+            'publish' => 0
+        ];
 
         parent::__construct();
     }
@@ -148,8 +151,8 @@ class Article extends BaseSql implements Editable, Listable
                     '',
                     'ID',
                     'Title',
-                    'Content',
                     'Url',
+                    'Publié',
                     'Action'
                 ]
             ],
@@ -180,11 +183,11 @@ class Article extends BaseSql implements Editable, Listable
                 ],
                 [
                     'type' => 'text',
-                    'value' => json_encode($article->getContent())
+                    'value' => $article->getUrl()
                 ],
                 [
                     'type' => 'text',
-                    'value' => $article->getUrl()
+                    'value' => $article->getPublish() ? 'Oui' : 'Non'
                 ],
                 [
                     'type' => 'action',
