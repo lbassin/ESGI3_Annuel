@@ -115,7 +115,9 @@ function refreshFormElements(form) {
             called.push(toCall);
         }
     }
+}
 
+function initWysiwygInput(){
     var editors = document.querySelectorAll('input[name=editor]');
     for (var i = 0; i < editors.length; i++) {
         editors[i].setAttribute('name', editors[i].getAttribute('name') + i.toString());

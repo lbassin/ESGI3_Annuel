@@ -50,7 +50,7 @@ class Article extends BaseSql implements Editable, Listable
 
     public function getContent()
     {
-        return $this->content;
+        return unserialize($this->content);
     }
 
     public function setContent($content)
@@ -121,6 +121,10 @@ class Article extends BaseSql implements Editable, Listable
                 [
                     Editable::GROUP_LABEL => 'Choix du template',
                     Editable::GROUP_FIELDS => [
+                        'id' => [
+                            'type' => 'hidden',
+                            'value' => $this->getId()
+                        ],
                         'preview' => [
                             'type' => 'widget',
                             'id' => 'article/new',
@@ -176,7 +180,7 @@ class Article extends BaseSql implements Editable, Listable
                 ],
                 [
                     'type' => 'text',
-                    'value' => $article->getContent()
+                    'value' => json_encode($article->getContent())
                 ],
                 [
                     'type' => 'text',

@@ -20,7 +20,20 @@ class ArticleControllerBack extends Controller
         $id = $params[Routing::PARAMS_URL][0];
 
         $article = new Article();
+        if (isset($params[Routing::PARAMS_URL][1])) {
+            $article->populate(['id' => $params[Routing::PARAMS_URL][1]]);
+        }
         $article->setTemplateId($id);
+
+        $data = [
+            'title' => $article->getTitle(),
+            'description' => $article->getDescription(),
+            'url' => $article->getUrl(),
+            'publish' => $article->getPublish(),
+            'content' => json_encode($article->getContent())
+        ];
+
+        Session::setFormData($data);
 
         $config = $article->getTemplateFormConfig();
 
@@ -34,7 +47,7 @@ class ArticleControllerBack extends Controller
 
         $content = [];
         foreach ($postData as $key => $value) {
-            if (in_array($key, ['token', 'title', 'description', 'url', 'publish', 'templateId'])) {
+            if (in_array($key, ['id', 'token', 'title', 'description', 'url', 'publish', 'templateId'])) {
                 continue;
             }
 

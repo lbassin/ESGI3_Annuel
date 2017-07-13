@@ -4,3 +4,5 @@
 if (isset($article)) {
     $this->includeModal('form', $article->getFormConfig());
 }
+?>
+
