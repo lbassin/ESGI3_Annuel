@@ -1,4 +1,5 @@
 <?php
+
 class Media extends BaseSql implements Listable, Editable
 {
     protected $id;
@@ -89,7 +90,7 @@ class Media extends BaseSql implements Listable, Editable
         }
     }
 
-    public function diplay()
+    public function display()
     {
         if ($this->type == 'image') {
             $link = Helpers::getMedia($this->path);
@@ -170,13 +171,13 @@ class Media extends BaseSql implements Listable, Editable
     public function upload(array $file)
     {
         if (!file_exists(FILE_UPLOAD_PATH)) {
-            if(!mkdir(FILE_UPLOAD_PATH)) {
+            if (!mkdir(FILE_UPLOAD_PATH)) {
                 Session::addError('Création du fichier d\'upload impossible, vérifiez les droits !');
             }
         }
 
-		$filePath = FILE_UPLOAD_PATH.'/'.uniqid().".".strtolower($this->getExensionFromFile($file['image']['name']));
-        if(!move_uploaded_file($file['image']['tmp_name'], $filePath)) {
+        $filePath = FILE_UPLOAD_PATH . '/' . uniqid() . "." . strtolower($this->getExensionFromFile($file['image']['name']));
+        if (!move_uploaded_file($file['image']['tmp_name'], $filePath)) {
             Session::addError('Une erreur est intervenu dans le dossier de destination');
         }
         return $filePath;
@@ -216,7 +217,8 @@ class Media extends BaseSql implements Listable, Editable
         return [
             Editable::FORM_STRUCT => [
                 Editable::FORM_METHOD => 'post',
-                Editable::FORM_ACTION => Helpers::getAdminRoute('media/save'),
+                Editable::MODEL_URL => Helpers::getAdminRoute('media'),
+                Editable::MODEL_ID => $this->getId(),
                 Editable::FORM_SUBMIT => 'Sauvegarder',
                 Editable::FORM_FILE => 1
             ],

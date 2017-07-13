@@ -273,7 +273,7 @@ class User extends BaseSql implements Listable, Editable
         ];
     }
 
-    public function validate()
+    public function validate(array $data)
     {
         return [
             'pseudo' => [
