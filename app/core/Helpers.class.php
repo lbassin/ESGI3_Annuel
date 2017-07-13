@@ -74,4 +74,15 @@ class Helpers
         $errorManager->error404();
         die;
     }
+
+    public static function renameValuePlural($string) {
+        $transformers = [
+            'y' => 'ies',
+        ];
+        if (array_key_exists(substr($string, -1), $transformers)) {
+            return (substr($string, 0, -1) . $transformers[substr($string, -1)]);
+        } else {
+            return $string.'s';
+        }
+    }
 }

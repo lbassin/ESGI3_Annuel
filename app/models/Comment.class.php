@@ -1,89 +1,19 @@
 <?php
-class Comment extends BaseSql implements Listable, Editable
+class Comment extends Sql implements Listable, Editable
 {
     protected $id;
     protected $content;
     protected $article;
     protected $user;
 
-    public function __construct()
+    public function __construct($data = '')
     {
-        $this->foreignValues[] = 'article';
-        $this->foreignValues[] = 'user';
+        $this->foreignKey(['article', 'user']);
 
-        parent::__construct();
+        parent::__construct($data);
     }
 
-    public function getId()
-    {
-        return $this->id;
-    }
 
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function getContent()
-    {
-        return $this->content;
-    }
-
-    public function setContent($content)
-    {
-        $this->content = $content;
-    }
-
-    public function getArticle()
-    {
-        if (!isset($this->article)) {
-            if (!isset($this->id_article)) {
-                return new Article;
-            }
-
-            $article = new Article;
-            $article->populate(['id' => $this->id_article]);
-            return $article;
-        }
-        return $this->article;
-    }
-
-    public function setArticle($article)
-    {
-        if ($article instanceof Article) {
-            $this->article = $article;
-        } else {
-            $newArticle = new Article();
-            $newArticle->populate(['id' => intval($article)]);
-
-            $this->article = $newArticle;
-        }
-    }
-
-    public function getUser()
-    {
-        if (!isset($this->user)) {
-            if (!isset($this->id_user)) {
-                return new User;
-            }
-
-            $user = new User;
-            $user->populate(['id' => $this->id_user]);
-            return $user;
-        }
-        return $this->user;
-    }
-
-    public function setUser($user)
-    {
-        if ($user instanceof User) {
-            $this->user = $user;
-        } else {
-            $newUser = new User();
-            $newUser->populate(['id' => intval($user)]);
-            $this->user = $newUser;
-        }
-    }
 
     public function getListConfig()
     {
