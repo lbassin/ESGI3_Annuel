@@ -21,7 +21,6 @@ abstract class Controller implements Controllable
         $this->configList['page'] = isset($params[Routing::PARAMS_GET]['page']) ? $params[Routing::PARAMS_GET]['page'] : 1;
         $this->configList['availableSize'] = [10, 20, 50];
         $this->configList['count'] = $class->countAll();
-        
         $view->assign(lcfirst($this->className), $class);
         $view->assign('configList', $this->configList);
     }
@@ -89,14 +88,12 @@ abstract class Controller implements Controllable
     {
         $postData = $params[Routing::PARAMS_POST];
         $this->check(isset($postData['token']) ? $postData['token'] : '');
-
         $params = explode(',', $postData['id']);
-        foreach ($params as $key => $value) {
+        foreach ($params as $key => $id) {
             $class = new $this->className();
-            $class->setId($value);
 
             try {
-                $class->delete();
+                $class->delete(['id' => $id]);
             } catch (Exception $ex) {
                 Session::addError($ex->getMessage());
                 Helpers::redirectBack();

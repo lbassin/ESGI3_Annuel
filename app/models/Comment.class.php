@@ -3,17 +3,13 @@ class Comment extends Sql implements Listable, Editable
 {
     protected $id;
     protected $content;
-    protected $article;
-    protected $user;
 
     public function __construct($data = '')
     {
-        $this->foreignKey(['article', 'user']);
+        $this->belongsTo(['article', 'user']);
 
         parent::__construct($data);
     }
-
-
 
     public function getListConfig()
     {
@@ -42,6 +38,8 @@ class Comment extends Sql implements Listable, Editable
         $listData = [];
 
         foreach ($comments as $comment) {
+            $comment->getUser();
+            $comment->getArticle();
             $commentData = [
                 [
                     'type' => 'checkbox',
@@ -49,23 +47,23 @@ class Comment extends Sql implements Listable, Editable
                 ],
                 [
                     'type' => 'text',
-                    'value' => $comment->getId()
+                    'value' => $comment->id()
                 ],
                 [
                     'type' => 'text',
-                    'value' => $comment->getContent()
+                    'value' => $comment->content()
                 ],
                 [
                     'type' => 'text',
-                    'value' => $comment->getArticle()->getTitle()
+                    'value' => $comment->article()->title()
                 ],
                 [
                     'type' => 'text',
-                    'value' => $comment->getUser()->getFirstName() . ' ' . $comment->getUser()->getLastName()
+                    'value' => $comment->user()->firstname() . ' ' . $comment->user()->lastname()
                 ],
                 [
                     'type' => 'action',
-                    'id' => $comment->getId()
+                    'id' => $comment->id()
                 ]
             ];
 
@@ -75,11 +73,15 @@ class Comment extends Sql implements Listable, Editable
         return $listData;
     }
 
-    public function validate(array $data)
+    public function validate()
     {
-        // TODO
-
-        return [];
+        return [
+            'content' => [
+                'required' => true,
+                'min' => 1,
+                'max' => 255,
+            ]
+        ];
     }
 
     public function getFormConfig()
@@ -87,9 +89,9 @@ class Comment extends Sql implements Listable, Editable
         return [
             Editable::FORM_STRUCT => [
                 Editable::FORM_METHOD => 'post',
-                Editable::FORM_ACTION => Helpers::getAdminRoute('comment/save'),
-                Editable::FORM_SUBMIT => 'Sauvegarder',
-                Editable::FORM_FILE => 1
+                Editable::MODEL_URL => Helpers::getAdminRoute('comment'),
+                Editable::MODEL_ID => $this->id(),
+                Editable::FORM_SUBMIT => 'Save'
             ],
             Editable::FORM_GROUPS => [
                 [
@@ -97,21 +99,21 @@ class Comment extends Sql implements Listable, Editable
                     Editable::GROUP_FIELDS => [
                         'id' => [
                             'type' => 'hidden',
-                            'value' => $this->getId()
+                            'value' => $this->id()
                         ],
                         'content' => [
                             'type' => 'text',
                             'label' => 'Content :',
                             'class' => 'two-col',
-                            'value' => $this->getContent()
+                            'value' => $this->content()
                         ],
                         'article' => [
                             'type' => 'hidden',
-                            'value' => $this->getArticle()->getId()
+                            'value' => ($this->article() != null) ? $this->article()->id() : ''
                         ],
                         'user' => [
                             'type' => 'hidden',
-                            'value' => $this->getUser()->getId()
+                            'value' => ($this->user() != null) ? $this->user()->id() : ''
                         ]
                     ]
                 ]

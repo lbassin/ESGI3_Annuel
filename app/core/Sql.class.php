@@ -129,7 +129,7 @@ class Sql extends Model
         $this->query = $this->pdo->prepare($queryString);
     }
 
-    public function delete(array $conditionQuery)
+    public function delete(array $conditionQuery = [])
     {
         $this->where($conditionQuery);
         $this->query = $this->pdo->prepare('DELETE FROM ' . $this->table . $this->condition);

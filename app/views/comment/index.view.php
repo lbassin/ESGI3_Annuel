@@ -1,3 +1,3 @@
-<?php if (isset($comment)): ?>
-    <?php $this->includeModal('list', $comment->getListConfig(), $configList); ?>
-<?php endif; ?>
+<?php if (isset($comment)):
+    $this->includeModal('list', $comment->getListConfig(), $configList);
+endif; ?>

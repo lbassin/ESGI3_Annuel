@@ -1,6 +1,6 @@
 <?php
 
-class Article extends BaseSql implements Editable, Listable
+class Article extends Sql implements Editable, Listable
 {
     protected $id;
     protected $title;
@@ -12,100 +12,11 @@ class Article extends BaseSql implements Editable, Listable
     protected $id_user;
     protected $id_survey;
 
-    public function __construct()
+    public function __construct($data = '')
     {
+        $this->ManyMany(['category']);
 
-        parent::__construct();
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    public function setTitle($title)
-    {
-        $this->title = $title;
-    }
-
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    public function setDescription($description)
-    {
-        $this->title = $description;
-    }
-
-    public function getContent()
-    {
-        return $this->content;
-    }
-
-    public function setContent($content)
-    {
-        $this->content = $content;
-    }
-
-    public function getUrl()
-    {
-        return $this->url;
-    }
-
-    public function setUrl($url)
-    {
-        $this->url = $url;
-    }
-
-    public function getPublish()
-    {
-        return $this->publish;
-    }
-
-    public function setPublish($publish)
-    {
-        $this->publish = $publish;
-    }
-
-    public function getTemplateId()
-    {
-        return $this->template_id;
-    }
-
-    public function setTemplateId($templateId)
-    {
-        $this->template_id = $templateId;
-    }
-
-    public function getIdUser()
-    {
-        return $this->id_user;
-    }
-
-    public function setIdUser($id_user)
-    {
-        $this->id_user = $id_user;
-    }
-
-    public function getIdSurvey()
-    {
-        return $this->id_user;
-    }
-
-    public function setIdSurvey($id_user)
-    {
-        $this->id_user = $id_user;
+        parent::__construct($data);
     }
 
     public function getFormConfig()
