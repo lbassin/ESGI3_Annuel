@@ -22,7 +22,25 @@ class Sql extends Model
         parent::__construct($data);
     }
 
-    public function querySet($table){
+    protected function queryBelongsTo($table){
+        $id = self::PREFIX_FOREIGN.$table;
+        $class = new $table();
+        $class->populate(['id' => $this->$id()]);
+        $this->$table = $class;
+        unset($this->$id);
+    }
+
+    protected function queryHasMany($table){
+        $destinationTable = Helpers::renameValuePlural($table);
+        $id = self::PREFIX_FOREIGN.$this->table;
+        $class = new $table();
+        $listItem = $class->getAll([$id => $this->id]);
+        foreach ($listItem as $item) {
+            $this->$destinationTable[] = $item;
+        }
+    }
+
+    protected function queryManyMany($table){
         $destinationTable = Helpers::renameValuePlural($table);
         $array = [$this->table, ucfirst($table)];
         sort($array);
@@ -46,31 +64,16 @@ class Sql extends Model
         return $this->query->fetch(PDO::FETCH_ASSOC)['count'];
     }
 
-    public function getAll(array $condition = [])
+    public function getAll(array $condition = [], array $limitQuery = [], array $orderQuery = [])
     {
         $this->where($condition);
-        $this->query = $this->pdo->prepare('SELECT * FROM ' . $this->table . $this->condition);
+        $this->limitate($limitQuery);
+        $this->ordonate($orderQuery);
+        $this->query = $this->pdo->prepare('SELECT * FROM ' . $this->table . $this->condition . $this->order . $this->limit);
         $this->query->execute($this->data);
         $this->query->setFetchMode(PDO::FETCH_CLASS, ucfirst($this->table));
         $listObject = $this->query->fetchAll();
-        foreach ($listObject as $key => $currentObject) {
-            if (!empty($currentObject->foreignValues) && $currentObject->foreignValues != 'user') {
-                foreach ($currentObject->foreignValues  as $foreignValue) {
-                    $currentObject->$foreignValue($this->getForeignKey($currentObject, $foreignValue));
-                }
-            }
-        }
         return $listObject;
-    }
-
-    private function getForeignKey($object, $foreignValue)
-    {
-        $className = ucfirst($foreignValue);
-        $class = new $className();
-        $champId = self::PREFIX_FOREIGN . $foreignValue;
-        $id = $object->$champId;
-        $class->populate([self::ID => $id]);
-        return $class;
     }
 
     public function populate(array $condition = [])
@@ -79,19 +82,23 @@ class Sql extends Model
         $this->query = $this->pdo->prepare('SELECT * FROM ' . $this->table . $this->condition);
         $this->query->execute($this->data);
         $data = $this->query->fetch(PDO::FETCH_ASSOC);
-        $this->toClass($data);
+        if ($data) {
+            $this->toClass($data);
+        }
     }
 
     public function save()
     {
         $this->data = $this->toArray();
         if (empty($this->id)) {
+            unset($this->data[self::ID]);
             $this->insert();
         } else {
             $this->update();
         }
         try {
             $this->query->execute($this->data);
+
             return ($this->pdo->lastInsertId() != null) ? (int) $this->pdo->lastInsertId() : null;
         } catch (Exception $ex) {
             echo $ex->getMessage();
@@ -140,14 +147,14 @@ class Sql extends Model
         }
     }
 
-    private function setLimit(array $limitQuery = [])
+    private function limitate(array $limitQuery = [])
     {
         if (!empty($limitQuery)) {
             $this->limit = ' LIMIT ' . (isset($limitQuery['limit']) ? $limitQuery['limit'] : self::DEFAULT_LIMIT) . ' OFFSET ' . (isset($limitQuery['offset']) ? $limitQuery['offset'] : self::DEFAULT_OFFSET);
         }
     }
 
-    private function setOrder(array $orderQuery = [])
+    private function ordonate(array $orderQuery = [])
     {
         if (!empty($orderQuery)) {
             $orderString = ' ORDER BY ';

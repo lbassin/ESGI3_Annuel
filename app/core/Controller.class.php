@@ -49,7 +49,7 @@ abstract class Controller implements Controllable
         $class = new $this->className();
         $class->populate(["id" => $classId]);
 
-        if ($class->getId() == null) {
+        if ($class->id() == null) {
             Session::addError($this->className . ' ' . $classId . ' not found');
             Helpers::redirectBack();
         }
@@ -58,8 +58,13 @@ abstract class Controller implements Controllable
 
     public function saveAction($params = [])
     {
-        $class = new $this->className();
+
         $postData = $params[Routing::PARAMS_POST];
+        $class = new $this->className($postData);
+        foreach ($class->getBelongsTo() as $table) {
+            $class->$table = new $table(['id' => $postData[$table]]);
+        }
+
         $this->check((isset($postData['token'])) ? $postData['token'] : '');
 
         $validator = new Validator($postData, $this->className);
@@ -68,13 +73,6 @@ abstract class Controller implements Controllable
         if (count(Session::getErrors()) > 0) {
             Session::setFormData($postData);
             Helpers::redirectBack();
-        }
-
-        $class->fill($postData);
-
-        foreach ($class->getForeignValues() as $table) {
-            $setterName = 'set' . ucfirst($table);
-            $class->$setterName($postData[$table]);
         }
 
         $class->save();

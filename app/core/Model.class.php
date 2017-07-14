@@ -3,8 +3,10 @@
 abstract class Model
 {
     const PREFIX_FOREIGN = 'id_';
-    protected $foreignValues = [];
+    const ID = 'id';
+    protected $belongsTo = [];
     protected $hasMany = [];
+    protected $manyMany = [];
 
     function __construct($aData = '')
     {
@@ -21,34 +23,38 @@ abstract class Model
     public function __call($method,$arguments)
     {
         $array_attributes = get_object_vars($this);
-
         if(array_key_exists($method, $array_attributes)) {
             if(!empty($arguments)) {
-                if (substr($method, 0, 3) != 'id_') {
-                    $this->$method = $arguments[0];
-                } else {
-                    $className = substr($method, 3);
-                    $this->$method = new $className($arguments[0]);
-                }
+                $this->$method = $arguments[0];
             }  else {
                 return $this->$method;
             }
-        } elseif (substr($method, 0, 3) == 'get' && in_array($table = lcfirst(substr($method, 3)), $this->hasMany)){
-            $this->querySet($table);
+        } elseif (substr($method, 0, 3) == 'get'){
+            $table = lcfirst(substr($method, 3));
+            if (in_array($table, $this->hasMany)) {
+                $this->queryHasMany($table);
+            } elseif (in_array($table, $this->belongsTo)) {
+                $this->queryBelongsTo($table);
+            } elseif (in_array($table, $this->manyMany)) {
+                $this->queryManyMany($table);
+            }
         }
     }
 
     public function toArray()
     {
         $array = get_object_vars($this);
-        if (isset($array['foreignValues'])) {
-            foreach ($array['foreignValues'] as $foreignValue) {
-                $getter = 'get'.ucfirst($foreignValue);
-                $array[self::PREFIX_FOREIGN.$foreignValue] = (int) $this->$getter()->getId();
-                unset($array[$foreignValue]);
+        if (isset($array['belongsTo'])) {
+            foreach ($array['belongsTo'] as $table) {
+                if (is_object($array[$table])) {
+                    $array[self::PREFIX_FOREIGN.$table] = (int) $array[$table]->id();
+                    unset($array[$table]);
+                }
             }
-            unset($array['foreignValues']);
         }
+        unset($array['belongsTo']);
+        unset($array['hasMany']);
+        unset($array['manyMany']);
         return $array;
     }
 
@@ -59,13 +65,18 @@ abstract class Model
         }
     }
 
-    public function foreignKey(array $foreign = [])
+    public function belongsTo(array $tables = [])
     {
-        if (!empty($foreign)) {
-            foreach ($foreign as $currentForeign) {
-                $this->foreignValues[] = $currentForeign;
+        if (!empty($tables)) {
+            foreach ($tables as $currentTable) {
+                $this->belongsTo[] = $currentTable;
             }
         }
+    }
+
+    public function getBelongsTo()
+    {
+        return $this->belongsTo;
     }
 
     public function hasMany(array $tables = [])
@@ -77,20 +88,12 @@ abstract class Model
         }
     }
 
-    /*
-     * public function __call($method,$arguments){
-		$array_attributes = get_object_vars($this);
-		if(array_key_exists($method,$array_attributes)){
-			if(!empty($arguments)){
-				$this->$method = $arguments[0];
-			}else{
-				return $this->$method;
-			}
-		}
-	}
-
-	static function __callStatic($method, $arguments){
-		/return QuerySetEngine::querySet(strtolower(get_called_class()), (substr($method, 0, 3) == 'get')? strtolower(substr($method, 3)) : NULLL, $arguments[0]);
-	}
-     * */
+    public function ManyMany(array $tables = [])
+    {
+        if (!empty($tables)) {
+            foreach ($tables as $currentTable) {
+                $this->manyMany[] = $currentTable;
+            }
+        }
+    }
 }
