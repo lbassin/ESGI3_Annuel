@@ -122,3 +122,49 @@ img {
     flex: 1;
   }
 }
+
+@media only screen and (max-width: 1000px) {
+
+  .cases {
+    margin: 0 auto;
+
+    .case {
+      float: none !important;
+      margin: 30px auto !important;
+      width: 80% !important;
+    }
+  }
+  .bottom-container {
+    width: 100%;
+
+    flex-wrap: wrap;
+    flex-direction: column;
+
+    padding: 0 !important;
+
+    border-top: 1px solid rgba(0,0,0,.1);
+
+    text-align: center;
+
+    .bottom-image {
+      width: 100%;
+      margin: 0 15px 15px!important;
+      padding: 0 !important;
+
+      flex-basis: 100%;
+      flex: auto;
+    }
+
+    .bottom-content {
+      margin: 0 15px 15px!important;
+      max-width: 700px;
+
+      flex-basis: 100%;
+      flex: auto;
+    }
+  }
+
+  .middle-image {
+    margin: 80px 10px !important;
+  }
+}
