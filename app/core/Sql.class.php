@@ -42,16 +42,17 @@ class Sql extends Model
 
     protected function queryManyMany($table){
         $destinationTable = Helpers::renameValuePlural($table);
-        $array = [$this->table, ucfirst($table)];
+        $array = [ucfirst($this->table), ucfirst($table)];
         sort($array);
         $joinTable = implode('_', $array);
         $classJoin = new $joinTable([self::PREFIX_FOREIGN.$this->table => $this->id]);
 
         $tmpStock = $classJoin->getAll([self::PREFIX_FOREIGN.$this->table => $this->id]);
+
         foreach ($tmpStock as $tmp) {
             $id = self::PREFIX_FOREIGN.$table;
-            $class = new $table([self::ID => $tmp->$id]);
-            $class->populate();
+            $class = new $table();
+            $class->populate([self::ID => $tmp->$id]);
             $this->$destinationTable[] = $class;
         }
     }
