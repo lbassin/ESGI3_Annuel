@@ -1,0 +1,111 @@
+$with_text: 400px;
+$margin-top: 80px;
+
+body {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+.container {
+  width: 100%;
+}
+
+.top-container {
+  width: 100%;
+  height: 800px;
+  background-image: url('https://statamic.com/img/mountain.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: bottom;
+
+  .top-content-container {
+    width: 80%;
+    padding-top: 100px;
+    margin: 0 auto;
+
+  }
+
+  .top-title, .top-content {
+    text-align: center;
+    margin:0 auto;
+    padding-bottom: 30px;
+    max-width: $with_text;
+  }
+}
+
+.container-cases {
+  text-align: center;
+  margin-top: $margin-top;
+
+  .cases {
+    display: inline-block;
+  }
+
+  .case {
+    margin: 0 15px;
+    float: left;
+    width: 300px;
+    border: 1px solid #eee;
+    border-radius: 3px;
+
+    a {
+      margin: 20px 0;
+    }
+
+    .case-avatar img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+    }
+  }
+}
+
+
+.middle-container {
+  background: url('https://assets.statamic.com/img/bg-topo.jpg') repeat-x;
+  margin-top: $margin-top;
+
+  .middle-title {
+    padding-top: 80px;
+    text-align: center;
+  }
+
+  .middle-content {
+    margin: 0 auto;
+    max-width: $with_text;
+    text-align: center;
+  }
+
+  .middle-image {
+    margin: 80px 0;
+
+    text-align: center;
+
+    &img {
+      box-shadow: 0 6px 25px rgba(0,0,0,.15);
+    }
+  }
+}
+
+.bottom-container {
+  display: flex;
+  align-items: center;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  text-align: center;
+
+  .bottom-image {
+    background: #f8f8f8;
+    flex: 2;
+    padding: 40px 20px;
+    text-align: center;
+  }
+
+  .bottom-content {
+    flex: 1;
+  }
+}
