@@ -1,92 +1,17 @@
 <?php
-class Media extends BaseSql implements Listable, Editable
+class Media extends Sql implements Listable, Editable, Uploadable
 {
     protected $id;
     protected $name;
     protected $path;
     protected $type;
     protected $extension;
-    protected $user;
 
-    public function __construct()
+    public function __construct($data = '')
     {
-        $this->foreignValues = ['user'];
+        $this->belongsTo(['user']);
 
-        parent::__construct();
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    public function getPath()
-    {
-        return $this->path;
-    }
-
-    public function setPath($path)
-    {
-        $this->path = $path;
-    }
-
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    public function setType($type)
-    {
-        $this->type = $type;
-    }
-
-    public function getExtension()
-    {
-        return $this->extension;
-    }
-
-    public function setExtension($extension)
-    {
-        $this->extension = $extension;
-    }
-
-    public function getUser()
-    {
-        if (!isset($this->user)) {
-            if (!isset($this->id_user)) {
-                return new User;
-            }
-            $user = new User;
-            $user->populate(['id' => $this->id_user]);
-            return $user;
-        }
-        return $this->user;
-    }
-
-    public function setUser($user)
-    {
-        if ($user instanceof User) {
-            $this->user = $user;
-        } else {
-            $newUser = new User();
-            $newUser->populate(['id' => intval($user)]);
-            $this->user = $newUser;
-        }
+        parent::__construct($data);
     }
 
     public function diplay()
@@ -126,6 +51,7 @@ class Media extends BaseSql implements Listable, Editable
         $listData = [];
 
         foreach ($medias as $media) {
+            $media->getUser();
             $mediaData = [
                 [
                     'type' => 'checkbox',
@@ -133,31 +59,31 @@ class Media extends BaseSql implements Listable, Editable
                 ],
                 [
                     'type' => 'text',
-                    'value' => $media->getId()
+                    'value' => $media->id()
                 ],
                 [
                     'type' => 'text',
-                    'value' => $media->getName()
+                    'value' => $media->name()
                 ],
                 [
                     'type' => 'text',
-                    'value' => $media->getPath()
+                    'value' => $media->path()
                 ],
                 [
                     'type' => 'text',
-                    'value' => $media->getType()
+                    'value' => $media->type()
                 ],
                 [
                     'type' => 'text',
-                    'value' => $media->getExtension()
+                    'value' => $media->extension()
                 ],
                 [
                     'type' => 'text',
-                    'value' => $media->getUser()->getFirstName() . ' ' . $media->getUser()->getLastName()
+                    'value' => $media->user()->firstname() . ' ' . $media->user()->lastname()
                 ],
                 [
                     'type' => 'action',
-                    'id' => $media->getId()
+                    'id' => $media->id()
                 ]
             ];
 
@@ -174,12 +100,15 @@ class Media extends BaseSql implements Listable, Editable
                 Session::addError('Création du fichier d\'upload impossible, vérifiez les droits !');
             }
         }
+        echo 1;
+        $this->extension = strtolower($this->getExensionFromFile($file['image']['name']));
+        echo $this->extension;
+        $this->type = $file['image']['type'];
+        $this->path = FILE_UPLOAD_PATH.'/'.uniqid().".".$this->extension;
 
-		$filePath = FILE_UPLOAD_PATH.'/'.uniqid().".".strtolower($this->getExensionFromFile($file['image']['name']));
-        if(!move_uploaded_file($file['image']['tmp_name'], $filePath)) {
+        if(!move_uploaded_file($file['image']['tmp_name'], $this->path)) {
             Session::addError('Une erreur est intervenu dans le dossier de destination');
         }
-        return $filePath;
     }
 
     public function getExensionFromFile($file)
@@ -188,27 +117,27 @@ class Media extends BaseSql implements Listable, Editable
         return $extension->getExtension();
     }
 
-    public function validate(array $data)
+    public function validate()
     {
-        // Check data given for the input name
-        if (!isset($data['post']['name'])) {
-            Session::addError('Veuillez remplir le champ nom');
-        } elseif (strlen($data['post']['name']) > 255) {
-            Session::addError('Le champ nom est trop long');
-        }
-        // Check error from file
-        if (!isset($data['files']['image'])) {
-            Session::addError('Aucun fichier renseigné');
-        }
-        if ($data['files']['image']['error'] != 0) {
-            File::errorUpload($data['files']['image']['error']);
-        }
-        $allowedExtension = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'ttf'];
-        if (!in_array($this->getExensionFromFile($data['files']['image']['name']), $allowedExtension)) {
-            Session::addError('L\'extension du fichier n\'est pas autorisé');
-        } elseif ($data['files']['image']['size'] > FILE_UPLOAD_MAX_SIZE) {
-            Session::addError('Le fichier séléctionné est trop volumineux');
-        }
+        return [
+            'name' => [
+                'required' => true,
+                'min' => 2,
+                'max' => 255
+            ],
+            'path' => [
+                'unique' => true,
+                'required' => true,
+                'trueMedia' => true,
+            ],
+            'extension' => [
+                'whiteList' => 'media',
+                'required' => true,
+            ],
+            'type' => [
+                'required' => true,
+            ]
+        ];
     }
 
     public function getFormConfig()
@@ -216,9 +145,10 @@ class Media extends BaseSql implements Listable, Editable
         return [
             Editable::FORM_STRUCT => [
                 Editable::FORM_METHOD => 'post',
-                Editable::FORM_ACTION => Helpers::getAdminRoute('media/save'),
-                Editable::FORM_SUBMIT => 'Sauvegarder',
-                Editable::FORM_FILE => 1
+                Editable::MODEL_URL => Helpers::getAdminRoute('media'),
+                Editable::MODEL_ID => $this->id(),
+                Editable::FORM_SUBMIT => 'Save',
+                Editable::FORM_FILE => 1,
             ],
             Editable::FORM_GROUPS => [
                 [
@@ -226,17 +156,29 @@ class Media extends BaseSql implements Listable, Editable
                     Editable::GROUP_FIELDS => [
                         'id' => [
                             'type' => 'hidden',
-                            'value' => $this->getId()
+                            'value' => $this->id()
                         ],
                         'name' => [
                             'type' => 'text',
                             'label' => 'Nom :',
-                            'value' => $this->getName()
+                            'value' => $this->name()
                         ],
                         'image' => [
                             'type' => 'file',
                             'label' => 'Media :',
                             'accept' => 'image/*'
+                        ],
+                        'extension' => [
+                            'type' => 'hidden',
+                            'value' => $this->extension()
+                        ],
+                        'type' => [
+                            'type' => 'hidden',
+                            'value' => $this->type()
+                        ],
+                        'path' => [
+                            'type' => 'hidden',
+                            'value' => $this->path()
                         ]
                     ]
                 ]

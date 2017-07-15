@@ -5,6 +5,7 @@
  */
 class Validator
 {
+    const MEDIA_ALLOWED_EXT = ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'ttf'];
     private $data;
     private $className;
 
@@ -83,13 +84,27 @@ class Validator
         $class = new $this->className();
         $found = $class->getAll([$inputName => $inputValue]);
 
-        if (isset($this->data['id']) && count($found) == 1 && $found[0]->getId() == $this->data['id']) {
+        if (isset($this->data['id']) && count($found) == 1 && $found[0]->id() == $this->data['id']) {
             return true;
         } else if (count($found) == 0) {
             return true;
         } else {
             Session::addError('Le champ ' . $inputName . ' doit être unique !');
             return false;
+        }
+    }
+
+    private function whiteList($inputName, $inputValue, $constraint) {
+        (!in_array($inputValue, self::MEDIA_ALLOWED_EXT)) ? Session::addError('L\'extension n\'est pas autorisée') : '';
+    }
+
+    private function trueMedia($inputName, $inputValue, $constraint) {
+        if (!file_exists($inputValue)) {
+            Session::addError('Le fichier uploadé n\'existe pas !');
+        }
+        $extension = new SplFileInfo($inputValue);
+        if (!in_array($extension->getExtension(), self::MEDIA_ALLOWED_EXT)) {
+            Session::addError('L\'extension n\'est pas autorisée');
         }
     }
 }

@@ -20,7 +20,7 @@ abstract class Controller implements Controllable
         $this->configList['size'] = isset($params[Routing::PARAMS_GET]['size']) ? $params[Routing::PARAMS_GET]['size'] : 10;
         $this->configList['page'] = isset($params[Routing::PARAMS_GET]['page']) ? $params[Routing::PARAMS_GET]['page'] : 1;
         $this->configList['availableSize'] = [10, 20, 50];
-        $this->configList['count'] = $class->countAll();
+        $this->configList['count'] = $class->count();
         $view->assign(lcfirst($this->className), $class);
         $view->assign('configList', $this->configList);
     }
@@ -64,21 +64,28 @@ abstract class Controller implements Controllable
             $class->$table = new $table(['id' => $postData[$table]]);
         }
 
+        if (!empty($params[Routing::PARAMS_FILE])) {
+            if (!$class->id()) {
+                if (method_exists($class, 'upload')) {
+                    $class->upload($params[Routing::PARAMS_FILE]);
+                    $postData = $class->toArray();
+                }
+            }
+        }
+
         $this->check((isset($postData['token'])) ? $postData['token'] : '');
 
         $validator = new Validator($postData, $this->className);
         $validator->validate($class->validate());
-
         if (count(Session::getErrors()) > 0) {
             Session::setFormData($postData);
             Helpers::redirectBack();
         }
-
         $class->save();
 
         Session::addSuccess("Votre " . lcfirst($this->className) . " a bien été enregistré");
         if (isset($params[Routing::PARAMS_GET]['redirectToEdit'])) {
-            Helpers::redirect(Helpers::getAdminRoute(lcfirst($this->className) . '/edit/' . $class->getId()));
+            Helpers::redirect(Helpers::getAdminRoute(lcfirst($this->className) . '/edit/' . $class->id()));
         } else {
             Helpers::redirect(Helpers::getAdminRoute(lcfirst($this->className)));
         }
