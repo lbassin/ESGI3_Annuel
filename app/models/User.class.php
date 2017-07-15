@@ -166,7 +166,7 @@ class User extends Sql implements Listable, Editable
         ];
     }
 
-    public function validate()
+    public function validate(array $data)
     {
         return [
             'pseudo' => [

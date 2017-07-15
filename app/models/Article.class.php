@@ -14,7 +14,12 @@ class Article extends Sql implements Editable, Listable
 
     public function __construct($data = '')
     {
-        $this->ManyMany(['category']);
+        if (!isset($data['publish'])) {
+            $this->publish = 0;
+        }
+        if (isset($data['content'])) {
+            $data['content'] = unserialize($data['content']);
+        }
 
         parent::__construct($data);
     }
@@ -32,6 +37,10 @@ class Article extends Sql implements Editable, Listable
                 [
                     Editable::GROUP_LABEL => 'Choix du template',
                     Editable::GROUP_FIELDS => [
+                        'id' => [
+                            'type' => 'hidden',
+                            'value' => $this->id()
+                        ],
                         'preview' => [
                             'type' => 'widget',
                             'id' => 'article/new',
@@ -48,18 +57,19 @@ class Article extends Sql implements Editable, Listable
     {
         return [
             'struct' => [
-                'title' => 'Articles',
-                'newLink' => Helpers::getAdminRoute('article/new'),
-                'header' => [
+                Listable::LIST_TITLE => 'Articles',
+                Listable::LIST_NEW_LINK => Helpers::getAdminRoute('article/new'),
+                Listable::LIST_EDIT_LINK => Helpers::getAdminRoute('article/edit'),
+                Listable::LIST_HEADER => [
                     '',
                     'ID',
                     'Title',
-                    'Content',
                     'Url',
+                    'Publié',
                     'Action'
                 ]
             ],
-            'rows' => $this->getListData()
+            Listable::LIST_ROWS => $this->getListData()
         ];
     }
 
@@ -78,23 +88,23 @@ class Article extends Sql implements Editable, Listable
                 ],
                 [
                     'type' => 'text',
-                    'value' => $article->getId()
+                    'value' => $article->id()
                 ],
                 [
                     'type' => 'text',
-                    'value' => $article->getTitle()
+                    'value' => $article->title()
                 ],
                 [
                     'type' => 'text',
-                    'value' => $article->getContent()
+                    'value' => $article->url()
                 ],
                 [
                     'type' => 'text',
-                    'value' => $article->getUrl()
+                    'value' => $article->publish() ? 'Oui' : 'Non'
                 ],
                 [
                     'type' => 'action',
-                    'id' => $article->getId()
+                    'id' => $article->id()
                 ]
             ];
 

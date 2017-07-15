@@ -3,5 +3,5 @@
 <?php
 if (isset($media)) {
     $this->includeModal('form', $media->getFormConfig());
-    echo $media->diplay();
+    echo $media->display();
 }

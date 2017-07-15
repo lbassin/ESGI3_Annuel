@@ -16,7 +16,10 @@
                 <label>Contenu de l'article</label>
                 <fields>
                     <title type="text" label="Titre"/>
+                    <description type="textarea" label="Description"/>
+                    <url type="text" label="Url"/>
                     <image type="file" label="Image"/>
+                    <publish type="checkbox" label="Publié"/>
                     <content type="widget" id="wysiwyg/editor" script="wysiwyg.js" label="Texte"/>
                 </fields>
             </group>

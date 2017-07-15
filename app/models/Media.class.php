@@ -14,7 +14,7 @@ class Media extends Sql implements Listable, Editable, Uploadable
         parent::__construct($data);
     }
 
-    public function diplay()
+    public function display()
     {
         if ($this->type == 'image') {
             $link = Helpers::getMedia($this->path);
@@ -96,19 +96,18 @@ class Media extends Sql implements Listable, Editable, Uploadable
     public function upload(array $file)
     {
         if (!file_exists(FILE_UPLOAD_PATH)) {
-            if(!mkdir(FILE_UPLOAD_PATH)) {
+            if (!mkdir(FILE_UPLOAD_PATH)) {
                 Session::addError('Création du fichier d\'upload impossible, vérifiez les droits !');
             }
         }
-        echo 1;
         $this->extension = strtolower($this->getExensionFromFile($file['image']['name']));
-        echo $this->extension;
         $this->type = $file['image']['type'];
         $this->path = FILE_UPLOAD_PATH.'/'.uniqid().".".$this->extension;
 
         if(!move_uploaded_file($file['image']['tmp_name'], $this->path)) {
             Session::addError('Une erreur est intervenu dans le dossier de destination');
         }
+        return $filePath;
     }
 
     public function getExensionFromFile($file)

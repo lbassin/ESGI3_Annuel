@@ -2,6 +2,10 @@
     <div id="template-grid"></div>
 </div>
 
+<script>
+    var savedTemplateId = '<?php echo $this->data['article']->getTemplateId(); ?>';
+    var savedContent = '<?php echo addslashes(json_encode($this->data['article']->getContent())); ?>';
+</script>
 
 <script>
     var urlTemplates = '<?php echo Helpers::getAdminRoute('article/templates'); ?>';

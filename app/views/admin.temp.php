@@ -31,6 +31,9 @@
         <a class="nav-link" href="<?php echo Helpers::getAdminRoute('user'); ?>">
             <i class="fa fa-user" aria-hidden="true"></i>&emsp;Users
         </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('menu'); ?>">
+            <i class="fa fa-bars" aria-hidden="true"></i>&emsp;Menu
+        </a>
         <a class="nav-link" href="<?php echo Helpers::getAdminRoute('page'); ?>">
             <i class="fa fa-file" aria-hidden="true"></i>&emsp;Pages
         </a>
@@ -38,7 +41,7 @@
             <i class="fa fa-list-ul" aria-hidden="true"></i>&emsp;Catégories
         </a>
         <a class="nav-link" href="<?php echo Helpers::getAdminRoute('article'); ?>">
-            <i class="fa fa-file-text" aria-hidden="true"></i>&emsp;Articles
+            <i class="fa fa-newspaper-o" aria-hidden="true"></i>&emsp;Articles
         </a>
         <a class="nav-link" href="<?php echo Helpers::getAdminRoute('comment'); ?>">
             <i class="fa fa-pencil" aria-hidden="true"></i>&emsp;Comments
@@ -58,6 +61,9 @@
         <a class="nav-link" href="<?php echo Helpers::getAdminRoute('user'); ?>">
             <i class="fa fa-user" aria-hidden="true"></i>
         </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('menu'); ?>">
+            <i class="fa fa-bars" aria-hidden="true"></i>
+        </a>
         <a class="nav-link" href="<?php echo Helpers::getAdminRoute('page'); ?>">
             <i class="fa fa-file" aria-hidden="true"></i>
         </a>
@@ -65,7 +71,7 @@
             <i class="fa fa-list-ul" aria-hidden="true"></i>
         </a>
         <a class="nav-link" href="<?php echo Helpers::getAdminRoute('article'); ?>">
-            <i class="fa fa-file-text" aria-hidden="true"></i>
+            <i class="fa fa-newspaper-o" aria-hidden="true"></i>
         </a>
         <a class="nav-link" href="<?php echo Helpers::getAdminRoute('comment'); ?>">
             <i class="fa fa-pencil" aria-hidden="true"></i>

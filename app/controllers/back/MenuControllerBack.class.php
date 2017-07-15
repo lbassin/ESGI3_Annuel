@@ -2,47 +2,53 @@
 
 class MenuControllerBack extends Controller
 {
-    /*
-     * $params['post'] = [
-     *      'label' => 'blabla',
-     *      'url'   => 'blabla',
-     *      [
-     *          0 => [
-         *          'label' => 'blabla',
-         *          'url'   => 'blabla'
-     *          ],
-     *          1 => [
-         *          'label' => 'blabla',
-         *          'url'   => 'blabla'
-     *          ],
-     *      ]
-     * ]
-     * */
-    public function formatAction($params)
+    public function saveAction($params = [], $multiple = false)
     {
-        $params['post'] = [
-            'parent' => [
-                'label' => 'papa',
-                'url'   => 'papa',
-            ],
-            'child' => [
-                0 => [
-                    'label' => 'test1',
-                    'url'   => 'test1'
-                ],
-                1 => [
-                    'label' => 'test2',
-                    'url'   => 'test2'
-                ],
-            ]
-        ];
-        parent::saveAction([Routing::PARAMS_POST => $params[Routing::PARAMS_POST]['parent']], 1);
-        $lastId = Session::getLastInsertId();
-        $lengthSubMenu = count($params[Routing::PARAMS_POST]['child']);
-        foreach ($params[Routing::PARAMS_POST]['child'] as $key => $childItem) {
-            $childItem->setParentId($lastId);
-            parent::saveAction(['post' => $childItem], --$lengthSubMenu);
+        $idParent = parent::saveAction([Routing::PARAMS_POST => $params[Routing::PARAMS_POST]], true);
+
+        $menu = new Menu();
+        $menu->populate(['id' => $idParent]);
+
+        $childrenIds = [];
+        foreach ($params[Routing::PARAMS_POST]['child'] as $child) {
+            if (empty($child['id'])) {
+                continue;
+            }
+            $childrenIds[] = $child['id'];
         }
-        exit();
+
+        foreach (array_keys($menu->getSubmenu()) as $childId) {
+            if (in_array($childId, $childrenIds)) {
+                continue;
+            }
+            $child = new Menu();
+            $child->setId($childId);
+
+            try {
+                $child->delete();
+            } catch (Exception $ex) {
+                Session::addError($ex->getMessage());
+                Helpers::redirectBack();
+            }
+        }
+
+        if (!empty($params[Routing::PARAMS_POST]['child'])) {
+            $count = count($params[Routing::PARAMS_POST]['child']) - 1;
+            foreach ($params[Routing::PARAMS_POST]['child'] as $key => $subLink) {
+                $subLink['parent_id'] = $idParent;
+                parent::saveAction([
+                    Routing::PARAMS_POST => $subLink,
+                    Routing::PARAMS_GET => $params[Routing::PARAMS_GET]
+                ], ($count != $key));
+            }
+        }
+    }
+
+    public function getSubMenu($parent_id)
+    {
+        $menu = new Menu();
+        $menu->setId($parent_id);
+        $subMenu = $menu->getSubmenu();
+        return $subMenu;
     }
 }

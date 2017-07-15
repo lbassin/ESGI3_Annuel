@@ -25,13 +25,16 @@ abstract class Controller implements Controllable
         $view->assign('configList', $this->configList);
     }
 
-    public function newAction()
+    public function newAction($params = [])
     {
         Csrf::generate();
         $view = new View('back', lcfirst($this->className) . '/new', 'admin');
 
         $class = new $this->className;
         $view->assign(lcfirst($this->className), $class);
+        if (!empty($params)) {
+            $view->assign('params', $params);
+        }
     }
 
     public function editAction($params = [])
@@ -55,9 +58,8 @@ abstract class Controller implements Controllable
         $view->assign(lcfirst($this->className), $class);
     }
 
-    public function saveAction($params = [])
+    public function saveAction($params = [], $multiple = false)
     {
-
         $postData = $params[Routing::PARAMS_POST];
         $class = new $this->className($postData);
         foreach ($class->getBelongsTo() as $table) {
@@ -73,22 +75,28 @@ abstract class Controller implements Controllable
             }
         }
 
-        $this->check((isset($postData['token'])) ? $postData['token'] : '');
+        if ($multiple == true && $multiple != -1) {
+            $this->check((isset($postData['token'])) ? $postData['token'] : '');
+        }
 
         $validator = new Validator($postData, $this->className);
         $validator->validate($class->validate());
+
         if (count(Session::getErrors()) > 0) {
             Session::setFormData($postData);
             Helpers::redirectBack();
         }
         $class->save();
 
-        Session::addSuccess("Votre " . lcfirst($this->className) . " a bien été enregistré");
-        if (isset($params[Routing::PARAMS_GET]['redirectToEdit'])) {
-            Helpers::redirect(Helpers::getAdminRoute(lcfirst($this->className) . '/edit/' . $class->id()));
-        } else {
-            Helpers::redirect(Helpers::getAdminRoute(lcfirst($this->className)));
+        if (!$multiple) {
+            Session::addSuccess("Votre " . lcfirst($this->className) . " a bien été enregistré");
+            if (isset($params[Routing::PARAMS_GET]['redirectToEdit'])) {
+                Helpers::redirectBack();
+            } else {
+                Helpers::redirect(Helpers::getAdminRoute(lcfirst($this->className)));
+            }
         }
+        return $class->id();
     }
 
     public function deleteAction($params = [])
