@@ -75,6 +75,11 @@ class Helpers
         die;
     }
 
+    /**
+     * @param $string
+     * @var array $transformers contains singular to plural translation
+     * @return string $string in plural
+     */
     public static function renameValuePlural($string) {
         $transformers = [
             'y' => 'ies',

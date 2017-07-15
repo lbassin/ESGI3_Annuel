@@ -8,6 +8,12 @@ abstract class Model
     protected $hasMany = [];
     protected $manyMany = [];
 
+    /**
+     * Set value from array to object
+     * @param mixed $aData -> contain data to be set (comes from child class)
+     * @var string $sClassName name of the table
+     * how to use : $class = new Class(['id' => 1', ...]);
+     */
     function __construct($aData = '')
     {
         if (is_array($aData)) {
@@ -20,6 +26,15 @@ abstract class Model
         }
     }
 
+    /**
+     * Magic Method
+     * @param string $method -> Contain method called
+     * @param array $arguments -> contain parameters of the method
+     * @var array $array_attributes -> contain array of the current object
+     * if method called is a property of the class the method called dynamically the setter or the getter
+     * how to use : (getter) $class->id(); (setter) $class->id(1);
+     * if method called started from 'get' the method called dynamically the join function of the child
+     */
     public function __call($method,$arguments)
     {
         $array_attributes = get_object_vars($this);
@@ -41,6 +56,14 @@ abstract class Model
         }
     }
 
+    /**
+     * Magic Method
+     * @var array $array -> contain array of the current object
+     * if in array key belongsTo and it contains object class, set foreign key to id of the object
+     * unset unused key for the array
+     * @return array of the current object
+     * how to use : $this->toArray();
+     */
     public function toArray()
     {
         $array = get_object_vars($this);
@@ -58,6 +81,10 @@ abstract class Model
         return $array;
     }
 
+    /**
+     * @param mixed $data -> contain data to be set
+     * how to use : $this->toClass(['id' => 1, ...]);
+     */
     public function toClass(array $data)
     {
         foreach ($data as $column => $value) {
@@ -65,6 +92,11 @@ abstract class Model
         }
     }
 
+    /**
+     * @param array $tables
+     * set $this->belongsTo[] with table indicated in child class
+     * how to use : $this->belongsTo(['table1', 'table2']);
+     */
     public function belongsTo(array $tables = [])
     {
         if (!empty($tables)) {
@@ -74,11 +106,20 @@ abstract class Model
         }
     }
 
+    /**
+     * @return array $this->belongsTo
+     * how to use : $array = $class->getBelongsTo();
+     */
     public function getBelongsTo()
     {
         return $this->belongsTo;
     }
 
+    /**
+     * @param array $tables
+     * set $this->hasMany[] with table indicated in child class
+     * how to use : $this->hasMany(['table1', 'table2']);
+     */
     public function hasMany(array $tables = [])
     {
         if (!empty($tables)) {
@@ -88,7 +129,12 @@ abstract class Model
         }
     }
 
-    public function ManyMany(array $tables = [])
+    /**
+     * @param array $tables
+     * set $this->ManyMany[] with table indicated in child class
+     * how to use : $this->manyMany(['table1', 'table2']);
+     */
+    public function manyMany(array $tables = [])
     {
         if (!empty($tables)) {
             foreach ($tables as $currentTable) {

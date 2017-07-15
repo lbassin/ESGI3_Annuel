@@ -15,6 +15,12 @@ class Sql extends Model
     private $limit;
     private $order;
 
+    /**
+     * @param mixed $data
+     * set Instance of PDO
+     * set Name of the table
+     * called parent method
+    */
     function __construct($data = '')
     {
         $this->pdo = Db::getInstance();
@@ -22,6 +28,15 @@ class Sql extends Model
         parent::__construct($data);
     }
 
+    /**
+     * Set class object with the foreign id of the table called
+     * @param string $table
+     * @var string $id 'id_tableName'
+     * @var object of the table called -> populate by id
+     * set current object with the populate class
+     * unset foreign key of the current object
+     * how to use : see parent method __call($method,$arguments)
+     */
     protected function queryBelongsTo($table){
         $id = self::PREFIX_FOREIGN.$table;
         $class = new $table();
@@ -30,6 +45,16 @@ class Sql extends Model
         unset($this->$id);
     }
 
+    /**
+     * set array with multiple class of the table called
+     * @param string $table
+     * @var string $destinationTable contain the name table on plural
+     * @var string $id 'id_currentTableName'
+     * @var object $class of the table called
+     * @var array $class -> fill by id from getAll
+     * set $destinationTable with the array of $class
+     * how to use : see parent method __call($method,$arguments)
+     */
     protected function queryHasMany($table){
         $destinationTable = Helpers::renameValuePlural($table);
         $id = self::PREFIX_FOREIGN.$this->table;
@@ -40,12 +65,25 @@ class Sql extends Model
         }
     }
 
+    /**
+     * set array with multiple class of the table called
+     * @param string $table
+     * @var string $destinationTable contain the name table on plural
+     * @var array $array contain both tableName -> sorted
+     * @var string $joinTable contain the name of the joinTable
+     * @var object $classJoin -> populate by foreign id of this table
+     * @var array $tmpStock -> fill by foreign id of this table from getAll
+     * @var string $id 'id_tableName'
+     * @var object $class -> populate by id of the current tmp $id
+     * set $destinationTable with the array of $class
+     * how to use : see parent method __call($method,$arguments)
+     */
     protected function queryManyMany($table){
         $destinationTable = Helpers::renameValuePlural($table);
         $array = [ucfirst($this->table), ucfirst($table)];
         sort($array);
         $joinTable = implode('_', $array);
-        $classJoin = new $joinTable([self::PREFIX_FOREIGN.$this->table => $this->id]);
+        $classJoin = new $joinTable();
 
         $tmpStock = $classJoin->getAll([self::PREFIX_FOREIGN.$this->table => $this->id]);
 
@@ -57,6 +95,12 @@ class Sql extends Model
         }
     }
 
+    /**
+     * @param array $condition
+     * Execute SQL query on the current object with condition set
+     * @return int number of occurrence
+     * how to use : $count = $class->count()
+     */
     public function count(array $condition = [])
     {
         $this->where($condition);
@@ -65,11 +109,19 @@ class Sql extends Model
         return $this->query->fetch(PDO::FETCH_ASSOC)['count'];
     }
 
+    /**
+     * @param array $condition
+     * @param array $limitQuery
+     * @param array $orderQuery
+     * Execute SQL SELECT (multiple) query on the current object with condition & order & limit set
+     * @return array $listObject with all object occurence getted on the sql method
+     * how to use : $listClass = $class->getAll();
+     */
     public function getAll(array $condition = [], array $limitQuery = [], array $orderQuery = [])
     {
         $this->where($condition);
-        $this->limitate($limitQuery);
         $this->ordonate($orderQuery);
+        $this->limitate($limitQuery);
         $this->query = $this->pdo->prepare('SELECT * FROM ' . $this->table . $this->condition . $this->order . $this->limit);
         $this->query->execute($this->data);
         $this->query->setFetchMode(PDO::FETCH_CLASS, ucfirst($this->table));
@@ -77,6 +129,12 @@ class Sql extends Model
         return $listObject;
     }
 
+    /**
+     * @param array $condition
+     * Execute SQL SELECT (one) query on the current object with condition set
+     * set current object with the toClass Method
+     * how to use : $class->populate(['id' => 1]);
+     */
     public function populate(array $condition = [])
     {
         $this->where($condition);
@@ -88,6 +146,13 @@ class Sql extends Model
         }
     }
 
+    /**
+     * set data with array from toArray method
+     * if id index if empty -> save
+     * else update
+     * then Execute query prepared
+     * @return int $lastInsertId | null
+     */
     public function save()
     {
         $this->data = $this->toArray();
@@ -106,6 +171,9 @@ class Sql extends Model
         }
     }
 
+    /**
+     * Prepare query for INSERT object with data called method
+     */
     private function insert()
     {
         $this->query = $this->pdo->prepare(
@@ -117,6 +185,9 @@ class Sql extends Model
         );
     }
 
+    /**
+     * Prepare query for UPDATE object with data called method
+     */
     private function update()
     {
         $queryString = 'UPDATE ' . $this->table . ' SET ';
@@ -129,6 +200,11 @@ class Sql extends Model
         $this->query = $this->pdo->prepare($queryString);
     }
 
+    /**
+     * @param array $conditionQuery
+     * Execute SQL DELETE query on the current object with condition set
+     * how to use : $class->delete(['id' => 1]);
+     */
     public function delete(array $conditionQuery = [])
     {
         $this->where($conditionQuery);
@@ -140,6 +216,12 @@ class Sql extends Model
         }
     }
 
+    /**
+     * @param array $conditionQuery
+     * $conditionQuery = ['column1' => x, 'column2' => x]
+     * set condition with content of the @param
+     * set data with the content of the @param
+     */
     private function where(array $conditionQuery)
     {
         foreach ($conditionQuery as $column => $value) {
@@ -148,6 +230,11 @@ class Sql extends Model
         }
     }
 
+    /**
+     * @param array $limitQuery
+     * $limitQuery = ['limit' => x, 'offset' => x] | ['limit' => x] | ['offset' => x] |
+     * set limit with content of the @param
+     */
     private function limitate(array $limitQuery = [])
     {
         if (!empty($limitQuery)) {
@@ -155,6 +242,12 @@ class Sql extends Model
         }
     }
 
+    /**
+     * @param array $orderQuery
+     * $orderQuery = ['column1' => 'ASC', 'column2' => 'DESC']
+     * @var string $orderString
+     * set order with content of the @param
+     */
     private function ordonate(array $orderQuery = [])
     {
         if (!empty($orderQuery)) {
