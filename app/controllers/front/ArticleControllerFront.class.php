@@ -14,6 +14,11 @@ class ArticleControllerFront
         // echo $article->id();
         $article->getCategory();
         // echo $article->categories()->id();
+        $article->getUser();
+        // echo $article->user()->id();
+        //$article->getSurvey();
+        // echo $article->survey()->id();
+
     }
 
 }

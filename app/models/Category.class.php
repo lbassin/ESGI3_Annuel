@@ -7,7 +7,7 @@ class Category extends Sql implements Listable, Editable
 
     public function __construct($data = '')
     {
-        $this->ManyMany(['article']);
+        $this->manyMany(['article']);
 
         parent::__construct($data);
     }

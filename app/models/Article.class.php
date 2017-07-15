@@ -9,8 +9,6 @@ class Article extends Sql implements Editable, Listable
     protected $url;
     protected $publish;
     protected $template_id;
-    protected $id_user;
-    protected $id_survey;
 
     public function __construct($data = '')
     {
@@ -20,6 +18,9 @@ class Article extends Sql implements Editable, Listable
         if (isset($data['content'])) {
             $data['content'] = unserialize($data['content']);
         }
+        $this->manyMany(['category']);
+        $this->belongsTo(['user', 'survey']);
+
 
         parent::__construct($data);
     }
