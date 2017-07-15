@@ -22,7 +22,7 @@ class MenuControllerBack extends Controller
                 continue;
             }
             $child = new Menu();
-            $child->setId($childId);
+            $child->id($childId);
 
             try {
                 $child->delete();
@@ -47,7 +47,7 @@ class MenuControllerBack extends Controller
     public function getSubMenu($parent_id)
     {
         $menu = new Menu();
-        $menu->setId($parent_id);
+        $menu->id($parent_id);
         $subMenu = $menu->getSubmenu();
         return $subMenu;
     }
