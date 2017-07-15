@@ -164,6 +164,7 @@ class Sql extends Model
         }
         try {
             $this->query->execute($this->data);
+            $this->id = $this->pdo->lastInsertId();
 
             return ($this->pdo->lastInsertId() != null) ? (int) $this->pdo->lastInsertId() : null;
         } catch (Exception $ex) {
