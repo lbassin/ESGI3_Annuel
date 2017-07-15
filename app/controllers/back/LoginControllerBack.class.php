@@ -20,8 +20,8 @@ class LoginControllerBack
         $user = new User();
         $user->populate(['email' => $params['email']]);
 
-        if ($user->getId() && Hash::check($params['password'], $user->getPassword()) && $user->getStatus() != 0) {
-            $_SESSION['id'] = $user->getId();
+        if ($user->id() && Hash::check($params['password'], $user->password()) && $user->status() != 0) {
+            $_SESSION['id'] = $user->id();
 
             $message = json_encode(['success' => true, 'redirectTo' => Helpers::getAdminRoute('index')]);
             echo $message;
