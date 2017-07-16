@@ -21,28 +21,28 @@ class PageControllerBack extends Controller
         }
 
         try {
-            $page = new Page();
-            $page->fill($data);
+            $page = new Page($data);
             $page->save();
+            if (isset($data['components'])) {
+                $order = 1;
+                foreach ($data['components'] as $componentData) {
+                    $componentData = json_decode($componentData, true);
+                    $templateId = $componentData['template_id'];
+                    $componentId = isset($componentData['id']) ? $componentData['id'] : null;
+                    unset($componentData['template_id']);
+                    unset($componentData['id']);
 
-            $order = 1;
-            foreach ($data['components'] as $componentData) {
-                $componentData = json_decode($componentData, true);
-                $templateId = $componentData['template_id'];
-                $componentId = isset($componentData['id']) ? $componentData['id'] : null;
-                unset($componentData['template_id']);
-                unset($componentData['id']);
+                    /** @var Page_Component $component */
+                    $component = new Page_Component();
+                    $component->setId($componentId);
+                    $component->setPageId($page->getId());
+                    $component->setTemplateId($templateId);
+                    $component->setOrder($order);
+                    $component->setConfig($componentData);
+                    $order += 1;
 
-                /** @var Page_Component $component */
-                $component = new Page_Component();
-                $component->setId($componentId);
-                $component->setPageId($page->getId());
-                $component->setTemplateId($templateId);
-                $component->setOrder($order);
-                $component->setConfig($componentData);
-                $order += 1;
-
-                $component->save();
+                    $component->save();
+                }
             }
         } catch (Exception $ex) {
             Session::addError($ex->getMessage());
@@ -70,7 +70,7 @@ class PageControllerBack extends Controller
 
             /** @var Page_Component $component */
             $component = new Page_Component();
-            $component->setTemplateId($componentData['template_id']);
+            $component->template_id($componentData['template_id']);
 
             $validatorComponent = new Validator($componentData);
             $validatorComponent->validate($component->getConstraints());

@@ -1,66 +1,18 @@
 <?php
 
-class Page_Component extends BaseSql
+class Page_Component extends Sql
 {
     protected $id;
-    protected $page_id;
+    protected $id_page;
     protected $order;
     protected $template_id;
     protected $config;
 
     public function __construct()
     {
+        $this->belongsTo(['page']);
+
         parent::__construct();
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function getPageId()
-    {
-        return $this->page_id;
-    }
-
-    public function setPageId($pageId)
-    {
-        $this->page_id = $pageId;
-    }
-
-    public function getOrder()
-    {
-        return $this->order;
-    }
-
-    public function setOrder($order)
-    {
-        $this->order = $order;
-    }
-
-    public function getTemplateId()
-    {
-        return $this->template_id;
-    }
-
-    public function setTemplateId($template_id)
-    {
-        $this->template_id = $template_id;
-    }
-
-    public function getConfig()
-    {
-        return unserialize($this->config);
-    }
-
-    public function setConfig($config)
-    {
-        $this->config = serialize($config);
     }
 
     private function getComponentXml($templateId = null)

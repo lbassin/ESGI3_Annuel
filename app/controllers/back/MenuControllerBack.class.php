@@ -9,6 +9,7 @@ class MenuControllerBack extends Controller
         $menu = new Menu();
         $menu->populate(['id' => $idParent]);
 
+        // TODO : if not child item
         $childrenIds = [];
         foreach ($params[Routing::PARAMS_POST]['child'] as $child) {
             if (empty($child['id'])) {
@@ -22,10 +23,8 @@ class MenuControllerBack extends Controller
                 continue;
             }
             $child = new Menu();
-            $child->id($childId);
-
             try {
-                $child->delete();
+                $child->delete(['id' => $childId]);
             } catch (Exception $ex) {
                 Session::addError($ex->getMessage());
                 Helpers::redirectBack();

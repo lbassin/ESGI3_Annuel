@@ -1,6 +1,6 @@
 <?php
 
-class Page extends BaseSql implements Listable, Editable
+class Page extends Sql implements Listable, Editable
 {
     const TEMPLATE_ID = 'id';
     const TEMPLATE_NAME = 'name';
@@ -12,77 +12,26 @@ class Page extends BaseSql implements Listable, Editable
     protected $url;
     protected $publish;
 
-    public function __construct()
+    public function __construct($data = '')
     {
-        $this->defaultValues = [
-            'publish' => 0,
-            'visibility' => 0
-        ];
+        $this->hasMany(['page_component']);
+        $data['publish'] = 0;
+        $data['visibility'] = 0;
 
-        parent::__construct();
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    public function setTitle($title)
-    {
-        $this->title = $title;
-    }
-
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    public function setDescription($description)
-    {
-        $this->description = $description;
-    }
-
-    public function getUrl()
-    {
-        return $this->url;
-    }
-
-    public function setUrl($url)
-    {
-        $this->url = $url;
-    }
-
-    public function getPublish()
-    {
-        return $this->publish;
-    }
-
-    public function setPublish($publish)
-    {
-        $this->publish = $publish;
+        parent::__construct($data);
     }
 
     public function getComponents()
     {
         $component = new Page_Component();
-        $components = $component->getAll(['page_id' => $this->getId()]);
+        $components = $component->getAll(['id_page' => $this->id()]);
 
         $data = [];
         /** @var Page_Component $component */
         foreach ($components as $component) {
-            $componentData = $component->getConfig();
-            $componentData['template_id'] = $component->getTemplateId();
-            $componentData['id'] = $component->getId();
+            $componentData['config'] = $component->config();
+            $componentData['template_id'] = $component->template_id();
+            $componentData['id'] = $component->id();
             $data[] = $componentData;
         }
 
@@ -124,23 +73,23 @@ class Page extends BaseSql implements Listable, Editable
                 ],
                 [
                     'type' => 'text',
-                    'value' => $page->getId()
+                    'value' => $page->id()
                 ],
                 [
                     'type' => 'text',
-                    'value' => $page->getTitle()
+                    'value' => $page->title()
                 ],
                 [
                     'type' => 'text',
-                    'value' => $page->getUrl()
+                    'value' => $page->url()
                 ],
                 [
                     'type' => 'text',
-                    'value' => $page->getPublish() ? 'Oui' : 'Non'
+                    'value' => $page->publish() ? 'Oui' : 'Non'
                 ],
                 [
                     'type' => 'action',
-                    'id' => $page->getId()
+                    'id' => $page->id()
                 ]
             ];
 
@@ -152,11 +101,16 @@ class Page extends BaseSql implements Listable, Editable
 
     public function getFormConfig()
     {
+        $this->getPage_component();
+        $data = [];
+        foreach ($this->page_components() as $key => $component) {
+            $data[$key] = $component->toArray();
+        }
         return [
             Editable::FORM_STRUCT => [
                 Editable::FORM_METHOD => 'post',
                 Editable::MODEL_URL => Helpers::getAdminRoute('page'),
-                Editable::MODEL_ID => $this->getId()
+                Editable::MODEL_ID => $this->id()
             ],
             Editable::FORM_GROUPS => [
                 [
@@ -164,30 +118,30 @@ class Page extends BaseSql implements Listable, Editable
                     Editable::GROUP_FIELDS => [
                         'id' => [
                             'type' => 'hidden',
-                            'value' => $this->getId()
+                            'value' => $this->id()
                         ],
                         'title' => [
                             'type' => 'text',
                             'label' => 'Title',
                             'required' => 1,
-                            'value' => $this->getTitle()
+                            'value' => $this->title()
                         ],
                         'url' => [
                             'type' => 'text',
                             'label' => 'URL',
                             'required' => 1,
-                            'value' => $this->getUrl()
+                            'value' => $this->url()
                         ],
                         'description' => [
                             'type' => 'textarea',
                             'label' => 'Description',
                             'required' => 1,
-                            'value' => $this->getDescription()
+                            'value' => $this->description()
                         ],
                         'publish' => [
                             'type' => 'checkbox',
                             'label' => 'Publié',
-                            'value' => $this->getPublish()
+                            'value' => $this->publish()
                         ]
                     ]
                 ],
@@ -197,7 +151,7 @@ class Page extends BaseSql implements Listable, Editable
                         'preview' => [
                             'type' => 'widget',
                             'id' => 'page/new',
-                            'data' => $this->getComponents(),
+                            'data' => $data,
                             'script' => 'wysiwyg.js'
                         ]
                     ]

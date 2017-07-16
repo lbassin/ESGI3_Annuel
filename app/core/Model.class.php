@@ -69,9 +69,11 @@ abstract class Model
         $array = get_object_vars($this);
         if (isset($array['belongsTo'])) {
             foreach ($array['belongsTo'] as $table) {
-                if (is_object($array[$table])) {
-                    $array[self::PREFIX_FOREIGN.$table] = (int) $array[$table]->id();
-                    unset($array[$table]);
+                if (isset($array[$table])) {
+                    if (is_object($array[$table])) {
+                        $array[self::PREFIX_FOREIGN.$table] = (int) $array[$table]->id();
+                        unset($array[$table]);
+                    }
                 }
             }
         }
