@@ -11,7 +11,7 @@ class Sql extends Model
     private $query;
     private $table;
     private $data = [];
-    private $condition = ' WHERE 1 = 1 ';
+    private $condition;
     private $limit;
     private $order;
 
@@ -103,7 +103,9 @@ class Sql extends Model
      */
     public function count(array $condition = [])
     {
-        $this->where($condition);
+        if (!empty($condition)) {
+            $this->where($condition);
+        }
         $this->query = $this->pdo->prepare('SELECT count(*) as count FROM ' . $this->table . $this->condition);
         $this->query->execute($this->data);
         return $this->query->fetch(PDO::FETCH_ASSOC)['count'];
@@ -119,7 +121,9 @@ class Sql extends Model
      */
     public function getAll(array $condition = [], array $limitQuery = [], array $orderQuery = [])
     {
-        $this->where($condition);
+        if (!empty($condition)) {
+            $this->where($condition);
+        }
         $this->ordonate($orderQuery);
         $this->limitate($limitQuery);
         $this->query = $this->pdo->prepare('SELECT * FROM ' . $this->table . $this->condition . $this->order . $this->limit);
@@ -228,6 +232,8 @@ class Sql extends Model
      */
     private function where(array $conditionQuery)
     {
+        $this->data = [];
+        $this->condition = ' WHERE 1 = 1 ';
         foreach ($conditionQuery as $column => $value) {
             $this->condition .= ' AND ' . $column . '=:' . $column;
             $this->data[$column] = $value;
