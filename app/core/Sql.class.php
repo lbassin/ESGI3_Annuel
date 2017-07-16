@@ -204,7 +204,7 @@ class Sql extends Model
                 $queryString .= $column. ' =:'.$column . ',';
             }
         }
-        $queryString .= ' updated_at = sysdate()' . $this->condition . ' AND ' . self::ID . ' =:' . self::ID;
+        $queryString .= ' updated_at = sysdate() WHERE 1 = 1 AND ' . self::ID . ' =:' . self::ID;
         $this->query = $this->pdo->prepare($queryString);
     }
 

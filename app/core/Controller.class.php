@@ -58,8 +58,11 @@ abstract class Controller implements Controllable
         $view->assign(lcfirst($this->className), $class);
     }
 
-    public function saveAction($params = [], $multiple = false)
+    public function saveAction($params = [], $multiple = false, $table = false)
     {
+        if ($table != false) {
+            $this->className = $table;
+        }
         $postData = $params[Routing::PARAMS_POST];
         $class = new $this->className($postData);
         foreach ($class->getBelongsTo() as $table) {
@@ -89,11 +92,11 @@ abstract class Controller implements Controllable
         $class->save();
 
         if (!$multiple) {
-            Session::addSuccess("Votre " . lcfirst($this->className) . " a bien été enregistré");
+            Session::addSuccess("Votre " . lcfirst(str_replace(self::CLASS_CONTROLLER, '', get_called_class())) . " a bien été enregistré");
             if (isset($params[Routing::PARAMS_GET]['redirectToEdit'])) {
                 Helpers::redirectBack();
             } else {
-                Helpers::redirect(Helpers::getAdminRoute(lcfirst($this->className)));
+                Helpers::redirect(Helpers::getAdminRoute(lcfirst(str_replace(self::CLASS_CONTROLLER, '', get_called_class()))));
             }
         }
         return $class->id();

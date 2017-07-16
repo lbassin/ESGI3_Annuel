@@ -52,6 +52,9 @@
         <a class="nav-link" href="<?php echo Helpers::getAdminRoute('media'); ?>">
             <i class="fa fa-video-camera" aria-hidden="true"></i>&emsp;Médias
         </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('survey'); ?>">
+            <i class="fa fa-rebel" aria-hidden="true"></i>&emsp;Survey
+        </a>
     </nav>
 
     <nav class="slide-nav slide-nav-small is-visible">
@@ -81,6 +84,9 @@
         </a>
         <a class="nav-link" href="<?php echo Helpers::getAdminRoute('media'); ?>">
             <i class="fa fa-video-camera" aria-hidden="true"></i>
+        </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('survey'); ?>">
+            <i class="fa fa-rebel" aria-hidden="true"></i>
         </a>
     </nav>
 
