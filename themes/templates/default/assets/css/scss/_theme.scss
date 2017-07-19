@@ -1,11 +1,12 @@
 $with_text: 400px;
-$margin-top: 80px;
+$margin_top: 80px;
 $nav_height: 100px;
 $time_transition: 0.4s;
 
 body {
   box-sizing: border-box;
   margin: 0;
+  font-family: 'Roboto', sans-serif;
 }
 
 img {
@@ -67,23 +68,24 @@ img {
   .top-content-container {
     width: 80%;
 
-    margin: 0 auto;
     padding-top: 100px;
+    margin: 0 auto;
 
   }
 
   .top-title, .top-content {
+    text-align: center;
     margin:0 auto;
     padding-bottom: 30px;
 
     max-width: $with_text;
-    text-align: center;
   }
 }
 
 .container-cases {
   text-align: center;
-  margin-top: $margin-top;
+
+  margin-top: $margin_top;
 
   .cases {
     display: inline-block;
@@ -97,14 +99,27 @@ img {
     border: 1px solid #eee;
     border-radius: 3px;
 
-    a {
-      margin: 20px 0;
+    .case-content {
+      padding: 10px;
+
+      a {
+        text-decoration: none;
+        color: #3aa3e3;
+
+        transition: color $time_transition;
+
+        &:hover {
+          transition: color $time_transition;
+          color: #176ca0;
+        }
+      }
     }
 
     .case-avatar img {
       width: 80px;
       height: 80px;
 
+      padding: 10px 0;
       border-radius: 50%;
     }
   }
@@ -114,7 +129,7 @@ img {
 .middle-container {
   background: url('https://assets.statamic.com/img/bg-topo.jpg') repeat-x;
 
-  margin-top: $margin-top;
+  margin-top: $margin_top;
 
   .middle-title {
     padding-top: 80px;
@@ -141,6 +156,7 @@ img {
 }
 
 .bottom-container {
+  display: -ms-flexbox;
   display: flex;
 
   align-items: center;
@@ -151,11 +167,10 @@ img {
   text-align: center;
 
   .bottom-image {
+    background: #f8f8f8;
+    -ms-flex: 2;
     flex: 2;
     padding: 40px 20px;
-
-    background: #f8f8f8;
-
     text-align: center;
   }
 
@@ -177,31 +192,30 @@ img {
   }
   .bottom-container {
     width: 100%;
-
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
+    -ms-flex-direction: column;
     flex-direction: column;
-
-    padding: 0 !important;
-
     border-top: 1px solid rgba(0,0,0,.1);
+    padding: 0 !important;
 
     text-align: center;
 
     .bottom-image {
-      width: 100%;
-      margin: 0 15px 15px!important;
-      padding: 0 !important;
-
       flex-basis: 100%;
+      -ms-flex: auto;
       flex: auto;
+      margin: 0 15px 15px!important;
+      width: 100%;
+      padding: 0 !important;
     }
 
     .bottom-content {
+      flex-basis: 100%;
+      -ms-flex: auto;
+      flex: auto;
       margin: 0 15px 15px!important;
       max-width: 700px;
-
-      flex-basis: 100%;
-      flex: auto;
     }
   }
 
