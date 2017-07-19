@@ -2,9 +2,22 @@
 <html>
 <head>
     <link rel="stylesheet" href="<?php echo Helpers::getThemeAsset('css/theme.css'); ?>">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 <body>
 <div class="container">
+    <div class="nav-container">
+        <div class="nav-content">
+            <ul>
+                <li class="nav-logo"><a href="#">LOGO</a></li>
+                <li><a href="#">Buy now</a></li>
+                <li><a href="#">Try</a></li>
+                <li><a href="#">Features</a></li>
+                <li><a href="#">Docs</a></li>
+                <li><a href="#">Support</a></li>
+            </ul>
+        </div>
+    </div>
     <div class="top-container">
         <div class="top-content-container">
             <div class="top-title">
@@ -24,22 +37,28 @@
                 <div class="case-avatar">
                     <img src="http://lorempicsum.com/nemo/255/200/5" alt="">
                 </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aperiam dolorem dolorum eius est in maiores molestiae neque nostrum officia perferendis porro praesentium provident quas qui recusandae, reiciendis totam voluptates.</p>
-                <a href="#">Lien ...</a>
+                <div class="case-content">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aperiam dolorem dolorum eius est in maiores molestiae neque nostrum officia perferendis porro praesentium provident quas qui recusandae, reiciendis totam voluptates.</p>
+                    <a href="#">Lien ...</a>
+                </div>
             </div>
             <div class="case">
                 <div class="case-avatar">
                     <img src="http://lorempicsum.com/nemo/255/200/5" alt="">
                 </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aperiam dolorem dolorum eius est in maiores molestiae neque nostrum officia perferendis porro praesentium provident quas qui recusandae, reiciendis totam voluptates.</p>
-                <a href="#">Lien ...</a>
+                <div class="case-content">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aperiam dolorem dolorum eius est in maiores molestiae neque nostrum officia perferendis porro praesentium provident quas qui recusandae, reiciendis totam voluptates.</p>
+                    <a href="#">Lien ...</a>
+                </div>
             </div>
             <div class="case">
                 <div class="case-avatar">
                     <img src="http://lorempicsum.com/nemo/255/200/5" alt="">
                 </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aperiam dolorem dolorum eius est in maiores molestiae neque nostrum officia perferendis porro praesentium provident quas qui recusandae, reiciendis totam voluptates.</p>
-                <a href="#">Lien ...</a>
+                <div class="case-content">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aperiam dolorem dolorum eius est in maiores molestiae neque nostrum officia perferendis porro praesentium provident quas qui recusandae, reiciendis totam voluptates.</p>
+                    <a href="#">Lien ...</a>
+                </div>
             </div>
         </div>
     </div>
