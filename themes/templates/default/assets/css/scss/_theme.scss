@@ -1,5 +1,7 @@
 $with_text: 400px;
 $margin-top: 80px;
+$nav_height: 100px;
+$time_transition: 0.4s;
 
 body {
   box-sizing: border-box;
@@ -12,6 +14,45 @@ img {
 
 .container {
   width: 100%;
+}
+
+.nav-container {
+  height: $nav_height;
+
+  .nav-content {
+    height: 100%;
+
+    .nav-logo {
+      padding-right: 10px;
+    }
+
+    a {
+      padding: 0 10px;
+
+      line-height: $nav_height;
+      text-decoration: none;
+      color: #3c3c3c;
+
+      transition: color $time_transition;
+
+      &:hover {
+        transition: color $time_transition;
+        color: #3aa3e3;
+      }
+    }
+
+    ul {
+      text-align: center;
+
+      margin: 0;
+    }
+
+    li {
+      list-style-type: none;
+
+      display: inline-block;
+    }
+  }
 }
 
 .top-container {
