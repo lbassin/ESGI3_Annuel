@@ -50,7 +50,7 @@ class SetupController
     {
         $view = new View('back', 'setup/infos', 'setup');
 
-        $config = new Config();
+        $config = new Config(['setup' => true]);
         $view->assign('config', $config);
         $view->assign('step', 2);
     }
@@ -58,7 +58,18 @@ class SetupController
     public function step3()
     {
         $_SESSION['data_config'] = $_POST;
-        if (!$this->validateSetupInformation($_SESSION['data_config'])) {
+
+        $config = new Config(['setup' => true]);
+
+        $validator = new Validator($_SESSION['data_config']);
+        $validator->validate($config->setupValidate());
+
+        if (!DB::tryCredentials($_SESSION['data_config']['db_host'], $_SESSION['data_config']['db_user'], $_SESSION['data_config']['db_password'], $_SESSION['data_config']['db_name'], $_SESSION['data_config']['db_port'])) {
+            Session::addError("Impossible de se connecter à la base de données");
+        }
+
+        if (count(Session::getErrors()) > 0) {
+            Session::setFormData($_SESSION['data_config']);
             Helpers::redirectBack();
         }
 
@@ -66,38 +77,6 @@ class SetupController
 
         $view->assign('setupFiles', $this->schemaSetup);
         $view->assign('step', 3);
-    }
-
-    private function validateSetupInformation($data)
-    {
-        $errors = [];
-
-        $notEmpty = [
-            'name',
-            'base_path',
-            'admin_path',
-            'db_user',
-            'db_password',
-            'db_host',
-            'db_port',
-            'db_name'
-        ];
-
-        foreach ($notEmpty as $field) {
-            if (empty($data[$field])) {
-                $errors[$field] = 'Shouldn\'t be empty';
-            }
-        }
-
-        if (!Db::tryCredentials($data['db_host'], $data['db_user'], $data['db_password'], $data['db_name'], $data['db_port'])) {
-            $errors['global'][] = 'Fail to connect to database';
-        }
-
-        if (!empty($errors)) {
-            $_SESSION['errors'] = $errors;
-            return false;
-        }
-        return true;
     }
 
     public function step5()
@@ -117,7 +96,9 @@ class SetupController
             $view->assign('error', $ex->getMessage());
         }
 
-        $this->createAdmin();
+        $postData['role'] = 1;
+        $postData['status'] = 1;
+        $user = new User($_SESSION['data_config']);
 
         unset($_SESSION['data_config']);
         unset($_SESSION['data_admin']);
@@ -151,7 +132,6 @@ class SetupController
 
         foreach ($params as $setting => $value) {
             $key = 'CONF_' . strtoupper($setting);
-
             if ($key == 'CONF_BASE_PATH') {
                 $value = $this->formatBasePath($value);
 
@@ -172,16 +152,18 @@ class SetupController
     {
         $basePath = trim($basePath, '/');
         $basePath = '/' . $basePath . '/';
-        $basePath = $basePath != '//' ?: '/';
+        $basePath = ($basePath != '//') ? $basePath : '/';
 
         return $basePath;
     }
 
     public function step4()
     {
+        $config = new Config(['setup' => true]);
+
         $view = new View('back', 'setup/user', 'setup');
         $view->assign('step', 4);
-        $view->assign('config', new Config());
+        $view->assign('config', $config);
     }
 
 

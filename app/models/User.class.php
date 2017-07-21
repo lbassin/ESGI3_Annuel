@@ -16,6 +16,9 @@ class User extends Sql implements Listable, Editable
     {
         $this->belongsTo(['role']);
         $this->hasMany(['article', 'comment']);
+        if (isset($data['password'])) {
+            $data['password'] = Hash::generate($data['password']);
+        }
 
         parent::__construct($data);
     }

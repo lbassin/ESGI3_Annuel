@@ -23,7 +23,9 @@ class Sql extends Model
     */
     function __construct($data = '')
     {
-        $this->pdo = Db::getInstance();
+        if (!isset($data['setup'])) {
+            $this->pdo = Db::getInstance();
+        }
         $this->table = lcfirst(get_called_class());
         parent::__construct($data);
     }

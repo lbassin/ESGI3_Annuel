@@ -4,7 +4,7 @@ abstract class Controller implements Controllable
 {
     use Csrfable;
     const CLASS_CONTROLLER = 'ControllerBack';
-    private $className;
+    protected $className;
     private $configList = [];
 
     function __construct()

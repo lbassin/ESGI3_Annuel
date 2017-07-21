@@ -55,6 +55,9 @@
         <a class="nav-link" href="<?php echo Helpers::getAdminRoute('survey'); ?>">
             <i class="fa fa-rebel" aria-hidden="true"></i>&emsp;Survey
         </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('survey'); ?>">
+            <i class="fa fa-cog" aria-hidden="true"></i>&emsp;Config
+        </a>
     </nav>
 
     <nav class="slide-nav slide-nav-small is-visible">
@@ -87,6 +90,9 @@
         </a>
         <a class="nav-link" href="<?php echo Helpers::getAdminRoute('survey'); ?>">
             <i class="fa fa-rebel" aria-hidden="true"></i>
+        </a>
+        <a class="nav-link" href="<?php echo Helpers::getAdminRoute('config'); ?>">
+            <i class="fa fa-cog" aria-hidden="true"></i>
         </a>
     </nav>
 
