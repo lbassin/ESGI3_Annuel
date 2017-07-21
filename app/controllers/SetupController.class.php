@@ -82,7 +82,17 @@ class SetupController
     public function step5()
     {
         $_SESSION['data_admin'] = $_POST;
-        if (!$this->validateAdminInformation($_SESSION['data_admin'])) {
+
+        $_SESSION['data_admin']['role'] = 1;
+        $_SESSION['data_admin']['status'] = 1;
+        $_SESSION['data_admin']['setup'] = true;
+        $userValidate = new User($_SESSION['data_admin']);
+
+        $validator = new Validator($_SESSION['data_admin'], 'User');
+        $validator->validate($userValidate->validate());
+
+        if (count(Session::getErrors()) > 0) {
+            Session::setFormData($_SESSION['data_admin']);
             Helpers::redirectBack();
         }
 
@@ -96,20 +106,16 @@ class SetupController
             $view->assign('error', $ex->getMessage());
         }
 
-        $postData['role'] = 1;
-        $postData['status'] = 1;
-        $user = new User($_SESSION['data_config']);
+        unset($_SESSION['data_admin']['setup']);
+        $user = new User($_SESSION['data_admin']);
+        foreach ($user->getBelongsTo() as $table) {
+            $user->$table = new $table(['id' => 1]);
+        }
+
+        $user->save();
 
         unset($_SESSION['data_config']);
         unset($_SESSION['data_admin']);
-    }
-
-    private function createAdmin(){
-        $user = new User;
-        $user->fill($_SESSION['data_admin']);
-        $user->setRole(1);
-        $user->setStatus(1);
-        $user->save();
     }
 
     private function createHtaccessFile($params)
@@ -164,32 +170,6 @@ class SetupController
         $view = new View('back', 'setup/user', 'setup');
         $view->assign('step', 4);
         $view->assign('config', $config);
-    }
-
-
-    private function validateAdminInformation($data)
-    {
-        $errors = [];
-
-        $notEmpty = [
-            'firstname',
-            'lastname',
-            'pseudo',
-            'email',
-            'password'
-        ];
-
-        foreach ($notEmpty as $field) {
-            if (empty($data[$field])) {
-                $errors[$field] = 'Shouldn\'t be empty';
-            }
-        }
-
-        if (!empty($errors)) {
-            $_SESSION['errors'] = $errors;
-            return false;
-        }
-        return true;
     }
 
     public function stepInstallDatabase()

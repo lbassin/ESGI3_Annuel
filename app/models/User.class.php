@@ -169,17 +169,15 @@ class User extends Sql implements Listable, Editable
         ];
     }
 
-    public function validate(array $data)
+    public function validate()
     {
         return [
             'pseudo' => [
-                'unique' => 1,
                 'require' => 1,
                 'min' => 3,
                 'max' => 255
             ],
             'email' => [
-                'unique' => 1,
                 'require' => 1,
                 'min' => 3,
                 'max' => 255
