@@ -21,6 +21,7 @@
             <div id="mass-action">
                 <select name="" id="">
                     <option value="">Mass Action</option>
+                    <option value="delete">Delete</option>
                 </select>
                 <span class="records-count"><?php echo $pagination['count']; ?> Records found</span>
             </div>
@@ -82,5 +83,7 @@
         </table>
     <?php endif; ?>
 </div>
-
+<script>
+    let massiveDeleteUrl = '<?php echo Helpers::getAdminRoute(Routing::$currentClass.'/delete'); ?>';
+</script>
 <script src="<?php echo Helpers::getAsset('js/modals/list.js'); ?>"></script>

@@ -7,6 +7,8 @@ class Routing
     const PARAMS_GET = 'get';
     const PARAMS_FILE = 'files';
 
+    static $currentClass;
+
     /** @var array uriExploded */
     private $uriExploded;
     /** @var string controllerArea */
@@ -34,6 +36,8 @@ class Routing
         $uri = trim($uri, "/");
 
         $this->uriExploded = explode("/", $uri);
+
+        self::$currentClass = $this->uriExploded[1];
 
         if ($this->checkBackOffice()) {
             if (!Session::isLogged() && !in_array('login', $this->uriExploded)) {

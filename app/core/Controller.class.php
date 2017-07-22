@@ -105,19 +105,19 @@ abstract class Controller implements Controllable
     public function deleteAction($params = [])
     {
         $postData = $params[Routing::PARAMS_POST];
-        $this->check(isset($postData['token']) ? $postData['token'] : '');
-        $params = explode(',', $postData['id']);
-        foreach ($params as $key => $id) {
-            $class = new $this->className();
-
-            try {
-                $class->delete(['id' => $id]);
-            } catch (Exception $ex) {
-                Session::addError($ex->getMessage());
-                Helpers::redirectBack();
+        if (is_array($postData)) {
+            foreach ($postData as $id) {
+                self::deleteAction([Routing::PARAMS_POST => $id]);
             }
         }
-        Session::addSuccess($this->className . ' successfully deleted');
-        Helpers::redirect(Helpers::getAdminRoute($this->className));
+
+        $class = new $this->className();
+
+        try {
+            $class->delete(['id' => $postData[0]]);
+            echo json_encode(['success' => true, 'message' => 'successfully deleted']); // TODO : Error
+        } catch (Exception $ex) {
+            echo json_encode(['error' => true, 'message' => $ex->getMessage()]); // TODO : Error
+        }
     }
 }
