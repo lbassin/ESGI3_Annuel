@@ -54,7 +54,7 @@ class Article extends Sql implements Editable, Listable
         ];
     }
 
-    public function getListConfig()
+    public function getListConfig($configList = null)
     {
         return [
             'struct' => [
@@ -70,13 +70,18 @@ class Article extends Sql implements Editable, Listable
                     'Action'
                 ]
             ],
-            Listable::LIST_ROWS => $this->getListData()
+            Listable::LIST_ROWS => $this->getListData($configList)
         ];
     }
 
-    public function getListData()
+    public function getListData($configList = null)
     {
-        $articles = $this->getAll();
+        $limits = [
+            'limit' => $configList['size'],
+            'offset' => $configList['size'] * ($configList['page'] - 1)
+        ];
+        $search = isset($configList['search']) ? ['search' =>  $configList['search']] : [];
+        $articles = $this->getAll($search, $limits);
 
         $listData = [];
 

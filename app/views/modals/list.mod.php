@@ -9,7 +9,9 @@
         <h1><?php echo $config[Listable::LIST_STRUCT][Listable::LIST_TITLE]; ?></h1>
 
         <div id="menu">
-            <input type="text" placeholder="Search by keyword">
+            <form action="" method="get">
+                <input type="text" placeholder="Search by keyword" name="search" value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
+            </form>
             <div id="action">
                 <a href="<?php echo $config[Listable::LIST_STRUCT][Listable::LIST_NEW_LINK]; ?>" class="button primary">
                     New

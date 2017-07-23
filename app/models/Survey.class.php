@@ -22,7 +22,7 @@ class Survey extends Sql implements Listable, Editable
         ];
     }
 
-    public function getListConfig()
+    public function getListConfig($configList = null)
     {
         return [
             Listable::LIST_STRUCT => [
@@ -38,13 +38,18 @@ class Survey extends Sql implements Listable, Editable
                     'Action'
                 ]
             ],
-            Listable::LIST_ROWS => $this->getListData()
+            Listable::LIST_ROWS => $this->getListData($configList)
         ];
     }
 
     public function getListData($configList = null)
     {
-        $surveys = $this->getAll();
+        $limits = [
+            'limit' => $configList['size'],
+            'offset' => $configList['size'] * ($configList['page'] - 1)
+        ];
+        $search = isset($configList['search']) ? ['search' =>  $configList['search']] : [];
+        $surveys = $this->getAll($search, $limits);
         $listData = [];
         /** @var User $user */
         foreach ($surveys as $survey) {

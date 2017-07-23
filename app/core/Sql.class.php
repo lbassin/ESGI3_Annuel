@@ -124,7 +124,11 @@ class Sql extends Model
     public function getAll(array $condition = [], array $limitQuery = [], array $orderQuery = [])
     {
         if (!empty($condition)) {
-            $this->where($condition);
+            if (isset($condition['search'])) {
+                $this->search($condition['search']);
+            } else {
+                $this->where($condition);
+            }
         }
         $this->ordonate($orderQuery);
         $this->limitate($limitQuery);
@@ -269,5 +273,23 @@ class Sql extends Model
             }
             $this->order = substr($orderString, 0, -1);
         }
+    }
+
+    /**
+     * @param string $searchedQuery
+     * set condition with the property of the object called
+     * set data with the content of the $searchedQuery
+     */
+    private function search ($searchedQuery)
+    {
+        $this->data = [];
+        $this->condition = ' WHERE 1 = 1 AND ';
+        foreach ($this->toArray() as $column => $item) {
+            if ($column != 'id') {
+                $this->condition .= ' ' . $column . ' like :' . $column . ' OR ';
+                $this->data[$column] = '%'.$searchedQuery.'%';
+            }
+        }
+        $this->condition = substr($this->condition, 0, -3);
     }
 }

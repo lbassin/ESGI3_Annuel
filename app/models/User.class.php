@@ -35,6 +35,7 @@ class User extends Sql implements Listable, Editable
                     'ID',
                     'Firstname',
                     'Lastname',
+                    'Pseudo',
                     'Email',
                     'Role',
                     'Action'
@@ -50,7 +51,8 @@ class User extends Sql implements Listable, Editable
             'limit' => $configList['size'],
             'offset' => $configList['size'] * ($configList['page'] - 1)
         ];
-        $users = $this->getAll([], $limits);
+        $search = isset($configList['search']) ? ['search' =>  $configList['search']] : [];
+        $users = $this->getAll($search, $limits);
 
         $listData = [];
         /** @var User $user */
@@ -72,6 +74,10 @@ class User extends Sql implements Listable, Editable
                 [
                     'type' => 'text',
                     'value' => $user->lastname()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $user->pseudo()
                 ],
                 [
                     'type' => 'text',

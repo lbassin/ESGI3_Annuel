@@ -77,7 +77,7 @@ class Menu extends Sql implements Editable, Listable
         ];
     }
 
-    public function getListConfig()
+    public function getListConfig($configList = null)
     {
         return [
             Listable::LIST_STRUCT => [
@@ -91,13 +91,18 @@ class Menu extends Sql implements Editable, Listable
                     'Action'
                 ]
             ],
-            Listable::LIST_ROWS => $this->getListData()
+            Listable::LIST_ROWS => $this->getListData($configList)
         ];
     }
 
-    public function getListData()
+    public function getListData($configList = null)
     {
-        $menus = $this->getParent();
+        $limits = [
+            'limit' => $configList['size'],
+            'offset' => $configList['size'] * ($configList['page'] - 1)
+        ];
+        $search = isset($configList['search']) ? ['search' =>  $configList['search']] : [];
+        $menus = $this->getParent($search, $limits);
         $listData = [];
 
         foreach ($menus as $menu) {
@@ -125,9 +130,9 @@ class Menu extends Sql implements Editable, Listable
         return $listData;
     }
 
-    public function getParent()
+    public function getParent($search, $limits)
     {
-        $menus = $this->getAll();
+        $menus = $this->getAll($search, $limits);
         $parentMenu = [];
         foreach ($menus as $key => $menu) {
             if ($menu->parent_id() == null) {

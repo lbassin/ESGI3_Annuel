@@ -17,6 +17,7 @@ abstract class Controller implements Controllable
         $view = new View('back', lcfirst($this->className) . '/index', 'admin');
 
         $class = new $this->className;
+        $this->configList['search'] = (isset($params[Routing::PARAMS_GET]['search']) && !empty($params[Routing::PARAMS_GET]['search'])) ? $params[Routing::PARAMS_GET]['search'] : null;
         $this->configList['size'] = isset($params[Routing::PARAMS_GET]['size']) ? $params[Routing::PARAMS_GET]['size'] : 10;
         $this->configList['page'] = isset($params[Routing::PARAMS_GET]['page']) ? $params[Routing::PARAMS_GET]['page'] : 1;
         $this->configList['availableSize'] = [10, 20, 50];

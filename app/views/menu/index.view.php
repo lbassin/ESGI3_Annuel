@@ -1,3 +1,3 @@
 <?php if (isset($menu)):
-    $this->includeModal('list', $menu->getListConfig(), $configList);
+    $this->includeModal('list', $menu->getListConfig($configList), $configList);
 endif;

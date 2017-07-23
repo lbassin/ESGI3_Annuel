@@ -22,7 +22,7 @@ class Media extends Sql implements Listable, Editable, Uploadable
         }
     }
 
-    public function getListConfig()
+    public function getListConfig($configList = null)
     {
         return [
             Listable::LIST_STRUCT => [
@@ -40,13 +40,18 @@ class Media extends Sql implements Listable, Editable, Uploadable
                     'Action'
                 ]
             ],
-            Listable::LIST_ROWS => $this->getListData()
+            Listable::LIST_ROWS => $this->getListData($configList)
         ];
     }
 
-    public function getListData()
+    public function getListData($configList = null)
     {
-        $medias = $this->getAll();
+        $limits = [
+            'limit' => $configList['size'],
+            'offset' => $configList['size'] * ($configList['page'] - 1)
+        ];
+        $search = isset($configList['search']) ? ['search' =>  $configList['search']] : [];
+        $medias = $this->getAll($search, $limits);
 
         $listData = [];
 

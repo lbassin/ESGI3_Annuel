@@ -11,7 +11,7 @@ class Comment extends Sql implements Listable, Editable
         parent::__construct($data);
     }
 
-    public function getListConfig()
+    public function getListConfig($configList = null)
     {
         return [
             Listable::LIST_STRUCT => [
@@ -27,13 +27,18 @@ class Comment extends Sql implements Listable, Editable
                     'Action'
                 ]
             ],
-            Listable::LIST_ROWS => $this->getListData()
+            Listable::LIST_ROWS => $this->getListData($configList)
         ];
     }
 
-    public function getListData()
+    public function getListData($configList = null)
     {
-        $comments = $this->getAll();
+        $limits = [
+            'limit' => $configList['size'],
+            'offset' => $configList['size'] * ($configList['page'] - 1)
+        ];
+        $search = isset($configList['search']) ? ['search' =>  $configList['search']] : [];
+        $comments = $this->getAll($search, $limits);
 
         $listData = [];
 

@@ -19,9 +19,10 @@ class Theme extends Sql implements Listable, Editable
     }
 
     /**
+     * @param array
      * @return array
      */
-    public function getListConfig()
+    public function getListConfig($configList = null)
     {
         return [
             Listable::LIST_STRUCT => [
@@ -39,7 +40,7 @@ class Theme extends Sql implements Listable, Editable
                     'Action'
                 ]
             ],
-            Listable::LIST_ROWS => $this->getListData()
+            Listable::LIST_ROWS => $this->getListData($configList)
         ];
     }
 
@@ -49,7 +50,8 @@ class Theme extends Sql implements Listable, Editable
             'limit' => $configList['size'],
             'offset' => $configList['size'] * ($configList['page'] - 1)
         ];
-        $themes = $this->getAll([], $limits);
+        $search = isset($configList['search']) ? ['search' =>  $configList['search']] : [];
+        $themes = $this->getAll($search, $limits);
 
         $listData = [];
         /** @var User $user */
