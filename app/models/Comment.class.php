@@ -3,12 +3,12 @@ class Comment extends Sql implements Listable, Editable
 {
     protected $id;
     protected $content;
-    protected $report;
-    protected $reported;
+    protected $moderate;
 
     public function __construct($data = '')
     {
         $this->belongsTo(['article', 'user']);
+        $this->manyMany(['user']);
 
         parent::__construct($data);
     }
@@ -64,7 +64,7 @@ class Comment extends Sql implements Listable, Editable
                 ],
                 [
                     'type' => 'text',
-                    'value' => ($comment->report() != null ) ? $comment->report() : 'Aucun'
+                    'value' => ($comment->users() != null) ? count($comment->users()) : 'Aucun'
                 ],
                 [
                     'type' => 'text',
@@ -103,6 +103,12 @@ class Comment extends Sql implements Listable, Editable
 
     public function getFormConfig()
     {
+        $listModerate = [
+            'Non' => 0,
+            'Oui' => 1
+        ];
+        $this->getUser();
+        $this->getArticle();
         return [
             Editable::FORM_STRUCT => [
                 Editable::FORM_METHOD => 'post',
@@ -131,6 +137,24 @@ class Comment extends Sql implements Listable, Editable
                         'user' => [
                             'type' => 'hidden',
                             'value' => ($this->user() != null) ? $this->user()->id() : ''
+                        ]
+                    ]
+                ],
+                [
+                    Editable::GROUP_LABEL => 'Modération',
+                    Editable::GROUP_FIELDS => [
+                        'report' => [
+                            'type' => 'text',
+                            'label' => 'Nombre de fois reportés :',
+                            'disabled' => true,
+                            'class' => 'two-col',
+                            'value' => (($this->users() != null) ? count($this->users()) : 0) . ' fois !'
+                        ],
+                        'moderate' => [
+                            'type' => 'select',
+                            'label' => 'Cacher ce commentaire ?',
+                            'options' => $listModerate,
+                            'value' => $this->moderate()
                         ]
                     ]
                 ]

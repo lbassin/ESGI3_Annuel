@@ -48,9 +48,11 @@ abstract class Model
             $table = lcfirst(substr($method, 3));
             if (in_array($table, $this->hasMany)) {
                 $this->queryHasMany($table);
-            } elseif (in_array($table, $this->belongsTo)) {
+            }
+            if (in_array($table, $this->belongsTo)) {
                 $this->queryBelongsTo($table);
-            } elseif (in_array($table, $this->manyMany)) {
+            }
+            if (in_array($table, $this->manyMany)) {
                 $this->queryManyMany($table);
             }
         }
