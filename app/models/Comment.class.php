@@ -3,6 +3,8 @@ class Comment extends Sql implements Listable, Editable
 {
     protected $id;
     protected $content;
+    protected $report;
+    protected $reported;
 
     public function __construct($data = '')
     {
@@ -22,6 +24,8 @@ class Comment extends Sql implements Listable, Editable
                     '',
                     'ID',
                     'Content',
+                    'Report',
+                    'Moderate',
                     'Article',
                     'User',
                     'Action'
@@ -57,6 +61,14 @@ class Comment extends Sql implements Listable, Editable
                 [
                     'type' => 'text',
                     'value' => $comment->content()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => ($comment->report() != null ) ? $comment->report() : 'Aucun'
+                ],
+                [
+                    'type' => 'text',
+                    'value' => ($comment->moderate() == false) ? 'Activé' : 'Desactivé'
                 ],
                 [
                     'type' => 'text',
