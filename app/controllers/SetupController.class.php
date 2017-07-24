@@ -115,8 +115,8 @@ class SetupController
 
         $user->save();
 
-        //unset($_SESSION['data_config']);
-        //unset($_SESSION['data_admin']);
+        unset($_SESSION['data_config']);
+        unset($_SESSION['data_admin']);
     }
 
     private function createHtaccessFile($params)
