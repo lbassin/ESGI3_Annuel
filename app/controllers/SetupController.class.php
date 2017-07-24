@@ -64,7 +64,7 @@ class SetupController
         $validator = new Validator($_SESSION['data_config']);
         $validator->validate($config->setupValidate());
 
-        if (!DB::tryCredentials($_SESSION['data_config']['db_host'], $_SESSION['data_config']['db_user'], $_SESSION['data_config']['db_password'], $_SESSION['data_config']['db_name'], $_SESSION['data_config']['db_port'])) {
+        if (!Db::tryCredentials($_SESSION['data_config']['db_host'], $_SESSION['data_config']['db_user'], $_SESSION['data_config']['db_password'], $_SESSION['data_config']['db_name'], $_SESSION['data_config']['db_port'])) {
             Session::addError("Impossible de se connecter à la base de données");
         }
 
@@ -109,13 +109,14 @@ class SetupController
         unset($_SESSION['data_admin']['setup']);
         $user = new User($_SESSION['data_admin']);
         foreach ($user->getBelongsTo() as $table) {
-            $user->$table = new $table(['id' => 1]);
+            $className = ucfirst($table);
+            $user->$table = new $className(['id' => 1]);
         }
 
         $user->save();
 
-        unset($_SESSION['data_config']);
-        unset($_SESSION['data_admin']);
+        //unset($_SESSION['data_config']);
+        //unset($_SESSION['data_admin']);
     }
 
     private function createHtaccessFile($params)

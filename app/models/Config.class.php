@@ -199,8 +199,7 @@ class Config extends Sql implements Editable
                 'min' => 2
             ],
             'base_path' => [
-                'required' => true,
-                'min' => 2
+                'required' => true
             ],
             'admin_path' => [
                 'required' => true,
