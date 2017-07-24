@@ -26,7 +26,7 @@ class Helpers
 
     public static function getMedia($path)
     {
-        return BASE_PATH . FILE_UPLOAD_PATH . $path;
+        return BASE_PATH . $path;
     }
 
     public static function getAdminRoute($path)

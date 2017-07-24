@@ -182,7 +182,7 @@ class Media extends BaseSql implements Listable, Editable
         return $filePath;
     }
 
-    public function getExensionFromFile(string $file)
+    public function getExensionFromFile($file)
     {
         $extension = new SplFileInfo($file);
         return $extension->getExtension();

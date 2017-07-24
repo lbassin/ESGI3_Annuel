@@ -1,3 +1,7 @@
+<div id="image-preview-final">
+
+</div>
+
 <script>
     var mediaPreview = '<?php echo Helpers::getAdminRoute('media/preview'); ?>';
 </script>
