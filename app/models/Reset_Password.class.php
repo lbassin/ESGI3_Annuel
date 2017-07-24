@@ -1,44 +1,14 @@
 <?php
-class Reset_Password extends BaseSql
+class Reset_Password extends Sql
 {
     protected $id;
     protected $token;
-    protected $user_id;
 
 
-    public function __construct()
+    public function __construct($data = '')
     {
-        parent::__construct();
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function getToken()
-    {
-        return $this->token;
-    }
-
-    public function setToken($token)
-    {
-        $this->token = $token;
-    }
-
-    public function getUserId()
-    {
-        return $this->user_id;
-    }
-
-    public function setUserId($user_id)
-    {
-        $this->user_id = $user_id;
+        $this->belongsTo(['user']);
+        parent::__construct($data);
     }
 
     public function generateToken() {

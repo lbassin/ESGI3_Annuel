@@ -48,16 +48,16 @@ class LoginControllerBack
 
     public function resetPasswordAction($params)
     {
-        if (isset($params['post']['email'])) {
+        if (isset($params[Routing::PARAMS_POST]['email'])) {
             $user = new User();
             $user->populate(['email' => $params['post']['email']]);
 
-            if(! is_null($user->getId())) { // TODO
+            if(! is_null($user->id())) { // TODO
                 ob_start();
                 $resetPassword = new Reset_Password();
                 $token = $resetPassword->generateToken();
-                $resetPassword->setToken($token);
-                $resetPassword->setUserId($user->getId());
+                $resetPassword->token($token);
+                $resetPassword->user = $user;
 
                 $resetPassword->save();
 
@@ -78,11 +78,12 @@ class LoginControllerBack
         }
     }
 
-    public function resetAction() {
+    public function resetAction($params)
+    {
         $resetPassword = new Reset_Password();
-        $tmp = explode('/', $_SERVER['REQUEST_URI']);
+        $tmp = explode('/', end($params[Routing::PARAMS_URL]));
         $resetPassword->populate(['token' => end($tmp)]);
-        if(! is_null($resetPassword->getId())) {
+        if(! is_null($resetPassword->id())) {
             Csrf::generate();
             $view = new View('back', 'login/reset', 'login');
             $view->assign('csrfToken', Session::getToken());
@@ -92,14 +93,14 @@ class LoginControllerBack
     }
 
     public function validateResetPasswordAction($params) {
-        if (isset($params['post']['password'])) {
+        if (isset($params[Routing::PARAMS_POST]['password'])) {
             $resetPassword = new Reset_Password();
             $resetPassword->populate(['token' => $params['post']['token']]);
+            $resetPassword->getUser();
 
             $user = new User();
-            $user->populate(['id' => $resetPassword->getUserId()]);
-
-            $user->setPassword($params['post']['password']);
+            $user->populate(['id' => $resetPassword->user()->id()]);
+            $user->password(Hash::generate($params[Routing::PARAMS_POST]['password']));
             $user->save();
 
             $resetPassword->delete();
