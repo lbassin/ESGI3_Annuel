@@ -67,7 +67,8 @@ abstract class Controller implements Controllable
         $postData = $params[Routing::PARAMS_POST];
         $class = new $this->className($postData);
         foreach ($class->getBelongsTo() as $table) {
-            $class->$table = new $table(['id' => $postData[$table]]);
+            $className = ucwords($table, '_');
+            $class->$table = new $className(['id' => $postData[$table]]);
         }
 
         if (!empty($params[Routing::PARAMS_FILE])) {

@@ -26,7 +26,7 @@ class Sql extends Model
         if (!isset($data['setup'])) {
             $this->pdo = Db::getInstance();
         }
-        $this->table = lcfirst(get_called_class());
+        $this->table = strtolower(get_called_class());
         parent::__construct($data);
     }
 
@@ -41,7 +41,8 @@ class Sql extends Model
      */
     protected function queryBelongsTo($table){
         $id = self::PREFIX_FOREIGN.$table;
-        $class = new $table();
+        $className = ucfirst($table);
+        $class = new $className();
         $class->populate(['id' => $this->$id()]);
         $this->$table = $class;
         unset($this->$id);
@@ -60,7 +61,8 @@ class Sql extends Model
     protected function queryHasMany($table){
         $destinationTable = Helpers::renameValuePlural($table);
         $id = self::PREFIX_FOREIGN.$this->table;
-        $class = new $table();
+        $className = ucwords($table, '_');
+        $class = new $className();
         $listItem = $class->getAll([$id => $this->id]);
         foreach ($listItem as $item) {
             $this->$destinationTable[] = $item;
