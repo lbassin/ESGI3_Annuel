@@ -74,7 +74,6 @@ class Xml
         if (!$xmlPath) {
             $xmlPath = $this->filename;
         }
-
         $xml = new Xml($xmlPath);
         if (!$xml->open()) {
             return [];
@@ -110,6 +109,8 @@ class Xml
             'method' => 'post',
             'action' => '#',
             'hide_header' => 1,
+            Editable::MODEL_URL => Helpers::getAdminRoute('page'),
+            Editable::MODEL_ID => null,
             'submit' => $xml->getNode('config/struct/submit', true),
             'file' => $xml->getNode('config/struct/file', true)
         ];

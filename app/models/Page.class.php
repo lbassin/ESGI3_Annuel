@@ -108,8 +108,10 @@ class Page extends Sql implements Listable, Editable
     {
         $this->getPage_component();
         $data = [];
-        foreach ($this->page_components() as $key => $component) {
-            $data[$key] = $component->toArray();
+        if ($this->page_components() != null) {
+            foreach ($this->page_components() as $key => $component) {
+                $data[$key] = $component->toArray();
+            }
         }
         return [
             Editable::FORM_STRUCT => [

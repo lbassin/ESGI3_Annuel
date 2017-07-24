@@ -161,6 +161,4 @@ class Comment extends Sql implements Listable, Editable
             ]
         ];
     }
-
-
 }

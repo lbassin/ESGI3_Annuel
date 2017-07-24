@@ -34,13 +34,14 @@ class PageControllerBack extends Controller
 
                     /** @var Page_Component $component */
                     $component = new Page_Component();
-                    $component->setId($componentId);
-                    $component->setPageId($page->getId());
-                    $component->setTemplateId($templateId);
-                    $component->setOrder($order);
-                    $component->setConfig($componentData);
+                    $component->id($componentId);
+                    foreach ($component->getBelongsTo() as $table) {
+                        $component->$table = new $table(['id' => $page->id()]);
+                    }
+                    $component->template_id($templateId);
+                    $component->order($order);
+                    $component->config($componentData);
                     $order += 1;
-
                     $component->save();
                 }
             }

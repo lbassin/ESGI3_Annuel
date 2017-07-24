@@ -18,7 +18,7 @@ class Page_Component extends Sql
     private function getComponentXml($templateId = null)
     {
         if (!$templateId) {
-            $templateId = $this->template_id;
+            $templateId = $this->template_id();
         }
 
         // TODO : Change to getCurrentThemeDirectory();
@@ -38,7 +38,7 @@ class Page_Component extends Sql
     public function getConstraints($templateId = null)
     {
         if (!$templateId) {
-            $templateId = $this->template_id;
+            $templateId = $this->template_id();
         }
 
         $xml = $this->getComponentXml($templateId);
@@ -53,7 +53,7 @@ class Page_Component extends Sql
     public function getPreview($templateId = null)
     {
         if (!$templateId) {
-            $templateId = $this->template_id;
+            $templateId = $this->template_id();
         }
 
         $xml = $this->getComponentXml($templateId);
