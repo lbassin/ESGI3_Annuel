@@ -4,7 +4,7 @@ class Page_Component extends Sql
 {
     protected $id;
     protected $id_page;
-    protected $order;
+    protected $position;
     protected $template_id;
     protected $config;
 

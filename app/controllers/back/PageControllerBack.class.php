@@ -24,7 +24,7 @@ class PageControllerBack extends Controller
             $page = new Page($data);
             $page->save();
             if (isset($data['components'])) {
-                $order = 1;
+                $position = 1;
                 foreach ($data['components'] as $componentData) {
                     $componentData = json_decode($componentData, true);
                     $templateId = $componentData['template_id'];
@@ -39,9 +39,9 @@ class PageControllerBack extends Controller
                         $component->$table = new $table(['id' => $page->id()]);
                     }
                     $component->template_id($templateId);
-                    $component->order($order);
-                    $component->config($componentData);
-                    $order += 1;
+                    $component->position($position);
+                    $component->config(serialize($componentData));
+                    $position += 1;
                     $component->save();
                 }
             }
