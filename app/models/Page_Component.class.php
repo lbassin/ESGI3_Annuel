@@ -78,5 +78,4 @@ class Page_Component extends Sql
 
         return $config;
     }
-
 }

@@ -12,7 +12,7 @@ class PageControllerBack extends Controller
         }
         $data = $params[Routing::PARAMS_POST];
 
-        $this->check((isset($data['token'])) ? $data['token'] : '');
+       // $this->check((isset($data['token'])) ? $data['token'] : '');
 
         $this->validateNewPage($data);
         if (count(Session::getErrors()) > 0) {
@@ -27,6 +27,8 @@ class PageControllerBack extends Controller
                 $position = 1;
                 foreach ($data['components'] as $componentData) {
                     $componentData = json_decode($componentData, true);
+                    $componentData = array_filter($componentData);
+
                     $templateId = $componentData['template_id'];
                     $componentId = isset($componentData['id']) ? $componentData['id'] : null;
                     unset($componentData['template_id']);
@@ -36,12 +38,14 @@ class PageControllerBack extends Controller
                     $component = new Page_Component();
                     $component->id($componentId);
                     foreach ($component->getBelongsTo() as $table) {
+                        Helpers::debug($table);
                         $component->$table = new $table(['id' => $page->id()]);
                     }
                     $component->template_id($templateId);
                     $component->position($position);
                     $component->config(serialize($componentData));
                     $position += 1;
+
                     $component->save();
                 }
             }
@@ -52,7 +56,7 @@ class PageControllerBack extends Controller
 
         Session::addSuccess('Composant ajouté');
         if (isset($params[Routing::PARAMS_GET]['redirectToEdit'])) {
-            Helpers::redirect(Helpers::getAdminRoute('page/edit/' . $page->getId()));
+            Helpers::redirect(Helpers::getAdminRoute('page/edit/' . $page->id()));
         } else {
             Helpers::redirect(Helpers::getAdminRoute('page'));
         }

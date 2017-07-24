@@ -15,24 +15,21 @@ class Page extends Sql implements Listable, Editable
     public function __construct($data = '')
     {
         $this->hasMany(['page_component']);
-        $data['publish'] = 0;
-        $data['visibility'] = 0;
+        $data['publish'] = !isset($data['publish']) ? 0 : $data['publish'];
 
         parent::__construct($data);
     }
 
     public function getComponents()
     {
-        $component = new Page_Component();
-        $components = $component->getAll(['id_page' => $this->id()]);
-
-        $data = [];
-        /** @var Page_Component $component */
-        foreach ($components as $component) {
-            $componentData['config'] = $component->config();
-            $componentData['template_id'] = $component->template_id();
-            $componentData['id'] = $component->id();
-            $data[] = $componentData;
+        if ($this->page_components() != null) {
+            $data = [];
+            foreach ($this->page_components() as $key => $component) {
+                $componentData = unserialize($component->config());
+                $componentData['template_id'] = $component->template_id();
+                $componentData['id'] = $component->id();
+                $data[] = $componentData;
+            }
         }
 
         return $data;
@@ -64,7 +61,7 @@ class Page extends Sql implements Listable, Editable
             'limit' => $configList['size'],
             'offset' => $configList['size'] * ($configList['page'] - 1)
         ];
-        $search = isset($configList['search']) ? ['search' =>  $configList['search']] : [];
+        $search = isset($configList['search']) ? ['search' => $configList['search']] : [];
         $pages = $this->getAll($search, $limits);
 
         $listData = [];
@@ -107,12 +104,8 @@ class Page extends Sql implements Listable, Editable
     public function getFormConfig()
     {
         $this->getPage_component();
-        $data = [];
-        if ($this->page_components() != null) {
-            foreach ($this->page_components() as $key => $component) {
-                $data[$key] = $component->toArray();
-            }
-        }
+        $data = $this->getComponents();
+
         return [
             Editable::FORM_STRUCT => [
                 Editable::FORM_METHOD => 'post',
