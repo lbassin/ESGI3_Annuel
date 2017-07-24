@@ -9,9 +9,12 @@
         <h1><?php echo $config[Listable::LIST_STRUCT][Listable::LIST_TITLE]; ?></h1>
 
         <div id="menu">
-            <form action="" method="get">
-                <input type="text" placeholder="Search by keyword" name="search" value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
-            </form>
+            <div id="search">
+                <form action="" method="get">
+                    <input type="text" placeholder="Search by keyword" name="search" value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
+                    <i class="fa fa-search search-icon" aria-hidden="true"></i>
+                </form>
+            </div>
             <div id="action">
                 <a href="<?php echo $config[Listable::LIST_STRUCT][Listable::LIST_NEW_LINK]; ?>" class="button primary">
                     New
@@ -86,6 +89,6 @@
     <?php endif; ?>
 </div>
 <script>
-    let massiveDeleteUrl = '<?php echo Helpers::getAdminRoute(Routing::$currentClass.'/delete'); ?>';
+    var massiveDeleteUrl = '<?php echo Helpers::getAdminRoute(Routing::$currentClass.'/delete'); ?>';
 </script>
 <script src="<?php echo Helpers::getAsset('js/modals/list.js'); ?>"></script>

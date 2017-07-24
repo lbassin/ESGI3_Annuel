@@ -428,26 +428,26 @@ body {
   width: 100%;
   margin-bottom: 12px;
   margin-top: 18px; }
-  #list #menu input[type="text"] {
-    line-height: 32px;
-    padding: 4px;
-    width: 20%;
-    font-style: italic;
-    padding-right: 28px;
-    padding-left: 12px;
-    background-color: #ECF0F1;
-    border-radius: 5px;
-    border: 1px solid transparent;
-    transition: border .5s; }
-    #list #menu input[type="text"]:focus {
-      border: 1px solid #212121;
-      outline: none;
-      box-shadow: none; }
-  #list #menu:after {
-    margin-left: -25px;
-    position: relative;
-    content: "\f002";
-    font: normal normal normal 14px/1 FontAwesome; }
+  #list #menu #search {
+    float: left;
+    width: 50%; }
+    #list #menu #search input[type="text"] {
+      line-height: 32px;
+      padding: 4px;
+      width: 40%;
+      font-style: italic;
+      padding-right: 28px;
+      padding-left: 12px;
+      background-color: #ECF0F1;
+      border-radius: 5px;
+      border: 1px solid transparent;
+      transition: border .5s; }
+      #list #menu #search input[type="text"]:focus {
+        border: 1px solid #212121;
+        outline: none;
+        box-shadow: none; }
+    #list #menu #search .search-icon {
+      margin-left: -28px; }
   #list #menu #action {
     float: right;
     height: inherit;
