@@ -21,6 +21,7 @@ class PageControllerBack extends Controller
         }
 
         try {
+            $data['url'] = Helpers::slugify($data['url']);
             $page = new Page($data);
             $page->save();
             if (isset($data['components'])) {
