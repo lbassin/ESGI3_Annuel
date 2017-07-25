@@ -12,7 +12,7 @@ class PageControllerBack extends Controller
         }
         $data = $params[Routing::PARAMS_POST];
 
-        $this->check((isset($data['token'])) ? $data['token'] : '');
+       // $this->check((isset($data['token'])) ? $data['token'] : '');
 
         $this->validateNewPage($data);
         if (count(Session::getErrors()) > 0) {
@@ -21,28 +21,33 @@ class PageControllerBack extends Controller
         }
 
         try {
-            $page = new Page();
-            $page->fill($data);
+            $page = new Page($data);
             $page->save();
+            if (isset($data['components'])) {
+                $position = 1;
+                foreach ($data['components'] as $componentData) {
+                    $componentData = json_decode($componentData, true);
+                    $componentData = array_filter($componentData);
 
-            $order = 1;
-            foreach ($data['components'] as $componentData) {
-                $componentData = json_decode($componentData, true);
-                $templateId = $componentData['template_id'];
-                $componentId = isset($componentData['id']) ? $componentData['id'] : null;
-                unset($componentData['template_id']);
-                unset($componentData['id']);
+                    $templateId = $componentData['template_id'];
+                    $componentId = isset($componentData['id']) ? $componentData['id'] : null;
+                    unset($componentData['template_id']);
+                    unset($componentData['id']);
 
-                /** @var Page_Component $component */
-                $component = new Page_Component();
-                $component->setId($componentId);
-                $component->setPageId($page->getId());
-                $component->setTemplateId($templateId);
-                $component->setOrder($order);
-                $component->setConfig($componentData);
-                $order += 1;
+                    /** @var Page_Component $component */
+                    $component = new Page_Component();
+                    $component->id($componentId);
+                    foreach ($component->getBelongsTo() as $table) {
+                        Helpers::debug($table);
+                        $component->$table = new $table(['id' => $page->id()]);
+                    }
+                    $component->template_id($templateId);
+                    $component->position($position);
+                    $component->config(serialize($componentData));
+                    $position += 1;
 
-                $component->save();
+                    $component->save();
+                }
             }
         } catch (Exception $ex) {
             Session::addError($ex->getMessage());
@@ -51,7 +56,7 @@ class PageControllerBack extends Controller
 
         Session::addSuccess('Composant ajouté');
         if (isset($params[Routing::PARAMS_GET]['redirectToEdit'])) {
-            Helpers::redirect(Helpers::getAdminRoute('page/edit/' . $page->getId()));
+            Helpers::redirect(Helpers::getAdminRoute('page/edit/' . $page->id()));
         } else {
             Helpers::redirect(Helpers::getAdminRoute('page'));
         }
@@ -70,7 +75,7 @@ class PageControllerBack extends Controller
 
             /** @var Page_Component $component */
             $component = new Page_Component();
-            $component->setTemplateId($componentData['template_id']);
+            $component->template_id($componentData['template_id']);
 
             $validatorComponent = new Validator($componentData);
             $validatorComponent->validate($component->getConstraints());

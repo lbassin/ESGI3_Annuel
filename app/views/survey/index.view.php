@@ -1,1 +1,3 @@
-<h1>Survey</h1>
+<?php if (isset($survey)):
+    $this->includeModal('list', $survey->getListConfig($configList), $configList);
+endif;

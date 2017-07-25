@@ -1,8 +1,12 @@
-<?php if (isset($_SESSION['errors'])): ?>
-    <div style="color: red;">
-        <?php Helpers::debug($_SESSION['errors']); ?>
+<?php if (count(Session::getErrors()) > 0): ?>
+    <div class="flash-messages errors">
+        <ul>
+            <?php foreach (Session::getErrors() as $error): ?>
+                <li><?php echo $error; ?></li>
+            <?php endforeach; ?>
+        </ul>
     </div>
-    <?php unset($_SESSION['errors']); ?>
+    <?php Session::resetErrors(); ?>
 <?php endif; ?>
 
 <?php

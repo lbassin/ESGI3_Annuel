@@ -1,3 +1,3 @@
-<?php if (isset($theme)): ?>
-    <?php $this->includeModal('list', $theme->getListConfig()); ?>
-<?php endif; ?>
+<?php if (isset($theme)):
+    $this->includeModal('list', $theme->getListConfig($configList), $configList);
+endif;

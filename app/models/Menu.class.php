@@ -1,55 +1,15 @@
 <?php
 
-class Menu extends BaseSql implements Editable, Listable
+class Menu extends Sql implements Editable, Listable
 {
     protected $id;
     protected $label;
     protected $url;
     protected $parent_id;
 
-    public function __construct()
+    public function __construct($data = '')
     {
-        parent::__construct();
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function getLabel()
-    {
-        return $this->label;
-    }
-
-    public function setLabel($label)
-    {
-        $this->label = $label;
-    }
-
-    public function getUrl()
-    {
-        return $this->url;
-    }
-
-    public function setUrl($url)
-    {
-        $this->url = $url;
-    }
-
-    public function getParent_id()
-    {
-        return $this->parent_id;
-    }
-
-    public function setParent_id($parent_id)
-    {
-        $this->parent_id = $parent_id;
+        parent::__construct($data);
     }
 
     public function validate()
@@ -67,9 +27,9 @@ class Menu extends BaseSql implements Editable, Listable
     public function getSubmenu()
     {
         $dataMenu = [];
-        foreach ($this->getAll(['parent_id' => $this->getId()]) as $key => $subMenu) {
-            $dataMenu[$subMenu->getId()]['label'] = $subMenu->getLabel();
-            $dataMenu[$subMenu->getId()]['url'] = $subMenu->getUrl();
+        foreach ($this->getAll(['parent_id' => $this->id()]) as $key => $subMenu) {
+            $dataMenu[$subMenu->id()]['label'] = $subMenu->label();
+            $dataMenu[$subMenu->id()]['url'] = $subMenu->url();
         }
         return $dataMenu;
     }
@@ -80,7 +40,7 @@ class Menu extends BaseSql implements Editable, Listable
             Editable::FORM_STRUCT => [
                 Editable::FORM_METHOD => 'post',
                 Editable::MODEL_URL => Helpers::getAdminRoute('menu'),
-                Editable::MODEL_ID => $this->getId(),
+                Editable::MODEL_ID => $this->id(),
                 Editable::FORM_SUBMIT => 'Save'
             ],
             Editable::FORM_GROUPS => [
@@ -89,17 +49,17 @@ class Menu extends BaseSql implements Editable, Listable
                     Editable::GROUP_FIELDS => [
                         'id' => [
                             'type' => 'hidden',
-                            'value' => $this->getId()
+                            'value' => $this->id()
                         ],
                         'label' => [
                             'type' => 'text',
                             'label' => 'Label',
-                            'value' => $this->getLabel()
+                            'value' => $this->label()
                         ],
                         'url' => [
                             'type' => 'text',
                             'label' => 'URL',
-                            'value' => $this->getUrl()
+                            'value' => $this->url()
                         ]
                     ]
                 ],
@@ -117,7 +77,7 @@ class Menu extends BaseSql implements Editable, Listable
         ];
     }
 
-    public function getListConfig()
+    public function getListConfig($configList = null)
     {
         return [
             Listable::LIST_STRUCT => [
@@ -131,13 +91,18 @@ class Menu extends BaseSql implements Editable, Listable
                     'Action'
                 ]
             ],
-            Listable::LIST_ROWS => $this->getListData()
+            Listable::LIST_ROWS => $this->getListData($configList)
         ];
     }
 
-    public function getListData()
+    public function getListData($configList = null)
     {
-        $menus = $this->getParent();
+        $limits = [
+            'limit' => $configList['size'],
+            'offset' => $configList['size'] * ($configList['page'] - 1)
+        ];
+        $search = isset($configList['search']) ? ['search' =>  $configList['search']] : [];
+        $menus = $this->getParent($search, $limits);
         $listData = [];
 
         foreach ($menus as $menu) {
@@ -148,15 +113,15 @@ class Menu extends BaseSql implements Editable, Listable
                 ],
                 [
                     'type' => 'text',
-                    'value' => $menu->getId()
+                    'value' => $menu->id()
                 ],
                 [
                     'type' => 'text',
-                    'value' => $menu->getLabel()
+                    'value' => $menu->label()
                 ],
                 [
                     'type' => 'action',
-                    'id' => $menu->getId()
+                    'id' => $menu->id()
                 ]
 
             ];
@@ -165,12 +130,12 @@ class Menu extends BaseSql implements Editable, Listable
         return $listData;
     }
 
-    public function getParent()
+    public function getParent($search, $limits)
     {
-        $menus = $this->getAll();
+        $menus = $this->getAll($search, $limits);
         $parentMenu = [];
         foreach ($menus as $key => $menu) {
-            if ($menu->getParent_id() == null) {
+            if ($menu->parent_id() == null) {
                 $parentMenu[] = $menu;
             }
         }
