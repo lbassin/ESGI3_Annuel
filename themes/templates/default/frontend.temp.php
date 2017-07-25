@@ -25,7 +25,7 @@
 <body>
 
 <nav class="nav-container">
-    <nav class="nav-content">
+    <div class="nav-content">
         <ul>
             <li class="nav-logo"><a href="#"><img src="<?php echo Helpers::getAsset('mail-logo.png'); ?>" alt=""></a>
             </li>
@@ -51,7 +51,7 @@
                 <?php endif; ?>
             <?php endforeach; ?>
         </ul>
-    </nav>
+    </div>
 </nav>
 
 <div class="container">

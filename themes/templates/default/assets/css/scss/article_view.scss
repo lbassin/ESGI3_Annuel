@@ -2,15 +2,15 @@ body {
   box-sizing: border-box;
   margin: 0;
   font-family: 'Roboto', sans-serif;
-  background-color: #eeeeee;
+  //background-color: #eeeeee;
 }
 
 .container {
   width: 100%;
-  padding-top: 100px!important;
+  //padding-top: 100px!important;
 
-  background: #fff url("https://assets.statamic.com/img/blog/bg-mountains.jpg") no-repeat top;
-  box-shadow: inset 0 2px 8px rgba(0,0,0,.1);
+  //background: #fff url("https://assets.statamic.com/img/blog/bg-mountains.jpg") no-repeat top;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, .1);
   background-size: contain;
 
 }
@@ -24,7 +24,7 @@ body {
 
   .view-first {
     background: #fff;
-    box-shadow: 0 36px 60px -40px rgba(0,0,0,.3), 0 0 10px rgba(0,0,0,.05);
+    box-shadow: 0 36px 60px -40px rgba(0, 0, 0, .3), 0 0 10px rgba(0, 0, 0, .05);
     border-radius: 4px;
     padding: 52px;
     margin-bottom: 120px;
@@ -38,7 +38,7 @@ body {
     color: #3c3c3c;
 
     &:hover {
-      box-shadow: 0 44px 80px -30px rgba(0,0,0,.3), 0 0 10px rgba(0,0,0,.05);
+      box-shadow: 0 44px 80px -30px rgba(0, 0, 0, .3), 0 0 10px rgba(0, 0, 0, .05);
       transform: translateY(-2px);
     }
 
@@ -63,7 +63,7 @@ body {
       flex: 1;
 
       .view-first-meta {
-        font-family: Lato,sans-serif;
+        font-family: Lato, sans-serif;
         font-size: 13px;
 
         color: #9b9b9b;
@@ -100,7 +100,7 @@ body {
     }
 
     &:hover {
-      box-shadow: 0 44px 80px -30px rgba(0,0,0,.3), 0 0 10px rgba(0,0,0,.05);
+      box-shadow: 0 44px 80px -30px rgba(0, 0, 0, .3), 0 0 10px rgba(0, 0, 0, .05);
       transform: translateY(-2px);
     }
     .view-case-image {
@@ -109,7 +109,7 @@ body {
     }
   }
   .view-case-content {
-    background-color: rgba(255,255,255,0.9);
+    background-color: rgba(255, 255, 255, 0.9);
   }
 }
 
