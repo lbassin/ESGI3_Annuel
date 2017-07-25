@@ -1,10 +1,10 @@
 <?php
 
-class Article_Category extends Sql
+class Comment_User extends Sql
 {
     protected $id;
-    protected $id_article;
-    protected $id_category;
+    protected $id_comment;
+    protected $id_user;
 
     public function __construct($data = '')
     {

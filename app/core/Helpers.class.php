@@ -76,4 +76,66 @@ class Helpers
         $errorManager->error404();
         die;
     }
+
+    /**
+     * @param $string
+     * @var array $transformers contains singular to plural translation
+     * @return string $string in plural
+     */
+    public static function renameValuePlural($string) {
+        $transformers = [
+            'y' => 'ies',
+        ];
+        if (array_key_exists(substr($string, -1), $transformers)) {
+            return (substr($string, 0, -1) . $transformers[substr($string, -1)]);
+        } else {
+            return $string.'s';
+        }
+    }
+
+    /**
+     * @param string $element
+     * @var array $chars contains all accent existing
+     * @return string $element cleaned from accent
+     */
+    public static function removeAccent($element)
+    {
+        $chars = [
+            "Š"=>"S", "š"=>"s", "Ð"=>"D", "d"=>"d", "Ž"=>"Z", "ž"=>"z", "C"=>"C", "c"=>"c","À"=>"A", "Á"=>"A", "Â"=>"A",
+            "Ã"=>"A", "Ä"=>"A", "Å"=>"A", "Æ"=>"A", "Ç"=>"C", "È"=>"E", "É"=>"E","Ê"=>"E", "Ë"=>"E", "Ì"=>"I", "Í"=>"I",
+            "Î"=>"I", "Ï"=>"I", "Ñ"=>"N", "Ò"=>"O", "Ó"=>"O", "Ô"=>"O","Õ"=>"O", "Ö"=>"O", "Ø"=>"O", "Ù"=>"U", "Ú"=>"U",
+            "Û"=>"U", "Ü"=>"U", "Ý"=>"Y", "Þ"=>"B", "ß"=>"Ss","à"=>"a", "á"=>"a", "â"=>"a", "ã"=>"a", "ä"=>"a", "å"=>"a",
+            "æ"=>"a", "ç"=>"c", "è"=>"e", "é"=>"e","ê"=>"e", "ë"=>"e", "ì"=>"i", "í"=>"i", "î"=>"i", "ï"=>"i", "ð"=>"o",
+            "ñ"=>"n", "ò"=>"o", "ó"=>"o","ô"=>"o", "õ"=>"o", "ö"=>"o", "ø"=>"o", "ù"=>"u", "ú"=>"u", "û"=>"u", "ý"=>"y",
+            "þ"=>"b","ÿ"=>"y", "R"=>"R", "r"=>"r"
+        ];
+        return strtr($element, $chars);
+
+    }
+
+    /**
+     * @param $element
+     * @param string $replaced default : -
+     * @return string $element cleaned from special chars
+     */
+    public static function removeSpecialChar($element, $replaced = "-")
+    {
+        $cleaned = $element;
+        $cleaned = preg_replace( '`(\\r|\\n|\\t|\/\*(.+)\*\/)`Us', '', $cleaned);
+        $cleaned = preg_replace('`(\ +)`', ' ', $cleaned);
+        $cleaned = preg_replace("`(\’|\=|\^|\%|\$|\+|\-|\*|_|\@|\&|\(|\)|\!|\[|\]|\#|\ |\,|\.|\;|\/|\'|\:|\°|\?|\"|\\\\|\®|\™)`", $replaced, $cleaned);
+        $cleaned = preg_replace("`(\\{$replaced}+)`", $replaced, $cleaned);
+        $cleaned = preg_replace("`({$replaced}+)`", $replaced, $cleaned);
+        return trim($cleaned, $replaced);
+
+    }
+
+    /**
+     * @param string $url
+     * @return string $url combined removeAccent & removeSpecialChar
+     */
+    public static function slugify($url)
+    {
+        return strtolower(self::removeAccent(self::removeSpecialChar($url)));
+    }
 }

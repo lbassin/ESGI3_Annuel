@@ -4,7 +4,7 @@ abstract class Controller implements Controllable
 {
     use Csrfable;
     const CLASS_CONTROLLER = 'ControllerBack';
-    private $className;
+    protected $className;
     private $configList = [];
 
     function __construct()
@@ -17,11 +17,11 @@ abstract class Controller implements Controllable
         $view = new View('back', lcfirst($this->className) . '/index', 'admin');
 
         $class = new $this->className;
+        $this->configList['search'] = (isset($params[Routing::PARAMS_GET]['search']) && !empty($params[Routing::PARAMS_GET]['search'])) ? $params[Routing::PARAMS_GET]['search'] : null;
         $this->configList['size'] = isset($params[Routing::PARAMS_GET]['size']) ? $params[Routing::PARAMS_GET]['size'] : 10;
         $this->configList['page'] = isset($params[Routing::PARAMS_GET]['page']) ? $params[Routing::PARAMS_GET]['page'] : 1;
         $this->configList['availableSize'] = [10, 20, 50];
-        $this->configList['count'] = $class->countAll();
-        
+        $this->configList['count'] = $class->count();
         $view->assign(lcfirst($this->className), $class);
         $view->assign('configList', $this->configList);
     }
@@ -52,17 +52,34 @@ abstract class Controller implements Controllable
         $class = new $this->className();
         $class->populate(["id" => $classId]);
 
-        if ($class->getId() == null) {
+        if ($class->id() == null) {
             Session::addError($this->className . ' ' . $classId . ' not found');
             Helpers::redirectBack();
         }
         $view->assign(lcfirst($this->className), $class);
     }
 
-    public function saveAction($params = [], $multiple = false)
+    public function saveAction($params = [], $multiple = false, $table = false)
     {
-        $class = new $this->className();
+        if ($table != false) {
+            $this->className = $table;
+        }
         $postData = $params[Routing::PARAMS_POST];
+        $class = new $this->className($postData);
+        foreach ($class->getBelongsTo() as $table) {
+            $className = ucwords($table, '_');
+            $class->$table = new $className(['id' => $postData[$table]]);
+        }
+
+        if (!empty($params[Routing::PARAMS_FILE])) {
+            if (!$class->id()) {
+                if (method_exists($class, 'upload')) {
+                    $class->upload($params[Routing::PARAMS_FILE]);
+                    $postData = $class->toArray();
+                }
+            }
+        }
+
         if ($multiple == true && $multiple != -1) {
             $this->check((isset($postData['token'])) ? $postData['token'] : '');
         }
@@ -74,45 +91,32 @@ abstract class Controller implements Controllable
             Session::setFormData($postData);
             Helpers::redirectBack();
         }
-
-        $class->fill($postData);
-
-        foreach ($class->getForeignValues() as $table) {
-            $setterName = 'set' . ucfirst($table);
-            $class->$setterName($postData[$table]);
-        }
-
         $class->save();
 
         if (!$multiple) {
-            Session::addSuccess("Votre " . lcfirst($this->className) . " a bien été enregistré");
+            Session::addSuccess("Votre " . lcfirst(str_replace(self::CLASS_CONTROLLER, '', get_called_class())) . " a bien été enregistré");
             if (isset($params[Routing::PARAMS_GET]['redirectToEdit'])) {
                 Helpers::redirectBack();
             } else {
-                Helpers::redirect(Helpers::getAdminRoute(lcfirst($this->className)));
+                Helpers::redirect(Helpers::getAdminRoute(lcfirst(str_replace(self::CLASS_CONTROLLER, '', get_called_class()))));
             }
         }
-        return $class->getId();
+        return $class->id();
     }
 
     public function deleteAction($params = [])
     {
         $postData = $params[Routing::PARAMS_POST];
-        $this->check(isset($postData['token']) ? $postData['token'] : '');
-
-        $params = explode(',', $postData['id']);
-        foreach ($params as $key => $value) {
-            $class = new $this->className();
-            $class->setId($value);
-
-            try {
-                $class->delete();
-            } catch (Exception $ex) {
-                Session::addError($ex->getMessage());
-                Helpers::redirectBack();
+        $class = new $this->className();
+        if (is_array($postData)) {
+            if (isset($postData['id'])) {
+                $class->delete(['id' => $postData['id']]);
+                Helpers::redirect(Helpers::getAdminRoute(lcfirst($this->className)));
+            } else {
+                foreach ($postData as $id) {
+                    $class->delete(['id' => $id]);
+                }
             }
         }
-        Session::addSuccess($this->className . ' successfully deleted');
-        Helpers::redirect(Helpers::getAdminRoute($this->className));
     }
 }

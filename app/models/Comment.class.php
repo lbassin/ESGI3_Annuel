@@ -1,91 +1,19 @@
 <?php
-class Comment extends BaseSql implements Listable, Editable
+class Comment extends Sql implements Listable, Editable
 {
     protected $id;
     protected $content;
-    protected $article;
-    protected $user;
+    protected $moderate;
 
-    public function __construct()
+    public function __construct($data = '')
     {
-        $this->foreignValues[] = 'article';
-        $this->foreignValues[] = 'user';
+        $this->belongsTo(['article', 'user']);
+        $this->manyMany(['user']);
 
-        parent::__construct();
+        parent::__construct($data);
     }
 
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function getContent()
-    {
-        return $this->content;
-    }
-
-    public function setContent($content)
-    {
-        $this->content = $content;
-    }
-
-    public function getArticle()
-    {
-        if (!isset($this->article)) {
-            if (!isset($this->id_article)) {
-                return new Article;
-            }
-
-            $article = new Article;
-            $article->populate(['id' => $this->id_article]);
-            return $article;
-        }
-        return $this->article;
-    }
-
-    public function setArticle($article)
-    {
-        if ($article instanceof Article) {
-            $this->article = $article;
-        } else {
-            $newArticle = new Article();
-            $newArticle->populate(['id' => intval($article)]);
-
-            $this->article = $newArticle;
-        }
-    }
-
-    public function getUser()
-    {
-        if (!isset($this->user)) {
-            if (!isset($this->id_user)) {
-                return new User;
-            }
-
-            $user = new User;
-            $user->populate(['id' => $this->id_user]);
-            return $user;
-        }
-        return $this->user;
-    }
-
-    public function setUser($user)
-    {
-        if ($user instanceof User) {
-            $this->user = $user;
-        } else {
-            $newUser = new User();
-            $newUser->populate(['id' => intval($user)]);
-            $this->user = $newUser;
-        }
-    }
-
-    public function getListConfig()
+    public function getListConfig($configList = null)
     {
         return [
             Listable::LIST_STRUCT => [
@@ -96,22 +24,31 @@ class Comment extends BaseSql implements Listable, Editable
                     '',
                     'ID',
                     'Content',
+                    'Report',
+                    'Moderate',
                     'Article',
                     'User',
                     'Action'
                 ]
             ],
-            Listable::LIST_ROWS => $this->getListData()
+            Listable::LIST_ROWS => $this->getListData($configList)
         ];
     }
 
-    public function getListData()
+    public function getListData($configList = null)
     {
-        $comments = $this->getAll();
+        $limits = [
+            'limit' => $configList['size'],
+            'offset' => $configList['size'] * ($configList['page'] - 1)
+        ];
+        $search = isset($configList['search']) ? ['search' =>  $configList['search']] : [];
+        $comments = $this->getAll($search, $limits);
 
         $listData = [];
 
         foreach ($comments as $comment) {
+            $comment->getUser();
+            $comment->getArticle();
             $commentData = [
                 [
                     'type' => 'checkbox',
@@ -119,23 +56,31 @@ class Comment extends BaseSql implements Listable, Editable
                 ],
                 [
                     'type' => 'text',
-                    'value' => $comment->getId()
+                    'value' => $comment->id()
                 ],
                 [
                     'type' => 'text',
-                    'value' => $comment->getContent()
+                    'value' => $comment->content()
                 ],
                 [
                     'type' => 'text',
-                    'value' => $comment->getArticle()->getTitle()
+                    'value' => ($comment->users() != null) ? count($comment->users()) : 'Aucun'
                 ],
                 [
                     'type' => 'text',
-                    'value' => $comment->getUser()->getFirstName() . ' ' . $comment->getUser()->getLastName()
+                    'value' => ($comment->moderate() == false) ? 'Activé' : 'Desactivé'
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $comment->article()->title()
+                ],
+                [
+                    'type' => 'text',
+                    'value' => $comment->user()->firstname() . ' ' . $comment->user()->lastname()
                 ],
                 [
                     'type' => 'action',
-                    'id' => $comment->getId()
+                    'id' => $comment->id()
                 ]
             ];
 
@@ -147,19 +92,29 @@ class Comment extends BaseSql implements Listable, Editable
 
     public function validate()
     {
-        // TODO
-
-        return [];
+        return [
+            'content' => [
+                'required' => true,
+                'min' => 1,
+                'max' => 255,
+            ]
+        ];
     }
 
     public function getFormConfig()
     {
+        $listModerate = [
+            'Non' => 0,
+            'Oui' => 1
+        ];
+        $this->getUser();
+        $this->getArticle();
         return [
             Editable::FORM_STRUCT => [
                 Editable::FORM_METHOD => 'post',
-                Editable::FORM_ACTION => Helpers::getAdminRoute('comment/save'),
-                Editable::FORM_SUBMIT => 'Sauvegarder',
-                Editable::FORM_FILE => 1
+                Editable::MODEL_URL => Helpers::getAdminRoute('comment'),
+                Editable::MODEL_ID => $this->id(),
+                Editable::FORM_SUBMIT => 'Save'
             ],
             Editable::FORM_GROUPS => [
                 [
@@ -167,27 +122,43 @@ class Comment extends BaseSql implements Listable, Editable
                     Editable::GROUP_FIELDS => [
                         'id' => [
                             'type' => 'hidden',
-                            'value' => $this->getId()
+                            'value' => $this->id()
                         ],
                         'content' => [
                             'type' => 'text',
                             'label' => 'Content :',
                             'class' => 'two-col',
-                            'value' => $this->getContent()
+                            'value' => $this->content()
                         ],
                         'article' => [
                             'type' => 'hidden',
-                            'value' => $this->getArticle()->getId()
+                            'value' => ($this->article() != null) ? $this->article()->id() : ''
                         ],
                         'user' => [
                             'type' => 'hidden',
-                            'value' => $this->getUser()->getId()
+                            'value' => ($this->user() != null) ? $this->user()->id() : ''
+                        ]
+                    ]
+                ],
+                [
+                    Editable::GROUP_LABEL => 'Modération',
+                    Editable::GROUP_FIELDS => [
+                        'report' => [
+                            'type' => 'text',
+                            'label' => 'Nombre de fois reportés :',
+                            'disabled' => true,
+                            'class' => 'two-col',
+                            'value' => (($this->users() != null) ? count($this->users()) : 0) . ' fois !'
+                        ],
+                        'moderate' => [
+                            'type' => 'select',
+                            'label' => 'Cacher ce commentaire ?',
+                            'options' => $listModerate,
+                            'value' => $this->moderate()
                         ]
                     ]
                 ]
             ]
         ];
     }
-
-
 }
