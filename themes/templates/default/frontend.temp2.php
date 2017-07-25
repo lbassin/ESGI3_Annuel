@@ -3,20 +3,36 @@
 <head>
     <link rel="stylesheet" href="<?php echo Helpers::getThemeAsset('css/theme.css'); ?>">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <title>Home</title>
 </head>
 <body>
 <div class="container">
     <div class="nav-container">
-        <div class="nav-content">
+        <nav class="nav-content">
             <ul>
                 <li class="nav-logo"><a href="#">LOGO</a></li>
                 <li><a href="#">Buy now</a></li>
                 <li><a href="#">Try</a></li>
                 <li><a href="#">Features</a></li>
                 <li><a href="#">Docs</a></li>
-                <li><a href="#">Support</a></li>
+                <li class="nav-end"><a href="#">Support</a></li>
+                <div class="nav-dropdown">
+                    <button onclick="dropdown()" class="nav-dropdown-button">Dropdown
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                             x="0px" y="0px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve" width="20px" height="20px">
+                            <path d="M13.418,7.859c0.271-0.268,0.709-0.268,0.978,0c0.27,0.268,0.272,0.701,0,0.969l-3.908,3.83c-0.27,0.268-0.707,0.268-0.979,0l-3.908-3.83c
+                            -0.27-0.267-0.27-0.701,0-0.969c0.271-0.268,0.709-0.268,0.978,0L10,11L13.418,7.859z"></path>
+                        </svg>
+                    </button>
+                    <div id="myDropdown" class="nav-dropdown-content">
+                        <a href="#">Lien 1</a>
+                        <a href="#">Lien 2</a>
+                        <a href="#">Lien 3</a>
+                    </div>
+                </div>
             </ul>
-        </div>
+        </nav>
     </div>
     <div class="top-container">
         <div class="top-content-container">
@@ -89,5 +105,6 @@
         </div>
     </div>
 </div>
+<script src="<?php echo Helpers::getThemeAsset('js/dropdown.js'); ?>"></script>
 </body>
 </html>
