@@ -37,7 +37,9 @@ class Routing
 
         $this->uriExploded = explode("/", $uri);
 
-        self::$currentClass = $this->uriExploded[1];
+        if (isset($this->uriExploded[1])) {
+            self::$currentClass = $this->uriExploded[1];
+        }
 
         if ($this->checkBackOffice()) {
             if (!Session::isLogged() && !in_array('login', $this->uriExploded)) {
@@ -141,8 +143,10 @@ class Routing
         if (!is_array($jsonData)) {
             $jsonData = [];
         }
-
         $this->params[self::PARAMS_POST] = Xss::parse(array_merge($_POST, $jsonData));
+        if (isset($_POST['url'])) {
+            $this->params[self::PARAMS_POST]['url'] = Helpers::slugify($_POST['url']);
+        }
         $this->params[self::PARAMS_URL] = array_values($this->uriExploded);
         $this->params[self::PARAMS_GET] = Xss::parse($this->getData);
         $this->params[self::PARAMS_FILE] = Xss::parse($_FILES);
