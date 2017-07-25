@@ -23,33 +23,38 @@
         </a>
         <a href="#" class="view-case">
             <div class="view-case-image"></div>
-            <h3>Titre</h3>
-            <p>Petite description</p>
+            <div class="view-case-content">
+                <h3>Titre</h3>
+                <p>Petite description</p>
+            </div>
         </a>
         <a href="#" class="view-case">
             <div class="view-case-image"></div>
-            <h3>Titre</h3>
-            <p>Petite description</p>
+            <div class="view-case-content">
+                <h3>Titre</h3>
+                <p>Petite description</p>
+            </div>
         </a>
         <a href="#" class="view-case">
             <div class="view-case-image"></div>
-            <h3>Titre</h3>
-            <p>Petite description</p>
+            <div class="view-case-content">
+                <h3>Titre</h3>
+                <p>Petite description</p>
+            </div>
         </a>
         <a href="#" class="view-case">
             <div class="view-case-image"></div>
-            <h3>Titre</h3>
-            <p>Petite description</p>
+            <div class="view-case-content">
+                <h3>Titre</h3>
+                <p>Petite description</p>
+            </div>
         </a>
         <a href="#" class="view-case">
             <div class="view-case-image"></div>
-            <h3>Titre</h3>
-            <p>Petite description</p>
-        </a>
-        <a href="#" class="view-case">
-            <div class="view-case-image"></div>
-            <h3>Titre</h3>
-            <p>Petite description</p>
+            <div class="view-case-content">
+                <h3>Titre</h3>
+                <p>Petite description</p>
+            </div>
         </a>
     </section>
 </div>
