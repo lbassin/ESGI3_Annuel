@@ -13,6 +13,17 @@ body {
   font-family: 'Lato', sans-serif;
 
   margin: 0 auto;
+
+  .article-image {
+    img {
+      display: block;
+      margin: 0 auto;
+
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+
   .article-title {
     text-align: center;
     padding-bottom: 20px;
@@ -22,8 +33,25 @@ body {
     text-align: justify;
 
     .article-details {
-      text-align: right;
       font-weight: bold;
+
+      display: flex;
+      -ms-flex-align: center;
+
+      align-items: center;
+      padding-bottom: 30px;
+      margin-bottom: 30px;
+
+      img {
+        height: 50px;
+        width: 50px;
+
+        border-radius: 50%;
+      }
+
+      span {
+        padding-left: 20px;
+      }
     }
   }
 }

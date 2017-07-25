@@ -9,8 +9,10 @@
 <div class="container">
     <section class="article-container">
         <header>
+            <div class="article-image">
+                <img src="http://lorempicsum.com/nemo/600/300/5" alt="">
+            </div>
             <div class="article-title">
-
                 <h1>Titre de l'article</h1>
             </div>
         </header>
@@ -41,7 +43,8 @@
                 dolores ducimus eius eos error esse illo, incidunt libero neque nobis optio repellat! Culpa, iure?
             </p>
             <div class="article-details">
-                <span>Ecrit par François Hollande le 01 Janvier 2017</span>
+                <img src="http://lorempicsum.com/nemo/255/200/5" alt="">
+                <span>Autors, 01 Janvier 2017</span>
             </div>
         </article>
     </section>
