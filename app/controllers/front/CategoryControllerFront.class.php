@@ -5,12 +5,37 @@ class CategoryControllerFront
     public function indexAction($params)
     {
         $url = $params[Routing::PARAMS_URL];
-        $category = new Category();
-        if (!isset($url[1])) {
-            $category->populate($url[1]);
-            $category->getArticle();
+        if (isset($url[1])) {
+            $this->displayArticles($url[1]);
+        } else if (isset($url[0])) {
+            $this->displayCategories();
         } else {
-            $categories = $category->getAll();
+            Helpers::error404();
+        }
+    }
+
+    public function displayArticles($slug)
+    {
+        $category = new Category();
+        $category->populate(['url' => $slug]);
+        if ($category->id() != null) {
+            $category->getArticle();
+            $view = new View('front', 'category');
+            $view->assign('category', $category);
+        } else {
+            Helpers::error404();
+        }
+    }
+
+    public function displayCategories()
+    {
+        $category = new Category();
+        $categories = $category->getAll();
+        if (!empty($categories)) {
+            $view = new View('front', 'category');
+            $view->assign('categories', $categories);
+        } else {
+            Helpers::error404();
         }
     }
 }
