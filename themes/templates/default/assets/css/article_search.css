@@ -17,6 +17,16 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-column-gap: 120px; }
+.view-container .page-container {
+    background: #fff;
+    box-shadow: 0 36px 60px -40px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    padding: 52px;
+    margin-bottom: 120px;
+    grid-column: 1/3;
+    transition: all .2s ease;
+    text-decoration: none;
+    color: #3c3c3c; }
 .view-container .form-container {
     background: #fff;
     box-shadow: 0 36px 60px -40px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.05);

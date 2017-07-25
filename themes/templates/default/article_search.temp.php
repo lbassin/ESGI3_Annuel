@@ -14,6 +14,13 @@
             <input type="text" placeholder="Search">
             <button type="submit"><i class="fa fa-search loupe" aria-hidden="true"></i>Rechercher</button>
         </form>
+        <div class="page-container">
+            <h2>Page correspondant :</h2>
+            <p>Page</p>
+            <p>Page</p>
+            <p>Page</p>
+            <p>Page</p>
+        </div>
         </a>
         <a href="#" class="view-case">
             <div class="view-case-image"></div>
