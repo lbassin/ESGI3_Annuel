@@ -222,33 +222,34 @@ body {
   margin-bottom: 12px;
   margin-top: 18px;
   background-color: #F0F0F0;
-  border-top: 2px solid #DDD;
-  border-bottom: 2px solid #DDD; }
-  #form #menu form {
-    display: inline-block; }
+  border: 2px solid #DDD;
+  border-radius: 5px; }
   #form #menu #action {
     float: right;
     height: inherit;
     padding-right: 18px; }
-    #form #menu #action a.button, #form #menu #action input[type="submit"].button {
-      display: inline-block;
-      height: 45px;
-      line-height: 45px;
-      padding: 0 32px;
-      color: #000;
-      text-decoration: none;
-      cursor: pointer;
-      border: none;
-      background-color: transparent;
-      font-family: 'Raleway', sans-serif;
-      font-size: 16px; }
-      #form #menu #action a.button.primary, #form #menu #action input[type="submit"].button.primary {
-        background-color: #27ae60;
-        color: #fff;
-        border-radius: 5px; }
-      #form #menu #action a.button.secondary, #form #menu #action input[type="submit"].button.secondary {
+    #form #menu #action a, #form #menu #action input[type="submit"] {
+      font-weight: bold;
+      transition: .5s ease; }
+      #form #menu #action a:hover, #form #menu #action input[type="submit"]:hover {
+        background-color: #dadada;
+        transition: .5s ease; }
+      #form #menu #action a.button, #form #menu #action input[type="submit"].button {
+        display: inline-block;
+        height: 45px;
+        line-height: 45px;
+        padding: 0 32px;
         color: #000;
-        border-radius: 5px; }
+        text-decoration: none;
+        cursor: pointer;
+        border: none; }
+        #form #menu #action a.button.primary, #form #menu #action input[type="submit"].button.primary {
+          background-color: #27ae60;
+          color: #fff;
+          border-radius: 5px; }
+        #form #menu #action a.button.secondary, #form #menu #action input[type="submit"].button.secondary {
+          color: #000;
+          border-radius: 5px; }
 #form h2 {
   width: 100%;
   padding-bottom: 6px;
@@ -282,7 +283,7 @@ body {
     height: 100%;
     display: flex; }
     #form .widget.page_new .left {
-      width: 0;
+      width: 0%;
       float: left;
       text-align: right;
       padding: 0 12px; }
@@ -328,21 +329,6 @@ body {
         position: absolute; }
         #form .widget.page_new .right div:hover {
           background-color: rgba(172, 172, 172, 0.6); }
-  #form .widget.article_new #template-grid img {
-    padding: 6px; }
-  #form .widget.menu_new label {
-    width: auto; }
-  #form .widget.menu_new input {
-    margin-right: 24px; }
-  #form .widget.menu_new .button {
-    display: inline-block;
-    padding: 6px;
-    border: 1px solid #212121;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.25s ease-in-out; }
-    #form .widget.menu_new .button:hover {
-      background-color: rgba(172, 172, 172, 0.6); }
 #form .popin-container {
   transition: 0.75s ease-in-out; }
   #form .popin-container .popin-overlay {
@@ -365,7 +351,7 @@ body {
     border-radius: 5px;
     background-color: #fff;
     padding: 4px 12px; }
-    #form .popin-container .popin-content .popin-content-footer .validate-component {
+    #form .popin-container .popin-content .popin-content-footer button.validate-component {
       float: right;
       display: inline-block;
       height: 36px;
@@ -428,26 +414,26 @@ body {
   width: 100%;
   margin-bottom: 12px;
   margin-top: 18px; }
-  #list #menu #search {
-    float: left;
-    width: 50%; }
-    #list #menu #search input[type="text"] {
-      line-height: 32px;
-      padding: 4px;
-      width: 40%;
-      font-style: italic;
-      padding-right: 28px;
-      padding-left: 12px;
-      background-color: #ECF0F1;
-      border-radius: 5px;
-      border: 1px solid transparent;
-      transition: border .5s; }
-      #list #menu #search input[type="text"]:focus {
-        border: 1px solid #212121;
-        outline: none;
-        box-shadow: none; }
-    #list #menu #search .search-icon {
-      margin-left: -28px; }
+  #list #menu input[type="text"] {
+    line-height: 32px;
+    padding: 4px;
+    width: 20%;
+    font-style: italic;
+    padding-right: 28px;
+    padding-left: 12px;
+    background-color: #ECF0F1;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    transition: border .5s; }
+    #list #menu input[type="text"]:focus {
+      border: 1px solid #212121;
+      outline: none;
+      box-shadow: none; }
+  #list #menu:after {
+    margin-left: -25px;
+    position: relative;
+    content: "\f002";
+    font: normal normal normal 14px/1 FontAwesome; }
   #list #menu #action {
     float: right;
     height: inherit;
@@ -515,23 +501,15 @@ body {
     line-height: 38px;
     background-color: #b1b6ba; }
     #list table thead th:first-child {
-      border-radius: 5px 0 0 0;
-      width: 24px; }
-    #list table thead th:nth-child(2) {
-      width: 46px; }
+      border-radius: 5px 0 0 0; }
     #list table thead th:last-child {
-      border-radius: 0 5px 0 0;
-      width: 100px; }
+      border-radius: 0 5px 0 0; }
   #list table tbody tr td {
     padding: 6px 12px; }
-    #list table tbody tr td:nth-child(2) {
-      text-align: center; }
+    #list table tbody tr td:first-child {
+      border-radius: 0 0 0 5px; }
     #list table tbody tr td:last-child {
-      text-align: center; }
-  #list table tbody tr:last-child td:first-child {
-    border-radius: 0 0 0 5px; }
-  #list table tbody tr:last-child td:last-child {
-    border-radius: 0 0 5px 0; }
+      border-radius: 0 0 5px 0; }
   #list table tbody tr:nth-child(even) {
     background-color: #d3dbdf; }
 
