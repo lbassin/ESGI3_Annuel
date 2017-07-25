@@ -4,5 +4,5 @@ CREATE TABLE `reset_password` (
   `id_user`     int(11)             NOT NULL,
   `created_at`  TIMESTAMP             NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at`  DATETIME,
-  CONSTRAINT FK_RESET_PASSWORD_USER FOREIGN KEY (user_id) REFERENCES user (id)
+  CONSTRAINT FK_RESET_PASSWORD_USER FOREIGN KEY (id_user) REFERENCES user (id)
 );

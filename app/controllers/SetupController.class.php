@@ -23,7 +23,6 @@ class SetupController
         'schema/menu',
         'schema/theme',
         'data/role',
-        'data/user'
     ];
 
     function __construct()

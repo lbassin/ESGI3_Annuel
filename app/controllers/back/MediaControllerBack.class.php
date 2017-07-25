@@ -7,8 +7,8 @@ class MediaControllerBack extends Controller
         parent::saveAction($params);
     }
 
-    public function previewAction($params) {
-
+    public function previewAction($params)
+    {
         if (isset($params['post']['nom'])) {
             if (count(Session::getErrors()) > 0) {
                 Helpers::redirectBack();
