@@ -1,6 +1,6 @@
 <?php
 
-class Article extends BaseSql implements Editable, Listable
+class Article extends Sql implements Editable, Listable
 {
     protected $id;
     protected $title;
@@ -9,106 +9,20 @@ class Article extends BaseSql implements Editable, Listable
     protected $url;
     protected $publish;
     protected $template_id;
-    protected $id_user;
-    protected $id_survey;
 
-    public function __construct()
+    public function __construct($data = '')
     {
-        $this->defaultValues = [
-            'publish' => 0
-        ];
+        if (!isset($data['publish'])) {
+            $this->publish = 0;
+        }
+        if (isset($data['content'])) {
+            $data['content'] = unserialize($data['content']);
+        }
+        $this->manyMany(['category']);
+        $this->belongsTo(['user', 'survey']);
 
-        parent::__construct();
-    }
 
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    public function setTitle($title)
-    {
-        $this->title = $title;
-    }
-
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    public function setDescription($description)
-    {
-        $this->description = $description;
-    }
-
-    public function getContent()
-    {
-        return unserialize($this->content);
-    }
-
-    public function setContent($content)
-    {
-        $this->content = $content;
-    }
-
-    public function getUrl()
-    {
-        return $this->url;
-    }
-
-    public function setUrl($url)
-    {
-        $this->url = $url;
-    }
-
-    public function getPublish()
-    {
-        return $this->publish;
-    }
-
-    public function setPublish($publish)
-    {
-        $this->publish = $publish;
-    }
-
-    public function getTemplateId()
-    {
-        return $this->template_id;
-    }
-
-    public function setTemplateId($templateId)
-    {
-        $this->template_id = $templateId;
-    }
-
-    public function getIdUser()
-    {
-        return $this->id_user;
-    }
-
-    public function setIdUser($id_user)
-    {
-        $this->id_user = $id_user;
-    }
-
-    public function getIdSurvey()
-    {
-        return $this->id_user;
-    }
-
-    public function setIdSurvey($id_user)
-    {
-        $this->id_user = $id_user;
+        parent::__construct($data);
     }
 
     public function getFormConfig()
@@ -126,7 +40,7 @@ class Article extends BaseSql implements Editable, Listable
                     Editable::GROUP_FIELDS => [
                         'id' => [
                             'type' => 'hidden',
-                            'value' => $this->getId()
+                            'value' => $this->id()
                         ],
                         'preview' => [
                             'type' => 'widget',
@@ -140,7 +54,7 @@ class Article extends BaseSql implements Editable, Listable
         ];
     }
 
-    public function getListConfig()
+    public function getListConfig($configList = null)
     {
         return [
             'struct' => [
@@ -156,13 +70,18 @@ class Article extends BaseSql implements Editable, Listable
                     'Action'
                 ]
             ],
-            Listable::LIST_ROWS => $this->getListData()
+            Listable::LIST_ROWS => $this->getListData($configList)
         ];
     }
 
-    public function getListData()
+    public function getListData($configList = null)
     {
-        $articles = $this->getAll();
+        $limits = [
+            'limit' => $configList['size'],
+            'offset' => $configList['size'] * ($configList['page'] - 1)
+        ];
+        $search = isset($configList['search']) ? ['search' =>  $configList['search']] : [];
+        $articles = $this->getAll($search, $limits);
 
         $listData = [];
 
@@ -175,23 +94,23 @@ class Article extends BaseSql implements Editable, Listable
                 ],
                 [
                     'type' => 'text',
-                    'value' => $article->getId()
+                    'value' => $article->id()
                 ],
                 [
                     'type' => 'text',
-                    'value' => $article->getTitle()
+                    'value' => $article->title()
                 ],
                 [
                     'type' => 'text',
-                    'value' => $article->getUrl()
+                    'value' => $article->url()
                 ],
                 [
                     'type' => 'text',
-                    'value' => $article->getPublish() ? 'Oui' : 'Non'
+                    'value' => $article->publish() ? 'Oui' : 'Non'
                 ],
                 [
                     'type' => 'action',
-                    'id' => $article->getId()
+                    'id' => $article->id()
                 ]
             ];
 

@@ -56,7 +56,6 @@ class ArticleControllerBack extends Controller
         }
         $postData['content'] = serialize($content);
         $postData['idUser'] = Session::getUserId();
-
         $params[Routing::PARAMS_POST] = $postData;
         parent::saveAction($params);
     }

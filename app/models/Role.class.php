@@ -1,33 +1,15 @@
 <?php
 
-class Role extends BaseSql
+class Role extends Sql
 {
     protected $id;
     protected $name;
 
-    public function __construct()
+    public function __construct($data = '')
     {
-        parent::__construct();
-    }
+        $this->hasMany(['user']);
 
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function setName($name)
-    {
-        $this->name = $name;
+        parent::__construct($data);
     }
 
     public function getAllAsOptions()
@@ -36,8 +18,8 @@ class Role extends BaseSql
 
         $data = [];
         foreach ($roles as $role) {
-            if (!empty($role->getName())) {
-                $data[$role->getName()] = $role->getId();
+            if (!empty($role->name())) {
+                $data[$role->name()] = $role->id();
             }
         }
 

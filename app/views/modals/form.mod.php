@@ -31,10 +31,13 @@
                 </div>
             </div>
         <?php endif; ?>
+        <?php
 
+
+        ?>
         <form name="model-form"
               method="<?php echo $config[Editable::FORM_STRUCT]['method']; ?>"
-              action="<?php echo $config[Editable::FORM_STRUCT][Editable::MODEL_URL] . 'save'; ?>"
+              action="<?php echo $config[Editable::FORM_STRUCT][Editable::MODEL_URL] . ((strpos($config[Editable::FORM_STRUCT][Editable::MODEL_URL], 'step') == false) ? 'save' : ''); ?>"
               class="<?php echo (isset($config[Editable::FORM_STRUCT]['class'])) ? $config[Editable::FORM_STRUCT]['class'] : ''; ?>"
             <?php echo(isset($config[Editable::FORM_STRUCT]['file']) ? 'enctype="multipart/form-data"' : 'text/plain'); ?>
         >
@@ -166,7 +169,11 @@
 
                 <?php endforeach; ?>
             <?php endforeach; ?>
-
+            <?php if (isset($config[Editable::FORM_STRUCT]['hide_header'])): ?>
+                <button class="button primary">
+                    Suivant
+                </button>
+            <?php endif; ?>
         </form>
     <?php endif; ?>
 </div>
