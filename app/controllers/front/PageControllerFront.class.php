@@ -1,10 +1,12 @@
 <?php
 
-class PageControllerFront
+class PageControllerFront extends Front
 {
 
-    public function indexAction($params)
+    public function indexAction($params = [])
     {
+        parent::indexAction($params);
+
         $page = new Page();
         $page->populate(['url' => $params[Routing::PARAMS_URL][0]]);
 
@@ -18,10 +20,10 @@ class PageControllerFront
             $componentsRendered[] = $this->generateComponent($component);
         }
 
-        $view = new View('front', 'page');
-        $view->assign('components', $componentsRendered);
-        $view->assign('title', $page->title());
-        $view->assign('description', $page->description());
+        $this->view->setView('page');
+        $this->view->assign('components', $componentsRendered);
+        $this->view->assign('title', $page->title());
+        $this->view->assign('description', $page->description());
     }
 
     private function generateComponent($data)

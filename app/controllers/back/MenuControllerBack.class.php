@@ -4,12 +4,11 @@ class MenuControllerBack extends Controller
 {
     public function saveAction($params = [], $multiple = false)
     {
-        $idParent = parent::saveAction([Routing::PARAMS_POST => $params[Routing::PARAMS_POST]], true);
+        $idParent = parent::saveAction([Routing::PARAMS_POST => $params[Routing::PARAMS_POST]], !empty($params[Routing::PARAMS_POST]['child']));
 
         $menu = new Menu();
         $menu->populate(['id' => $idParent]);
 
-        // TODO : if not child item
         $childrenIds = [];
         foreach ($params[Routing::PARAMS_POST]['child'] as $child) {
             if (empty($child['id'])) {
@@ -33,8 +32,10 @@ class MenuControllerBack extends Controller
 
         if (!empty($params[Routing::PARAMS_POST]['child'])) {
             $count = count($params[Routing::PARAMS_POST]['child']) - 1;
+
             foreach ($params[Routing::PARAMS_POST]['child'] as $key => $subLink) {
                 $subLink['parent_id'] = $idParent;
+
                 parent::saveAction([
                     Routing::PARAMS_POST => $subLink,
                     Routing::PARAMS_GET => $params[Routing::PARAMS_GET]

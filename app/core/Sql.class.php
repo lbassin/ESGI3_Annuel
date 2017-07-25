@@ -20,7 +20,7 @@ class Sql extends Model
      * set Instance of PDO
      * set Name of the table
      * called parent method
-    */
+     */
     function __construct($data = '')
     {
         if (!isset($data['setup'])) {
@@ -39,8 +39,9 @@ class Sql extends Model
      * unset foreign key of the current object
      * how to use : see parent method __call($method,$arguments)
      */
-    protected function queryBelongsTo($table){
-        $id = self::PREFIX_FOREIGN.$table;
+    protected function queryBelongsTo($table)
+    {
+        $id = self::PREFIX_FOREIGN . $table;
         $className = ucfirst($table);
         $class = new $className();
         $class->populate(['id' => $this->$id()]);
@@ -58,9 +59,10 @@ class Sql extends Model
      * set $destinationTable with the array of $class
      * how to use : see parent method __call($method,$arguments)
      */
-    protected function queryHasMany($table){
+    protected function queryHasMany($table)
+    {
         $destinationTable = Helpers::renameValuePlural($table);
-        $id = self::PREFIX_FOREIGN.$this->table;
+        $id = self::PREFIX_FOREIGN . $this->table;
         $className = ucwords($table, '_');
         $class = new $className();
         $listItem = $class->getAll([$id => $this->id]);
@@ -82,17 +84,18 @@ class Sql extends Model
      * set $destinationTable with the array of $class
      * how to use : see parent method __call($method,$arguments)
      */
-    protected function queryManyMany($table){
+    protected function queryManyMany($table)
+    {
         $destinationTable = Helpers::renameValuePlural($table);
         $array = [ucfirst($this->table), ucfirst($table)];
         sort($array);
         $joinTable = implode('_', $array);
         $classJoin = new $joinTable();
 
-        $tmpStock = $classJoin->getAll([self::PREFIX_FOREIGN.$this->table => $this->id]);
+        $tmpStock = $classJoin->getAll([self::PREFIX_FOREIGN . $this->table => $this->id]);
 
         foreach ($tmpStock as $tmp) {
-            $id = self::PREFIX_FOREIGN.$table;
+            $id = self::PREFIX_FOREIGN . $table;
             $class = new $table();
             $class->populate([self::ID => $tmp->$id]);
             $this->$destinationTable[] = $class;
@@ -177,11 +180,11 @@ class Sql extends Model
         try {
             $this->query->execute($this->data);
 
-            if($this->pdo->lastInsertId()){
+            if ($this->pdo->lastInsertId()) {
                 $this->id = $this->pdo->lastInsertId();
             }
 
-            return ($this->pdo->lastInsertId() != null) ? (int) $this->pdo->lastInsertId() : null;
+            return ($this->pdo->lastInsertId() != null) ? (int)$this->pdo->lastInsertId() : null;
         } catch (Exception $ex) {
             echo $ex->getMessage();
         }
@@ -194,9 +197,9 @@ class Sql extends Model
     {
         $this->query = $this->pdo->prepare(
             'INSERT INTO ' . $this->table . ' (' .
-                implode(', ', array_keys($this->data)) .
+            implode(', ', array_keys($this->data)) .
             ' ) VALUES (:' .
-                implode(', :', array_keys($this->data)) .
+            implode(', :', array_keys($this->data)) .
             ')'
         );
     }
@@ -209,7 +212,7 @@ class Sql extends Model
         $queryString = 'UPDATE ' . $this->table . ' SET ';
         foreach ($this->data as $column => $value) {
             if ($column != self::ID) {
-                $queryString .= $column. ' =:'.$column . ',';
+                $queryString .= $column . ' =:' . $column . ',';
             }
         }
         $queryString .= ' updated_at = sysdate() WHERE 1 = 1 AND ' . self::ID . ' =:' . self::ID;
@@ -243,7 +246,11 @@ class Sql extends Model
         $this->data = [];
         $this->condition = ' WHERE 1 = 1 ';
         foreach ($conditionQuery as $column => $value) {
-            $this->condition .= ' AND ' . $column . '=:' . $column;
+            if ($value === null) {
+                $this->condition .= ' AND ' . $column . ' IS NULL';
+            } else {
+                $this->condition .= ' AND ' . $column . '=:' . $column;
+            }
             $this->data[$column] = $value;
         }
     }
@@ -282,14 +289,14 @@ class Sql extends Model
      * set condition with the property of the object called
      * set data with the content of the $searchedQuery
      */
-    private function search ($searchedQuery)
+    private function search($searchedQuery)
     {
         $this->data = [];
         $this->condition = ' WHERE 1 = 1 AND ';
         foreach ($this->toArray() as $column => $item) {
             if ($column != 'id') {
                 $this->condition .= ' ' . $column . ' like :' . $column . ' OR ';
-                $this->data[$column] = '%'.$searchedQuery.'%';
+                $this->data[$column] = '%' . $searchedQuery . '%';
             }
         }
         $this->condition = substr($this->condition, 0, -3);
