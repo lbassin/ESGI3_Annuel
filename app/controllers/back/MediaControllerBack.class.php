@@ -4,6 +4,15 @@ class MediaControllerBack extends Controller
 {
     public function saveAction($params = []) {
         $params[Routing::PARAMS_POST]['user'] = $_SESSION['id'];
+        $params[Routing::PARAMS_POST]['type'] =  $params['files']['image']['type'];
+        $params[Routing::PARAMS_POST]['extension'] = substr($params['files']['image']['type'], strpos($params['files']['image']['type'], "/") + 1);
+
+        if (! empty($params[Routing::PARAMS_POST]['path'])) {
+            $name = uniqid();
+            rename($params[Routing::PARAMS_POST]['path'], FILE_UPLOAD_PATH . "/" . $name . "." . $params[Routing::PARAMS_POST]['extension']);
+            $params[Routing::PARAMS_POST]['path'] = FILE_UPLOAD_PATH . "/" . $name . "." . $params[Routing::PARAMS_POST]['extension'];
+        }
+
         parent::saveAction($params);
     }
 

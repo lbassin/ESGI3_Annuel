@@ -1,5 +1,5 @@
 <?php
-class Media extends Sql implements Listable, Editable, Uploadable
+class Media extends Sql implements Listable, Editable
 {
     protected $id;
     protected $name;
@@ -98,22 +98,6 @@ class Media extends Sql implements Listable, Editable, Uploadable
         return $listData;
     }
 
-    public function upload(array $file)
-    {
-        if (!file_exists(FILE_UPLOAD_PATH)) {
-            if (!mkdir(FILE_UPLOAD_PATH)) {
-                Session::addError('Création du fichier d\'upload impossible, vérifiez les droits !');
-            }
-        }
-        $this->extension = strtolower($this->getExensionFromFile($file['image']['name']));
-        $this->type = $file['image']['type'];
-        $this->path = FILE_UPLOAD_PATH.'/'.uniqid().".".$this->extension;
-
-        if(!move_uploaded_file($file['image']['tmp_name'], $this->path)) {
-            Session::addError('Une erreur est intervenu dans le dossier de destination');
-        }
-    }
-
     public function getExensionFromFile($file)
     {
         $extension = new SplFileInfo($file);
@@ -122,25 +106,7 @@ class Media extends Sql implements Listable, Editable, Uploadable
 
     public function validate()
     {
-        return [
-            'name' => [
-                'required' => true,
-                'min' => 2,
-                'max' => 255
-            ],
-            'path' => [
-                'unique' => true,
-                'required' => true,
-                'trueMedia' => true,
-            ],
-            'extension' => [
-                'whiteList' => 'media',
-                'required' => true,
-            ],
-            'type' => [
-                'required' => true,
-            ]
-        ];
+        return [];
     }
 
     public function getFormConfig()

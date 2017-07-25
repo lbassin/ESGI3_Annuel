@@ -19,6 +19,11 @@ document.querySelector("#input-image").addEventListener('change', function() {
                     elem.setAttribute("width", '500px');
                     document.querySelector("#image-preview-final").innerHTML = '';
                     document.querySelector("#image-preview-final").appendChild(elem);
+                    var elemHidden = document.createElement("input");
+                    elemHidden.setAttribute("type", "hidden");
+                    elemHidden.setAttribute("name", "path");
+                    elemHidden.setAttribute("value", "app/assets/media/tmp/" + data['image']);
+                    document.querySelector("#image-preview-final").appendChild(elemHidden);
                 } else {
                     console.log("fail");
                 }
