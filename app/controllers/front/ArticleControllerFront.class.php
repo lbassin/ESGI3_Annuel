@@ -31,9 +31,9 @@ class ArticleControllerFront
     public function displayArticles()
     {
         $article = new Article();
-        $articles = $article->getAll(['publish' => 1], ['limit' => 10], ['updated_at' => 'DESC', 'created_at' => 'DESC']);
-        if (empty($articles)) {
-            $view = new View('front', 'article');
+        $articles = $article->getAll(['publish' => 1], ['limit' => 9], ['updated_at' => 'DESC', 'created_at' => 'DESC']);
+        if (!empty($articles)) {
+            $view = new View('front', 'list_article');
             $view->assign('articles', $articles);
         }
     }

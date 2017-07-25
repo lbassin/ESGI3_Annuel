@@ -32,7 +32,7 @@ class CategoryControllerFront
         $category = new Category();
         $categories = $category->getAll();
         if (!empty($categories)) {
-            $view = new View('front', 'category');
+            $view = new View('front', 'list_category');
             $view->assign('categories', $categories);
         } else {
             Helpers::error404();
