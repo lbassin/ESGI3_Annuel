@@ -4,6 +4,7 @@ class Category extends Sql implements Listable, Editable
     protected $id;
     protected $title;
     protected $description;
+    protected $url;
 
     public function __construct($data = '')
     {
@@ -22,6 +23,12 @@ class Category extends Sql implements Listable, Editable
             ],
             'description' => [
                 'required' => false,
+                'min' => 1,
+                'max' => 255,
+            ],
+            'url' => [
+                'unique' => true,
+                'required' => true,
                 'min' => 1,
                 'max' => 255,
             ]
@@ -122,6 +129,12 @@ class Category extends Sql implements Listable, Editable
                             'label' => 'Description :',
                             'class' => 'two-col',
                             'value' => $this->description()
+                        ],
+                        'url' => [
+                            'type' => 'text',
+                            'label' => 'Url :',
+                            'class' => 'two-col',
+                            'value' => $this->url()
                         ]
                     ]
                 ]

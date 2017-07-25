@@ -21,4 +21,21 @@ class ArticleControllerFront
 
     }
 
+    public function commentAction($params)
+    {
+        $postData = $params[Routing::PARAMS_POST];
+        $comment = new Comment();
+        $comment->content($postData['content']);
+        $comment->user = new User(['id' => $_SESSION['id']]);
+        $comment->article = new article(['id' => $postData['id_article']]);
+        $comment->save();
+
+        // TODO : post comment
+    }
+
+    public function reportAction($params)
+    {
+
+        // TODO : report comment
+    }
 }

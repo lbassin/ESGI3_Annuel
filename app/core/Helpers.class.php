@@ -123,7 +123,7 @@ class Helpers
         $cleaned = $element;
         $cleaned = preg_replace( '`(\\r|\\n|\\t|\/\*(.+)\*\/)`Us', '', $cleaned);
         $cleaned = preg_replace('`(\ +)`', ' ', $cleaned);
-        $cleaned = preg_replace("`(\’|\=|\^|\%|\$|\+|\-|\*|_|\@|\&|\(|\)|\!|\[|\]|\#|\ |\,|\.|\;|\/|\'|\:|\°|\?|\"|\\\\|\®|\™)`", $replaced, $cleaned);
+        $cleaned = preg_replace("`(\’|\=|\^|\%|\$|\+|\-|\*|_|\@|\(|\)|\!|\[|\]|\#|\ |\,|\.|\/|\'|\:|\°|\?|\"|\\\\|\®|\™)`", $replaced, $cleaned);
         $cleaned = preg_replace("`(\\{$replaced}+)`", $replaced, $cleaned);
         $cleaned = preg_replace("`({$replaced}+)`", $replaced, $cleaned);
         return trim($cleaned, $replaced);
