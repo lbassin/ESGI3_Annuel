@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="<?php echo Helpers::getThemeAsset(''); ?>">
+    <link rel="stylesheet" href="<?php echo Helpers::getThemeAsset('css/article_view.css'); ?>">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <title>Article</title>
 </head>
