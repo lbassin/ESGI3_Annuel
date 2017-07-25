@@ -10,6 +10,7 @@ class Rss
 
     public function GenerateRss($id)
     {
+        echo 1;
         $category = new Category();
         $category->populate(['id' => $id]);
 
@@ -28,7 +29,7 @@ class Rss
         $this->channel->appendChild($this->xml->createElement('pubdate', date(DATE_RFC2822)));
 
         $category->getArticle();
-
+        var_dump($category); exit();
         $counter = 0;
         foreach ($category->articles() as $article) {
             if ($counter++ == self::NB_ARTICLE_SHOW) {
@@ -48,5 +49,6 @@ class Rss
         $fp = fopen('rss.xml', 'w+');
         fwrite($fp, $xmlSave);
         fclose($fp);
+        //return $xmlSave;
     }
 }
