@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,900|Montserrat" rel="stylesheet">
     <link href="<?php echo Helpers::getThemeAsset('css/app.css'); ?>" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo Helpers::getThemeAsset('css/article_view.css'); ?>">
+    <link rel="stylesheet" href="<?php echo Helpers::getThemeAsset('css/article.css'); ?>">
 
     <link href="//cdn.quilljs.com/1.2.6/quill.snow.css" rel="stylesheet">
     <link href="//cdn.quilljs.com/1.2.6/quill.bubble.css" rel="stylesheet">
@@ -31,9 +32,7 @@
 </nav>
 
 <div class="container">
-    <section class="view-container">
-        <?php include $this->view; ?>
-    </section>
+    <?php include $this->view; ?>
 </div>
 
     <script src="<?php echo Helpers::getAsset('js/wysiwyg.js'); ?>"></script>

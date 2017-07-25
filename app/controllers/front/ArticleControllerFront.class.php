@@ -18,9 +18,10 @@ class ArticleControllerFront
     public function displayArticle($url)
     {
         $article = new Article();
-        $article->populate(['url' => $url]);
+        $article->populate(['url' => $url, 'publish' => 1]);
         if ($article->id() != null) {
             $article->getCategory();
+            $article->getUser();
             $view = new View('front', 'article');
             $view->assign('article', $article);
         } else {
