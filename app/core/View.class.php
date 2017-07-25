@@ -31,7 +31,7 @@ class View
             throw new Exception('View not found');
         }
 
-        $this->view = $view . '.view.php';
+        $this->view = $path;
     }
 
     public function setTemplate($template)

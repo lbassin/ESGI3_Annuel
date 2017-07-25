@@ -22,6 +22,7 @@ class Page extends Sql implements Listable, Editable
 
     public function getComponents()
     {
+        $this->getPage_component();
         if ($this->page_components() != null) {
             $data = [];
             foreach ($this->page_components() as $key => $component) {

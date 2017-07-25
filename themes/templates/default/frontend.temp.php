@@ -30,11 +30,7 @@
 </nav>
 
 <div class="container">
-    <?php foreach ($components as $component): ?>
-        <div class="row">
-            <?php echo $component; ?>
-        </div>
-    <?php endforeach; ?>
+    <?php include $this->view; ?>
 </div>
 
     <script src="<?php echo Helpers::getAsset('js/wysiwyg.js'); ?>"></script>
