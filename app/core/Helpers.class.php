@@ -22,7 +22,7 @@ class Helpers
 
     public static function getThemeAsset($path)
     {
-        return '/themes/templates/default/assets/' . $path; // TODO : Change default by current theme
+        return BASE_PATH . '/themes/templates/default/assets/' . $path; // TODO : Change default by current theme
     }
 
     public static function getMedia($path)
@@ -137,5 +137,45 @@ class Helpers
     public static function slugify($url)
     {
         return strtolower(self::removeAccent(self::removeSpecialChar($url)));
+    }
+
+    /**
+     * @param string $dateEnglish date
+     * @var Object DateTime $dateTime
+     * @var string $dateFormated contain the date from DateTime format method
+     * @var array $arrayDate generated from explode and then implode with the month customized
+     * @return string french date
+     */
+    public static function dateFrench($dateEnglish)
+    {
+        $dateTime = new DateTime($dateEnglish);
+        $dateFormated = $dateTime->format('d / F / Y à h : i : s');
+        $arrayDate = explode(' / ', $dateFormated);
+        $arrayDate[1] = self::monthFrench(lcfirst($arrayDate[1]));
+        return implode(' ', $arrayDate);
+    }
+
+    /**
+     * @param string $englishMonth
+     * @var array $monthAssociated contain all month and their traduction
+     * @return string $monthAssociated at the key of $englishMonth
+     */
+    public static function monthFrench($englishMonth)
+    {
+        $monthAssociated = [
+            'january' => 'janvier',
+            'february' => 'février',
+            'march' => 'mars',
+            'april' => 'avril',
+            'may' => 'mai',
+            'june' => 'juin',
+            'july' => 'juillet',
+            'august' => 'août',
+            'september' => 'septembre',
+            'october' => 'octobre',
+            'november' => 'novembre',
+            'december' => 'decembre'
+        ];
+        return $monthAssociated[$englishMonth];
     }
 }

@@ -8,11 +8,16 @@ class Rss
     private $channel;
     private $item;
 
-    public function GenerateRss($id)
+    public function GenerateRss($url = null)
     {
-        echo 1;
         $category = new Category();
-        $category->populate(['id' => $id]);
+        $category->populate(['url' => $url]);
+
+        if ($category->id() == null) {
+            Helpers::error404();
+        } else {
+            header("Content-type: text/xml");
+        }
 
         $this->xml = new DOMDocument('1.0', 'UTF-8');
         $this->rss = $this->xml->createElement('rss');
@@ -29,7 +34,6 @@ class Rss
         $this->channel->appendChild($this->xml->createElement('pubdate', date(DATE_RFC2822)));
 
         $category->getArticle();
-        var_dump($category); exit();
         $counter = 0;
         foreach ($category->articles() as $article) {
             if ($counter++ == self::NB_ARTICLE_SHOW) {
@@ -41,14 +45,6 @@ class Rss
             $this->item->appendChild($this->xml->createElement('excerpt', $article->content()));
             $this->item->appendChild($this->xml->createElement('link', $article->url()));
         }
-        $this->update();
-    }
-    private function update()
-    {
-        $xmlSave = $this->xml->saveXML();
-        $fp = fopen('rss.xml', 'w+');
-        fwrite($fp, $xmlSave);
-        fclose($fp);
-        //return $xmlSave;
+        return $this->xml->saveXML();
     }
 }
