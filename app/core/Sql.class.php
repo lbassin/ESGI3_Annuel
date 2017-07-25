@@ -44,7 +44,7 @@ class Sql extends Model
         $className = ucfirst($table);
         $class = new $className();
         $class->populate(['id' => $this->$id()]);
-        $this->$table = $class;
+        $this->{$table} = $class;
         unset($this->$id);
     }
 
@@ -65,7 +65,7 @@ class Sql extends Model
         $class = new $className();
         $listItem = $class->getAll([$id => $this->id]);
         foreach ($listItem as $item) {
-            $this->$destinationTable[] = $item;
+            $this->{$destinationTable}[] = $item;
         }
     }
 
@@ -95,7 +95,7 @@ class Sql extends Model
             $id = self::PREFIX_FOREIGN.$table;
             $class = new $table();
             $class->populate([self::ID => $tmp->$id]);
-            $this->$destinationTable[] = $class;
+            $this->{$destinationTable}[] = $class;
         }
     }
 
