@@ -51,5 +51,6 @@ Ajax.prototype.post = function (url, data, success, error, progress) {
 
     this.request.open('POST', url);
     this.request.setRequestHeader("Content-Type", "application/json");
+
     this.request.send(data);
 };

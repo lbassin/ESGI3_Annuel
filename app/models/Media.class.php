@@ -112,7 +112,6 @@ class Media extends Sql implements Listable, Editable, Uploadable
         if(!move_uploaded_file($file['image']['tmp_name'], $this->path)) {
             Session::addError('Une erreur est intervenu dans le dossier de destination');
         }
-        return $filePath;
     }
 
     public function getExensionFromFile($file)
@@ -172,17 +171,9 @@ class Media extends Sql implements Listable, Editable, Uploadable
                             'label' => 'Media :',
                             'accept' => 'image/*'
                         ],
-                        'extension' => [
-                            'type' => 'hidden',
-                            'value' => $this->extension()
-                        ],
-                        'type' => [
-                            'type' => 'hidden',
-                            'value' => $this->type()
-                        ],
-                        'path' => [
-                            'type' => 'hidden',
-                            'value' => $this->path()
+                        'preview' => [
+                            'type' => 'widget',
+                            'id' => 'media/new'
                         ]
                     ]
                 ]
