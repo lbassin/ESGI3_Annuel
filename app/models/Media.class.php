@@ -172,17 +172,9 @@ class Media extends Sql implements Listable, Editable, Uploadable
                             'label' => 'Media :',
                             'accept' => 'image/*'
                         ],
-                        'extension' => [
-                            'type' => 'hidden',
-                            'value' => $this->extension()
-                        ],
-                        'type' => [
-                            'type' => 'hidden',
-                            'value' => $this->type()
-                        ],
-                        'path' => [
-                            'type' => 'hidden',
-                            'value' => $this->path()
+                        'preview' => [
+                            'type' => 'widget',
+                            'id' => 'media/new'
                         ]
                     ]
                 ]
