@@ -8,7 +8,7 @@ class PageControllerFront
         $page = new Page();
         $page->populate(['url' => $params[Routing::PARAMS_URL][0]]);
 
-        if ($page->id() === null) {
+        if ($page->id() === null || !$page->publish()) {
             Helpers::error404();
         }
 
@@ -20,6 +20,8 @@ class PageControllerFront
 
         $view = new View('front', 'page');
         $view->assign('components', $componentsRendered);
+        $view->assign('title', $page->title());
+        $view->assign('description', $page->description());
     }
 
     private function generateComponent($data)

@@ -132,14 +132,10 @@ class Media extends Sql implements Listable, Editable
                             'label' => 'Nom :',
                             'value' => $this->name()
                         ],
-                        'image' => [
-                            'type' => 'file',
-                            'label' => 'Media :',
-                            'accept' => 'image/*'
-                        ],
                         'preview' => [
                             'type' => 'widget',
-                            'id' => 'media/new'
+                            'id' => 'media/new',
+                            'script' => 'media.js'
                         ]
                     ]
                 ]
