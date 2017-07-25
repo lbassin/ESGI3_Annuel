@@ -70,6 +70,7 @@ img {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: bottom; }
+
 .top-container .top-content-container {
   width: 80%;
   padding-top: 100px;
@@ -83,6 +84,7 @@ img {
 .container-cases {
   text-align: center;
   margin-top: 80px; }
+
 .container-cases .cases {
   display: inline-block; }
 .container-cases .case {
@@ -109,6 +111,7 @@ img {
 .middle-container {
   background: url("https://assets.statamic.com/img/bg-topo.jpg") repeat-x;
   margin-top: 80px; }
+
 .middle-container .middle-title {
   padding-top: 80px;
   text-align: center; }
@@ -129,6 +132,7 @@ img {
   padding-top: 60px;
   padding-bottom: 60px;
   text-align: center; }
+
 .bottom-container .bottom-image {
   background: #f8f8f8;
   -ms-flex: 2;
@@ -141,6 +145,7 @@ img {
 @media only screen and (max-width: 1000px) {
   .cases {
     margin: 0 auto; }
+
   .cases .case {
     float: none !important;
     margin: 30px auto !important;

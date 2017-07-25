@@ -95,4 +95,5 @@ class ComponentControllerBack
         $view = new View('back', 'ajax/index', 'ajax');
         $view->includeModal('form', $templateConfig);
     }
+
 }

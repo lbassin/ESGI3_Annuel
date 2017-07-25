@@ -9,6 +9,10 @@
     <link href="<?php echo Helpers::getThemeAsset('css/app.css'); ?>" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo Helpers::getThemeAsset('css/article_view.css'); ?>">
     <link rel="stylesheet" href="<?php echo Helpers::getThemeAsset('css/article.css'); ?>">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo Helpers::getThemeAsset('css/theme.css'); ?>">
+    <link rel="stylesheet" type="text/css"
+          href="<?php echo Helpers::getAsset('font-awesome/css/font-awesome.min.css'); ?>">
 
     <link href="//cdn.quilljs.com/1.2.6/quill.snow.css" rel="stylesheet">
     <link href="//cdn.quilljs.com/1.2.6/quill.bubble.css" rel="stylesheet">
@@ -20,21 +24,42 @@
 </head>
 <body>
 
-<nav>
-    <ul>
-        <li class="logo"><img src="http://lorempixel.com/32/32" alt="logo">
-        <li>Home
-        <li>Try
-        <li>Features
-        <li>Docs
-        <li>Support
-    </ul>
+<nav class="nav-container">
+    <nav class="nav-content">
+        <ul>
+            <li class="nav-logo"><a href="#"><img src="<?php echo Helpers::getAsset('mail-logo.png'); ?>" alt=""></a>
+            </li>
+            <?php $i = 0; ?>
+            <?php foreach ($menu as $link): ?>
+                <?php $i++; ?>
+                <?php if (count($link->subMenu) == 0): ?>
+                    <li class="<?php echo $i == count($menu) ? 'nav-end' : ''; ?>"><a
+                                href="<?php echo $link->url(); ?>"><?php echo $link->label(); ?></a></li>
+                <?php else: ?>
+                    <div class="nav-dropdown">
+                        <li class="<?php echo $i == count($menu) ? 'nav-end' : ''; ?>">
+                            <a href="<?php echo $link->url(); ?>"><?php echo $link->label(); ?>
+                                <i class="fa fa-angle-down" aria-hidden="true"></i>
+                            </a>
+                        </li>
+                        <div id="myDropdown" class="nav-dropdown-content">
+                            <?php foreach ($link->subMenu as $submenu): ?>
+                                <a href="<?php echo $submenu['url']; ?>"><?php echo $submenu['label']; ?></a>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </ul>
+    </nav>
 </nav>
 
 <div class="container">
     <?php include $this->view; ?>
 </div>
 
-    <script src="<?php echo Helpers::getAsset('js/wysiwyg.js'); ?>"></script>
+<script src="<?php echo Helpers::getAsset('js/wysiwyg.js'); ?>"></script>
+<script src="<?php echo Helpers::getThemeAsset('js/dropdown-menu.js'); ?>"></script>
+
 </body>
 </html>

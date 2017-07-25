@@ -160,11 +160,17 @@
                     </div>
 
                     <?php if ($attributs['type'] == 'widget'): ?>
-                        <?php if(!empty($attributs['script'])): ?>
-                            <script src="<?php echo Helpers::getAsset('js/modals/widgets/'.$attributs['script']); ?>"></script>
-                        <?php endif; ?>
-
                         <?php $this->includeWidget($attributs['id'], isset($attributs['data']) ? $attributs['data'] : []); ?>
+
+                        <?php if(!empty($attributs['script'])): ?>
+                            <?php if(is_array($attributs['script'])): ?>
+                                <?php foreach ($attributs['script'] as $script): ?>
+                                    <script><?php include 'app/assets/js/modals/widgets/'.$script; ?></script>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <script><?php include 'app/assets/js/modals/widgets/'.$attributs['script']; ?></script>
+                            <?php endif; ?>
+                        <?php endif; ?>
                     <?php endif; ?>
 
                 <?php endforeach; ?>
@@ -179,4 +185,7 @@
 </div>
 
 <script src="<?php echo Helpers::getAsset('js/modals/form.js'); ?>"></script>
+<script>
+    var mediaPreview = '<?php echo Helpers::getAdminRoute('media/preview'); ?>';
+</script>
 <?php Session::resetFormData(); ?>
