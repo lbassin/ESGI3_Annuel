@@ -8,7 +8,7 @@ class PageControllerFront
         $page = new Page();
         $page->populate(['url' => $params[Routing::PARAMS_URL][0]]);
 
-        if ($page->getId() === null) {
+        if ($page->id() === null) {
             Helpers::error404();
         }
 

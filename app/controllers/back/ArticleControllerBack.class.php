@@ -56,12 +56,6 @@ class ArticleControllerBack extends Controller
         }
         $postData['content'] = serialize($content);
         $postData['idUser'] = Session::getUserId();
-        if ($postData['url']) {
-            if (!empty($postData['url'])) {
-                $postData['url'] = Helpers::slugify($postData['url']);
-            }
-        }
-
         $params[Routing::PARAMS_POST] = $postData;
         parent::saveAction($params);
     }
