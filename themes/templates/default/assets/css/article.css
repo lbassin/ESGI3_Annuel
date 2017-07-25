@@ -17,7 +17,8 @@ body {
     width: 100%; }
 .article-container .article-title {
     text-align: center;
-    padding-bottom: 20px; }
+    padding-bottom: 20px;
+    font-size: 18px; }
 .article-container .article-content {
     text-align: justify; }
 .article-container .article-content .article-details {

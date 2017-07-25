@@ -9,11 +9,11 @@
 <div class="container">
     <section class="article-container">
         <header>
-            <div class="article-image">
-                <img src="http://lorempicsum.com/nemo/600/300/5" alt="">
-            </div>
             <div class="article-title">
                 <h1>Titre de l'article</h1>
+            </div>
+            <div class="article-image">
+                <img src="http://lorempicsum.com/nemo/600/300/5" alt="">
             </div>
         </header>
         <article class="article-content">
