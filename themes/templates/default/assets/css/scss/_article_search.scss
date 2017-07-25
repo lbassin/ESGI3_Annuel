@@ -42,6 +42,30 @@ body {
       margin: 0 auto;
       padding: 5px;
       width: 50%;
+      border: 1px solid #8e8e8e;
+
+      transition: all .2s ease;
+
+      &:hover {
+        border-color: #3c3c3c;
+        transition: all .2s ease;
+      }
+    }
+
+    button {
+      padding: 5px;
+      background-color: transparent;
+      border: 1px solid #8e8e8e;
+      transition: all .2s ease;
+
+      &:hover {
+        border-color: #3c3c3c;
+        transition: all .2s ease;
+      }
+    }
+
+    .loupe {
+      padding-right: 5px;
     }
 
     &:hover {
