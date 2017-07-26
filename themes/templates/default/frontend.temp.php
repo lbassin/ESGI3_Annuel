@@ -35,7 +35,8 @@
                 <?php $i++; ?>
                 <?php if (count($link->subMenu) == 0): ?>
                     <li class="<?php echo $i == count($menu) ? 'nav-end' : ''; ?>"><a
-                                href="<?php echo Helpers::getFrontRoute($link->url()); ?>"><?php echo $link->label(); ?></a></li>
+                                href="<?php echo Helpers::getFrontRoute($link->url()); ?>"><?php echo $link->label(); ?></a>
+                    </li>
                 <?php else: ?>
                     <div class="nav-dropdown">
                         <li class="<?php echo $i == count($menu) ? 'nav-end' : ''; ?>">
