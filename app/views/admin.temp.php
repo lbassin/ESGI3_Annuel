@@ -118,11 +118,7 @@
         </div>
         <div class="title-header">Qwarkz</div>
 
-        <div id="nav-icon-config" class="nav-settings-toogle">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+        <a href="<?php echo Helpers::getAdminRoute('login/logout'); ?>" class="logout">Se déconnecter</a>
 
     </header>
 </div>
