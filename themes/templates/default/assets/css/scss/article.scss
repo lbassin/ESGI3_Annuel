@@ -1,59 +1,104 @@
 body {
   box-sizing: border-box;
   margin: 0;
-  font-family: 'Roboto', sans-serif;
-}
+  font-family: 'Roboto', sans-serif; }
 
 .container {
-  width: 100%;
+  width: 100%; }
+
+.padding-rigth {
+  padding-right: 5px;
+}
+
+.submit {
+  display: block;
+  margin: 20px auto;
+
+  padding: 5px;
+  background-color: #3aa3e3;
+  color: #fff;
+  border-radius: 3px;
+  border: 1px solid #3aa3e3;
+
+  transition: all .2s ease;
+  &:hover {
+    background-color: darken(#3aa3e3, 10%);
+    border-color: darken(#3aa3e3, 10%);
+    transition: all .2s ease;
+    cursor: pointer;
+
+  }
 }
 
 .article-container {
   width: 50%;
   font-family: 'Lato', sans-serif;
-
+  margin: 0 auto; }
+.article-container .article-image img {
+  display: block;
   margin: 0 auto;
+  max-width: 100%;
+  width: 100%; }
+.article-container .article-title {
+  text-align: center;
+  padding-bottom: 20px;
+  font-size: 18px; }
+.article-container .article-content {
+  text-align: justify; }
+.article-container .article-content .article-details {
+  font-weight: bold;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  padding-bottom: 30px;
+  margin-bottom: 30px; }
+.article-container .article-content .article-details img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%; }
+.article-container .article-content .article-details span {
+  padding-left: 20px; }
 
-  .article-image {
-    img {
-      display: block;
-      margin: 0 auto;
+.comment-container {
+  margin: 0 auto;
+  text-align: center;
 
-      max-width: 100%;
-      width: 100%;
+
+  .comment-form {
+    width: 50%;
+    resize: none;
+
+    border: 1px solid #ecf0f1;
+    border-radius: 3px;
+    padding: 10px;
+    box-shadow: 0 36px 60px -40px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .button-danger {
+    display: block;
+    margin: 0 auto;
+    padding: 5px;
+    background-color: #e74c3c;
+    color: #fff;
+    border-radius: 3px;
+    border: 1px solid #e74c3c;
+
+    transition: all .2s ease;
+    &:hover {
+      background-color: darken(#e74c3c, 10%);
+      border-color: darken(#e74c3c, 10%);
+      transition: all .2s ease;
+      cursor: pointer;
+
     }
   }
 
-  .article-title {
-    text-align: center;
-    padding-bottom: 20px;
+  .comment-content {
+    margin: 30px;
 
-    font-size: 18px;
-  }
-
-  .article-content {
-    text-align: justify;
-
-    .article-details {
-      font-weight: bold;
-
-      display: flex;
-      -ms-flex-align: center;
-
-      align-items: center;
-      padding-bottom: 30px;
-      margin-bottom: 30px;
-
-      img {
-        height: 50px;
-        width: 50px;
-
-        border-radius: 50%;
-      }
-
-      span {
-        padding-left: 20px;
-      }
-    }
+    border: 1px solid #ecf0f1;
+    border-radius: 3px;
+    padding: 10px;
+    box-shadow: 0 36px 60px -40px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.05);
   }
 }
