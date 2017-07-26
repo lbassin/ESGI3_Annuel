@@ -226,6 +226,5 @@ function displayFormConfig(data, action, ajaxContentSelector) {
     ajaxContent.innerHTML = "";
     ajaxContent.appendChild(formConfig);
     initWysiwygInput(formConfig);
-    console.log(formConfig);
     refreshFormElements(formConfig);
 }

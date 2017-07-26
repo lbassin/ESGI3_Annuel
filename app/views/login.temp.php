@@ -13,8 +13,6 @@
             <?php include $this->view; ?>
         </div>
         <script>
-            console.log('<?php echo Helpers::getAdminRoute('login/resetPassword'); ?>');
-
             var loginIndex = '<?php echo Helpers::getAdminRoute('login/index'); ?>';
             var loginUrlPost = '<?php echo Helpers::getAdminRoute('login/login'); ?>';
             var loginResetPassword = '<?php echo Helpers::getAdminRoute('login/resetPassword'); ?>';

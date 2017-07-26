@@ -1,6 +1,5 @@
 function initMediaUploader() {
     var input = document.querySelectorAll("input[type=file]");
-    console.log(input);
     if (input.length === 0) {
         return false;
     }
@@ -34,8 +33,6 @@ function initMediaUploader() {
                             elemHidden.setAttribute("name", "path_" + inputName);
                             elemHidden.setAttribute("value", "app/assets/media/tmp/" + data['image']);
                             document.querySelector("#image-preview-" + inputName).appendChild(elemHidden);
-                        } else {
-                            console.log("fail");
                         }
                     }.bind(this));
                 }.bind(this);
