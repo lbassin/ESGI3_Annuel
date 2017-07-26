@@ -7,6 +7,10 @@ class PageControllerFront extends Front
     {
         parent::indexAction($params);
 
+        if (empty($params[Routing::PARAMS_URL][0])) {
+            $params[Routing::PARAMS_URL][0] = '/';
+        }
+
         $page = new Page();
         $page->populate(['url' => $params[Routing::PARAMS_URL][0]]);
 
