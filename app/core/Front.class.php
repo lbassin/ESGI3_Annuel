@@ -2,11 +2,12 @@
 
 abstract class Front
 {
-
+    use Csrfable;
     protected $view;
 
     public function indexAction($params = [])
     {
+        Csrf::generate();
         /** @var Menu $menu */
         $menu = new Menu();
         $menu = $menu->getAll(['parent_id' => null], ['limit' => 5]);
