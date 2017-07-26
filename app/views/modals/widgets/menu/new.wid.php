@@ -14,6 +14,7 @@
 </div>
 
 <script>
-    var data = '<?php echo $widgetData; ?>';
+    <?php unset($widgetData['name']); ?>
+    var data = '<?php echo json_encode($widgetData); ?>';
 </script>
 <script src="<?php echo Helpers::getAsset('js/modals/widgets/menu.js') ?>"></script>
