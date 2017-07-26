@@ -140,7 +140,9 @@ class Sql extends Model
         $this->query = $this->pdo->prepare('SELECT * FROM ' . $this->table . $this->condition . $this->order . $this->limit);
         $this->query->execute($this->data);
         $this->query->setFetchMode(PDO::FETCH_CLASS, ucfirst($this->table));
+
         $listObject = $this->query->fetchAll();
+
         return $listObject;
     }
 

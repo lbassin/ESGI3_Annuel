@@ -12,10 +12,6 @@ class Article extends Sql implements Editable, Listable
 
     public function __construct($data = '')
     {
-        if (!isset($data['publish'])) {
-            $this->publish = 0;
-        }
-
         $this->manyMany(['category']);
         $this->belongsTo(['user', 'survey']);
 

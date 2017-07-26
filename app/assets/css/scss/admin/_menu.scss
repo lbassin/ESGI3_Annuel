@@ -69,6 +69,25 @@
   transition: all 0.3s ease-in-out;
 }
 
+.logout {
+  top: 14px;
+  background: #7d7d7d;
+  color: white;
+  right: 20px;
+  position: absolute;
+  text-align: center;
+  padding: 4px;
+  text-decoration: none;
+  display: block;
+  border-radius: 3px;
+  text-align: -webkit-center;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background: red;
+  }
+}
+
 .settings-nav {
   display: none;
   margin: 50px 5px;
@@ -107,25 +126,6 @@
     background-color: #353535;
     padding-left: 40px;
     transition: all 0.3s ease-in-out;
-  }
-
-  .logout {
-    background: rgb(125, 125, 125);
-    color: white;
-    text-align: center;
-    padding: 12px;
-    text-decoration: none;
-    display: block;
-    border-radius: 3px;
-    margin: 25px 0 0 0;
-    width: 50%;
-    text-align: -webkit-center;
-    margin-left: 25%;
-    transition: all 0.3s ease-in-out;
-
-    &:hover {
-      background: red;
-    }
   }
 }
 
