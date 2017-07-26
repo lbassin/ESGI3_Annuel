@@ -12,7 +12,7 @@ class PageControllerBack extends Controller
         }
         $data = $params[Routing::PARAMS_POST];
 
-       // $this->check((isset($data['token'])) ? $data['token'] : '');
+        $this->check((isset($data['token'])) ? $data['token'] : '');
 
         $this->validateNewPage($data);
         if (count(Session::getErrors()) > 0) {

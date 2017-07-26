@@ -110,7 +110,12 @@ function refreshFormElements(form) {
     var called = [];
     for (var e = 0; e < scripts.length; e++) {
         var toCall = scripts[e].getAttribute('data-call-script');
-        if (called.indexOf(toCall) === -1) {
+        if(!window[toCall]){
+            console.log(toCall);
+            console.log(window)
+        }
+
+        if (called.indexOf(toCall) === -1 && window[toCall]) {
             window[toCall]();
             called.push(toCall);
         }

@@ -5,10 +5,13 @@ class RssControllerFront
 
     public function indexAction($params)
     {
-
-        Helpers::debug('Rss');
-        Helpers::debug($params);
-        exit();
+        $url = $params[Routing::PARAMS_URL];
+        if (isset($url[1])) {
+            $rss = new Rss();
+            echo $rss->GenerateRss($url[1]);
+        } else {
+            Helpers::error404();
+        }
     }
 
 }

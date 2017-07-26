@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="<?php echo Helpers::getThemeAsset('css/article_view.css'); ?>">
+    <link rel="stylesheet" href="<?php echo Helpers::getThemeAsset('css/article_search.css'); ?>">
+    <link rel="stylesheet" href="<?php echo Helpers::getAsset('css/font-awesome/css/font-awesome.css'); ?>">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <title>Article</title>
 </head>
 <body>
 <div class="container">
     <section class="view-container">
-        <a href="#" class="view-first">
-            <div class="view-first-image"></div>
-            <div class="view-first-content">
-                <h3>Titre</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Accusamus atque autem blanditiis corporis distinctio earum eius est, facere hic,
-                    illo itaque, praesentium quae reiciendis ut voluptates. Dignissimos laborum vel velit.
-                </p>
-                <div class="view-first-meta">
-                    <span>18 Juin, 2017</span>
-                </div>
-            </div>
+        <form action="" method="" class="form-container">
+            <h2>Recherche d'un article</h2>
+            <input type="text" placeholder="Search">
+            <button type="submit"><i class="fa fa-search loupe" aria-hidden="true"></i>Rechercher</button>
+        </form>
+        <div class="page-container">
+            <h2>Page correspondant :</h2>
+            <p>Page</p>
+            <p>Page</p>
+            <p>Page</p>
+            <p>Page</p>
+        </div>
         </a>
         <a href="#" class="view-case">
             <div class="view-case-image"></div>
