@@ -61,7 +61,7 @@ class ArticleControllerFront extends Front
 
         $comment->content($postData['content']);
         $comment->user = new User(['id' => $_SESSION['id']]);
-        $article = new article();
+        $article = new Article();
         $article->populate(['url' => $postData['url']]);
         $comment->article = new Article(['id' => $article->id()]);
 
