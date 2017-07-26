@@ -67,6 +67,20 @@ abstract class Controller implements Controllable
 
         $postData = $params[Routing::PARAMS_POST];
 
+        foreach ($postData as $name => $value) {
+            if (substr($name, 0, 5) === "path_") {
+                $postData[$name] = $this->saveUploadedFile($name, $value);
+            } else if (unserialize($value)) {
+                $data = unserialize($value);
+                foreach ($data as $name2 => $value2){
+                    if (substr($name2, 0, 5) === "path_") {
+                        $data[$name2] = $this->saveUploadedFile($name2, $value2);
+                    }
+                }
+                $postData[$name] = serialize($data);
+            }
+        }
+
         $class = new $this->className($postData);
         foreach ($class->getBelongsTo() as $table) {
             $className = ucwords($table, '_');
@@ -84,6 +98,7 @@ abstract class Controller implements Controllable
             Session::setFormData($postData);
             Helpers::redirectBack();
         }
+
         $class->save();
 
         if (!$multiple) {
@@ -111,5 +126,14 @@ abstract class Controller implements Controllable
                 }
             }
         }
+    }
+
+    private function saveUploadedFile($name, $value)
+    {
+        $nameId = uniqid();
+        $extension = pathinfo($value)['extension'];
+        rename($value, FILE_UPLOAD_PATH . "/" . $nameId . "." . $extension);
+
+        return FILE_UPLOAD_PATH . "/" . $nameId . "." . $extension;
     }
 }

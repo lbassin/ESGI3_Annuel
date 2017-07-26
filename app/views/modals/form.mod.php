@@ -160,6 +160,7 @@
                     </div>
 
                     <?php if ($attributs['type'] == 'widget'): ?>
+                        <?php $attributs['data']['name'] = $name; ?>
                         <?php $this->includeWidget($attributs['id'], isset($attributs['data']) ? $attributs['data'] : []); ?>
 
                         <?php if(!empty($attributs['script'])): ?>
