@@ -85,6 +85,8 @@ class SetupController
         $_SESSION['data_admin']['role'] = 1;
         $_SESSION['data_admin']['status'] = 1;
         $_SESSION['data_admin']['setup'] = true;
+        $_SESSION['data_admin']['password'] = Hash::generate($_SESSION['data_admin']['password']);
+
         $userValidate = new User($_SESSION['data_admin']);
 
         $validator = new Validator($_SESSION['data_admin'], 'User');
