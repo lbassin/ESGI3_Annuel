@@ -10,8 +10,8 @@
         <?php endif; ?>
     </div>
     <div class="middle-image">
-        <?php if (isset($data['path'])): ?>
-            <img src="<?php echo $data['path']; ?>" alt="">
+        <?php if (isset($data['path_image'])): ?>
+            <img src="<?php echo $data['path_image']; ?>" alt="">
         <?php endif; ?>
     </div>
 </div>
