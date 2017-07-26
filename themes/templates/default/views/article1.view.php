@@ -5,15 +5,15 @@
                 <h1><?php echo $article->title(); ?></h1>
             </div>
             <div class="article-image">
-                <img src="<?php // TODO echo $article->proprietyMedia(); ?>" alt="">
+                <img src="<?php echo BASE_PATH . $article->content()['path_image1']; ?>" alt="<?php echo $article->content()['image1']; ?>">
             </div>
         </header>
         <article class="article-content">
-            <p>
-                <?php echo $article->content(); ?>
-            </p>
+            <p data-wysiwyg='<?php echo $article->content()['editor0']; ?>'></p>
             <div class="article-details">
-                <img src="<?php // TODO echo $article->user()->avatar(); ?>" alt="">
+                <?php if ($article->user()->avatar() != null): ?>
+                    <img src="http://lorempicsum.com/nemo/255/200/.5" alt="">
+                <?php endif; ?>
                 <span>Posté par <?php echo $article->user()->pseudo(); ?> le <?php echo Helpers::dateFrench($article->created_at()); ?></span>
             </div>
         </article>

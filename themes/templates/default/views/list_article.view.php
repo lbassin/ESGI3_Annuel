@@ -3,7 +3,7 @@
         <?php foreach ($articles as $key => $article): ?>
             <?php $article->getUser(); ?>
             <?php if ($key != 0): ?>
-                <a href="<?php //echo $article->url(); ?>" class="view-case">
+                <a href="article/<?php echo $article->url(); ?>" class="view-case">
                     <div class="view-case-image" style="background-image: url('http://lorempixel.com/800/800/') !important;"></div>
                     <h3><?php echo $article->title(); ?></h3>
                     <p><?php echo $article->description(); ?></p>

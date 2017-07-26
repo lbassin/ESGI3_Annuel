@@ -21,9 +21,10 @@ class ArticleControllerFront extends Front
         $article = new Article();
         $article->populate(['url' => $url, 'publish' => 1]);
         if ($article->id() != null) {
+            $article->content(unserialize($article->content()));
             $article->getCategory();
             $article->getUser();
-            $this->view->setView('article');
+            $this->view->setView('article' . $article->template_id());
             $this->view->assign('article', $article);
         } else {
             Helpers::error404();
