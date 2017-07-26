@@ -2,7 +2,7 @@ CREATE TABLE `article` (
   `id`          INT(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `title`       VARCHAR(255)        NOT NULL,
   `description` VARCHAR(255)        NOT NULL,
-  `content`     TEXT                NOT NULL,
+  `content`     LONGTEXT            NOT NULL,
   `url`         VARCHAR(255)        NOT NULL,
   `publish`     INT(11)             NOT NULL,
   `template_id` INT(11)             NOT NULL,

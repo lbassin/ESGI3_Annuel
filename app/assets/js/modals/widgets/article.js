@@ -44,7 +44,7 @@ function selectTemplate(templateId) {
 
         var templateIdInput = document.createElement('input');
         templateIdInput.setAttribute('type', 'hidden');
-        templateIdInput.setAttribute('name', 'templateId');
+        templateIdInput.setAttribute('name', 'template_id');
         templateIdInput.setAttribute('value', this);
         formConfig.appendChild(templateIdInput);
 
