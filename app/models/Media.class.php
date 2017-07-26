@@ -3,7 +3,7 @@ class Media extends Sql implements Listable, Editable
 {
     protected $id;
     protected $name;
-    protected $path;
+    protected $path_media;
     protected $type;
     protected $extension;
 
@@ -72,7 +72,7 @@ class Media extends Sql implements Listable, Editable
                 ],
                 [
                     'type' => 'text',
-                    'value' => $media->path()
+                    'value' => $media->path_media()
                 ],
                 [
                     'type' => 'text',
@@ -132,7 +132,7 @@ class Media extends Sql implements Listable, Editable
                             'label' => 'Nom :',
                             'value' => $this->name()
                         ],
-                        'preview' => [
+                        'media' => [
                             'type' => 'widget',
                             'id' => 'media/new',
                             'script' => 'media.js'

@@ -43,7 +43,7 @@ class Article extends Sql implements Editable, Listable
                             'type' => 'widget',
                             'id' => 'article/new',
                             'data' => '',
-                            'script' => 'wysiwyg.js'
+                            'script' => ['wysiwyg.js', 'media.js']
                         ]
                     ]
                 ]
