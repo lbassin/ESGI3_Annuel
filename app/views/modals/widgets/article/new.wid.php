@@ -3,8 +3,8 @@
 </div>
 
 <script>
-    var savedTemplateId = '<?php echo $this->data['article']->getTemplateId(); ?>';
-    var savedContent = '<?php echo addslashes(json_encode($this->data['article']->getContent())); ?>';
+    var savedTemplateId = '<?php echo $this->data['article']->template_id(); ?>';
+    var savedContent = '<?php echo addslashes(json_encode(unserialize($this->data['article']->content()))); ?>';
 </script>
 
 <script>

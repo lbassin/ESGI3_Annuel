@@ -15,12 +15,9 @@ class Article extends Sql implements Editable, Listable
         if (!isset($data['publish'])) {
             $this->publish = 0;
         }
-        if (isset($data['content'])) {
-            $data['content'] = unserialize($data['content']);
-        }
+
         $this->manyMany(['category']);
         $this->belongsTo(['user', 'survey']);
-
 
         parent::__construct($data);
     }
@@ -31,7 +28,7 @@ class Article extends Sql implements Editable, Listable
             Editable::FORM_STRUCT => [
                 Editable::FORM_METHOD => 'post',
                 Editable::MODEL_URL => Helpers::getAdminRoute('article'),
-                Editable::MODEL_ID => $this->getId(),
+                Editable::MODEL_ID => $this->id(),
                 Editable::FORM_SUBMIT => 'Save'
             ],
             Editable::FORM_GROUPS => [
@@ -46,7 +43,7 @@ class Article extends Sql implements Editable, Listable
                             'type' => 'widget',
                             'id' => 'article/new',
                             'data' => '',
-                            'script' => 'wysiwyg.js'
+                            'script' => ['wysiwyg.js', 'media.js']
                         ]
                     ]
                 ]
@@ -158,5 +155,9 @@ class Article extends Sql implements Editable, Listable
         $config = $xml->xmlFormConfigToArray();
 
         return $config;
+    }
+
+    public function validate(){
+        return [];
     }
 }

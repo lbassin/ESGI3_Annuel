@@ -12,7 +12,7 @@ class PageControllerBack extends Controller
         }
         $data = $params[Routing::PARAMS_POST];
 
-        //$this->check((isset($data['token'])) ? $data['token'] : '');
+        $this->check((isset($data['token'])) ? $data['token'] : '');
 
         $this->validateNewPage($data);
         if (count(Session::getErrors()) > 0) {
@@ -38,7 +38,6 @@ class PageControllerBack extends Controller
                     $component = new Page_Component();
                     $component->id($componentId);
                     foreach ($component->getBelongsTo() as $table) {
-                        Helpers::debug($table);
                         $component->$table = new $table(['id' => $page->id()]);
                     }
                     $component->template_id($templateId);
