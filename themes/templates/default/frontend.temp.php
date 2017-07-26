@@ -45,7 +45,7 @@
                         </li>
                         <div id="myDropdown" class="nav-dropdown-content">
                             <?php foreach ($link->subMenu as $submenu): ?>
-                                <a href="<?php echo Helpers::getFrontRoute($submenu->url()); ?>"><?php echo $submenu['label']; ?></a>
+                                <a href="<?php echo Helpers::getFrontRoute($submenu['url']); ?>"><?php echo $submenu['label']; ?></a>
                             <?php endforeach; ?>
                         </div>
                     </div>
