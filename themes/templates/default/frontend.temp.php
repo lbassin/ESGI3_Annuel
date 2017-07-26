@@ -39,13 +39,13 @@
                 <?php else: ?>
                     <div class="nav-dropdown">
                         <li class="<?php echo $i == count($menu) ? 'nav-end' : ''; ?>">
-                            <a href="<?php echo $link->url(); ?>"><?php echo $link->label(); ?>
+                            <a href="<?php echo Helpers::getFrontRoute($link->url()); ?>"><?php echo $link->label(); ?>
                                 <i class="fa fa-angle-down" aria-hidden="true"></i>
                             </a>
                         </li>
                         <div id="myDropdown" class="nav-dropdown-content">
                             <?php foreach ($link->subMenu as $submenu): ?>
-                                <a href="<?php echo $submenu['url']; ?>"><?php echo $submenu['label']; ?></a>
+                                <a href="<?php echo Helpers::getFrontRoute($submenu->url()); ?>"><?php echo $submenu['label']; ?></a>
                             <?php endforeach; ?>
                         </div>
                     </div>
