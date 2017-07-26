@@ -176,7 +176,7 @@
 
                 <?php endforeach; ?>
             <?php endforeach; ?>
-            <?php if (isset($config[Editable::FORM_STRUCT]['hide_header'])): ?>
+            <?php if (isset($config[Editable::FORM_SURCHARGE]['setup'])): ?>
                 <button class="button primary">
                     Suivant
                 </button>

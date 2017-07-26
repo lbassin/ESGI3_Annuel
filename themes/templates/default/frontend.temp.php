@@ -57,6 +57,27 @@
 </nav>
 
 <div class="container">
+    <?php if (count(Session::getErrors()) > 0): ?>
+        <div class="flash-messages errors">
+            <ul>
+                <?php foreach (Session::getErrors() as $error): ?>
+                    <li><?php echo $error; ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+        <?php Session::resetErrors(); ?>
+    <?php endif; ?>
+
+    <?php if (count(Session::getSuccess()) > 0): ?>
+        <div class="flash-messages success">
+            <ul>
+                <?php foreach (Session::getSuccess() as $success): ?>
+                    <li><?php echo $success; ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+        <?php Session::resetSuccess(); ?>
+    <?php endif; ?>
     <?php include $this->view; ?>
 </div>
 

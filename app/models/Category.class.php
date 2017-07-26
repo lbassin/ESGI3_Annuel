@@ -5,6 +5,7 @@ class Category extends Sql implements Listable, Editable
     protected $title;
     protected $description;
     protected $url;
+    protected $path_image1;
 
     public function __construct($data = '')
     {
@@ -135,6 +136,11 @@ class Category extends Sql implements Listable, Editable
                             'label' => 'Url :',
                             'class' => 'two-col',
                             'value' => $this->url()
+                        ],
+                        'image1' => [
+                            'type' => 'widget',
+                            'id' => 'media/new',
+                            'script' => 'media.js'
                         ]
                     ]
                 ]

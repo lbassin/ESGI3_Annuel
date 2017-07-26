@@ -2,12 +2,18 @@
 
 class ArticleControllerFront extends Front
 {
-
     public function indexAction($params = [])
     {
         parent::indexAction($params);
         $url = $params[Routing::PARAMS_URL];
         if (isset($url[1])) {
+            if (isset($params[Routing::PARAMS_POST]['content'])) {
+                $params[Routing::PARAMS_POST]['url'] = $url[1];
+                $this->commentAction($params[Routing::PARAMS_POST]);
+            }
+            if (isset($params[Routing::PARAMS_GET]['report'])) {
+                $this->reportAction($params[Routing::PARAMS_GET]['report']);
+            }
             $this->displayArticle($url[1]);
         } else if (isset($url[0])) {
             $this->displayArticles();
@@ -23,6 +29,7 @@ class ArticleControllerFront extends Front
         if ($article->id() != null) {
             $article->content(unserialize($article->content()));
             $article->getCategory();
+            $article->getComment();
             $article->getUser();
             $this->view->setView('article' . $article->template_id());
             $this->view->assign('article', $article);
@@ -41,21 +48,38 @@ class ArticleControllerFront extends Front
         }
     }
 
-    public function commentAction($params)
+    public function commentAction($postData)
     {
-        $postData = $params[Routing::PARAMS_POST];
+        //$this->check((isset($postData['token'])) ? $postData['token'] : '');
         $comment = new Comment();
+        $validator = new Validator($postData, 'Comment');
+        $validator->validate($comment->validate());
+
+        if (count(Session::getErrors()) > 0) {
+            Helpers::redirectBack();
+        }
+
         $comment->content($postData['content']);
         $comment->user = new User(['id' => $_SESSION['id']]);
-        $comment->article = new article(['id' => $postData['id_article']]);
-        $comment->save();
+        $article = new Article();
+        $article->populate(['url' => $postData['url']]);
+        $comment->article = new Article(['id' => $article->id()]);
 
-        // TODO : post comment
+        $comment->save();
     }
 
-    public function reportAction($params)
+    public function reportAction($id)
     {
-
-        // TODO : report comment
+        if (isset($_SESSION['id'])) {
+            $comment_user = new Comment_User();
+            if($comment_user->populate(['id_comment' => $id, 'id_user' => $_SESSION['id']]) == null) {
+                $comment_user->id_user($_SESSION['id']);
+                $comment_user->id_comment($id);
+            }
+            $comment_user->save();
+            Session::addSuccess("Le commentaire a bien été reporté !");
+        } else {
+            Helpers::error404();
+        }
     }
 }
