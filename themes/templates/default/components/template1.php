@@ -1,6 +1,6 @@
 <?php /** @var array $data */ ?>
 
-<div class="top-container" style="background-image: url('<?php echo isset($data['path']) ? $data['path'] : ''; ?>')">
+<div class="top-container" style="background-image: url('<?php echo isset($data['path_background']) ? $data['path_background'] : ''; ?>')">
     <div class="top-content-container">
         <div class="top-title">
             <h1><?php echo isset($data['title']) ? $data['title'] : ''; ?></h1>
