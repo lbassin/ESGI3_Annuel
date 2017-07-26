@@ -4,7 +4,7 @@ CREATE TABLE `article` (
   `description` VARCHAR(255)        NOT NULL,
   `content`     LONGTEXT            NOT NULL,
   `url`         VARCHAR(255)        NOT NULL,
-  `publish`     INT(11)             NOT NULL,
+  `publish`     INT(11)             NOT NULL DEFAULT 0,
   `template_id` INT(11)             NOT NULL,
   `id_user`     INT(11)             NOT NULL,
   `id_survey`   INT(11),
