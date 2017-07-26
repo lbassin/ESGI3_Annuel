@@ -69,7 +69,7 @@ class Menu extends Sql implements Editable, Listable
                         'preview' => [
                             'type' => 'widget',
                             'id' => 'menu/new',
-                            'data' => json_encode($this->getSubMenu())
+                            'data' => $this->getSubMenu()
                         ]
                     ]
                 ]
