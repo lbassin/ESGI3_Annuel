@@ -22,7 +22,7 @@ class Helpers
 
     public static function getThemeAsset($path)
     {
-        return BASE_PATH . '/themes/templates/default/assets/' . $path; // TODO : Change default by current theme
+        return BASE_PATH . 'themes/templates/default/assets/' . $path; // TODO : Change default by current theme
     }
 
     public static function getMedia($path)

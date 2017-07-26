@@ -64,20 +64,13 @@ abstract class Controller implements Controllable
         if ($table != false) {
             $this->className = $table;
         }
+
         $postData = $params[Routing::PARAMS_POST];
+
         $class = new $this->className($postData);
         foreach ($class->getBelongsTo() as $table) {
             $className = ucwords($table, '_');
             $class->$table = new $className(['id' => $postData[$table]]);
-        }
-
-        if (!empty($params[Routing::PARAMS_FILE])) {
-            if (!$class->id()) {
-                if (method_exists($class, 'upload')) {
-                    $class->upload($params[Routing::PARAMS_FILE]);
-                    $postData = $class->toArray();
-                }
-            }
         }
 
         if ($multiple == true && $multiple != -1) {

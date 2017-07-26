@@ -22,10 +22,12 @@ class Page extends Sql implements Listable, Editable
 
     public function getComponents()
     {
+        $this->getPage_component();
         if ($this->page_components() != null) {
             $data = [];
             foreach ($this->page_components() as $key => $component) {
-                $componentData = unserialize($component->config());
+                $config = $component->config();
+                $componentData = unserialize($config);
                 $componentData['template_id'] = $component->template_id();
                 $componentData['id'] = $component->id();
                 $data[] = $componentData;
@@ -103,7 +105,6 @@ class Page extends Sql implements Listable, Editable
 
     public function getFormConfig()
     {
-        $this->getPage_component();
         $data = $this->getComponents();
 
         return [
@@ -152,7 +153,7 @@ class Page extends Sql implements Listable, Editable
                             'type' => 'widget',
                             'id' => 'page/new',
                             'data' => $data,
-                            'script' => 'wysiwyg.js'
+                            'script' => ['wysiwyg.js', 'media.js']
                         ]
                     ]
                 ]

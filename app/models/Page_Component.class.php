@@ -78,4 +78,20 @@ class Page_Component extends Sql
 
         return $config;
     }
+
+    public function save()
+    {
+        $config = $this->config;
+        $config = unserialize($config);
+
+        if (!empty($config['path'])) {
+            $name = uniqid();
+            $extension = pathinfo($config['path'])['extension'];
+            rename($config['path'], FILE_UPLOAD_PATH . "/" . $name . "." . $extension);
+            $config['path'] = FILE_UPLOAD_PATH . "/" . $name . "." . $extension;
+        }
+        $this->config(serialize($config));
+
+        return parent::save();
+    }
 }
