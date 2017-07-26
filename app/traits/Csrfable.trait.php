@@ -1,5 +1,6 @@
 <?php
-trait Csrfable {
+trait Csrfable
+{
     public function check($token)
     {
         if(!Csrf::check($token)){

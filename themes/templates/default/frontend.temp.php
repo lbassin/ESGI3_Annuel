@@ -9,6 +9,7 @@
     <link href="<?php echo Helpers::getThemeAsset('css/app.css'); ?>" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo Helpers::getThemeAsset('css/article_view.css'); ?>">
     <link rel="stylesheet" href="<?php echo Helpers::getThemeAsset('css/article.css'); ?>">
+    <link rel="stylesheet" href="<?php echo Helpers::getThemeAsset('css/article_search.css'); ?>">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo Helpers::getThemeAsset('css/theme.css'); ?>">
     <link rel="stylesheet" type="text/css"
