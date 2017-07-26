@@ -32,9 +32,11 @@ class Page extends Sql implements Listable, Editable
                 $componentData['id'] = $component->id();
                 $data[] = $componentData;
             }
+
+            return $data;
         }
 
-        return $data;
+        return [];
     }
 
     public function getListConfig($configList = null)
