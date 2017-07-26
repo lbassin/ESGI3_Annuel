@@ -1,8 +1,8 @@
 <h1>Dashboard</h1>
 
-<div id="container-data-1" style="width: 100%; height: 400px; margin: 0 auto"></div>
-<div id="container-data-2" style="width: 50%; height: 400px; margin: 0 auto; float: left;"></div>
-<div id="container-data-3" style="width: 50%; height: 400px; margin: 0 auto; float: left;"></div>
+<div id="container-data-2" style="width: 40%; height: 400px; margin: 0 auto; float: left;margin-top: 7%;"></div>
+
+<div id="container-data-1" style="width: 60%; height: 400px; margin: 0 auto; float: left;margin-top: 7%;"></div>
 
 
 <script>
