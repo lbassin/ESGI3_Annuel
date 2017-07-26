@@ -1,10 +1,11 @@
 <?php
 
-class ArticleControllerFront
+class ArticleControllerFront extends Front
 {
 
-    public function indexAction($params)
+    public function indexAction($params = [])
     {
+        parent::indexAction($params);
         $url = $params[Routing::PARAMS_URL];
         if (isset($url[1])) {
             $this->displayArticle($url[1]);
@@ -22,8 +23,8 @@ class ArticleControllerFront
         if ($article->id() != null) {
             $article->getCategory();
             $article->getUser();
-            $view = new View('front', 'article');
-            $view->assign('article', $article);
+            $this->view->setView('article');
+            $this->view->assign('article', $article);
         } else {
             Helpers::error404();
         }
@@ -34,8 +35,8 @@ class ArticleControllerFront
         $article = new Article();
         $articles = $article->getAll(['publish' => 1], ['limit' => 9], ['updated_at' => 'DESC', 'created_at' => 'DESC']);
         if (!empty($articles)) {
-            $view = new View('front', 'list_article');
-            $view->assign('articles', $articles);
+            $this->view->setView('list_article');
+            $this->view->assign('articles', $articles);
         }
     }
 

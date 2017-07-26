@@ -1,9 +1,10 @@
 <?php
 
-class CategoryControllerFront
+class CategoryControllerFront extends Front
 {
-    public function indexAction($params)
+    public function indexAction($params = [])
     {
+        parent::indexAction($params);
         $url = $params[Routing::PARAMS_URL];
         if (isset($url[1])) {
             $this->displayArticles($url[1]);
@@ -20,8 +21,9 @@ class CategoryControllerFront
         $category->populate(['url' => $slug]);
         if ($category->id() != null) {
             $category->getArticle();
-            $view = new View('front', 'category');
-            $view->assign('category', $category);
+
+            $this->view->setView('category');
+            $this->view->assign('category', $category);
         } else {
             Helpers::error404();
         }
@@ -32,8 +34,8 @@ class CategoryControllerFront
         $category = new Category();
         $categories = $category->getAll();
         if (!empty($categories)) {
-            $view = new View('front', 'list_category');
-            $view->assign('categories', $categories);
+            $this->view->setView('list_category');
+            $this->view->assign('categories', $categories);
         } else {
             Helpers::error404();
         }

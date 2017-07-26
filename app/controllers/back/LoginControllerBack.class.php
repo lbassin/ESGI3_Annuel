@@ -22,6 +22,8 @@ class LoginControllerBack
 
         if ($user->id() && Hash::check($params['password'], $user->password()) && $user->status() != 0) {
             $_SESSION['id'] = $user->id();
+            $user->getRole();
+            $_SESSION['role'] = $user->role()->id();
 
             $message = json_encode(['success' => true, 'redirectTo' => Helpers::getAdminRoute('index')]);
             echo $message;

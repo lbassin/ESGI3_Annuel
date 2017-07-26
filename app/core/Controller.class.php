@@ -3,6 +3,7 @@
 abstract class Controller implements Controllable
 {
     use Csrfable;
+    use Rolable;
     const CLASS_CONTROLLER = 'ControllerBack';
     protected $className;
     private $configList = [];
@@ -76,6 +77,12 @@ abstract class Controller implements Controllable
         if ($multiple == true && $multiple != -1) {
             $this->check((isset($postData['token'])) ? $postData['token'] : '');
         }
+
+        $this->checkRole($postData, $this->className);
+        if (count(Session::getErrors()) > 0) {
+            Helpers::redirectBack();
+        }
+
 
         $validator = new Validator($postData, $this->className);
         $validator->validate($class->validate());

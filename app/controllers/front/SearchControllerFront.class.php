@@ -1,10 +1,11 @@
 <?php
 
-class SearchControllerFront
+class SearchControllerFront extends Front
 {
-    public function indexAction($params)
+    public function indexAction($params = [])
     {
-        $view = new View('front', 'search');
+        parent::indexAction($params);
+        $this->view->setView('search');
         if (isset($params[Routing::PARAMS_GET])) {
             if (array_key_exists('search', $params[Routing::PARAMS_GET])) {
                 $search = $params[Routing::PARAMS_GET]['search'];
@@ -12,9 +13,9 @@ class SearchControllerFront
                 $articles = $article->getAll(['search' => $search]);
                 $page = new Page();
                 $pages = $page->getAll(['search' => $search]);
-                $view->assign('search', $search);
-                $view->assign('articles', $articles);
-                $view->assign('pages', $pages);
+                $this->view->assign('search', $search);
+                $this->view->assign('articles', $articles);
+                $this->view->assign('pages', $pages);
             }
         }
     }
