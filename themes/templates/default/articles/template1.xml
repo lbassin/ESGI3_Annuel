@@ -19,7 +19,6 @@
                     <description type="textarea" label="Description"/>
                     <url type="text" label="Url"/>
                     <image1 type="widget" id="media/new" script="media.js"/>
-                    <image2 type="widget" id="media/new" script="media.js"/>
                     <publish type="checkbox" label="Publié"/>
                     <content type="widget" id="wysiwyg/editor" script="wysiwyg.js" label="Texte"/>
                 </fields>
