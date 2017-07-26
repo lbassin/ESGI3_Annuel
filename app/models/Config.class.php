@@ -19,6 +19,7 @@ class Config extends Sql implements Editable
                 Editable::FORM_METHOD => 'post',
                 Editable::MODEL_URL => '?step=3',
                 'hide_header' => true,
+                Editable::FORM_SURCHARGE => 'setup',
                 Editable::MODEL_ID => '',
                 Editable::FORM_SUBMIT => 'Next step',
                 'submit-class' => 'button'
@@ -109,6 +110,7 @@ class Config extends Sql implements Editable
                 Editable::FORM_METHOD => 'post',
                 Editable::MODEL_URL => '?step=5',
                 'hide_header' => true,
+                Editable::FORM_SURCHARGE => 'setup',
                 Editable::MODEL_ID => '',
                 Editable::FORM_SUBMIT => 'Next step',
                 'submit-class' => 'button'

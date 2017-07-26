@@ -12,6 +12,7 @@ Interface Editable
     const GROUP_FIELDS = 'fields';
     const MODEL_URL = 'model_url';
     const MODEL_ID = 'model_id';
+    const FORM_SURCHARGE = '';
 
     public function getFormConfig();
 }

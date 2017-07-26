@@ -18,6 +18,7 @@ class Article extends Sql implements Editable, Listable
 
         $this->manyMany(['category']);
         $this->belongsTo(['user', 'survey']);
+        $this->hasMany(['comment']);
 
         parent::__construct($data);
     }
