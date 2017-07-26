@@ -13,6 +13,7 @@ class SetupController
         'schema/article',
         'schema/article_category',
         'schema/comment',
+        'schema/comment_user',
         'schema/config',
         'schema/media',
         'schema/media_article',

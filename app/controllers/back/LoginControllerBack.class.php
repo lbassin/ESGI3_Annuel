@@ -45,7 +45,7 @@ class LoginControllerBack
     {
         session_unset();
         session_destroy();
-        Helpers::redirect('/' . BASE_PATH);
+        Helpers::redirect(BASE_PATH);
     }
 
     public function resetPasswordAction($params)
