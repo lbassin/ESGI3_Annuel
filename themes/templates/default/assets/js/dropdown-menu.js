@@ -1,6 +1,5 @@
 var dropdowns = document.querySelectorAll('.nav-dropdown');
 for (var i = 0; i < dropdowns.length; i++) {
-    console.log(dropdowns[i].querySelector('a'));
     dropdowns[i].querySelector('a').addEventListener('mouseenter', function () {
         this.parentNode.parentNode.querySelector('.nav-dropdown-content').classList.add('show');
     });
