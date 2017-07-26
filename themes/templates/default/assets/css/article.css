@@ -18,11 +18,11 @@ body {
   border-radius: 3px;
   border: 1px solid #3aa3e3;
   transition: all .2s ease; }
-  .submit:hover {
-    background-color: #1d8acd;
-    border-color: #1d8acd;
-    transition: all .2s ease;
-    cursor: pointer; }
+.submit:hover {
+  background-color: #1d8acd;
+  border-color: #1d8acd;
+  transition: all .2s ease;
+  cursor: pointer; }
 
 .article-container {
   width: 50%;
@@ -62,32 +62,34 @@ body {
 .comment-container {
   margin: 0 auto;
   text-align: center; }
-  .comment-container .comment-form {
-    width: 50%;
-    resize: none;
-    border: 1px solid #ecf0f1;
-    border-radius: 3px;
-    padding: 10px;
-    box-shadow: 0 36px 60px -40px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.05); }
-  .comment-container .button-danger {
-    display: block;
-    margin: 0 auto;
-    padding: 5px;
-    background-color: #e74c3c;
-    color: #fff;
-    border-radius: 3px;
-    border: 1px solid #e74c3c;
-    transition: all .2s ease; }
-    .comment-container .button-danger:hover {
-      background-color: #d62c1a;
-      border-color: #d62c1a;
-      transition: all .2s ease;
-      cursor: pointer; }
-  .comment-container .comment-content {
-    margin: 30px;
-    border: 1px solid #ecf0f1;
-    border-radius: 3px;
-    padding: 10px;
-    box-shadow: 0 36px 60px -40px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.05); }
-
-/*# sourceMappingURL=article.css.map */
+.comment-container .comment-form {
+  width: 50%;
+  resize: none;
+  border: 1px solid #ecf0f1;
+  border-radius: 3px;
+  padding: 10px;
+  box-shadow: 0 36px 60px -40px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.05); }
+.comment-container .button-danger {
+  display: block;
+  margin: 0 auto;
+  padding: 5px;
+  background-color: #e74c3c;
+  color: #fff;
+  border-radius: 3px;
+  border: 1px solid #e74c3c;
+  transition: all .2s ease; }
+.comment-container .button-danger:hover {
+  background-color: #d62c1a;
+  border-color: #d62c1a;
+  transition: all .2s ease;
+  cursor: pointer; }
+.comment-container .comment-content {
+  margin: 30px;
+  border: 1px solid #ecf0f1;
+  border-radius: 3px;
+  padding: 10px;
+  box-shadow: 0 36px 60px -40px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 0, 0, 0.05); }
+.comment-container .comment-content img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%; }
