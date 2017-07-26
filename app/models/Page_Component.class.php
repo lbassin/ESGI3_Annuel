@@ -1,72 +1,24 @@
 <?php
 
-class Page_Component extends BaseSql
+class Page_Component extends Sql
 {
     protected $id;
-    protected $page_id;
-    protected $order;
+    protected $id_page;
+    protected $position;
     protected $template_id;
     protected $config;
 
     public function __construct()
     {
+        $this->belongsTo(['page']);
+
         parent::__construct();
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function getPageId()
-    {
-        return $this->page_id;
-    }
-
-    public function setPageId($pageId)
-    {
-        $this->page_id = $pageId;
-    }
-
-    public function getOrder()
-    {
-        return $this->order;
-    }
-
-    public function setOrder($order)
-    {
-        $this->order = $order;
-    }
-
-    public function getTemplateId()
-    {
-        return $this->template_id;
-    }
-
-    public function setTemplateId($template_id)
-    {
-        $this->template_id = $template_id;
-    }
-
-    public function getConfig()
-    {
-        return unserialize($this->config);
-    }
-
-    public function setConfig($config)
-    {
-        $this->config = serialize($config);
     }
 
     private function getComponentXml($templateId = null)
     {
         if (!$templateId) {
-            $templateId = $this->template_id;
+            $templateId = $this->template_id();
         }
 
         // TODO : Change to getCurrentThemeDirectory();
@@ -86,7 +38,7 @@ class Page_Component extends BaseSql
     public function getConstraints($templateId = null)
     {
         if (!$templateId) {
-            $templateId = $this->template_id;
+            $templateId = $this->template_id();
         }
 
         $xml = $this->getComponentXml($templateId);
@@ -101,7 +53,7 @@ class Page_Component extends BaseSql
     public function getPreview($templateId = null)
     {
         if (!$templateId) {
-            $templateId = $this->template_id;
+            $templateId = $this->template_id();
         }
 
         $xml = $this->getComponentXml($templateId);
@@ -127,4 +79,19 @@ class Page_Component extends BaseSql
         return $config;
     }
 
+    public function save()
+    {
+        $config = $this->config;
+        $config = unserialize($config);
+
+        if (!empty($config['path'])) {
+            $name = uniqid();
+            $extension = pathinfo($config['path'])['extension'];
+            rename($config['path'], FILE_UPLOAD_PATH . "/" . $name . "." . $extension);
+            $config['path'] = FILE_UPLOAD_PATH . "/" . $name . "." . $extension;
+        }
+        $this->config(serialize($config));
+
+        return parent::save();
+    }
 }

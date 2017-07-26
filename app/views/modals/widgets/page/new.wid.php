@@ -61,6 +61,8 @@
 </script>
 
 <script>
+    <?php unset($widgetData['name']); ?>
+
     var urlEditComponent = '<?php echo Helpers::getAdminRoute('component/edit'); ?>';
     var urlComponent = '<?php echo Helpers::getAdminRoute('component/component'); ?>';
     var urlValidate = '<?php echo Helpers::getAdminRoute('component/validate'); ?>';

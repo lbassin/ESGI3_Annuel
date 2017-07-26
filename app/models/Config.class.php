@@ -1,65 +1,15 @@
 <?php
 
-class Config extends BaseSql
+class Config extends Sql implements Editable
 {
     protected $id;
     protected $name;
     protected $value;
     protected $old_value;
 
-    public function __construct(
-        $id = -1,
-        $name = null,
-        $value = null,
-        $old_value = null
-    )
+    public function __construct($data = '')
     {
-        $this->setId($id);
-        $this->setName($name);
-        $this->setValue($value);
-        $this->setOldValue($old_value);
-
-        parent::__construct();
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-    public function setValue($value)
-    {
-        $this->value = $value;
-    }
-
-    public function getOldValue()
-    {
-        return $this->old_value;
-    }
-
-    public function setOldValue($old_value)
-    {
-        $this->old_value = $old_value;
+        parent::__construct($data);
     }
 
     public function getSetupForm()
@@ -67,7 +17,9 @@ class Config extends BaseSql
         return [
             Editable::FORM_STRUCT => [
                 Editable::FORM_METHOD => 'post',
-                Editable::FORM_ACTION => '?step=3',
+                Editable::MODEL_URL => '?step=3',
+                'hide_header' => true,
+                Editable::MODEL_ID => '',
                 Editable::FORM_SUBMIT => 'Next step',
                 'submit-class' => 'button'
             ],
@@ -155,8 +107,10 @@ class Config extends BaseSql
         return [
             Editable::FORM_STRUCT => [
                 Editable::FORM_METHOD => 'post',
-                Editable::FORM_ACTION => '?step=5',
-                Editable::FORM_SUBMIT => 'Next Step',
+                Editable::MODEL_URL => '?step=5',
+                'hide_header' => true,
+                Editable::MODEL_ID => '',
+                Editable::FORM_SUBMIT => 'Next step',
                 'submit-class' => 'button'
             ],
             Editable::FORM_GROUPS => [
@@ -198,4 +152,84 @@ class Config extends BaseSql
         ];
     }
 
+    public function getFormConfig()
+    {
+        return [
+            Editable::FORM_STRUCT => [
+                Editable::FORM_METHOD => 'post',
+                Editable::MODEL_URL => Helpers::getAdminRoute('config'),
+                Editable::MODEL_ID => $this->id(),
+                Editable::FORM_SUBMIT => 'Save'
+            ],
+            Editable::FORM_GROUPS => [
+                [
+                    Editable::GROUP_LABEL => 'Config',
+                    Editable::GROUP_FIELDS => [
+                        'id' => [
+                            'type' => 'hidden',
+                            'value' => $this->id()
+                        ],
+                        'name' => [
+                            'type' => 'text',
+                            'label' => 'Content :',
+                            'class' => 'two-col',
+                            'value' => $this->name()
+                        ],
+                        'value' => [
+                            'type' => 'text',
+                            'label' => 'Value :',
+                            'class' => 'two-col',
+                            'value' => $this->value()
+                        ],
+                        'old_value' => [
+                            'type' => 'hidden',
+                            'value' => $this->value()
+                        ],
+                    ]
+                ]
+            ]
+        ];
+    }
+
+    public function setupValidate()
+    {
+        return [
+            'name' => [
+                'required' => true,
+                'min' => 2
+            ],
+            'base_path' => [
+                'required' => true
+            ],
+            'admin_path' => [
+                'required' => true,
+                'min' => 2
+            ],
+            'db_user' => [
+                'required' => true,
+            ],
+            'db_host' => [
+                'required' => true,
+                'min' => 2
+            ],
+            'db_port' => [
+                'required' => true,
+            ]
+        ];
+    }
+
+    public function validate()
+    {
+        return [
+            'name' => [
+                'required' => true,
+            ],
+            'value' => [
+                'required' => true,
+            ],
+            'old_value' => [
+                'required' => true,
+            ],
+        ];
+    }
 }

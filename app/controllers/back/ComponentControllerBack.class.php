@@ -36,7 +36,7 @@ class ComponentControllerBack
     private function getComponentTemplate($id)
     {
         $component = new Page_Component();
-        $component->setTemplateId($id);
+        $component->template_id($id);
 
         return $component->getFormConfig();
     }
@@ -65,7 +65,7 @@ class ComponentControllerBack
         unset($data['token']);
 
         $component = new Page_Component();
-        $component->setTemplateId($templateId);
+        $component->template_id($templateId);
         $constraints = $component->getConstraints();
 
         $validator = new Validator($data, null);
@@ -95,4 +95,5 @@ class ComponentControllerBack
         $view = new View('back', 'ajax/index', 'ajax');
         $view->includeModal('form', $templateConfig);
     }
+
 }

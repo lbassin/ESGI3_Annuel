@@ -222,33 +222,39 @@ body {
   margin-bottom: 12px;
   margin-top: 18px;
   background-color: #F0F0F0;
-  border-top: 2px solid #DDD;
-  border-bottom: 2px solid #DDD; }
+  border: 2px solid #DDD;
+  border-radius: 5px; }
   #form #menu form {
     display: inline-block; }
   #form #menu #action {
     float: right;
     height: inherit;
     padding-right: 18px; }
-    #form #menu #action a.button, #form #menu #action input[type="submit"].button {
-      display: inline-block;
-      height: 45px;
-      line-height: 45px;
-      padding: 0 32px;
-      color: #000;
-      text-decoration: none;
-      cursor: pointer;
-      border: none;
-      background-color: transparent;
-      font-family: 'Raleway', sans-serif;
-      font-size: 16px; }
-      #form #menu #action a.button.primary, #form #menu #action input[type="submit"].button.primary {
-        background-color: #27ae60;
-        color: #fff;
-        border-radius: 5px; }
-      #form #menu #action a.button.secondary, #form #menu #action input[type="submit"].button.secondary {
+    #form #menu #action a, #form #menu #action input[type="submit"] {
+      font-weight: bold;
+      transition: .5s ease; }
+      #form #menu #action a:hover, #form #menu #action input[type="submit"]:hover {
+        background-color: #dadada;
+        transition: .5s ease; }
+      #form #menu #action a.button, #form #menu #action input[type="submit"].button {
+        display: inline-block;
+        height: 45px;
+        line-height: 45px;
+        padding: 0 32px;
         color: #000;
-        border-radius: 5px; }
+        text-decoration: none;
+        cursor: pointer;
+        border: none;
+        background-color: transparent;
+        font-family: 'Raleway', sans-serif;
+        font-size: 16px; }
+        #form #menu #action a.button.primary, #form #menu #action input[type="submit"].button.primary {
+          background-color: #27ae60;
+          color: #fff;
+          border-radius: 5px; }
+        #form #menu #action a.button.secondary, #form #menu #action input[type="submit"].button.secondary {
+          color: #000;
+          border-radius: 5px; }
 #form h2 {
   width: 100%;
   padding-bottom: 6px;
@@ -428,26 +434,26 @@ body {
   width: 100%;
   margin-bottom: 12px;
   margin-top: 18px; }
-  #list #menu input[type="text"] {
-    line-height: 32px;
-    padding: 4px;
-    width: 20%;
-    font-style: italic;
-    padding-right: 28px;
-    padding-left: 12px;
-    background-color: #ECF0F1;
-    border-radius: 5px;
-    border: 1px solid transparent;
-    transition: border .5s; }
-    #list #menu input[type="text"]:focus {
-      border: 1px solid #212121;
-      outline: none;
-      box-shadow: none; }
-  #list #menu:after {
-    margin-left: -25px;
-    position: relative;
-    content: "\f002";
-    font: normal normal normal 14px/1 FontAwesome; }
+  #list #menu #search {
+    float: left;
+    width: 50%; }
+    #list #menu #search input[type="text"] {
+      line-height: 32px;
+      padding: 4px;
+      width: 40%;
+      font-style: italic;
+      padding-right: 28px;
+      padding-left: 12px;
+      background-color: #ECF0F1;
+      border-radius: 5px;
+      border: 1px solid transparent;
+      transition: border .5s; }
+      #list #menu #search input[type="text"]:focus {
+        border: 1px solid #212121;
+        outline: none;
+        box-shadow: none; }
+    #list #menu #search .search-icon {
+      margin-left: -28px; }
   #list #menu #action {
     float: right;
     height: inherit;

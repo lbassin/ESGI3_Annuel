@@ -183,10 +183,10 @@ if (data !== undefined) {
     data = JSON.parse(data);
     var previews = [];
 
-    for (i = 0; i < data.length; i++) {
+    for (var id in data) {
         var ajax = new Ajax();
 
-        ajax.post(urlValidate, data[i], function (response) {
+        ajax.post(urlValidate, data[id], function (response) {
             response = JSON.parse(response);
             previews[this] = response;
 
@@ -208,7 +208,7 @@ if (data !== undefined) {
                     }
                 }
             }
-        }.bind(i));
+        }.bind(id));
     }
 }
 
@@ -226,5 +226,6 @@ function displayFormConfig(data, action, ajaxContentSelector) {
     ajaxContent.innerHTML = "";
     ajaxContent.appendChild(formConfig);
     initWysiwygInput(formConfig);
+    console.log(formConfig);
     refreshFormElements(formConfig);
 }

@@ -23,14 +23,14 @@ class ArticleControllerBack extends Controller
         if (isset($params[Routing::PARAMS_URL][1])) {
             $article->populate(['id' => $params[Routing::PARAMS_URL][1]]);
         }
-        $article->setTemplateId($id);
+        $article->template_id($id);
 
         $data = [
-            'title' => $article->getTitle(),
-            'description' => $article->getDescription(),
-            'url' => $article->getUrl(),
-            'publish' => $article->getPublish(),
-            'content' => json_encode($article->getContent())
+            'title' => $article->title(),
+            'description' => $article->description(),
+            'url' => $article->url(),
+            'publish' => $article->publish(),
+            'content' => json_encode($article->content())
         ];
 
         Session::setFormData($data);
@@ -47,7 +47,7 @@ class ArticleControllerBack extends Controller
 
         $content = [];
         foreach ($postData as $key => $value) {
-            if (in_array($key, ['id', 'token', 'title', 'description', 'url', 'publish', 'templateId'])) {
+            if (in_array($key, ['id', 'token', 'title', 'description', 'url', 'publish', 'template_id'])) {
                 continue;
             }
 
@@ -55,8 +55,7 @@ class ArticleControllerBack extends Controller
             unset($postData[$key]);
         }
         $postData['content'] = serialize($content);
-        $postData['idUser'] = Session::getUserId();
-
+        $postData['user'] = Session::getUserId();
         $params[Routing::PARAMS_POST] = $postData;
         parent::saveAction($params);
     }

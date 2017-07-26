@@ -4,7 +4,7 @@ class MenuControllerBack extends Controller
 {
     public function saveAction($params = [], $multiple = false)
     {
-        $idParent = parent::saveAction([Routing::PARAMS_POST => $params[Routing::PARAMS_POST]], true);
+        $idParent = parent::saveAction([Routing::PARAMS_POST => $params[Routing::PARAMS_POST]], !empty($params[Routing::PARAMS_POST]['child']));
 
         $menu = new Menu();
         $menu->populate(['id' => $idParent]);
@@ -22,10 +22,8 @@ class MenuControllerBack extends Controller
                 continue;
             }
             $child = new Menu();
-            $child->setId($childId);
-
             try {
-                $child->delete();
+                $child->delete(['id' => $childId]);
             } catch (Exception $ex) {
                 Session::addError($ex->getMessage());
                 Helpers::redirectBack();
@@ -34,8 +32,10 @@ class MenuControllerBack extends Controller
 
         if (!empty($params[Routing::PARAMS_POST]['child'])) {
             $count = count($params[Routing::PARAMS_POST]['child']) - 1;
+
             foreach ($params[Routing::PARAMS_POST]['child'] as $key => $subLink) {
                 $subLink['parent_id'] = $idParent;
+
                 parent::saveAction([
                     Routing::PARAMS_POST => $subLink,
                     Routing::PARAMS_GET => $params[Routing::PARAMS_GET]
@@ -47,7 +47,7 @@ class MenuControllerBack extends Controller
     public function getSubMenu($parent_id)
     {
         $menu = new Menu();
-        $menu->setId($parent_id);
+        $menu->id($parent_id);
         $subMenu = $menu->getSubmenu();
         return $subMenu;
     }

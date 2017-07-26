@@ -1,0 +1,177 @@
+body {
+  box-sizing: border-box;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #eeeeee;
+}
+
+.container {
+  width: 100%;
+  padding-top: 100px!important;
+
+  background: #fff url("https://assets.statamic.com/img/blog/bg-mountains.jpg") no-repeat top;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,.1);
+  background-size: contain;
+
+}
+
+.view-container {
+  max-width: 960px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 120px;
+
+  .page-container {
+    background: #fff;
+    box-shadow: 0 36px 60px -40px rgba(0,0,0,.3), 0 0 10px rgba(0,0,0,.05);
+    border-radius: 4px;
+    padding: 52px;
+    margin-bottom: 120px;
+    grid-column: 1/3;
+    transition: all .2s ease;
+    text-decoration: none;
+    color: #3c3c3c;
+  }
+
+  .form-container {
+    background: #fff;
+    box-shadow: 0 36px 60px -40px rgba(0,0,0,.3), 0 0 10px rgba(0,0,0,.05);
+    border-radius: 4px;
+    padding: 52px;
+    margin-bottom: 120px;
+    grid-column: 1/3;
+    transition: all .2s ease;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    text-decoration: none;
+    color: #3c3c3c;
+
+    input {
+      display: block;
+      margin: 0 auto;
+      padding: 5px;
+      width: 50%;
+      border: 1px solid #8e8e8e;
+
+      transition: all .2s ease;
+
+      &:hover {
+        border-color: #3c3c3c;
+        transition: all .2s ease;
+      }
+    }
+
+    button {
+      padding: 5px;
+      background-color: transparent;
+      border: 1px solid #8e8e8e;
+      transition: all .2s ease;
+
+      &:hover {
+        border-color: #3c3c3c;
+        transition: all .2s ease;
+      }
+    }
+
+    .loupe {
+      padding-right: 5px;
+    }
+
+    &:hover {
+      box-shadow: 0 44px 80px -30px rgba(0,0,0,.3), 0 0 10px rgba(0,0,0,.05);
+      transform: translateY(-2px);
+    }
+
+    .view-first-image {
+      height: 280px;
+
+      display: inline-block;
+
+      background: url("https://statamic.com/img/blog/2.6.jpg");
+      background-size: cover;
+      background-position: 50%;
+
+      height: 280px;
+      -ms-flex: 1;
+      flex: 1;
+      margin-right: 72px;
+      display: inline-block;
+      border-radius: 4px;
+    }
+
+    .view-first-content {
+      flex: 1;
+
+      .view-first-meta {
+        font-family: Lato,sans-serif;
+        font-size: 13px;
+
+        color: #9b9b9b;
+
+        letter-spacing: 0;
+        line-height: 26px;
+      }
+    }
+  }
+  .view-case {
+    background-image: url("http://via.placeholder.com/420x350");
+
+    display: block;
+    width: 420px;
+    height: 350px;
+
+    margin-bottom: 60px;
+    border-radius: 5px;
+
+    text-align: center;
+
+    text-decoration: none;
+
+    transition: all .2s ease;
+    h3 {
+      font-size: 21px;
+      font-weight: 400;
+      color: #3c3c3c;
+      margin-top: 260px;
+    }
+
+    p {
+      color: #3c3c3c;
+    }
+
+    &:hover {
+      box-shadow: 0 44px 80px -30px rgba(0,0,0,.3), 0 0 10px rgba(0,0,0,.05);
+      transform: translateY(-2px);
+    }
+    .view-case-image {
+      border-radius: 6px;
+      margin-bottom: 16px;
+    }
+  }
+  .view-case-content {
+    background-color: rgba(255,255,255,0.9);
+  }
+}
+
+@media only screen and (max-width: 980px) {
+  .view-container {
+    max-width: none;
+    margin: 0 auto;
+    display: block;
+    grid-template-columns: 0;
+    grid-column-gap: 0;
+  }
+
+  .view-case {
+    margin: 0 auto;
+    display: block;
+
+    h3 {
+      margin: 0;
+      padding-top: 260px;
+    }
+  }
+}

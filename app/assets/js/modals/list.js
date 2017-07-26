@@ -79,3 +79,43 @@ function addParamToUrl(query, name, value) {
 
     return queryString;
 }
+
+let massActionSelect = document.querySelector('#mass-action select');
+massActionSelect.addEventListener("change", () => {
+    if (massActionSelect.value == 'delete') {
+
+        let confirmation = confirm("Souhaitez vous vraiment supprimer ces éléments ?");
+        if (confirmation == true) {
+            massiveDelete();
+        } else {
+            location.reload();
+        }
+    }
+});
+
+function massiveDelete() {
+    let tr = document.querySelectorAll('tbody tr');
+    let length = tr.length;
+    let i = 0;
+    let dataToDelete = [];
+    dataToDelete['ids'] = [];
+    for (i; i < length; i++) {
+        if (tr[i].querySelector('input').checked) {
+            let value = tr[i].querySelectorAll('td')[1].innerText;
+            dataToDelete['ids'].push(value);
+        }
+    }
+    postDelete(dataToDelete);
+}
+
+function postDelete(dataToDelete) {
+    if (dataToDelete['ids']) {
+        let data = JSON.stringify(dataToDelete['ids']);
+        let ajax = new Ajax();
+
+        ajax.post(massiveDeleteUrl, data, (response) => {
+            location.reload();
+        });
+
+    }
+}

@@ -31,10 +31,13 @@
                 </div>
             </div>
         <?php endif; ?>
+        <?php
 
+
+        ?>
         <form name="model-form"
               method="<?php echo $config[Editable::FORM_STRUCT]['method']; ?>"
-              action="<?php echo $config[Editable::FORM_STRUCT][Editable::MODEL_URL] . 'save'; ?>"
+              action="<?php echo $config[Editable::FORM_STRUCT][Editable::MODEL_URL] . ((strpos($config[Editable::FORM_STRUCT][Editable::MODEL_URL], 'step') == false) ? 'save' : ''); ?>"
               class="<?php echo (isset($config[Editable::FORM_STRUCT]['class'])) ? $config[Editable::FORM_STRUCT]['class'] : ''; ?>"
             <?php echo(isset($config[Editable::FORM_STRUCT]['file']) ? 'enctype="multipart/form-data"' : 'text/plain'); ?>
         >
@@ -157,19 +160,33 @@
                     </div>
 
                     <?php if ($attributs['type'] == 'widget'): ?>
-                        <?php if(!empty($attributs['script'])): ?>
-                            <script src="<?php echo Helpers::getAsset('js/modals/widgets/'.$attributs['script']); ?>"></script>
-                        <?php endif; ?>
-
+                        <?php $attributs['data']['name'] = $name; ?>
                         <?php $this->includeWidget($attributs['id'], isset($attributs['data']) ? $attributs['data'] : []); ?>
+
+                        <?php if(!empty($attributs['script'])): ?>
+                            <?php if(is_array($attributs['script'])): ?>
+                                <?php foreach ($attributs['script'] as $script): ?>
+                                    <script><?php include 'app/assets/js/modals/widgets/'.$script; ?></script>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <script><?php include 'app/assets/js/modals/widgets/'.$attributs['script']; ?></script>
+                            <?php endif; ?>
+                        <?php endif; ?>
                     <?php endif; ?>
 
                 <?php endforeach; ?>
             <?php endforeach; ?>
-
+            <?php if (isset($config[Editable::FORM_STRUCT]['hide_header'])): ?>
+                <button class="button primary">
+                    Suivant
+                </button>
+            <?php endif; ?>
         </form>
     <?php endif; ?>
 </div>
 
 <script src="<?php echo Helpers::getAsset('js/modals/form.js'); ?>"></script>
+<script>
+    var mediaPreview = '<?php echo Helpers::getAdminRoute('media/preview'); ?>';
+</script>
 <?php Session::resetFormData(); ?>
