@@ -144,7 +144,7 @@ class Routing
             $jsonData = [];
         }
         $this->params[self::PARAMS_POST] = Xss::parse(array_merge($_POST, $jsonData));
-        if (isset($_POST['url'])) {
+        if (isset($_POST['url']) && $_POST['url'] != '/') {
             $this->params[self::PARAMS_POST]['url'] = Helpers::slugify($_POST['url']);
         }
         $this->params[self::PARAMS_URL] = array_values($this->uriExploded);
